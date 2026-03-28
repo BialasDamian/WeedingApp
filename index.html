@@ -2,167 +2,441 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Aplikacja Weselna</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
+/* Przezroczyste tło i kolor tekstu dla listy "Przenieś istniejącego gościa" */
+#assign-select-guest {
+    background: transparent !important;
+    color: wheat !important;
+}
+
+/* Kolor dla pierwszej opcji ("-- Wybierz z listy --"), która udaje placeholder */
+#assign-select-guest option[value=""] {
+    color: #f5deb352;
+}
+
+/* Tło po rozwinięciu listy (przeglądarki wymagają pełnego tła dla czytelności opcji) */
+#assign-select-guest option {
+    background: var(--dark);
+    color: wheat;
+}
+
+/* Przezroczyste tło i pszeniczny tekst dla pola "Dodaj całkowicie nowego gościa" */
+#assign-name-input {
+    background: transparent !important;
+    color: wheat !important;
+}
+
+/* Kolor placeholdera ("np. Jan Kowalski") */
+#assign-name-input::placeholder {
+    color: #f5deb352 !important;
+    opacity: 1;
+}
+/* Gradient dla wyboru kształtu stołu */
+#cfg-shape {
+    background: transparent;
+    color: #FFF8EE; /* Jasny tekst, żeby był czytelny na ciemnym tle */
+    border: 1px solid rgba(201,168,76,0.4); /* Opcjonalnie: złota ramka dla elegancji */
+}
+
+/* Tło rozwiniętej listy (przeglądarki rzadko pozwalają na gradienty w opcjach) */
+#cfg-shape option {
+    background: #2D2218; 
+    color: #FFF8EE;
+}
+/* Zmiana koloru ikonki podglądu hasła na wheat */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-webkit-reveal {
+    color: wheat;
+    /* W niektórych przeglądarkach bazowa ikona jest czarna/szara, więc dodatkowo nakładamy filtr odwracający ją na jasny pszeniczny kolor: */
+    filter: invert(88%) sepia(18%) saturate(760%) hue-rotate(320deg) brightness(105%) contrast(90%);
+}
+/* Zmiana koloru napisu (opcjonalnie) */
+input[placeholder="(opcjonalnie)"]::placeholder {
+    color: #f5deb352;
+    opacity: 1; /* Wymagane, bo niektóre przeglądarki domyślnie przyciemniają placeholdery */
+}
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --gold:#C9A84C;--gold-light:#E8D5A3;
+  --gold:transparent;--gold-light:#E8D5A3;
   --cream:#FDF8F0;--dark:#1A1410;--muted:#6B5B45;
   --border:rgba(201,168,76,0.25);--card:#FFFDF8;--radius:12px;
-  --throne:#8B0000;
+  --throne:#ffa6a6;
 }
-html,body{width:100%;overflow-x:hidden;background:var(--cream);color:var(--dark);font-family:'Jost',sans-serif}
+html,body{width:100%;overflow-x:hidden;background:var(--cream);color:wheat;font-family:'Jost',sans-serif}
 .screen{display:none;min-height:100vh}.screen.active{display:block}
 
 /* LANDING & LOGIN */
-#screen-landing{background:linear-gradient(160deg,#1A1410 0%,#2D2218 50%,#1A1410 100%);display:flex;    place-items: anchor-center;
-    place-content: center;align-items:center;justify-content:center;padding:2rem;min-height:100vh}
-.landing-inner{display:flex;flex-direction:column;align-items:center;gap:2rem;width:100%;max-width:500px;text-align:center}
-.landing-ornament{font-size:1.1rem;color:var(--gold);letter-spacing:0.45em;opacity:0.5}
-.landing-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,8vw,4.2rem);font-weight:300;color:#FFF8EE;line-height:1.05}
-.landing-title em{font-style:italic;color:var(--gold)}
-.landing-date{font-size:0.72rem;letter-spacing:0.28em;color:rgba(255,248,238,0.28);text-transform:uppercase}
-.btn-group{display:flex;flex-direction:column;gap:0.75rem;width:100%;max-width:320px}
-.btn-primary{background:var(--gold);color:var(--dark);border:none;padding:0.9rem 2rem;font-family:'Jost',sans-serif;font-size:0.8rem;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;border-radius:4px;font-weight:500;transition:all 0.2s;width:100%}
-.btn-primary:hover{background:#E0B855;transform:translateY(-1px)}
-.btn-secondary{background:transparent;color:rgba(255,248,238,0.4);border:1px solid rgba(201,168,76,0.2);padding:0.9rem 2rem;font-family:'Jost',sans-serif;font-size:0.78rem;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;border-radius:4px;transition:all 0.2s;width:100%}
-.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+#screen-landing{
+  background:linear-gradient(90deg, #2D2218 0%, #522c1b 100%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  align-content:center;
+  justify-items:center;
+  padding:2rem;
+  min-height:100vh
+}
 
-.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#1A1410,#2D2218);padding:1.5rem}
-.login-box{background:rgba(255,253,248,0.04);border:1px solid rgba(201,168,76,0.2);border-radius:var(--radius);padding:2rem;max-width:300px;width:100%;text-align:center}
-.login-title{font-family:'Cormorant Garamond',serif;font-size:1.7rem;color:#FFF8EE;margin-bottom:0.3rem}
-.login-sub{font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,248,238,0.28);margin-bottom:1.5rem}
-.login-input{width:100%;background:rgba(255,253,248,0.05);border:1px solid rgba(201,168,76,0.2);border-radius:6px;padding:0.7rem 1rem;font-family:'Jost',sans-serif;font-size:0.9rem;color:#FFF8EE;margin-bottom:0.8rem;text-align:center;-webkit-appearance:none}
-.login-input:focus{outline:none;border-color:var(--gold)}
+.landing-inner{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:2rem;
+  width:100%;
+  max-width:500px;
+  text-align:center
+}
+
+.landing-ornament{
+  font-size:1.1rem;
+  color:wheat;
+  letter-spacing:0.45em;
+  opacity:0.5
+}
+
+.landing-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.4rem,8vw,4.2rem);
+  font-weight:300;
+  color:#FFF8EE;
+  line-height:1.05
+}
+
+.landing-title em{
+  font-style:italic;
+  color:wheat
+}
+
+.landing-date{
+  font-size:0.72rem;
+  letter-spacing:0.28em;
+  color:wheat;
+  text-transform:uppercase
+}
+
+.btn-group{
+  display:flex;
+  flex-direction:column;
+  gap:0.75rem;
+  width:100%;
+  max-width:320px
+}
+#screen-admin{background: linear-gradient(90deg, #2D2218 0%, #522c1b 100%);}
+.drive-actions .add-btn{border-color: var(--border) !important; width:100%;border: 1px solid wheat;}
+.drive-actions .save-btn{border-color: var(--border)!important;  width:100%;border: 1px solid wheat;}
+.drive-actions .btn-secondary{    margin: 20px 0 20px 0;}
+/* ===================== */
+/* BUTTON BASE */
+/* ===================== */
+
+.btn-primary,
+.btn-secondary{
+  position:relative;
+  overflow:hidden;
+  background:transparent;
+  color:wheat;
+  border:1px solid wheat;
+  padding:0.9rem 2rem;
+  font-family:'Jost',sans-serif;
+  font-size:0.8rem;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  cursor:pointer;
+  border-radius:4px;
+  transition:all 0.35s ease;
+  width:100%;
+}
+
+/* ===================== */
+/* HOVER LIFT */
+/* ===================== */
+
+.btn-primary:hover,
+.btn-secondary:hover{
+  transform:translateY(-3px) scale(1.02);
+  box-shadow:0 10px 25px rgba(0,0,0,0.25);
+}
+
+/* ===================== */
+/* PRIMARY (MAIN BUTTON) */
+/* ===================== */
+
+.btn-primary:hover{
+  background:transparent;
+  color:wheat;
+  animation:glowGold 1.6s ease-in-out infinite alternate;
+}
+
+/* ===================== */
+/* SECONDARY */
+/* ===================== */
+
+.btn-secondary:hover{
+  border-color:wheat;
+  color:wheat;
+  animation:glowSoft 1.6s ease-in-out infinite alternate;
+}
+
+/* ===================== */
+/* SHINE EFFECT */
+/* ===================== */
+
+.btn-primary::before,
+.btn-secondary::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-75%;
+  width:50%;
+  height:100%;
+  background:linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.35),
+    transparent
+  );
+  transform:skewX(-25deg);
+}
+
+/* uruchomienie shine */
+.btn-primary:hover::before,
+.btn-secondary:hover::before{
+  animation:shine 0.9s ease forwards;
+}
+
+/* ===================== */
+/* KEYFRAMES */
+/* ===================== */
+
+@keyframes shine{
+  0%{ left:-75%; }
+  100%{ left:125%; }
+}
+
+/* złoty glow dopasowany do wedding vibe */
+@keyframes glowGold{
+  0%{
+    box-shadow:0 0 6px rgba(212,175,55,0.25);
+  }
+  100%{
+    box-shadow:0 0 20px rgba(212,175,55,0.55);
+  }
+}
+
+/* subtelny glow dla secondary */
+@keyframes glowSoft{
+  0%{
+    box-shadow:0 0 5px rgba(255,255,255,0.15);
+  }
+  100%{
+    box-shadow:0 0 14px rgba(255,255,255,0.35);
+  }
+}
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(90deg, #2D2218 0%, #522c1b 100%);padding:1.5rem}
+.login-box{box-shadow: wheat 0px 0px 70px 4px;background:rgb(49 32 23 / 85%);border:1px solid wheat;border-radius:var(--radius);padding:2rem;max-width:300px;width:100%;text-align:center}
+.login-title{font-family:'Cormorant Garamond',serif;font-size:1.7rem;color:wheat;margin-bottom:0.3rem}
+.login-sub{font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:wheat;margin-bottom:1.5rem}
+.login-input{width:100%;background:rgba(255,253,248,0.05);border:1px solid wheat;border-radius:6px;padding:0.7rem 1rem;font-family:'Jost',sans-serif;font-size:0.9rem;color:wheat;margin-bottom:0.8rem;text-align:center;-webkit-appearance:none}
+.login-input:focus{outline:none;border-color:#f5deb38a}
 .login-err{color:#E74C3C;font-size:0.78rem;margin-bottom:0.8rem;min-height:1.1em}
 
 /* ADMIN */
-.admin-header{background:var(--dark);color:#FFF8EE;padding:0.85rem 1.2rem;display:flex;align-items:center;justify-content:space-between;gap:0.8rem;flex-wrap:wrap;position:sticky;top:0;z-index:50}
-.admin-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--gold);white-space:nowrap;flex-shrink:0}
+#tab-schedule .save-btn{margin: 14px 0;}
+.admin-header{  background:linear-gradient(90deg, #2D2218 0%, #522c1b 100%);color:#FFF8EE;padding:0.85rem 1.2rem;display:flex;align-items:center;justify-content:space-between;gap:0.8rem;flex-wrap:wrap;position:sticky;top:0;z-index:50}
+.admin-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:wheat;white-space:nowrap;flex-shrink:0}
 .admin-nav{display:flex;gap:0.3rem;flex-wrap:wrap;flex:1;justify-content:center}
 .nav-btn{background:transparent;color:rgba(255,248,238,0.5);border:1px solid rgba(201,168,76,0.15);padding:0.3rem 0.7rem;font-family:'Jost',sans-serif;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;border-radius:4px;transition:all 0.2s;white-space:nowrap}
-.nav-btn:hover,.nav-btn.active{background:rgba(201,168,76,0.12);border-color:var(--gold);color:var(--gold)}
-.back-btn{background:transparent;color:rgba(255,248,238,0.35);border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.2s;padding:0.3rem;white-space:nowrap;flex-shrink:0}
-.back-btn:hover{color:var(--gold)}
-.admin-content{padding:1.2rem;max-width:1100px;margin:0 auto}
-.section-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;color:var(--dark);margin-bottom:1rem}
+.nav-btn:hover,.nav-btn.active{background:rgba(201,168,76,0.12);border-color:wheat;color:wheat}
+.back-btn{    border-radius: 4px;background:transparent;color:rgba(255,248,238,0.35);border: 1px solid rgba(201, 168, 76, 0.15);cursor:pointer;font-family:'Jost',sans-serif;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.2s;padding:0.3rem;white-space:nowrap;flex-shrink:0}
+.back-btn:hover{color:wheat}
+.admin-content{  background:linear-gradient(90deg, #2D2218 0%, #522c1b 100%);padding:1.2rem;max-width:1100px;margin:0 auto}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;color:wheat;margin-bottom:1rem}
 .tab-content{display:none}.tab-content.active{display:block}
-
+.table-config-panel {justify-content: center;} 
+.save-btn{display:grid;border-radius: 4px; border: 1px solid rgba(201, 168, 76, 0.15);}
+#tab-music, #tab-settings, #tab-schedule{place-items: center;}
 /* GUESTS TABLE */
 .guests-wrap{overflow-x:auto;margin-bottom:1rem;border-radius:var(--radius);border:1px solid var(--border);-webkit-overflow-scrolling:touch}
 .guests-tbl{width:100%;border-collapse:collapse;font-size:0.82rem;min-width:680px}
-.guests-tbl th{text-align:left;padding:0.55rem 0.8rem;background:var(--dark);color:var(--gold);font-weight:400;letter-spacing:0.08em;font-size:0.68rem;text-transform:uppercase}
+.guests-tbl th{text-align:left;padding:0.55rem 0.8rem;background:transparent;color:wheat;font-weight:400;letter-spacing:0.08em;font-size:0.68rem;text-transform:uppercase}
 .guests-tbl td{padding:0.4rem 0.8rem;border-bottom:1px solid var(--border);vertical-align:middle}
 .guests-tbl tr:last-child td{border-bottom:none}
-.guests-tbl tr:hover td{background:#F8F4EC}
-.tbl-input{border:1px solid var(--border);background:var(--cream);border-radius:5px;padding:0.4rem 0.6rem;font-family:'Jost',sans-serif;font-size:0.8rem;color:var(--dark);width:100%}
-.tbl-input:focus{outline:none;border-color:var(--gold)}
-.add-btn{background:var(--gold);color:var(--dark);border:none;padding:0.5rem 1rem;font-family:'Jost',sans-serif;font-size:0.76rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;border-radius:4px;transition:all 0.2s;white-space:nowrap}
-.add-btn:hover{background:#E0B855}
-.save-btn{background:#2D6A4F;color:#fff;border:none;padding:0.5rem 1rem;font-family:'Jost',sans-serif;font-size:0.76rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;border-radius:4px;transition:all 0.2s;white-space:nowrap}
-.save-btn:hover{background:#3A8A67}
+.guests-tbl tr:hover td{background:transparent}
+.tbl-input{border:1px solid var(--border);background:transparent;border-radius:5px;padding:0.4rem 0.6rem;font-family:'Jost',sans-serif;font-size:0.8rem;color:wheat;width:100%}
+.tbl-input:focus{outline:none;border-color:wheat}
+.add-btn{display:grid;place-items:center;background:transparent;color:wheat;border:none;padding:0.5rem 1rem;font-family:'Jost',sans-serif;font-size:0.76rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;border-radius:4px;transition:all 0.2s;white-space:nowrap}
+.add-btn:hover{background:transparent;border-radius: 4px; border: 1px solid rgba(201, 168, 76, 0.15);}
+.save-btn{background:transparent !important;color:wheat;border:none;padding:0.5rem 1rem;font-family:'Jost',sans-serif;font-size:0.76rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;border-radius:4px;transition:all 0.2s;white-space:nowrap}
+.save-btn:hover{background:transparent;border-radius: 4px; border: 1px solid rgba(201, 168, 76, 0.15);}
 .danger-btn{background:transparent;color:#C0392B;border:none;padding:0.25rem 0.45rem;font-family:'Jost',sans-serif;font-size:0.78rem;cursor:pointer;border-radius:4px}
 .danger-btn:hover{background:#FDECEA}
-.pill{display:inline-block;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:0.12rem 0.55rem;font-size:0.68rem;color:var(--gold);letter-spacing:0.05em;font-weight:500;white-space:nowrap}
+.pill{display:inline-block;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:0.12rem 0.55rem;font-size:0.68rem;color:wheat;letter-spacing:0.05em;font-weight:500;white-space:nowrap}
 .pill-throne{background:rgba(139,0,0,0.1);border-color:rgba(139,0,0,0.3);color:var(--throne)}
 
 /* TABLE CONFIG PANEL */
-.table-config-panel {background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:1.5rem;display:flex;flex-wrap:wrap;gap:1.5rem;align-items:center}
-.config-group {display:flex;flex-direction:column;gap:0.4rem;min-width:140px}
-.config-lbl {font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
-.config-range {width:100%;accent-color:var(--gold)}
-.checkbox-lbl {display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;cursor:pointer;color:var(--dark)}
-.checkbox-lbl input {accent-color:var(--gold);width:18px;height:18px}
+.table-config-panel{background: linear-gradient(90deg, #2D2218 0%, #522c1b 100%);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:1.5rem;display:flex;flex-wrap:wrap;gap:1.5rem;align-items:center}
+.config-group{display:flex;flex-direction:column;gap:0.4rem;min-width:140px}
+.config-lbl{font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:wheat}
+.config-range{width:100%;accent-color:wheat}
+.checkbox-lbl{display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;cursor:pointer;color:wheat}
+.checkbox-lbl input{accent-color:wheat;width:18px;height:18px}
 
-/* TABLE SVG (NATIVE SCROLL PANNING 1:1) */
+/* TABLE WRAP — pinch-to-zoom + pan */
 .table-wrap{
-  width: 100%;
-  height: 65vh;
-  overflow: auto; 
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--card);
-  -webkit-overflow-scrolling: touch; 
-  touch-action: pan-x pan-y;
+  width:100%;height:65vh;
+  overflow:hidden;
+  border:1px solid var(--border);border-radius:var(--radius);
+  background:var(--card);
+  position:relative;
+  touch-action:none;
+  cursor:grab;
+  user-select:none;
 }
-.table-wrap-inner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: max-content;
-  min-height: max-content;
-  padding: 4rem;
+.table-wrap:active{cursor:grabbing;}
+.table-wrap-inner{
+  display:inline-block;
+  transform-origin:0 0;
+  transition:none;
 }
-.table-wrap svg{display:block;}
-.table-wrap svg .seat-circle{cursor:grab;transition:opacity 0.15s; touch-action:none;}
+.table-wrap svg .seat-circle{cursor:grab;transition:opacity 0.15s;touch-action:none;}
 .table-wrap svg .seat-circle:active{cursor:grabbing;}
-.table-wrap svg .seat-circle:hover{opacity:0.8}
-.table-wrap svg .seat-circle:hover circle{stroke:#fff; stroke-width:3px;}
+.table-wrap svg .seat-circle:hover{opacity:0.85}
 .table-wrap svg .ext-btn{cursor:pointer;transition:transform 0.1s;transform-box:fill-box;transform-origin:center}
 .table-wrap svg .ext-btn:hover{transform:scale(1.25)}
-.table-wrap svg text.bubble-text{paint-order:stroke; stroke:var(--card); stroke-width:4px;}
+
+/* Zoom controls overlay */
+.zoom-controls{
+  position:absolute;bottom:12px;right:12px;z-index:20;
+  display:flex;flex-direction:column;gap:5px;
+  pointer-events:auto;
+}
+.zoom-btn{
+  width:32px;height:32px;border-radius:6px;
+  background:var(--card);border:1px solid var(--border);
+  color:wheat;font-size:1.1rem;font-weight:600;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background 0.15s,border-color 0.15s;
+  box-shadow:0 2px 6px rgba(0,0,0,0.10);
+}
+.zoom-btn:hover{background:wheat;border-color:wheat;color:#fff;}
+
+/* Legend */
+.legend{display:flex;gap:1rem;flex-wrap:wrap;margin:0.5rem 0 0.7rem}
+.legend-item{display:flex;align-items:center;gap:0.35rem;font-size:0.73rem;color:wheat;}
+.legend-dot{width:14px;height:14px;border-radius:50%}
 
 /* QR, MUSIC, SCHEDULE */
 .qr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.9rem}
-.qr-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;display:flex;flex-direction:column;gap:0.55rem}
+.qr-card{text-align: center;background:transparentr;border:1px solid var(--border);border-radius:var(--radius);padding:1rem;display:flex;flex-direction:column;gap:0.55rem}
+.qr-card.qr-btn{align-self}
 .qr-card-name{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:400}
-.qr-card-info{font-size:0.76rem;color:var(--muted)}
-.qr-btn{background:var(--gold);color:var(--dark);border:none;padding:0.38rem 0.85rem;font-family:'Jost',sans-serif;font-size:0.73rem;cursor:pointer;border-radius:4px;align-self:flex-start}
+.qr-card-info{font-size:0.76rem;color:wheat}
+.qr-btn{background:transparent;color:wheat;border:none;padding:0.38rem 0.85rem;font-family:'Jost',sans-serif;font-size:0.73rem;cursor:pointer;border-radius:4px;align-self:flex-start}
 
 .music-search-wrap{position:relative;margin-bottom:1.5rem}
-.music-search-wrap input{width:100%;padding:0.8rem 1rem;border-radius:8px;border:1px solid rgba(201,168,76,0.4);background:rgba(255,253,248,0.05);color:#FFF8EE;font-family:'Jost',sans-serif;font-size:1rem}
-.music-search-wrap input:focus{outline:none;border-color:var(--gold)}
+.music-search-wrap input{width:100%;padding:0.8rem 1rem;border-radius:8px;border:1px solid wheat;background:rgba(255,253,248,0.05);color:#FFF8EE;font-family:'Jost',sans-serif;font-size:1rem}
+.music-search-wrap input:focus{outline:none;border-color:wheat}
 .music-results{display:flex;flex-direction:column;gap:0.4rem;margin-top:0.5rem}
 .music-item{display:flex;align-items:center;gap:0.8rem;background:rgba(255,255,255,0.05);padding:0.5rem;border-radius:6px;cursor:pointer;transition:background 0.2s;border:1px solid rgba(201,168,76,0.1)}
 .music-item:hover{background:rgba(201,168,76,0.15)}
 .music-item img{width:40px;height:40px;border-radius:4px;object-fit:cover}
 .music-info{display:flex;flex-direction:column}
-.music-title{font-weight:500;color:var(--gold);font-size:0.95rem}
-.music-artist{font-size:0.75rem;color:#6b5b45;} 
+.music-title{font-weight:500;color:wheat;font-size:0.95rem}
+.music-artist{font-size:0.75rem;color:#6b5b45}
 
-.sch-list, .menu-list{display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1rem}
-.sch-row, .menu-row{display:flex;align-items:center;gap:0.5rem;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.55rem 0.8rem}
-.sch-row input, .menu-row input{border:1px solid var(--border);background:var(--cream);border-radius:5px;padding:0.28rem 0.55rem;font-family:'Jost',sans-serif;font-size:0.82rem;color:var(--dark);flex:1}
-.sch-row input:focus, .menu-row input:focus{outline:none;border-color:var(--gold)}
+.sch-list,.menu-list{display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1rem}
+.sch-row,.menu-row{display:flex;align-items:center;gap:0.5rem;background:transparent;border:1px solid var(--border);border-radius:8px;padding:0.55rem 0.8rem}
+.sch-row input,.menu-row input{border:1px solid var(--border);background:transparent;border-radius:5px;padding:0.28rem 0.55rem;font-family:'Jost',sans-serif;font-size:0.82rem;color:wheat;flex:1}
+.sch-row input:focus,.menu-row input:focus{outline:none;border-color:wheat}
 
 /* SETTINGS & MODALS */
 .settings-form{max-width:400px;display:flex;flex-direction:column;gap:0.75rem}
-.settings-label{font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:0.18rem;display:block}
-.settings-input{width:100%;border:1px solid var(--border);background:var(--cream);border-radius:6px;padding:0.55rem 0.75rem;font-family:'Jost',sans-serif;font-size:0.88rem;color:var(--dark)}
+.settings-label{font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:wheat;margin-bottom:0.18rem;display:block}
+.settings-input{width:100%;border:1px solid var(--border);background:transparent;border-radius:6px;padding:0.55rem 0.75rem;font-family:'Jost',sans-serif;font-size:0.88rem;color:wheat}
 
 .drive-bar{background:rgba(201,168,76,0.06);border:1px solid var(--border);border-radius:8px;padding:0.65rem 0.9rem;display:flex;align-items:center;gap:0.7rem;margin-bottom:1.1rem;flex-wrap:wrap}
-.drive-status{font-size:0.78rem;color:var(--muted);flex:1;min-width:0}
+.drive-status{font-size:0.78rem;color:wheat;flex:1;min-width:0}
 
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem}
 .modal-overlay.hidden{display:none}
 .modal{background:var(--card);border-radius:var(--radius);padding:1.4rem;max-width:380px;width:100%;border:1px solid var(--border);max-height:90vh;overflow-y:auto}
 .modal-title{font-family:'Cormorant Garamond',serif;font-size:1.35rem;margin-bottom:0.9rem}
 .modal-footer{display:flex;gap:0.5rem;justify-content:flex-end;margin-top:0.9rem}
-.modal-cancel{background:transparent;border:1px solid var(--border);color:var(--muted);padding:0.45rem 0.9rem;font-family:'Jost',sans-serif;font-size:0.78rem;cursor:pointer;border-radius:4px}
-#assign-modal{background:var(--card);border-radius:var(--radius);padding:1.4rem;max-width:360px;width:100%;border:1px solid var(--border)}
+.modal-cancel{background:transparent;border:1px solid wheat;color:wheat;padding:0.45rem 0.9rem;font-family:'Jost',sans-serif;font-size:0.78rem;cursor:pointer;border-radius:4px}
+#assign-modal{background: linear-gradient(90deg, #2D2218 0%, #522c1b 100%);border-radius:var(--radius);padding:1.4rem;max-width:360px;width:100%;border:1px solid var(--border)}
 
 /* GUEST VIEW */
-#screen-guest{background:var(--dark);min-height:100vh}
-.guest-hero{background:linear-gradient(180deg,#1A1410 0%,#2D2218 100%);text-align:center;padding:2.5rem 1.5rem 2rem}
-.guest-ornament{color:var(--gold);font-size:0.9rem;letter-spacing:0.4em;opacity:0.5;margin-bottom:0.6rem}
+#screen-guest{  background:linear-gradient(90deg, #2D2218 0%, #522c1b 100%);min-height:100vh}
+.guest-hero{  background:linear-gradient(90deg, #2D2218 0%, #522c1b 100%); text-align:center;padding:2.5rem 1.5rem 2rem}
+.guest-ornament{color:wheat;font-size:0.9rem;letter-spacing:0.4em;opacity:0.5;margin-bottom:0.6rem}
 .guest-wedding-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.7rem,5vw,2.5rem);font-weight:300;color:#FFF8EE;line-height:1.1;margin-bottom:0.3rem}
 .guest-date{font-size:0.72rem;letter-spacing:0.2em;color:rgba(255,248,238,0.3);text-transform:uppercase;margin-bottom:1.4rem}
-.guest-welcome{background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.2);border-radius:var(--radius);padding:1rem 1.5rem;display:inline-block;max-width:340px;text-align:center}
+.guest-welcome{background:rgba(201,168,76,0.07);border:1px solid wheat;border-radius:var(--radius);padding:1rem 1.5rem;display:inline-block;max-width:340px;text-align:center}
 .guest-name-lbl{font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,248,238,0.3);margin-bottom:0.2rem}
-.guest-name-big{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:300;color:var(--gold)}
+.guest-name-big{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:300;color:wheat}
 .guest-body{padding:1.1rem;max-width:700px;margin:0 auto}
 .g-section{margin-bottom:1.8rem}
-.g-section-lbl{font-size:0.67rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,248,238,0.3);margin-bottom:0.7rem}
-.g-card{background:rgba(255,253,248,0.04);border:1px solid rgba(201,168,76,0.18);border-radius:var(--radius);padding:1rem 1.2rem;margin-bottom:0.7rem}
+.g-section-lbl{font-size:0.67rem;place-self: center;letter-spacing:0.2em;text-transform:uppercase;color: wheat;opacity:0.8;margin-bottom:0.7rem}
+.g-card{background:rgba(255,253,248,0.04);justify-items: center; border:1px solid rgba(201,168,76,0.18);border-radius:var(--radius);padding:1rem 1.2rem;margin-bottom:0.7rem}
 .neighbor-row{display:flex;align-items:center;gap:0.75rem;padding:0.45rem 0;border-bottom:1px solid rgba(201,168,76,0.1)}
 .neighbor-row:last-child{border-bottom:none}
-.neighbor-seat-badge{width:25px;height:25px;border-radius:50%;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;font-size:0.65rem;color:var(--gold);flex-shrink:0}
+.neighbor-seat-badge{width:25px;height:25px;border-radius:50%;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;font-size:0.65rem;color:wheat;flex-shrink:0}
+.neighbor-name{font-size:0.86rem;color:wheat;}
 .sch-tl-item{display:flex;gap:0.75rem;padding:0.38rem 0;position:relative}
+.sch-tl-event{font-size:0.82rem;color:wheat;opacity:0.9}
+
+/* Guest table wrap */
+.guest-table-card{background:rgba(255,253,248,0.04);border:1px solid rgba(201,168,76,0.18);border-radius:var(--radius);overflow:hidden;padding:0}
+.guest-table-card .table-wrap{background:transparent;border:none;height:60vh}
 
 @media(max-width:480px){.admin-header{padding:0.7rem 0.9rem;gap:0.5rem}.nav-btn{padding:0.22rem 0.5rem;font-size:0.62rem}.guests-tbl th:nth-child(3),.guests-tbl td:nth-child(3){display:none}}
+
+/* -------------------------------
+   Efekty dla wszystkich przycisków
+   z wyjątkiem .btn-primary i .btn-secondary
+   (zachowuje ich dotychczasową szerokość,
+   padding, tło i kolor)
+-------------------------------- */
+button:not(.btn-primary):not(.btn-secondary) {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s ease;
+  cursor: pointer;
+  /* Nie zmieniamy width, padding, background, border, color */
+}
+
+/* Pseudoelement odpowiedzialny za przesuwający się błysk */
+button:not(.btn-primary):not(.btn-secondary)::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
+  transform: skewX(-25deg);
+  pointer-events: none; /* zapobiega blokowaniu kliknięcia */
+}
+
+/* Animacja błysku po najechaniu */
+button:not(.btn-primary):not(.btn-secondary):hover::before {
+  animation: shine 0.9s ease forwards;
+}
+
+/* Efekt uniesienia i złotego blasku przy najechaniu */
+button:not(.btn-primary):not(.btn-secondary):hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
+  /* Nie nadpisujemy background ani color – zachowują oryginalne kolory */
+}
+
+
+
 </style>
 </head>
 <body>
@@ -174,7 +448,7 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:var(--dark)
       <div class="landing-title" id="l-title"><em>Para Młoda</em></div>
       <div class="landing-date" id="l-date">Data Wesela</div>
     </div>
-    <div style="width:48px;height:1px;background:var(--gold);opacity:0.4"></div>
+    <div style="width:48px;height:1px;background:wheat;opacity:0.4"></div>
     <div class="btn-group">
       <button class="btn-primary" onclick="goGuestLogin()">Jestem gościem</button>
       <button class="btn-secondary" onclick="show('screen-admin-login')">Panel administratora</button>
@@ -198,7 +472,7 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:var(--dark)
 <div id="screen-guest-login" class="screen">
   <div class="login-wrap">
     <div class="login-box">
-      <div class="login-title" style="color:var(--gold)">Witaj!</div>
+      <div class="login-title" style="color:wheat">Witaj!</div>
       <div class="login-sub">Podaj swój kod z zaproszenia</div>
       <input class="login-input" type="text" id="guest-code" placeholder="np. G-001" style="text-transform:uppercase" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')guestLogin()">
       <div class="login-err" id="guest-err"></div>
@@ -224,12 +498,12 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:var(--dark)
 
   <div class="admin-content">
     <div class="drive-bar">
-      <span style="color:var(--gold)">☁</span>
-      <div class="drive-status"><strong>Google Drive:</strong> <span id="drive-status-txt">Nie połączono.</span></div>
+      <span style="color:wheat">☁</span>
+      <div class="drive-status"><strong>Zarządzanie Plikami:</strong> <span id="drive-status-txt">Lokalny zapis (Przeglądarka)</span></div>
       <div class="drive-actions">
-        <button class="add-btn" style="font-size:0.7rem;padding:0.35rem 0.75rem;background:#2D6A4F;color:#fff" onclick="driveLoadByUrl()">Pobierz z Drive</button>
-        <button class="btn-secondary" style="font-size:0.7rem;padding:0.35rem 0.75rem;color:var(--dark);border-color:var(--border)" onclick="driveLoadLocal()">Wczytaj z pliku</button>
-        <button class="save-btn" style="font-size:0.7rem;padding:0.35rem 0.75rem" onclick="driveSave()">Eksportuj JSON</button>
+        <button class="add-btn" style="font-size:0.7rem;padding:0.35rem 0.75rem;background:transparent;color:wheat" onclick="driveLoadByUrl()">Pobierz z Google Drive</button>
+        <button class="btn-secondary" style="font-size:0.7rem;padding:0.35rem 0.75rem;color:wheat;border-color:var(--border)" onclick="driveLoadLocal()">Wczytaj plik z dysku</button>
+        <button class="save-btn" style="font-size:0.7rem;padding:0.35rem 0.75rem;background:wheat" onclick="driveSave()">Pobierz wesele.json</button>
       </div>
     </div>
 
@@ -241,8 +515,8 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:var(--dark)
           <button class="save-btn" onclick="saveAll(event)">💾 Zapisz</button>
         </div>
       </div>
-      <p style="font-size:0.78rem;color:var(--muted);margin-bottom:0.8rem">
-        Każdy wiersz = jedno zaproszenie. <strong style="color:var(--dark)">Aby szybko zamienić gości, po prostu przeciągnij ich krzesła na podglądzie poniżej!</strong>
+      <p style="font-size:0.78rem;color:wheat;margin-bottom:0.8rem">
+        Każdy wiersz = jedno zaproszenie. <strong style="color:wheat">Przeciągnij krzesła na podglądzie aby je zamienić. Rozszerz dwoma palcami lub scrolluj aby powiększyć.</strong>
       </p>
       <div class="guests-wrap">
         <table class="guests-tbl">
@@ -250,14 +524,21 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:var(--dark)
           <tbody id="guests-tbody"></tbody>
         </table>
       </div>
-      
-      <div class="preview-lbl" style="margin-top:1.5rem">Podgląd stolika (Chwyć krzesło by je przenieść, przesuwaj tło by obejrzeć cały stół)</div>
-      <div class="legend">
-        <div class="legend-item"><div class="legend-dot" style="background:#C9A84C;border:2px solid #8B6914"></div> Zajęte</div>
-        <div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,0.6);border:2px solid rgba(150,130,100,0.3)"></div> Wolne</div>
-        <div class="legend-item"><div class="legend-dot" style="background:rgba(139,0,0,0.22);border:2px solid #8B0000"></div> 👑 Tron</div>
+
+      <div class="legend" style="margin-top:1.5rem">
+        <div class="legend-item"><div class="legend-dot" style="background:wheat;border:2px solid wheat"></div> Zajęte</div>
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,0.6);border:2px solid wheat"></div> Wolne</div>
+        <div class="legend-item"><div class="legend-dot" style="background:rgba(139,0,0,0.22);border:2px solid wheat"></div> 👑 Tron</div>
       </div>
-      <div class="table-wrap"><div class="table-wrap-inner" id="admin-live-preview"></div></div>
+
+      <div class="table-wrap" id="wrap-preview" style="margin-top:0.5rem">
+        <div class="table-wrap-inner" id="admin-live-preview"></div>
+        <div class="zoom-controls">
+          <button class="zoom-btn" onclick="wrapZoom('wrap-preview',0.2)">+</button>
+          <button class="zoom-btn" onclick="wrapZoom('wrap-preview',-0.2)">−</button>
+          <button class="zoom-btn" title="Reset" onclick="wrapReset('wrap-preview')" style="font-size:0.75rem">↺</button>
+        </div>
+      </div>
     </div>
 
     <div class="tab-content" id="tab-table">
@@ -265,10 +546,11 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:var(--dark)
         <div class="section-title" style="margin-bottom:0">Perfekcyjny Kreator Stołu</div>
         <button class="save-btn" onclick="saveAll(event)">💾 Zapisz</button>
       </div>
-      <p style="font-size:0.8rem;color:var(--muted);margin-bottom:0.9rem">
-        Złap za dowolne krzesło i <strong>przeciągnij na inne</strong> aby błyskawicznie zamienić gości! Klikaj małe <strong style="color:#2D6A4F">[+]</strong> i <strong style="color:#C0392B">[-]</strong> by budować kształt stołu. Wewnętrzne imiona same ustąpią sobie miejsca (Dymki).
+      <p style="font-size:0.8rem;color:wheat;margin-bottom:0.9rem">
+        Klikaj <strong style="color:#wheat">[+]</strong> i <strong style="color:#wheat">[−]</strong> przy krawędziach aby modyfikować stół.
+        <strong>Drag&amp;Drop:</strong> Złap krzesło i upuść na inne aby zamienić gości. Pinch / scroll = zoom.
       </p>
-      
+
       <div class="table-config-panel">
         <div class="config-group">
           <label class="config-lbl">Kształt stołu (Reset)</label>
@@ -283,20 +565,30 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:var(--dark)
           <label class="config-lbl">Szerokość blatu: <span id="lbl-tw">60</span>px</label>
           <input type="range" class="config-range" id="cfg-tw" min="40" max="150" value="60" oninput="updateTableConfig()">
         </div>
+        <div class="config-group" style="min-width:140px">
+          <label class="config-lbl">Odstęp krzeseł: <span id="lbl-gap">36</span>px</label>
+          <input type="range" class="config-range" id="cfg-gap" min="28" max="80" value="36" oninput="updateTableConfig()">
+        </div>
         <div class="config-group" style="flex-direction:row;align-items:center;gap:1.5rem;padding-left:1rem;border-left:1px solid var(--border)">
           <label class="checkbox-lbl"><input type="checkbox" id="cfg-flip-h" onchange="updateTableConfig()"> Odbicie Poziome ↔</label>
           <label class="checkbox-lbl"><input type="checkbox" id="cfg-flip-v" onchange="updateTableConfig()"> Odbicie Pionowe ↕</label>
         </div>
       </div>
 
-      <div class="table-wrap"><div class="table-wrap-inner" id="admin-table-svg-wrap"></div></div>
+      <div class="table-wrap" id="wrap-creator">
+        <div class="table-wrap-inner" id="admin-table-svg-wrap"></div>
+        <div class="zoom-controls">
+          <button class="zoom-btn" onclick="wrapZoom('wrap-creator',0.2)">+</button>
+          <button class="zoom-btn" onclick="wrapZoom('wrap-creator',-0.2)">−</button>
+          <button class="zoom-btn" title="Reset" onclick="wrapReset('wrap-creator')" style="font-size:0.75rem">↺</button>
+        </div>
+      </div>
     </div>
 
     <div class="tab-content" id="tab-schedule">
       <div class="section-title">Harmonogram wesela</div>
       <div class="sch-list" id="sch-list"></div>
       <button class="add-btn" onclick="addScheduleItem()" style="margin-bottom:2rem">+ Dodaj punkt planu</button>
-
       <div class="section-title">Jadłospis</div>
       <div class="menu-list" id="menu-list"></div>
       <button class="add-btn" onclick="addMenuItem()">+ Dodaj danie</button>
@@ -305,9 +597,6 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:var(--dark)
 
     <div class="tab-content" id="tab-music">
       <div class="section-title">Muzyka na życzenie (Od Gości)</div>
-      <p style="font-size:0.8rem;color:var(--muted);margin-bottom:1rem">
-        Propozycje dodane przez wyszukiwarkę. Pamiętajcie, że aby z jednego telefonu wysłać piosenkę na to konto, goście muszą otwierać ten sam plik wesele.json pobrany z Google Drive.
-      </p>
       <div id="admin-music-list" style="display:flex;flex-direction:column;gap:0.5rem;max-width:500px"></div>
     </div>
 
@@ -324,7 +613,7 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:var(--dark)
         <div><label class="settings-label">Miejsce wesela</label><input class="settings-input" id="s-venue" placeholder="np. Pałac Rozalin"></div>
         <div><label class="settings-label">Nowe hasło admina</label><input class="settings-input" type="password" id="s-pass" placeholder="Zostaw puste, by nie zmieniać"></div>
         <div style="border-top:1px solid var(--border);padding-top:1rem">
-          <label class="settings-label">Google Drive — publiczny URL pliku JSON (lub zwykły link)</label>
+          <label class="settings-label">Google Drive — publiczny URL pliku JSON</label>
           <input class="settings-input" id="s-drive-url" placeholder="https://drive.google.com/file/d/...">
         </div>
         <button class="btn-primary" style="align-self:flex-start;margin-top:0.3rem" onclick="saveSettings(event)">Zapisz ustawienia</button>
@@ -349,21 +638,28 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:var(--dark)
       <div class="g-card">
         <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:#FFF8EE;margin-bottom:0.5rem">Stół Główny</div>
         <div style="display:flex;gap:1.5rem;flex-wrap:wrap">
-          <div><div style="font-size:0.67rem;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,248,238,0.3)">Krzesło</div><div style="color:var(--gold);font-weight:500;font-size:0.88rem" id="g-seat">—</div></div>
-          <div><div style="font-size:0.67rem;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,248,238,0.3)">Miejsce</div><div style="color:var(--gold);font-weight:500;font-size:0.88rem" id="g-venue-txt">—</div></div>
+          <div><div style="font-size:0.67rem;text-transform:uppercase;letter-spacing:0.1em;color:wheat;opacity:0.6">Krzesło</div><div style="color:wheat;font-weight:500;font-size:0.88rem" id="g-seat">—</div></div>
+          <div><div style="font-size:0.67rem;text-transform:uppercase;letter-spacing:0.1em;color:wheat;opacity:0.6">Miejsce</div><div style="color:wheat;font-weight:500;font-size:0.88rem" id="g-venue-txt">—</div></div>
         </div>
       </div>
     </div>
 
     <div class="g-section">
-      <div class="g-section-lbl">Układ stołu (Możesz przesuwać mapkę palcem)</div>
-      <div class="g-card" style="padding:0">
+      <div class="g-section-lbl">Układ stołu (Powiększ dwoma palcami na smartfonie lub scrolluj)</div>
+      <div class="g-card" style="padding:0;overflow:hidden">
         <div class="legend" style="padding:1rem 1rem 0">
-          <div class="legend-item" style="color:rgba(255,248,238,0.45)"><div class="legend-dot" style="background:#C9A84C;border:2px solid #8B6914"></div> Twoje krzesło</div>
-          <div class="legend-item" style="color:rgba(255,248,238,0.45)"><div class="legend-dot" style="background:rgba(201,168,76,0.22);border:2px solid rgba(201,168,76,0.4)"></div> Zajęte</div>
-          <div class="legend-item" style="color:rgba(255,248,238,0.45)"><div class="legend-dot" style="background:rgba(255,255,255,0.06);border:2px solid rgba(255,255,255,0.15)"></div> Wolne</div>
+          <div class="legend-item" style="color:wheat"><div class="legend-dot" style="background:wheat;border:2px solid #8B6914"></div> Twoje krzesło</div>
+          <div class="legend-item" style="color:wheat"><div class="legend-dot" style="background:rgba(201,168,76,0.22);border:2px solid wheat"></div> Zajęte</div>
+          <div class="legend-item" style="color:wheat"><div class="legend-dot" style="background:rgba(255,255,255,0.06);border:2px solid rgba(255,255,255,0.15)"></div> Wolne</div>
         </div>
-        <div class="table-wrap" style="background:transparent;border:none;height:60vh"><div class="table-wrap-inner" id="g-table-svg-wrap"></div></div>
+        <div class="table-wrap" id="wrap-guest" style="background:transparent;border:none;height:60vh">
+          <div class="table-wrap-inner" id="g-table-svg-wrap"></div>
+          <div class="zoom-controls">
+            <button class="zoom-btn" onclick="wrapZoom('wrap-guest',0.2)" style="background:rgba(255,253,248,0.08);border-color:rgba(201,168,76,0.3);color:wheat">+</button>
+            <button class="zoom-btn" onclick="wrapZoom('wrap-guest',-0.2)" style="background:rgba(255,253,248,0.08);border-color:rgba(201,168,76,0.3);color:wheat">−</button>
+            <button class="zoom-btn" onclick="wrapReset('wrap-guest')" style="background:rgba(255,253,248,0.08);border-color:rgba(201,168,76,0.3);color:wheat;font-size:0.75rem">↺</button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -373,14 +669,14 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:var(--dark)
     </div>
 
     <div class="g-section">
-      <div class="g-section-lbl">Zamów Piosenkę na Parkiet (Apple Music)</div>
+      <div class="g-section-lbl">Zamów Piosenkę na Parkiet (z Apple Music)</div>
       <div class="g-card">
         <div class="music-search-wrap">
           <input type="text" id="music-search" placeholder="Wpisz tytuł piosenki lub wykonawcę..." oninput="searchMusic(this.value)">
           <div id="music-results" class="music-results"></div>
           <div style="margin-top:1rem;text-align:center">
-             <span style="color:rgba(255,248,238,0.4);font-size:0.75rem">Nie możesz znaleźć w wyszukiwarce? </span>
-             <button class="btn-secondary" style="padding:0.3rem 0.8rem;width:auto;font-size:0.7rem;margin-top:0.3rem" onclick="addManualSong()">Wpisz ręcznie</button>
+            <span style="color:wheat;font-size:0.75rem">Nie możesz znaleźć w wyszukiwarce? </span>
+            <button class="btn-secondary" style="padding:0.3rem 0.8rem;width:auto;font-size:0.7rem;margin-top:0.3rem" onclick="addManualSong()">Wpisz ręcznie</button>
           </div>
         </div>
       </div>
@@ -397,22 +693,25 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:var(--dark)
   </div>
 </div>
 
+<!-- MODALS -->
 <div class="modal-overlay hidden" id="modal-overlay" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <div class="modal-title" id="modal-qr-title">Kod QR</div>
     <div style="text-align:center">
       <div id="qr-canvas-wrap"></div>
-      <div style="font-size:0.78rem;color:var(--muted);margin-top:0.5rem" id="qr-modal-info"></div>
-      <div style="font-family:monospace;font-size:0.83rem;color:var(--gold);margin-top:0.25rem" id="qr-modal-code"></div>
+      <div style="font-size:0.78rem;color:wheat;margin-top:0.5rem" id="qr-modal-info"></div>
+      <div style="font-family:monospace;font-size:0.83rem;color:wheat;margin-top:0.25rem" id="qr-modal-code"></div>
     </div>
     <div class="modal-footer"><button class="modal-cancel" onclick="closeModal()">Zamknij</button><button class="add-btn" onclick="window.print()">🖨 Drukuj</button></div>
   </div>
 </div>
 
 <div class="modal-overlay hidden" id="seat-modal-overlay" onclick="if(event.target===this)closeModal()">
-  <div id="seat-modal">
-    <div class="seat-modal-num" id="seat-modal-num">Krzesło 1</div>
-    <div class="seat-modal-name" id="seat-modal-name">—</div>
+  <div id="seat-modal" style="background:#1a1410bf;    place-items: center;
+    box-shadow: wheat 0px 0px 70px 4px;
+    background: #522c1b;border-radius:var(--radius);padding:1.4rem;max-width:300px;width:100%;border:1px solid var(--border)">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;margin-bottom:0.5rem" id="seat-modal-num">Krzesło 1</div>
+    <div style="font-size:1.3rem;font-family:'Cormorant Garamond',serif" id="seat-modal-name">—</div>
     <div class="modal-footer" style="margin-top:1rem"><button class="modal-cancel" onclick="closeModal()">Zamknij</button></div>
   </div>
 </div>
@@ -420,16 +719,13 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:var(--dark)
 <div class="modal-overlay hidden" id="assign-modal-overlay" onclick="if(event.target===this)closeModal()">
   <div id="assign-modal">
     <div class="modal-title">Zarządzaj Krzesłem</div>
-    <div class="assign-modal-seat" id="assign-modal-seat">Krzesło 1</div>
-    
-    <label style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:0.3rem">Przenieś na to krzesło z innej części sali:</label>
+    <div style="font-size:0.85rem;color:wheat;margin-bottom:0.9rem" id="assign-modal-seat">Krzesło 1</div>
+    <label style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:wheat;display:block;margin-bottom:0.3rem">Przenieś istniejącego gościa:</label>
     <select class="tbl-input" id="assign-select-guest" style="margin-bottom:1rem;background:var(--card)">
       <option value="">-- Wybierz z listy --</option>
     </select>
-
-    <label style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:0.3rem">Lub dodaj całkowicie nowego gościa:</label>
-    <input class="assign-input" id="assign-name-input" placeholder="np. Jan Kowalski" maxlength="100" onkeydown="if(event.key==='Enter')confirmAssign()">
-    
+    <label style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:wheat;display:block;margin-bottom:0.3rem">Lub dodaj nowego gościa:</label>
+    <input class="tbl-input" id="assign-name-input" placeholder="np. Jan Kowalski" maxlength="100" onkeydown="if(event.key==='Enter')confirmAssign()">
     <div class="modal-footer" style="margin-top:1.5rem">
       <button class="modal-cancel" id="assign-clear-btn" onclick="confirmAssignClear()" style="color:#C0392B;border-color:rgba(192,57,43,0.3)">Zwolnij miejsce</button>
       <button class="modal-cancel" onclick="closeModal()">Anuluj</button>
@@ -437,403 +733,603 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:var(--dark)
     </div>
   </div>
 </div>
-<script>
-// --- UTILS ---
-// Ulepszony sanitizer obsługujący poprawnie & 
-function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
-function sanitizeText(s){return String(s||'').replace(/<[^>]*>/g,'').trim();} 
 
-// Inteligentny konwerter linków z Google Drive
+<script>
+// ═══════════════════════════════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════════════════════════════
+function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function sanitizeText(s){return String(s||'').replace(/<[^>]*>/g,'').trim();}
 function validateDriveUrl(url){
-  if(!url) return '';
-  url = url.trim();
-  let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-  if(match && match[1]) return `https://drive.google.com/uc?export=download&id=${match[1]}`;
-  match = url.match(/id=([a-zA-Z0-9_-]+)/);
-  if(match && match[1]) return `https://drive.google.com/uc?export=download&id=${match[1]}`;
-  if(url.startsWith('https://drive.google.com/uc')) return url;
+  if(!url)return '';url=url.trim();
+  let m=url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if(m&&m[1])return`https://drive.google.com/uc?export=download&id=${m[1]}`;
+  m=url.match(/id=([a-zA-Z0-9_-]+)/);
+  if(m&&m[1])return`https://drive.google.com/uc?export=download&id=${m[1]}`;
+  if(url.startsWith('https://drive.google.com/uc'))return url;
   return '';
 }
+function safeGetE(key){if(!STATE.settings.table||!STATE.settings.table.edges)return 0;return parseInt(STATE.settings.table.edges[key])||0;}
 
-function safeGetE(key) {
-  if(!STATE.settings.table || !STATE.settings.table.edges) return 0;
-  return parseInt(STATE.settings.table.edges[key]) || 0;
+// ═══════════════════════════════════════════════════════════
+//  ZOOM & PAN ENGINE  (per-wrapper, pinch-to-zoom)
+// ═══════════════════════════════════════════════════════════
+const wrapState={};
+
+function initWrap(wrapId){
+  const wrap=document.getElementById(wrapId);
+  if(!wrap||wrapState[wrapId])return;
+  const st={scale:1,ox:0,oy:0,dragging:false,lastX:0,lastY:0,pinchDist:0};
+  wrapState[wrapId]=st;
+
+  function clamp(s){return Math.max(0.3,Math.min(5,s));}
+  function apply(){
+    const inner=wrap.querySelector('.table-wrap-inner');
+    if(inner)inner.style.transform=`translate(${st.ox}px,${st.oy}px) scale(${st.scale})`;
+  }
+  function centerContent(){
+    const inner=wrap.querySelector('.table-wrap-inner');
+    if(!inner)return;
+    const ww=wrap.clientWidth,wh=wrap.clientHeight;
+    if(ww===0||wh===0)return;
+    // Pobierz rozmiar z SVG (najdokładniejsze źródło)
+    const svg=inner.querySelector('svg');
+    let iw,ih;
+    if(svg){
+      iw=parseFloat(svg.getAttribute('width'))||inner.offsetWidth||200;
+      ih=parseFloat(svg.getAttribute('height'))||inner.offsetHeight||200;
+    } else {
+      iw=inner.offsetWidth||200;
+      ih=inner.offsetHeight||200;
+    }
+    // Przy pierwszej inicjalizacji (scale===1 i nie przeciągano) — auto-fit
+    if(st.scale===1&&st.ox===0&&st.oy===0){
+      const padding=40;
+      const scaleX=(ww-padding)/iw;
+      const scaleY=(wh-padding)/ih;
+      const fitScale=Math.min(scaleX,scaleY,1); // nigdy nie powiększaj powyżej 1:1
+      st.scale=Math.max(0.3,fitScale);
+    }
+    st.ox=(ww-iw*st.scale)/2;
+    st.oy=(wh-ih*st.scale)/2;
+    apply();
+  }
+
+  // Mouse wheel zoom
+  wrap.addEventListener('wheel',e=>{
+    e.preventDefault();
+    const delta=e.deltaY<0?0.12:-0.12;
+    const rect=wrap.getBoundingClientRect();
+    const cx=e.clientX-rect.left,cy=e.clientY-rect.top;
+    const newS=clamp(st.scale+delta);
+    st.ox=cx-(cx-st.ox)*(newS/st.scale);
+    st.oy=cy-(cy-st.oy)*(newS/st.scale);
+    st.scale=newS;apply();
+  },{passive:false});
+
+  // Mouse drag (only on the wrapper itself, not seat circles — those have their own handlers)
+  wrap.addEventListener('mousedown',e=>{
+    if(e.target.closest('.seat-circle')||e.target.closest('.zoom-controls'))return;
+    st.dragging=true;st.lastX=e.clientX;st.lastY=e.clientY;
+    wrap.style.cursor='grabbing';
+  });
+  window.addEventListener('mousemove',e=>{
+    if(!st.dragging)return;
+    st.ox+=e.clientX-st.lastX;st.oy+=e.clientY-st.lastY;
+    st.lastX=e.clientX;st.lastY=e.clientY;apply();
+  });
+  window.addEventListener('mouseup',()=>{
+    if(!st.dragging)return;st.dragging=false;wrap.style.cursor='grab';
+  });
+
+  // Touch drag & pinch-to-zoom
+  wrap.addEventListener('touchstart',e=>{
+    if(e.target.closest('.seat-circle'))return;
+    if(e.touches.length===1){
+      st.dragging=true;st.lastX=e.touches[0].clientX;st.lastY=e.touches[0].clientY;
+    } else if(e.touches.length===2){
+      st.dragging=false;
+      st.pinchDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+    }
+  },{passive:true});
+  wrap.addEventListener('touchmove',e=>{
+    if(e.target.closest('.seat-circle'))return;
+    e.preventDefault();
+    if(e.touches.length===1&&st.dragging){
+      st.ox+=e.touches[0].clientX-st.lastX;st.oy+=e.touches[0].clientY-st.lastY;
+      st.lastX=e.touches[0].clientX;st.lastY=e.touches[0].clientY;apply();
+    } else if(e.touches.length===2){
+      const newDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+      if(st.pinchDist===0){st.pinchDist=newDist;return;}
+      const ratio=newDist/st.pinchDist;st.pinchDist=newDist;
+      const rect=wrap.getBoundingClientRect();
+      const cx=(e.touches[0].clientX+e.touches[1].clientX)/2-rect.left;
+      const cy=(e.touches[0].clientY+e.touches[1].clientY)/2-rect.top;
+      const newS=clamp(st.scale*ratio);
+      st.ox=cx-(cx-st.ox)*(newS/st.scale);
+      st.oy=cy-(cy-st.oy)*(newS/st.scale);
+      st.scale=newS;apply();
+    }
+  },{passive:false});
+  wrap.addEventListener('touchend',e=>{st.dragging=false;st.pinchDist=0;},{passive:true});
+
+  st._center=centerContent;
 }
 
-// --- CRYPTO ---
+function wrapZoom(wrapId,delta){
+  const st=wrapState[wrapId];if(!st)return;
+  const wrap=document.getElementById(wrapId);
+  const cx=wrap.clientWidth/2,cy=wrap.clientHeight/2;
+  const newS=Math.max(0.3,Math.min(5,st.scale+delta));
+  st.ox=cx-(cx-st.ox)*(newS/st.scale);
+  st.oy=cy-(cy-st.oy)*(newS/st.scale);
+  st.scale=newS;
+  const inner=wrap.querySelector('.table-wrap-inner');
+  if(inner)inner.style.transform=`translate(${st.ox}px,${st.oy}px) scale(${st.scale})`;
+}
+function wrapReset(wrapId){
+  const st=wrapState[wrapId];if(!st)return;
+  // reset do baseline — centerContent sam wyliczy auto-fit
+  st.scale=1;st.ox=0;st.oy=0;
+  if(st._center)requestAnimationFrame(st._center);
+}
+function centerWrap(wrapId){
+  const st=wrapState[wrapId];
+  if(st&&st._center){
+    // Dwa rAF: pierwszy daje czas na render SVG, drugi na obliczenie wymiarów
+    requestAnimationFrame(()=>requestAnimationFrame(st._center));
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  CRYPTO
+// ═══════════════════════════════════════════════════════════
 const PASS_SALT='w3dd1ng-s4lt-2026';
 async function hashPassword(pass){
-  if (window.crypto && window.crypto.subtle) {
-    try {
+  if(window.crypto&&window.crypto.subtle){
+    try{
       const enc=new TextEncoder();
-      const keyMaterial=await crypto.subtle.importKey('raw',enc.encode(pass),{name:'PBKDF2'},false,['deriveBits']);
-      const bits=await crypto.subtle.deriveBits({name:'PBKDF2',salt:enc.encode(PASS_SALT),iterations:100000,hash:'SHA-256'},keyMaterial,256);
+      const km=await crypto.subtle.importKey('raw',enc.encode(pass),{name:'PBKDF2'},false,['deriveBits']);
+      const bits=await crypto.subtle.deriveBits({name:'PBKDF2',salt:enc.encode(PASS_SALT),iterations:100000,hash:'SHA-256'},km,256);
       return Array.from(new Uint8Array(bits)).map(b=>b.toString(16).padStart(2,'0')).join('');
-    } catch (err) { return localHash(pass); }
-  } else { return localHash(pass); }
+    }catch(e){return localHash(pass);}
+  }else{return localHash(pass);}
 }
-function localHash(pass) {
-  let hash = 0; const str = pass + PASS_SALT;
-  for (let i = 0; i < str.length; i++) { hash = ((hash << 5) - hash) + str.charCodeAt(i); hash |= 0; }
-  return 'local_' + Math.abs(hash).toString(16);
-}
-async function checkPassword(pass,storedHash){return (await hashPassword(pass))===storedHash;}
+function localHash(pass){let h=0;const s=pass+PASS_SALT;for(let i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h|=0;}return'local_'+Math.abs(h).toString(16);}
+async function checkPassword(pass,stored){return(await hashPassword(pass))===stored;}
 
 let ADMIN_AUTHED=false;
-let SEAT_IDS=[]; 
+let SEAT_IDS=[];
 let CURRENT_LAYOUT=null;
 
-// --- STATE ---
+// ═══════════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════════
 const DEFAULT_STATE={
-  settings:{ names:'Para Młoda', date:'Data Wesela', venue:'Sala Weselna', passHash:'', driveUrl:'',
-    table: { 
-      shape: 'I', flipH: false, flipV: false, tw: 60, gap: 36, dist: 18,
-      edges: {
-        i_top: 0, i_bottom: 2, i_left: 17, i_right: 17,
-        u_top_out: 0, u_top_in: 2, u_l_out: 10, u_l_in: 8, u_l_bot: 2, u_r_out: 10, u_r_in: 8, u_r_bot: 2,
-        l_top: 0, l_l: 12, l_r_in: 8, l_t_in: 6, l_b: 10, l_right: 2, l_v_bot: 0,
-        t_top_out: 0, t_t_l: 4, t_t_r: 4, t_s_l: 10, t_s_r: 10, t_s_b: 2, t_left_end: 1, t_right_end: 1
-      }
+  settings:{names:'Para Młoda',date:'Data Wesela',venue:'Sala Weselna',passHash:'',driveUrl:'',
+    table:{shape:'I',flipH:false,flipV:false,tw:60,gap:48,dist:18,
+      edges:{i_top:0,i_bottom:2,i_left:17,i_right:17,u_top_out:0,u_top_in:2,u_l_out:10,u_l_in:8,u_l_bot:2,u_r_out:10,u_r_in:8,u_r_bot:2,l_top:0,l_l:12,l_r_in:8,l_t_in:6,l_b:10,l_right:2,l_v_bot:0,t_top_out:0,t_t_l:4,t_t_r:4,t_s_l:10,t_s_r:10,t_s_b:2,t_left_end:1,t_right_end:1}
     }
   },
   guests:[{id:'g1',name1:'Pan Młody',name2:'Pani Młoda',seat1:'T1',seat2:'T2',code:'G-001'}],
   schedule:[{time:'16:30',event:'Przyjęcie'}],
-  menu:[], music:[]
+  menu:[],music:[]
 };
 
 let STATE=JSON.parse(JSON.stringify(DEFAULT_STATE));
-
-function loadLocal(){try{const s=localStorage.getItem('wedding_v18');if(s)STATE=JSON.parse(s);}catch(e){}}
-function saveLocal(){try{localStorage.setItem('wedding_v18',JSON.stringify(STATE));}catch(e){}}
+function loadLocal(){try{const s=localStorage.getItem('wedding_v21');if(s)STATE=JSON.parse(s);}catch(e){}}
+function saveLocal(){try{localStorage.setItem('wedding_v21',JSON.stringify(STATE));}catch(e){}}
 loadLocal();
-if(!STATE.settings.table) STATE.settings.table = DEFAULT_STATE.settings.table;
-if(!STATE.settings.table.edges) STATE.settings.table.edges = DEFAULT_STATE.settings.table.edges;
-if(!STATE.music) STATE.music = [];
+if(!STATE.settings.table)STATE.settings.table=DEFAULT_STATE.settings.table;
+if(!STATE.settings.table.edges)STATE.settings.table.edges=DEFAULT_STATE.settings.table.edges;
+if(!STATE.music)STATE.music=[];
 
-// ══════════════════════════════════════════════════════════
-//  SILNIK LAYOUTU V18 - STAGGERED BUBBLES W MARTWYCH STREFACH
-// ══════════════════════════════════════════════════════════
-function getOffsets(count, gap) {
-  if(!count || count < 1) return [];
-  const start = -((count - 1) * gap) / 2;
-  return Array.from({length: count}, (_, i) => start + i * gap);
+// ═══════════════════════════════════════════════════════════
+//  LAYOUT ENGINE
+// ═══════════════════════════════════════════════════════════
+function getOffsets(count,gap){
+  if(!count||count<1)return[];
+  const start=-((count-1)*gap)/2;
+  return Array.from({length:count},(_,i)=>start+i*gap);
 }
 
-function generateLayoutEngine() {
-  const cfg = STATE.settings.table;
-  const gap = Math.max(36, parseInt(cfg.gap) || 36); 
-  const dist = parseInt(cfg.dist) || 18, R = 13;
-  const C_BUF = 60, E_BUF = 30; // Większe bufory zapobiegające kolizjom
+function generateLayoutEngine(){
+  const cfg=STATE.settings.table;
+  const gap=Math.max(36,parseInt(cfg.gap)||48);
+  const dist=parseInt(cfg.dist)||18,R=13;
+  const C_BUF=60,E_BUF=40;
 
-  let tables = []; let seats = []; let controls = []; let posMap = {};
-  SEAT_IDS = ['T1', 'T2'];
-  
-  function addSeat(idTemp, x, y, isH, dir, isInner, iIndex) { 
-    seats.push({idTemp, x, y, isH, dir, isInner, iIndex}); 
-  }
-  
-  function placeEdge(key, start, end, fixed, isH, dir, count, isInner, hasThrones = false) {
-    let totalChairs = count + (hasThrones ? 2 : 0);
-    let center = (start + end) / 2;
-    let btnDist = dist + R + 28;
+  let tables=[],seats=[],controls=[],posMap={};
+  SEAT_IDS=['T1','T2'];
 
-    if (isH) {
-        controls.push({x: center - 15, y: fixed + (dir * btnDist), key, d: -1, t: '−'});
-        controls.push({x: center + 15, y: fixed + (dir * btnDist), key, d: 1, t: '+'});
-    } else {
-        controls.push({x: fixed + (dir * btnDist), y: center - 15, key, d: -1, t: '−'});
-        controls.push({x: fixed + (dir * btnDist), y: center + 15, key, d: 1, t: '+'});
+  function addSeat(idTemp,x,y,isH,dir,isInner,iIndex){seats.push({idTemp,x,y,isH,dir,isInner,iIndex});}
+
+  function placeEdge(key,start,end,fixed,isH,dir,count,isInner,hasThrones=false){
+    let totalChairs=count+(hasThrones?2:0);
+    let center=(start+end)/2;
+    let btnDist=dist+R+34;
+    if(isH){
+      controls.push({x:center-16,y:fixed+(dir*btnDist),key,d:-1,t:'−'});
+      controls.push({x:center+16,y:fixed+(dir*btnDist),key,d:1,t:'+'});
+    }else{
+      controls.push({x:fixed+(dir*btnDist),y:center-16,key,d:-1,t:'−'});
+      controls.push({x:fixed+(dir*btnDist),y:center+16,key,d:1,t:'+'});
     }
-
-    if (totalChairs === 0) return;
-
-    let offsets = getOffsets(totalChairs, gap);
-    let tIndex = hasThrones ? Math.floor(count / 2) : -1;
-    let tCounter = 0;
-
-    for (let i = 0; i < totalChairs; i++) {
-        let p_axis = center + offsets[i];
-        let px = isH ? p_axis : fixed + (dir * (dist + R));
-        let py = isH ? fixed + (dir * (dist + R)) : p_axis;
-
-        if (hasThrones && (i === tIndex || i === tIndex + 1)) {
-            addSeat(tCounter++ === 0 ? 'T1' : 'T2', px, py, isH, dir, isInner, i);
-        } else {
-            addSeat('g', px, py, isH, dir, isInner, i);
-        }
+    if(totalChairs===0)return;
+    let offsets=getOffsets(totalChairs,gap);
+    let tIndex=hasThrones?Math.floor(count/2):-1;
+    let tCounter=0;
+    for(let i=0;i<totalChairs;i++){
+      let p_axis=center+offsets[i];
+      let px=isH?p_axis:fixed+(dir*(dist+R));
+      let py=isH?fixed+(dir*(dist+R)):p_axis;
+      if(hasThrones&&(i===tIndex||i===tIndex+1)){addSeat(tCounter++===0?'T1':'T2',px,py,isH,dir,isInner,i);}
+      else{addSeat('g',px,py,isH,dir,isInner,i);}
     }
   }
 
-  let maxShort = 0;
-  if(cfg.shape === 'I') maxShort = Math.max(safeGetE('i_top') + 2, safeGetE('i_bottom'));
-  if(cfg.shape === 'U') maxShort = Math.max(safeGetE('u_top_out') + 2, safeGetE('u_l_bot'), safeGetE('u_r_bot'));
-  if(cfg.shape === 'L') maxShort = Math.max(safeGetE('l_top') + 2, safeGetE('l_v_bot'), safeGetE('l_right'));
-  if(cfg.shape === 'T') maxShort = Math.max(safeGetE('t_top_out') + 2, safeGetE('t_left_end'), safeGetE('t_right_end'), safeGetE('t_s_b'));
+  let maxShort=0;
+  if(cfg.shape==='I')maxShort=Math.max(safeGetE('i_top')+2,safeGetE('i_bottom'));
+  if(cfg.shape==='U')maxShort=Math.max(safeGetE('u_top_out')+2,safeGetE('u_l_bot'),safeGetE('u_r_bot'));
+  if(cfg.shape==='L')maxShort=Math.max(safeGetE('l_top')+2,safeGetE('l_v_bot'),safeGetE('l_right'));
+  if(cfg.shape==='T')maxShort=Math.max(safeGetE('t_top_out')+2,safeGetE('t_left_end'),safeGetE('t_right_end'),safeGetE('t_s_b'));
+  const TW=Math.max(parseInt(cfg.tw)||60,maxShort*gap+30);
 
-  const TW = Math.max(parseInt(cfg.tw) || 60, maxShort * gap + 24);
-
-  if (cfg.shape === 'I') {
-    let W = TW;
-    let H = Math.max(safeGetE('i_left') * gap + 2*E_BUF, safeGetE('i_right') * gap + 2*E_BUF);
-    tables.push({x: -W/2, y: 0, w: W, h: H, lbl: 'Stół Główny'});
-
-    placeEdge('i_top', -W/2 + E_BUF, W/2 - E_BUF, 0, true, -1, safeGetE('i_top'), false, true);
-    placeEdge('i_bottom', -W/2 + E_BUF, W/2 - E_BUF, H, true, 1, safeGetE('i_bottom'), false);
-    placeEdge('i_left', E_BUF, H - E_BUF, -W/2, false, -1, safeGetE('i_left'), false);
-    placeEdge('i_right', E_BUF, H - E_BUF, W/2, false, 1, safeGetE('i_right'), false);
-  } 
-  else if (cfg.shape === 'U') {
-    let topW = Math.max(3*TW, safeGetE('u_top_in') * gap + 2*C_BUF + 2*TW);
-    let hL = Math.max(safeGetE('u_l_out') * gap + 2*E_BUF, safeGetE('u_l_in') * gap + C_BUF + E_BUF);
-    let hR = Math.max(safeGetE('u_r_out') * gap + 2*E_BUF, safeGetE('u_r_in') * gap + C_BUF + E_BUF);
-
-    tables.push({x: -topW/2, y: 0, w: topW, h: TW, lbl: 'Główny'});
-    tables.push({x: -topW/2, y: TW, w: TW, h: hL, lbl: ''});
-    tables.push({x: topW/2 - TW, y: TW, w: TW, h: hR, lbl: ''});
-
-    placeEdge('u_top_out', -topW/2 + E_BUF, topW/2 - E_BUF, 0, true, -1, safeGetE('u_top_out'), false, true);
-    placeEdge('u_top_in', -topW/2 + TW + C_BUF, topW/2 - TW - C_BUF, TW, true, 1, safeGetE('u_top_in'), true);
-
-    placeEdge('u_l_out', TW + E_BUF, TW + hL - E_BUF, -topW/2, false, -1, safeGetE('u_l_out'), false);
-    placeEdge('u_l_in', TW + C_BUF, TW + hL - E_BUF, -topW/2 + TW, false, 1, safeGetE('u_l_in'), true);
-    placeEdge('u_l_bot', -topW/2 + E_BUF, -topW/2 + TW - E_BUF, TW + hL, true, 1, safeGetE('u_l_bot'), false);
-
-    placeEdge('u_r_out', TW + E_BUF, TW + hR - E_BUF, topW/2, false, 1, safeGetE('u_r_out'), false);
-    placeEdge('u_r_in', TW + C_BUF, TW + hR - E_BUF, topW/2 - TW, false, -1, safeGetE('u_r_in'), true);
-    placeEdge('u_r_bot', topW/2 - TW + E_BUF, topW/2 - E_BUF, TW + hR, true, 1, safeGetE('u_r_bot'), false);
-  }
-  else if (cfg.shape === 'L') {
-    let wTop = TW;
-    let hV = Math.max(safeGetE('l_l') * gap + 2*E_BUF, safeGetE('l_r_in') * gap + E_BUF + C_BUF + TW);
-    let wH = Math.max(wTop + safeGetE('l_t_in') * gap + C_BUF + E_BUF, safeGetE('l_b') * gap + wTop + 2*E_BUF, wTop + TW);
-
-    tables.push({x: 0, y: 0, w: wTop, h: hV, lbl: 'Główny'});
-    tables.push({x: wTop, y: hV - TW, w: wH - wTop, h: TW, lbl: ''});
-
-    placeEdge('l_top', E_BUF, wTop - E_BUF, 0, true, -1, safeGetE('l_top'), false, true);
-    placeEdge('l_l', E_BUF, hV - E_BUF, 0, false, -1, safeGetE('l_l'), false);
-    placeEdge('l_v_bot', E_BUF, wTop - E_BUF, hV, true, 1, safeGetE('l_v_bot'), false);
-
-    placeEdge('l_r_in', E_BUF, hV - TW - C_BUF, wTop, false, 1, safeGetE('l_r_in'), true);
-    placeEdge('l_t_in', wTop + C_BUF, wH - E_BUF, hV - TW, true, -1, safeGetE('l_t_in'), true);
-    placeEdge('l_b', wTop + E_BUF, wH - E_BUF, hV, true, 1, safeGetE('l_b'), false);
-    placeEdge('l_right', hV - TW + E_BUF, hV - E_BUF, wH, false, 1, safeGetE('l_right'), false);
-  }
-  else if (cfg.shape === 'T') {
-    let armL = Math.max(safeGetE('t_t_l') * gap + E_BUF + C_BUF, 40);
-    let armR = Math.max(safeGetE('t_t_r') * gap + E_BUF + C_BUF, 40);
-    let wTop = armL + TW + armR;
-    let hV = Math.max(safeGetE('t_s_l') * gap + C_BUF + E_BUF, safeGetE('t_s_r') * gap + C_BUF + E_BUF);
-
-    tables.push({x: -wTop/2, y: 0, w: wTop, h: TW, lbl: 'Stół Główny'});
-    tables.push({x: -TW/2, y: TW, w: TW, h: hV, lbl: ''});
-
-    placeEdge('t_top_out', -wTop/2 + E_BUF, wTop/2 - E_BUF, 0, true, -1, safeGetE('t_top_out'), false, true);
-    placeEdge('t_left_end', E_BUF, TW - E_BUF, -wTop/2, false, -1, safeGetE('t_left_end'), false);
-    placeEdge('t_right_end', E_BUF, TW - E_BUF, wTop/2, false, 1, safeGetE('t_right_end'), false);
-
-    placeEdge('t_t_l', -wTop/2 + E_BUF, -TW/2 - C_BUF, TW, true, 1, safeGetE('t_t_l'), true);
-    placeEdge('t_t_r', TW/2 + C_BUF, wTop/2 - E_BUF, TW, true, 1, safeGetE('t_t_r'), true);
-
-    placeEdge('t_s_l', TW + C_BUF, TW + hV - E_BUF, -TW/2, false, -1, safeGetE('t_s_l'), true);
-    placeEdge('t_s_r', TW + C_BUF, TW + hV - E_BUF, TW/2, false, 1, safeGetE('t_s_r'), true);
-    placeEdge('t_s_b', -TW/2 + E_BUF, TW/2 - E_BUF, TW + hV, true, 1, safeGetE('t_s_b'), false);
+  if(cfg.shape==='I'){
+    let W=TW;
+    let H=Math.max(safeGetE('i_left')*gap+2*E_BUF,safeGetE('i_right')*gap+2*E_BUF);
+    tables.push({x:-W/2,y:0,w:W,h:H,lbl:'Stół Główny'});
+    placeEdge('i_top',-W/2+E_BUF,W/2-E_BUF,0,true,-1,safeGetE('i_top'),false,true);
+    placeEdge('i_bottom',-W/2+E_BUF,W/2-E_BUF,H,true,1,safeGetE('i_bottom'),false);
+    placeEdge('i_left',E_BUF,H-E_BUF,-W/2,false,-1,safeGetE('i_left'),false);
+    placeEdge('i_right',E_BUF,H-E_BUF,W/2,false,1,safeGetE('i_right'),false);
+  }else if(cfg.shape==='U'){
+    let topW=Math.max(3*TW,safeGetE('u_top_in')*gap+2*C_BUF+2*TW,(safeGetE('u_top_out')+2)*gap+2*E_BUF);
+    let hL=Math.max(safeGetE('u_l_out')*gap+2*E_BUF,safeGetE('u_l_in')*gap+C_BUF+E_BUF);
+    let hR=Math.max(safeGetE('u_r_out')*gap+2*E_BUF,safeGetE('u_r_in')*gap+C_BUF+E_BUF);
+    tables.push({x:-topW/2,y:0,w:topW,h:TW,lbl:'Główny'});
+    tables.push({x:-topW/2,y:TW,w:TW,h:hL,lbl:''});
+    tables.push({x:topW/2-TW,y:TW,w:TW,h:hR,lbl:''});
+    placeEdge('u_top_out',-topW/2+E_BUF,topW/2-E_BUF,0,true,-1,safeGetE('u_top_out'),false,true);
+    placeEdge('u_top_in',-topW/2+TW+C_BUF,topW/2-TW-C_BUF,TW,true,1,safeGetE('u_top_in'),true);
+    placeEdge('u_l_out',TW+E_BUF,TW+hL-E_BUF,-topW/2,false,-1,safeGetE('u_l_out'),false);
+    placeEdge('u_l_in',TW+C_BUF,TW+hL-E_BUF,-topW/2+TW,false,1,safeGetE('u_l_in'),true);
+    placeEdge('u_l_bot',-topW/2+E_BUF,-topW/2+TW-E_BUF,TW+hL,true,1,safeGetE('u_l_bot'),false);
+    placeEdge('u_r_out',TW+E_BUF,TW+hR-E_BUF,topW/2,false,1,safeGetE('u_r_out'),false);
+    placeEdge('u_r_in',TW+C_BUF,TW+hR-E_BUF,topW/2-TW,false,-1,safeGetE('u_r_in'),true);
+    placeEdge('u_r_bot',topW/2-TW+E_BUF,topW/2-E_BUF,TW+hR,true,1,safeGetE('u_r_bot'),false);
+  }else if(cfg.shape==='L'){
+    let wTop=TW;
+    let hV=Math.max(safeGetE('l_l')*gap+2*E_BUF,safeGetE('l_r_in')*gap+E_BUF+C_BUF+TW);
+    let wH=Math.max(wTop+safeGetE('l_t_in')*gap+C_BUF+E_BUF,safeGetE('l_b')*gap+wTop+2*E_BUF,wTop+TW);
+    tables.push({x:0,y:0,w:wTop,h:hV,lbl:'Główny'});
+    tables.push({x:wTop,y:hV-TW,w:wH-wTop,h:TW,lbl:''});
+    placeEdge('l_top',E_BUF,wTop-E_BUF,0,true,-1,safeGetE('l_top'),false,true);
+    placeEdge('l_l',E_BUF,hV-E_BUF,0,false,-1,safeGetE('l_l'),false);
+    placeEdge('l_v_bot',E_BUF,wTop-E_BUF,hV,true,1,safeGetE('l_v_bot'),false);
+    placeEdge('l_r_in',E_BUF,hV-TW-C_BUF,wTop,false,1,safeGetE('l_r_in'),true);
+    placeEdge('l_t_in',wTop+C_BUF,wH-E_BUF,hV-TW,true,-1,safeGetE('l_t_in'),true);
+    placeEdge('l_b',wTop+E_BUF,wH-E_BUF,hV,true,1,safeGetE('l_b'),false);
+    placeEdge('l_right',hV-TW+E_BUF,hV-E_BUF,wH,false,1,safeGetE('l_right'),false);
+  }else if(cfg.shape==='T'){
+    let armL=Math.max(safeGetE('t_t_l')*gap+E_BUF+C_BUF,40);
+    let armR=Math.max(safeGetE('t_t_r')*gap+E_BUF+C_BUF,40);
+    let wTop=armL+TW+armR;
+    let hV=Math.max(safeGetE('t_s_l')*gap+C_BUF+E_BUF,safeGetE('t_s_r')*gap+C_BUF+E_BUF);
+    tables.push({x:-wTop/2,y:0,w:wTop,h:TW,lbl:'Stół Główny'});
+    tables.push({x:-TW/2,y:TW,w:TW,h:hV,lbl:''});
+    placeEdge('t_top_out',-wTop/2+E_BUF,wTop/2-E_BUF,0,true,-1,safeGetE('t_top_out'),false,true);
+    placeEdge('t_left_end',E_BUF,TW-E_BUF,-wTop/2,false,-1,safeGetE('t_left_end'),false);
+    placeEdge('t_right_end',E_BUF,TW-E_BUF,wTop/2,false,1,safeGetE('t_right_end'),false);
+    placeEdge('t_t_l',-wTop/2+E_BUF,-TW/2-C_BUF,TW,true,1,safeGetE('t_t_l'),true);
+    placeEdge('t_t_r',TW/2+C_BUF,wTop/2-E_BUF,TW,true,1,safeGetE('t_t_r'),true);
+    placeEdge('t_s_l',TW+C_BUF,TW+hV-E_BUF,-TW/2,false,-1,safeGetE('t_s_l'),true);
+    placeEdge('t_s_r',TW+C_BUF,TW+hV-E_BUF,TW/2,false,1,safeGetE('t_s_r'),true);
+    placeEdge('t_s_b',-TW/2+E_BUF,TW/2-E_BUF,TW+hV,true,1,safeGetE('t_s_b'),false);
   }
 
-  let sId = 1;
-  seats.forEach(s => {
-    if(s.idTemp === 'T1' || s.idTemp === 'T2') { s.id = s.idTemp; } 
-    else { s.id = String(sId++); SEAT_IDS.push(s.id); }
+  let sId=1;
+  seats.forEach(s=>{
+    if(s.idTemp==='T1'||s.idTemp==='T2'){s.id=s.idTemp;}
+    else{s.id=String(sId++);SEAT_IDS.push(s.id);}
   });
 
-  if (cfg.flipH) {
-    tables.forEach(t => t.x = -t.x - t.w);
-    controls.forEach(c => { c.x = -c.x; let temp = c.d; c.d = -c.d; if(c.t==='−') c.t='+'; else c.t='−'; }); 
-    seats.forEach(s => { s.x = -s.x; s.dir = -s.dir; });
+  // Centre tables
+  if(tables.length>0){
+    let tbMinX=Math.min(...tables.map(t=>t.x));
+    let tbMaxX=Math.max(...tables.map(t=>t.x+t.w));
+    let tbMinY=Math.min(...tables.map(t=>t.y));
+    let tbMaxY=Math.max(...tables.map(t=>t.y+t.h));
+    let cx=(tbMinX+tbMaxX)/2,cy=(tbMinY+tbMaxY)/2;
+    tables.forEach(t=>{t.x-=cx;t.y-=cy;});
+    seats.forEach(s=>{s.x-=cx;s.y-=cy;});
+    controls.forEach(c=>{c.x-=cx;c.y-=cy;});
   }
-  if (cfg.flipV) {
-    tables.forEach(t => t.y = -t.y - t.h);
-    controls.forEach(c => { c.y = -c.y; let temp = c.d; c.d = -c.d; if(c.t==='−') c.t='+'; else c.t='−'; });
-    seats.forEach(s => { s.y = -s.y; s.dir = -s.dir; });
+
+  // Flip transforms
+  if(cfg.flipH){
+    tables.forEach(t=>{t.x=-t.x-t.w;});
+    seats.forEach(s=>{s.x=-s.x;if(!s.isH)s.dir=-s.dir;});
+    controls.forEach(c=>{c.x=-c.x;c.d=-c.d;c.t=c.t==='−'?'+':'−';});
+  }
+  if(cfg.flipV){
+    tables.forEach(t=>{t.y=-t.y-t.h;});
+    seats.forEach(s=>{s.y=-s.y;if(s.isH)s.dir=-s.dir;});
+    controls.forEach(c=>{c.y=-c.y;c.d=-c.d;c.t=c.t==='−'?'+':'−';});
   }
 
-  let minX=Infinity, maxX=-Infinity, minY=Infinity, maxY=-Infinity;
-  [...seats, ...controls].forEach(item => {
-    minX = Math.min(minX, item.x - 160); maxX = Math.max(maxX, item.x + 160); 
-    minY = Math.min(minY, item.y - 160); maxY = Math.max(maxY, item.y + 160);
-  });
-  tables.forEach(t => {
-    minX = Math.min(minX, t.x - 50); maxX = Math.max(maxX, t.x + t.w + 50);
-    minY = Math.min(minY, t.y - 50); maxY = Math.max(maxY, t.y + t.h + 50);
-  });
-  if (minX === Infinity) { minX = -100; maxX = 100; minY = -100; maxY = 100; }
+  // Build posMap
+  seats.forEach(s=>{posMap[s.id]=s;});
 
-  const w = maxX - minX;
-  const h = maxY - minY;
-  seats.forEach(s => posMap[s.id] = s);
+  // ── LABEL PLACEMENT with collision detection ────────────────
+  // Step 1: assign raw label positions per seat
+  const R_SEAT=13;
+  const LABEL_OFFSET=50;    // distance from seat centre to text anchor
+  const LABEL_FS=15;        // font-size px (approx char width ~8.5px)
+  const CHAR_W=8.5;
+  const LINE_H=18;
 
-  CURRENT_LAYOUT = { tables, seats, controls, posMap, viewBox: `${minX} ${minY} ${w} ${h}`, svgWidth: w, svgHeight: h };
+  function estimateTextW(str){return Math.max(20,(str||'').length*CHAR_W);}
+
+  // We'll place labels in SVG-space.  For horizontal seats (isH=true) the
+  // natural direction is along Y (above/below the table).  For vertical seats
+  // the natural direction is along X (left/right of the table).
+  // After flips these may be inverted — we use the already-flipped dir value.
+
+  // Collect label rects for AABB collision
+  const labelRects=[];   // {x1,y1,x2,y2, seatId}
+
+  function rectOverlaps(a,b){
+    const PAD=3;
+    return!(a.x2+PAD<b.x1||b.x2+PAD<a.x1||a.y2+PAD<b.y1||b.y2+PAD<a.y1);
+  }
+
+  // Attempt placement at a given offset multiplier (1=primary side, try -1 for flip)
+  function tryPlace(sx,sy,isH,dir,textW,lineCount,attempt){
+    // attempt 0 = normal side, attempt 1 = opposite side, attempt 2 = shifted +gap, attempt 3 = shifted -gap
+    let sign=dir;
+    if(attempt===1)sign=-dir;
+
+    let lx,ly,anchor;
+    if(isH){
+      // seat is horizontal (top/bottom edge) → label goes vertically above/below
+      lx=sx;
+      ly=sy+sign*(R_SEAT+LABEL_OFFSET);
+      anchor='middle';
+    }else{
+      // seat is vertical (left/right edge) → label goes horizontally left/right
+      lx=sx+sign*(R_SEAT+LABEL_OFFSET);
+      ly=sy;
+      anchor=sign<0?'end':'start';
+    }
+
+    // extra shift to avoid crowding when multiple attempts
+    if(attempt===2){if(isH){lx+=gap*0.6;}else{ly+=gap*0.6;}}
+    if(attempt===3){if(isH){lx-=gap*0.6;}else{ly-=gap*0.6;}}
+
+    // compute AABB
+    let bx1,bx2,by1,by2;
+    if(isH){
+      bx1=lx-textW/2; bx2=lx+textW/2;
+      by1=ly-LINE_H*(lineCount-0.3); by2=ly+LINE_H*0.5;
+      if(sign>0){by1=ly-LINE_H*0.3;by2=ly+LINE_H*lineCount;}
+    }else{
+      if(sign<0){bx1=lx-textW;bx2=lx;}else{bx1=lx;bx2=lx+textW;}
+      by1=ly-LINE_H*(lineCount/2+0.2);by2=ly+LINE_H*(lineCount/2+0.2);
+    }
+    return{lx,ly,anchor,isH,dir:sign,bx1,by1,bx2,by2};
+  }
+
+  const seatLabels={};  // seatId → {lx,ly,anchor,isH,dir}
+
+  seats.forEach(s=>{
+    const name=getNameForSeat(s.id);
+    if(!name)return;
+    const lines=name.split(/\s+/);
+    // two-line: first name + surname (split at first space)
+    let line1=name,line2='';
+    const spaceIdx=name.indexOf(' ');
+    if(spaceIdx>0){line1=name.substring(0,spaceIdx);line2=name.substring(spaceIdx+1);}
+    const lineCount=line2?2:1;
+    const textW=Math.max(estimateTextW(line1),estimateTextW(line2));
+
+    // try up to 6 placement attempts
+    for(let attempt=0;attempt<6;attempt++){
+      const p=tryPlace(s.x,s.y,s.isH,s.dir,textW,lineCount,attempt%4);
+      const rect={x1:p.bx1,y1:p.by1,x2:p.bx2,y2:p.by2,seatId:s.id};
+      let collision=false;
+      for(const r of labelRects){if(r.seatId!==s.id&&rectOverlaps(rect,r)){collision=true;break;}}
+      if(!collision){
+        labelRects.push(rect);
+        seatLabels[s.id]={lx:p.lx,ly:p.ly,anchor:p.anchor,isH:p.isH,dir:p.dir,line1,line2,lineCount};
+        break;
+      }
+      // last resort: just force it (attempt 5)
+      if(attempt===5){
+        labelRects.push(rect);
+        seatLabels[s.id]={lx:p.lx,ly:p.ly,anchor:p.anchor,isH:p.isH,dir:p.dir,line1,line2,lineCount};
+      }
+    }
+  });
+
+  // Viewbox — generous margin for labels
+  let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
+  labelRects.forEach(r=>{minX=Math.min(minX,r.x1-30);maxX=Math.max(maxX,r.x2+30);minY=Math.min(minY,r.y1-20);maxY=Math.max(maxY,r.y2+20);});
+  [...seats,...controls].forEach(item=>{
+    minX=Math.min(minX,item.x-60);maxX=Math.max(maxX,item.x+60);
+    minY=Math.min(minY,item.y-60);maxY=Math.max(maxY,item.y+60);
+  });
+  tables.forEach(t=>{
+    minX=Math.min(minX,t.x-50);maxX=Math.max(maxX,t.x+t.w+50);
+    minY=Math.min(minY,t.y-50);maxY=Math.max(maxY,t.y+t.h+50);
+  });
+  if(minX===Infinity){minX=-100;maxX=100;minY=-100;maxY=100;}
+
+  CURRENT_LAYOUT={tables,seats,controls,posMap,seatLabels,viewBox:`${minX} ${minY} ${maxX-minX} ${maxY-minY}`,svgWidth:maxX-minX,svgHeight:maxY-minY};
 }
 
-function buildTableSVG(mySeats, darkMode, clickMode){
-  const mode = clickMode || 'guest';
-  const layout = CURRENT_LAYOUT;
-  const R = 13; const FF = "Cormorant Garamond,serif"; const NAME_FS = 14; 
+// ═══════════════════════════════════════════════════════════
+//  SVG BUILDER
+// ═══════════════════════════════════════════════════════════
+function buildTableSVG(mySeats,darkMode,clickMode){
+  const mode=clickMode||'guest';
+  const layout=CURRENT_LAYOUT;
+  const R=13;const FF="'Cormorant Garamond',serif";const NAME_FS=15;
 
   function col(sid){
-    const mine=mySeats&&mySeats.includes(sid); const name=getNameForSeat(sid); const th=isThrone(sid);
-    if(th)   return{fill:darkMode?'rgba(139,0,0,0.52)':'rgba(139,0,0,0.22)',st:'#8B0000',sw:2,tf:darkMode?'rgba(255,210,210,0.95)':'#8B0000',nf:darkMode?'rgba(255,190,190,0.88)':'rgba(139,0,0,0.9)',lf:darkMode?'rgba(180,60,60,0.6)':'rgba(139,0,0,0.4)'};
-    if(mine) return{fill:'#C9A84C',st:'#8B6914',sw:2.5,tf:'#1A1410',nf:darkMode?'#E8D5A3':'#6B4E0A',lf:darkMode?'rgba(220,185,80,0.9)':'rgba(139,104,20,0.75)'};
-    if(name) return{fill:darkMode?'rgba(201,168,76,0.18)':'rgba(201,168,76,0.3)',st:darkMode?'rgba(201,168,76,0.5)':'rgba(100,70,10,0.4)',sw:1.5,tf:darkMode?'rgba(255,248,238,0.65)':'rgba(100,70,10,0.8)',nf:darkMode?'rgba(201,168,76,0.9)':'rgba(80,55,5,0.78)',lf:darkMode?'rgba(201,168,76,0.4)':'rgba(100,70,10,0.4)'};
-    return{fill:darkMode?'rgba(255,255,255,0.04)':'rgba(255,255,255,0.65)',st:darkMode?'rgba(255,255,255,0.12)':'rgba(150,130,100,0.28)',sw:1.5,tf:darkMode?'rgba(255,255,255,0.18)':'rgba(150,130,100,0.45)',nf:null,lf:null};
+    const mine=mySeats&&mySeats.includes(sid);
+    const name=getNameForSeat(sid);const th=isThrone(sid);
+    const fontC=darkMode?'wheat':'rgba(80,55,5,0.85)';
+    const throneFC=darkMode?'#E8D5A3':'#ffa6a6';
+    if(th)return{fill:darkMode?'rgba(139,0,0,0.52)':'rgba(139,0,0,0.15)',st:'#ffa6a6',sw:2,tf:throneFC,nf:throneFC,lf:darkMode?'rgba(180,60,60,0.6)':'rgba(139,0,0,0.4)'};
+    if(mine) return {fill:'#93ff8e', st:'#8B6914', sw:2.5, tf:'#1A1410', nf:'#93ff8e', lf:'wheat'};
+    if(name)return{fill:darkMode?'rgba(201,168,76,0.12)':'rgba(201,168,76,0.3)',st:darkMode?'wheat':'rgba(100,70,10,0.4)',sw:1.5,tf:darkMode?'rgba(255,248,238,0.65)':'rgba(100,70,10,0.8)',nf:fontC,lf:darkMode?'wheat':'rgba(100,70,10,0.45)'};
+    return{fill:darkMode?'rgba(255,255,255,0.03)':'rgba(255,255,255,0.65)',st:darkMode?'rgba(255,255,255,0.12)':'rgba(150,130,100,0.28)',sw:1.5,tf:darkMode?'rgba(255,255,255,0.18)':'rgba(150,130,100,0.45)',nf:null,lf:null};
   }
 
-  let svg=`<svg viewBox="${layout.viewBox}" width="${layout.svgWidth}px" height="${layout.svgHeight}px" xmlns="http://www.w3.org/2000/svg">`;
+  let svg=`<svg viewBox="${layout.viewBox}" width="${layout.svgWidth}px" height="${layout.svgHeight}px" xmlns="http://www.w3.org/2000/svg" style="display:block">`;
 
-  layout.tables.forEach(t => {
+  // Tables
+  layout.tables.forEach(t=>{
     svg+=`<rect x="${t.x}" y="${t.y}" width="${t.w}" height="${t.h}" rx="8" fill="${darkMode?'rgba(201,168,76,0.05)':'rgba(201,168,76,0.09)'}" stroke="${darkMode?'rgba(201,168,76,0.28)':'rgba(100,70,10,0.28)'}" stroke-width="1.5"/>`;
-    if(t.lbl) svg+=`<text x="${t.x + t.w/2}" y="${t.y + 18}" text-anchor="middle" font-size="10" font-family="${FF}" fill="${darkMode?'rgba(255,248,238,0.18)':'rgba(100,70,10,0.35)'}">${t.lbl}</text>`;
+    if(t.lbl)svg+=`<text x="${t.x+t.w/2}" y="${t.y+18}" text-anchor="middle" font-size="10" font-family=${FF} fill="${darkMode?'rgba(255,248,238,0.18)':'rgba(100,70,10,0.35)'}">${t.lbl}</text>`;
   });
 
-  // DYMKI I STRZAŁKI W STYLU ORTOGONALNYM (Staggered Leaders - żadnych kolizji!)
-  layout.seats.forEach(s => {
-    const name = getNameForSeat(s.id); if(!name) return;
-    const c = col(s.id); if(!c.lf) return;
-    const {x, y, isH, dir, isInner, iIndex} = s;
+  // LABELS — drawn BEFORE circles so circles appear on top
+  Object.entries(layout.seatLabels||{}).forEach(([sid,lb])=>{
+    const c=col(sid);if(!c.lf)return;
+    const s=layout.posMap[sid];if(!s)return;
+    const {lx,ly,anchor,isH,dir,line1,line2,lineCount}=lb;
 
-    let tx, ty, anchor;
-    // Rzędy długości 18px lub 40px, w zależności od miejsca (staggering)
-    let lineLen = isInner ? (iIndex % 2 === 0 ? 18 : 42) : 18;
+    // connector line from circle edge to label dot
+    let lineX1,lineY1;
+    if(isH){lineX1=s.x;lineY1=s.y+dir*R;}else{lineX1=s.x+dir*R;lineY1=s.y;}
+    svg+=`<line x1="${lineX1}" y1="${lineY1}" x2="${lx}" y2="${ly}" stroke="${c.lf}" stroke-width="1.2"/>`;
+    svg+=`<circle cx="${lx}" cy="${ly}" r="2.5" fill="${c.lf}"/>`;
 
-    if (isH) {
-        let drawDir = isInner ? -dir : dir; 
-        tx = x; ty = y + (drawDir * (R + lineLen));
-        anchor = drawDir === -1 ? "start" : "end"; 
-        
-        // Rysujemy ścieżkę do krzesła z kropką
-        svg+=`<path d="M ${x} ${y + drawDir*R} L ${x} ${ty}" stroke="${c.lf}" stroke-width="1.2" fill="none"/>`;
-        svg+=`<circle cx="${x}" cy="${ty}" r="2.5" fill="${c.lf}"/>`;
-        
-        let rot = drawDir === -1 ? -90 : -90;
-        let trans = `transform="rotate(${rot}, ${tx}, ${ty + (drawDir===1 ? 8 : -8)})"`;
-        
-        // Obrys by tworzył "dymek" na tle siatki/stołu
-        svg+=`<text x="${tx}" y="${ty + (drawDir===1 ? 12 : -5)}" text-anchor="${anchor}" ${trans} class="bubble-text" font-size="${NAME_FS}" font-family="${FF}" font-weight="600" font-style="italic">${escHtml(name)}</text>`;
-        svg+=`<text x="${tx}" y="${ty + (drawDir===1 ? 12 : -5)}" text-anchor="${anchor}" ${trans} font-size="${NAME_FS}" font-family="${FF}" font-weight="600" font-style="italic" fill="${c.nf}">${escHtml(name)}</text>`;
-    } else {
-        let drawDir = isInner ? -dir : dir;
-        tx = x + (drawDir * (R + lineLen)); ty = y;
-        anchor = drawDir === -1 ? "end" : "start";
-        
-        svg+=`<path d="M ${x + drawDir*R} ${y} L ${tx} ${y}" stroke="${c.lf}" stroke-width="1.2" fill="none"/>`;
-        svg+=`<circle cx="${tx}" cy="${y}" r="2.5" fill="${c.lf}"/>`;
-        
-        svg+=`<text x="${tx + (drawDir===1 ? 6 : -6)}" y="${ty + 4}" text-anchor="${anchor}" class="bubble-text" font-size="${NAME_FS}" font-family="${FF}" font-weight="600" font-style="italic">${escHtml(name)}</text>`;
-        svg+=`<text x="${tx + (drawDir===1 ? 6 : -6)}" y="${ty + 4}" text-anchor="${anchor}" font-size="${NAME_FS}" font-family="${FF}" font-weight="600" font-style="italic" fill="${c.nf}">${escHtml(name)}</text>`;
+    // text placement
+    const strokeAttrs=`paint-order="stroke" stroke="${darkMode?'rgba(26,20,16,0.95)':'rgba(255,255,255,0.95)'}" stroke-width="4" stroke-linejoin="round"`;
+
+    if(lineCount===2){
+      // two lines centred on ly
+      const y1=ly-LINE_H*0.5+4;
+      const y2=ly+LINE_H*0.5+4;
+      if(isH){
+        // vertical seat — text is horizontal, rotated -90° around connector point for readability
+        // Actually keep text horizontal (no rotation) for horizontal seats too
+        svg+=`<text x="${lx}" y="${y1}" text-anchor="${anchor}" font-size="${NAME_FS}" font-family=${FF} font-weight="600" font-style="italic" ${strokeAttrs}>${escHtml(line1)}</text>`;
+        svg+=`<text x="${lx}" y="${y1}" text-anchor="${anchor}" font-size="${NAME_FS}" font-family=${FF} font-weight="600" font-style="italic" fill="${c.nf}">${escHtml(line1)}</text>`;
+        svg+=`<text x="${lx}" y="${y2}" text-anchor="${anchor}" font-size="${NAME_FS}" font-family=${FF} font-weight="600" font-style="italic" ${strokeAttrs}>${escHtml(line2)}</text>`;
+        svg+=`<text x="${lx}" y="${y2}" text-anchor="${anchor}" font-size="${NAME_FS}" font-family=${FF} font-weight="600" font-style="italic" fill="${c.nf}">${escHtml(line2)}</text>`;
+      }else{
+        const offX=dir>0?6:-6;
+        svg+=`<text x="${lx+offX}" y="${y1}" text-anchor="${anchor}" font-size="${NAME_FS}" font-family=${FF} font-weight="600" font-style="italic" ${strokeAttrs}>${escHtml(line1)}</text>`;
+        svg+=`<text x="${lx+offX}" y="${y1}" text-anchor="${anchor}" font-size="${NAME_FS}" font-family=${FF} font-weight="600" font-style="italic" fill="${c.nf}">${escHtml(line1)}</text>`;
+        svg+=`<text x="${lx+offX}" y="${y2}" text-anchor="${anchor}" font-size="${NAME_FS}" font-family=${FF} font-weight="600" font-style="italic" ${strokeAttrs}>${escHtml(line2)}</text>`;
+        svg+=`<text x="${lx+offX}" y="${y2}" text-anchor="${anchor}" font-size="${NAME_FS}" font-family=${FF} font-weight="600" font-style="italic" fill="${c.nf}">${escHtml(line2)}</text>`;
+      }
+    }else{
+      if(isH){
+        svg+=`<text x="${lx}" y="${ly+4}" text-anchor="${anchor}" font-size="${NAME_FS}" font-family=${FF} font-weight="600" font-style="italic" ${strokeAttrs}>${escHtml(line1)}</text>`;
+        svg+=`<text x="${lx}" y="${ly+4}" text-anchor="${anchor}" font-size="${NAME_FS}" font-family=${FF} font-weight="600" font-style="italic" fill="${c.nf}">${escHtml(line1)}</text>`;
+      }else{
+        const offX=dir>0?6:-6;
+        svg+=`<text x="${lx+offX}" y="${ly+4}" text-anchor="${anchor}" font-size="${NAME_FS}" font-family=${FF} font-weight="600" font-style="italic" ${strokeAttrs}>${escHtml(line1)}</text>`;
+        svg+=`<text x="${lx+offX}" y="${ly+4}" text-anchor="${anchor}" font-size="${NAME_FS}" font-family=${FF} font-weight="600" font-style="italic" fill="${c.nf}">${escHtml(line1)}</text>`;
+      }
     }
   });
 
-  layout.seats.forEach(s => {
-    const c = col(s.id); const th = isThrone(s.id); const r = th ? R+2 : R; const lbl = th ? '♛' : s.id;
-    let interaction = mode === 'admin' ? `onpointerdown="startDrag(event, this)"` : `onclick="seatClick('${escHtml(s.id)}')"` ;
+  // Seat circles (on top of labels)
+  layout.seats.forEach(s=>{
+    const c=col(s.id);const th=isThrone(s.id);const r=th?R+2:R;const lbl=th?'♛':s.id;
+    const interaction=mode==='admin'?`onpointerdown="startDrag(event,this)"`:`onclick="seatClick('${escHtml(s.id)}')"`;
     svg+=`<g data-sid="${escHtml(s.id)}" class="seat-circle" ${interaction}>`;
     svg+=`<circle cx="${s.x}" cy="${s.y}" r="${r}" fill="${c.fill}" stroke="${c.st}" stroke-width="${c.sw}"/>`;
-    svg+=`<text x="${s.x}" y="${s.y+4}" text-anchor="middle" font-size="${th?10:8}" font-family="Jost,sans-serif" fill="${c.tf}" font-weight="${th?'600':'500'}" pointer-events="none">${lbl}</text>`;
+    svg+=`<text x="${s.x}" y="${s.y+4}" text-anchor="middle" font-size="${th?10:8}" font-family="'Jost',sans-serif" fill="${c.tf}" font-weight="${th?'600':'500'}" pointer-events="none">${lbl}</text>`;
     svg+=`<title>${escHtml(seatLabel(s.id))}: ${escHtml(getNameForSeat(s.id)||'wolne')}</title></g>`;
   });
 
-  if(mode === 'admin') {
-    layout.controls.forEach(c => {
-      const color = c.d > 0 ? '#2D6A4F' : '#C0392B';
-      svg+=`<g class="ext-btn" onclick="modEdge('${c.key}', ${c.d})">`;
+  // Admin controls
+  if(mode==='admin'){
+    layout.controls.forEach(c=>{
+      const color=c.d>0?'#2D6A4F':'#C0392B';
+      svg+=`<g class="ext-btn" onclick="modEdge('${c.key}',${c.d})">`;
       svg+=`<circle cx="${c.x}" cy="${c.y}" r="9" fill="${color}" stroke="#fff" stroke-width="1.5"/>`;
       svg+=`<text x="${c.x}" y="${c.y+4}" text-anchor="middle" font-size="14" fill="#fff" font-weight="600" pointer-events="none">${c.t}</text>`;
       svg+=`</g>`;
     });
   }
-
   svg+='</svg>';
-  return {svg, pos: layout.posMap};
+  return{svg,pos:layout.posMap};
 }
 
-// ── DRAG AND DROP (PRZECIĄGANIE KRZESEŁ) ──
-let dragSeat = null;
-let dragStart = {x:0, y:0};
+// LINE_H constant used in layout engine
+const LINE_H=18;
 
-function startDrag(e, el) {
-  if(!requireAdmin()) return;
-  dragSeat = el.dataset.sid;
-  if(isThrone(dragSeat)) { adminSeatClick(dragSeat); dragSeat = null; return; } 
-  
-  dragStart = {x: e.clientX, y: e.clientY};
+// ═══════════════════════════════════════════════════════════
+//  DRAG AND DROP
+// ═══════════════════════════════════════════════════════════
+let dragSeat=null,dragStart={x:0,y:0};
+
+function startDrag(e,el){
+  if(!requireAdmin())return;
+  dragSeat=el.dataset.sid;
+  if(isThrone(dragSeat)){adminSeatClick(dragSeat);dragSeat=null;return;}
+  dragStart={x:e.clientX,y:e.clientY};
   el.setPointerCapture(e.pointerId);
-  
-  el.onpointerup = (upEvent) => {
-    el.releasePointerCapture(e.pointerId);
-    el.onpointerup = null;
-    
-    let dx = upEvent.clientX - dragStart.x;
-    let dy = upEvent.clientY - dragStart.y;
-    
-    if (Math.abs(dx) < 5 && Math.abs(dy) < 5) {
-        adminSeatClick(dragSeat); 
-    } else {
-        let originalDisplay = el.style.display;
-        el.style.display = 'none'; 
-        let dropTarget = document.elementFromPoint(upEvent.clientX, upEvent.clientY);
-        el.style.display = originalDisplay;
-        
-        if (dropTarget) {
-            let targetGroup = dropTarget.closest('.seat-circle');
-            if (targetGroup && targetGroup.dataset.sid !== dragSeat && !isThrone(targetGroup.dataset.sid)) {
-                swapSeats(dragSeat, targetGroup.dataset.sid);
-            }
-        }
+  el.onpointerup=(up)=>{
+    el.releasePointerCapture(e.pointerId);el.onpointerup=null;
+    const dx=up.clientX-dragStart.x,dy=up.clientY-dragStart.y;
+    if(Math.abs(dx)<5&&Math.abs(dy)<5){adminSeatClick(dragSeat);}
+    else{
+      const orig=el.style.display;el.style.display='none';
+      const target=document.elementFromPoint(up.clientX,up.clientY);
+      el.style.display=orig;
+      if(target){const tg=target.closest('.seat-circle');if(tg&&tg.dataset.sid!==dragSeat&&!isThrone(tg.dataset.sid))swapSeats(dragSeat,tg.dataset.sid);}
     }
-    dragSeat = null;
+    dragSeat=null;
   };
 }
 
-function swapSeats(s1, s2) {
-  let g1 = STATE.guests.find(g => g.seat1 === s1 || g.seat2 === s1);
-  let g2 = STATE.guests.find(g => g.seat1 === s2 || g.seat2 === s2);
-  if (g1) { if (g1.seat1 === s1) g1.seat1 = s2; else g1.seat2 = s2; }
-  if (g2) { if (g2.seat1 === s2) g2.seat1 = s1; else g2.seat2 = s1; }
-  saveLocal(); renderGuestsTable(); renderLivePreview(); renderAdminTable();
+function swapSeats(s1,s2){
+  let g1=STATE.guests.find(g=>g.seat1===s1||g.seat2===s1);
+  let g2=STATE.guests.find(g=>g.seat1===s2||g.seat2===s2);
+  if(g1){if(g1.seat1===s1)g1.seat1=s2;else g1.seat2=s2;}
+  if(g2){if(g2.seat1===s2)g2.seat1=s1;else g2.seat2=s1;}
+  saveLocal();renderGuestsTable();renderLivePreview();renderAdminTable();
 }
 
-function modEdge(key, diff) {
-  STATE.settings.table.edges[key] = Math.max(0, safeGetE(key) + diff);
+function modEdge(key,diff){STATE.settings.table.edges[key]=Math.max(0,safeGetE(key)+diff);updateTableConfig();}
+function loadShapePreset(shape){
+  STATE.settings.table.shape=shape;
+  const e=STATE.settings.table.edges;
+  if(shape==='I'){e.i_top=0;e.i_bottom=2;e.i_left=17;e.i_right=17;}
+  if(shape==='L'){e.l_top=0;e.l_l=12;e.l_r_in=8;e.l_t_in=6;e.l_b=10;e.l_right=2;e.l_v_bot=0;}
+  if(shape==='U'){e.u_top_out=0;e.u_top_in=2;e.u_l_out=10;e.u_l_in=8;e.u_l_bot=2;e.u_r_out=10;e.u_r_in=8;e.u_r_bot=2;}
+  if(shape==='T'){e.t_top_out=0;e.t_t_l=4;e.t_t_r=4;e.t_s_l=10;e.t_s_r=10;e.t_s_b=2;e.t_left_end=1;e.t_right_end=1;}
   updateTableConfig();
 }
-function loadShapePreset(shape) {
-  STATE.settings.table.shape = shape;
-  const e = STATE.settings.table.edges;
-  if(shape==='I') { e.i_top=0; e.i_bottom=2; e.i_left=17; e.i_right=17; }
-  if(shape==='L') { e.l_top=0; e.l_l=12; e.l_r_in=8; e.l_t_in=6; e.l_b=10; e.l_right=2; e.l_v_bot=0; }
-  if(shape==='U') { e.u_top_out=0; e.u_top_in=2; e.u_l_out=10; e.u_l_in=8; e.u_l_bot=2; e.u_r_out=10; e.u_r_in=8; e.u_r_bot=2; }
-  if(shape==='T') { e.t_top_out=0; e.t_t_l=4; e.t_t_r=4; e.t_s_l=10; e.t_s_r=10; e.t_s_b=2; e.t_left_end=1; e.t_right_end=1; }
-  updateTableConfig();
+function updateTableConfig(){
+  STATE.settings.table.tw=parseInt(document.getElementById('cfg-tw').value);
+  STATE.settings.table.gap=parseInt(document.getElementById('cfg-gap').value)||48;
+  STATE.settings.table.flipH=document.getElementById('cfg-flip-h').checked;
+  STATE.settings.table.flipV=document.getElementById('cfg-flip-v').checked;
+  document.getElementById('lbl-tw').textContent=STATE.settings.table.tw;
+  document.getElementById('lbl-gap').textContent=STATE.settings.table.gap;
+  generateLayoutEngine();cleanUpInvalidSeats();saveLocal();
+  renderAdminTable();renderLivePreview();renderGuestsTable();
 }
-function updateTableConfig() {
-  STATE.settings.table.tw = parseInt(document.getElementById('cfg-tw').value);
-  STATE.settings.table.flipH = document.getElementById('cfg-flip-h').checked;
-  STATE.settings.table.flipV = document.getElementById('cfg-flip-v').checked;
-  document.getElementById('lbl-tw').textContent = STATE.settings.table.tw;
-  generateLayoutEngine(); cleanUpInvalidSeats(); saveLocal();
-  renderAdminTable(); renderLivePreview(); renderGuestsTable();
-}
-function cleanUpInvalidSeats() {
-  const valid = new Set(SEAT_IDS);
-  STATE.guests.forEach(g => {
-    if(g.seat1 && !valid.has(g.seat1)) g.seat1 = '';
-    if(g.seat2 && !valid.has(g.seat2)) g.seat2 = '';
-  });
-  STATE.guests = STATE.guests.filter(g => g.seat1 || g.seat2 || g.name1 || g.name2);
+function cleanUpInvalidSeats(){
+  const valid=new Set(SEAT_IDS);
+  STATE.guests.forEach(g=>{if(g.seat1&&!valid.has(g.seat1))g.seat1='';if(g.seat2&&!valid.has(g.seat2))g.seat2='';});
+  STATE.guests=STATE.guests.filter(g=>g.seat1||g.seat2||g.name1||g.name2);
 }
 
-// ── NAV & AUTH ──
-let LOGIN_LOCKED_UNTIL=0; let LOGIN_ATTEMPTS=0;
+// ═══════════════════════════════════════════════════════════
+//  NAV & AUTH
+// ═══════════════════════════════════════════════════════════
+let LOGIN_LOCKED_UNTIL=0,LOGIN_ATTEMPTS=0;
 
 function show(id){
   document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('active');s.style.display='none';});
@@ -849,63 +1345,61 @@ function switchTab(tabId,btn){
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById(tabId).classList.add('active');
   if(btn)btn.classList.add('active');
-  if(tabId==='tab-table') { 
-    document.getElementById('cfg-shape').value = STATE.settings.table.shape;
-    document.getElementById('cfg-tw').value = STATE.settings.table.tw || 60;
-    document.getElementById('lbl-tw').textContent = STATE.settings.table.tw || 60;
-    document.getElementById('cfg-flip-h').checked = STATE.settings.table.flipH;
-    document.getElementById('cfg-flip-v').checked = STATE.settings.table.flipV;
-    renderAdminTable(); 
+  if(tabId==='tab-table'){
+    document.getElementById('cfg-shape').value=STATE.settings.table.shape;
+    document.getElementById('cfg-tw').value=STATE.settings.table.tw||60;
+    document.getElementById('lbl-tw').textContent=STATE.settings.table.tw||60;
+    document.getElementById('cfg-gap').value=STATE.settings.table.gap||48;
+    document.getElementById('lbl-gap').textContent=STATE.settings.table.gap||48;
+    document.getElementById('cfg-flip-h').checked=STATE.settings.table.flipH;
+    document.getElementById('cfg-flip-v').checked=STATE.settings.table.flipV;
+    renderAdminTable();
+    requestAnimationFrame(()=>initWrap('wrap-creator'));
   }
-  if(tabId==='tab-qr') renderQRGrid();
-  if(tabId==='tab-schedule') { renderScheduleAdmin(); renderMenuAdmin(); }
-  if(tabId==='tab-music') renderAdminMusic();
+  if(tabId==='tab-guests'){requestAnimationFrame(()=>initWrap('wrap-preview'));}
+  if(tabId==='tab-qr')renderQRGrid();
+  if(tabId==='tab-schedule'){renderScheduleAdmin();renderMenuAdmin();}
+  if(tabId==='tab-music')renderAdminMusic();
 }
 
 async function adminLogin(){
   const now=Date.now();
-  if(now<LOGIN_LOCKED_UNTIL){
-    const secs=Math.ceil((LOGIN_LOCKED_UNTIL-now)/1000);
-    document.getElementById('admin-err').textContent=`Poczekaj ${secs}s.`;
-    return;
-  }
+  if(now<LOGIN_LOCKED_UNTIL){document.getElementById('admin-err').textContent=`Poczekaj ${Math.ceil((LOGIN_LOCKED_UNTIL-now)/1000)}s.`;return;}
   const p=document.getElementById('admin-pass').value;
   if(!p){document.getElementById('admin-err').textContent='Podaj hasło.';return;}
-  
   if(!STATE.settings.passHash){STATE.settings.passHash=await hashPassword('Wesele2026!');saveLocal();}
-  
   if(await checkPassword(p,STATE.settings.passHash)){
-    ADMIN_AUTHED=true; LOGIN_ATTEMPTS=0; renderAdmin();show('screen-admin');
-    document.getElementById('admin-pass').value=''; document.getElementById('admin-err').textContent='';
-  } else {
+    ADMIN_AUTHED=true;LOGIN_ATTEMPTS=0;renderAdmin();show('screen-admin');
+    document.getElementById('admin-pass').value='';document.getElementById('admin-err').textContent='';
+    requestAnimationFrame(()=>initWrap('wrap-preview'));
+  }else{
     LOGIN_ATTEMPTS++;
-    if(LOGIN_ATTEMPTS>=5){ LOGIN_LOCKED_UNTIL=Date.now()+30000; LOGIN_ATTEMPTS=0; document.getElementById('admin-err').textContent='Blokada 30s.'; } 
-    else { document.getElementById('admin-err').textContent=`Błędne hasło (${LOGIN_ATTEMPTS}/5).`; }
+    if(LOGIN_ATTEMPTS>=5){LOGIN_LOCKED_UNTIL=Date.now()+30000;LOGIN_ATTEMPTS=0;document.getElementById('admin-err').textContent='Blokada 30s.';}
+    else{document.getElementById('admin-err').textContent=`Błędne hasło (${LOGIN_ATTEMPTS}/5).`;}
   }
 }
-function adminLogout(){ ADMIN_AUTHED=false; show('screen-landing'); }
-function requireAdmin(){ if(!ADMIN_AUTHED){show('screen-landing');return false;} return true; }
-
+function adminLogout(){ADMIN_AUTHED=false;show('screen-landing');}
+function requireAdmin(){if(!ADMIN_AUTHED){show('screen-landing');return false;}return true;}
 function goGuestLogin(){show('screen-guest-login');}
 function guestLogin(){
   const raw=document.getElementById('guest-code').value.trim();
   const code=raw.replace(/[^A-Z0-9\-]/gi,'').toUpperCase();
   if(!code){document.getElementById('guest-err').textContent='Podaj kod.';return;}
   const g=STATE.guests.find(x=>x.code===code);
-  if(g){renderGuestView(g);show('screen-guest');}
-  else document.getElementById('guest-err').textContent='Nie znaleziono gościa. Upewnij się, że wpisujesz poprawny kod z zaproszenia.';
+  if(g){renderGuestView(g);show('screen-guest');requestAnimationFrame(()=>initWrap('wrap-guest'));}
+  else document.getElementById('guest-err').textContent='Nie znaleziono gościa. Upewnij się, że wpisujesz poprawny kod.';
 }
 
-function seatLabel(id){ return isThrone(id)?(id==='T1'?'👑 Tron 1':'👑 Tron 2'):'Krzesło '+id; }
-function isThrone(id){ return id==='T1'||id==='T2'; }
+function seatLabel(id){return isThrone(id)?(id==='T1'?'👑 Tron 1':'👑 Tron 2'):'Krzesło '+id;}
+function isThrone(id){return id==='T1'||id==='T2';}
 function takenSeats(excl){
   const t=new Set();
-  STATE.guests.forEach(g=>{ if(g.id!==excl){ if(g.seat1)t.add(g.seat1); if(g.seat2)t.add(g.seat2); } });
+  STATE.guests.forEach(g=>{if(g.id!==excl){if(g.seat1)t.add(g.seat1);if(g.seat2)t.add(g.seat2);}});
   return t;
 }
 function getNameForSeat(sid){
-  if(isThrone(sid)){ const p=STATE.settings.names.split('&'); return (sid==='T1'?(p[0]||''):(p[1]||'')).trim()||'Para Młoda'; }
-  for(const g of STATE.guests){ if(g.seat1===sid) return g.name1||null; if(g.seat2===sid) return g.name2||null; }
+  if(isThrone(sid)){const p=STATE.settings.names.split('&');return(sid==='T1'?(p[0]||''):(p[1]||'')).trim()||'Para Młoda';}
+  for(const g of STATE.guests){if(g.seat1===sid)return g.name1||null;if(g.seat2===sid)return g.name2||null;}
   return null;
 }
 function buildSeatSelect(val,gid,allowEmpty,field){
@@ -924,67 +1418,65 @@ function seatClick(sid){
   document.getElementById('seat-modal-num').textContent=seatLabel(sid);
   const nameEl=document.getElementById('seat-modal-name');
   nameEl.textContent=name||'Wolne miejsce';
-  nameEl.className='seat-modal-name'+(isThrone(sid)&&name?' is-throne':'');
-  nameEl.style.color=name?'':'var(--muted)';
+  nameEl.style.color=name?(isThrone(sid)?'var(--throne)':'wheat'):'wheat';
   document.getElementById('seat-modal-overlay').classList.remove('hidden');
 }
 function closeModal(){document.querySelectorAll('.modal-overlay').forEach(el=>el.classList.add('hidden'));}
 
+let _assignSid=null;
 function adminSeatClick(sid){
   if(!requireAdmin())return;
-  if(isThrone(sid)){ seatClick(sid); return; }
+  if(isThrone(sid)){seatClick(sid);return;}
   _assignSid=sid;
   const currentName=getNameForSeat(sid);
   document.getElementById('assign-modal-seat').textContent=seatLabel(sid);
   document.getElementById('assign-name-input').value=currentName||'';
-  
-  const sel = document.getElementById('assign-select-guest');
-  sel.innerHTML = '<option value="">-- Wybierz istniejącego gościa --</option>';
-  STATE.guests.forEach(g => {
-    if(g.name1 && !isThrone(g.seat1)) sel.innerHTML += `<option value="${g.id}_1">${escHtml(g.name1)} (obecnie: ${seatLabel(g.seat1)})</option>`;
-    if(g.name2 && !isThrone(g.seat2)) sel.innerHTML += `<option value="${g.id}_2">${escHtml(g.name2)} (obecnie: ${seatLabel(g.seat2)})</option>`;
+  const sel=document.getElementById('assign-select-guest');
+  sel.innerHTML='<option value="">-- Wybierz istniejącego gościa --</option>';
+  STATE.guests.forEach(g=>{
+    if(g.name1&&!isThrone(g.seat1))sel.innerHTML+=`<option value="${g.id}_1">${escHtml(g.name1)} (${seatLabel(g.seat1)})</option>`;
+    if(g.name2&&!isThrone(g.seat2))sel.innerHTML+=`<option value="${g.id}_2">${escHtml(g.name2)} (${seatLabel(g.seat2)})</option>`;
   });
-
   document.getElementById('assign-clear-btn').style.display=currentName?'':'none';
   document.getElementById('assign-modal-overlay').classList.remove('hidden');
   setTimeout(()=>document.getElementById('assign-name-input').focus(),80);
 }
-function closeAssignModal(){document.getElementById('assign-modal-overlay').classList.add('hidden'); _assignSid=null;}
 function confirmAssign(){
   if(!_assignSid)return;
-  const selVal = document.getElementById('assign-select-guest').value;
-  if(selVal) {
-    const [gid, seatIdx] = selVal.split('_');
-    const g = STATE.guests.find(x => x.id === gid);
-    if(g) {
-      _assignSeatName(_assignSid, null);
-      if(seatIdx === '1') g.seat1 = _assignSid;
-      if(seatIdx === '2') g.seat2 = _assignSid;
-      saveLocal(); renderGuestsTable(); renderLivePreview(); renderAdminTable();
-      closeAssignModal(); return;
+  const selVal=document.getElementById('assign-select-guest').value;
+  if(selVal){
+    const[gid,seatIdx]=selVal.split('_');
+    const g=STATE.guests.find(x=>x.id===gid);
+    if(g){
+      _assignSeatName(_assignSid,null);
+      if(seatIdx==='1')g.seat1=_assignSid;
+      if(seatIdx==='2')g.seat2=_assignSid;
+      saveLocal();renderGuestsTable();renderLivePreview();renderAdminTable();
+      closeModal();return;
     }
   }
-  const name=document.getElementById('assign-name-input').value.trim(); 
-  if(!name){alert('Wpisz imię i nazwisko gościa lub wybierz z listy.');return;}
-  _assignSeatName(_assignSid, name); closeAssignModal();
+  const name=document.getElementById('assign-name-input').value.trim();
+  if(!name){alert('Wpisz imię gościa lub wybierz z listy.');return;}
+  _assignSeatName(_assignSid,name);closeModal();
 }
-function confirmAssignClear(){
-  if(!_assignSid)return; if(!confirm('Usunąć gościa z tego krzesła?'))return;
-  _assignSeatName(_assignSid, null); closeAssignModal();
-}
-function _assignSeatName(sid, name){
+function confirmAssignClear(){if(!_assignSid)return;if(!confirm('Usunąć gościa z tego krzesła?'))return;_assignSeatName(_assignSid,null);closeModal();}
+function _assignSeatName(sid,name){
   STATE.guests.forEach(g=>{
-    if(g.seat1===sid){
-      if(!name&&!g.seat2&&!g.name2) STATE.guests=STATE.guests.filter(x=>x.id!==g.id);
-      else { g.seat1=''; g.name1=''; if(!g.seat1&&!g.seat2) STATE.guests=STATE.guests.filter(x=>x.id!==g.id); }
-    } else if(g.seat2===sid){ g.seat2=''; g.name2=''; }
+    if(g.seat1===sid){g.seat1='';g.name1='';}
+    else if(g.seat2===sid){g.seat2='';g.name2='';}
   });
   STATE.guests=STATE.guests.filter(g=>g.seat1||g.seat2||isThrone(g.seat1)||isThrone(g.seat2));
   if(name){
-    const idx=STATE.guests.length+1; const code='G-'+String(idx).padStart(3,'0');
+    const idx=STATE.guests.length+1;const code='G-'+String(idx).padStart(3,'0');
     STATE.guests.push({id:'g'+Date.now(),name1:name,name2:'',seat1:sid,seat2:'',code});
   }
-  saveLocal(); renderGuestsTable(); renderLivePreview(); renderAdminTable();
+  
+  generateLayoutEngine(); // <--- TA LINIJKA JEST NOWA (przelicza na nowo imiona)
+  
+  saveLocal();
+  renderGuestsTable();
+  renderLivePreview();
+  renderAdminTable();
 }
 
 function renderAdmin(){
@@ -997,27 +1489,30 @@ function renderAdmin(){
   document.getElementById('s-pass').value='';
   document.getElementById('s-drive-url').value=STATE.settings.driveUrl||'';
   updateDriveStatus();renderLivePreview();
+  requestAnimationFrame(()=>initWrap('wrap-preview'));
 }
-function updateDriveStatus(){
-  const url=STATE.settings.driveUrl||''; const el=document.getElementById('drive-status-txt');
-  if(url)el.innerHTML='Połączono z chmurą ✓';
-  else el.textContent='Lokalny zapis (Przeglądarka)';
-}
+function updateDriveStatus(){const url=STATE.settings.driveUrl||'';const el=document.getElementById('drive-status-txt');if(url)el.innerHTML='Połączono z chmurą ✓';else el.textContent='Lokalny zapis (Przeglądarka)';}
+
 function renderLivePreview(){
   const w=document.getElementById('admin-live-preview');if(!w)return;
   w.innerHTML=buildTableSVG(null,false,'admin').svg;
+  // Zresetuj skalę przy każdym pełnym przerysowaniu (zmiana layoutu)
+  if(wrapState['wrap-preview']){wrapState['wrap-preview'].scale=1;wrapState['wrap-preview'].ox=0;wrapState['wrap-preview'].oy=0;}
+  centerWrap('wrap-preview');
 }
 function renderAdminTable(){
   const w=document.getElementById('admin-table-svg-wrap');if(!w)return;
   w.innerHTML=buildTableSVG(null,false,'admin').svg;
+  if(wrapState['wrap-creator']){wrapState['wrap-creator'].scale=1;wrapState['wrap-creator'].ox=0;wrapState['wrap-creator'].oy=0;}
+  centerWrap('wrap-creator');
 }
 
 function renderGuestsTable(){
   const tbody=document.getElementById('guests-tbody');tbody.innerHTML='';
   STATE.guests.forEach((g,i)=>{
-    const tr=document.createElement('tr'); const tf=isThrone(g.seat1)||isThrone(g.seat2);
+    const tr=document.createElement('tr');const tf=isThrone(g.seat1)||isThrone(g.seat2);
     tr.innerHTML=
-      `<td style="color:var(--muted);font-size:0.75rem">${i+1}</td>`+
+      `<td style="color:wheat;font-size:0.75rem">${i+1}</td>`+
       `<td><input class="tbl-input" value="${escHtml(g.name1)}" data-id="${escHtml(g.id)}" data-field="name1" oninput="liveUpdate(this)" placeholder="Imię nazwisko" maxlength="80"></td>`+
       `<td><input class="tbl-input" value="${escHtml(g.name2||'')}" data-id="${escHtml(g.id)}" data-field="name2" oninput="liveUpdate(this)" placeholder="(opcjonalnie)" maxlength="80"></td>`+
       `<td>${buildSeatSelect(g.seat1,g.id,false,'seat1')}</td>`+
@@ -1027,26 +1522,23 @@ function renderGuestsTable(){
     tbody.appendChild(tr);
   });
 }
-function liveUpdate(el){ const g=STATE.guests.find(x=>x.id===el.dataset.id); if(g){g[el.dataset.field]=sanitizeText(el.value);saveLocal();renderLivePreview();} }
-function updateGuestField(el){ const g=STATE.guests.find(x=>x.id===el.dataset.id); if(g){g[el.dataset.field]=el.value;saveLocal();renderLivePreview();renderAdminTable();} }
+function liveUpdate(el){const g=STATE.guests.find(x=>x.id===el.dataset.id);if(g){g[el.dataset.field]=sanitizeText(el.value);generateLayoutEngine();saveLocal();renderLivePreview();}}
+function updateGuestField(el){const g=STATE.guests.find(x=>x.id===el.dataset.id);if(g){g[el.dataset.field]=el.value;generateLayoutEngine();saveLocal();renderLivePreview();renderAdminTable();}}
 function addGuest(){
-  const idx=STATE.guests.length+1; const code='G-'+String(idx).padStart(3,'0');
+  const idx=STATE.guests.length+1;const code='G-'+String(idx).padStart(3,'0');
   const taken=takenSeats(null);let ff='';
   for(let i=0;i<SEAT_IDS.length;i++){const s=SEAT_IDS[i];if(!taken.has(s)&&!isThrone(s)){ff=s;break;}}
   STATE.guests.push({id:'g'+Date.now(),name1:'',name2:'',seat1:ff||SEAT_IDS[2]||'',seat2:'',code});
-  saveLocal();renderGuestsTable();renderLivePreview();
+  saveLocal();renderGuestsTable();renderLivePreview();renderAdminTable();
 }
-function removeGuest(id){ if(!confirm('Usunąć gościa?'))return; STATE.guests=STATE.guests.filter(g=>g.id!==id); saveLocal();renderGuestsTable();renderLivePreview();renderAdminTable(); }
-function saveAll(ev){ saveLocal(); if(ev&&ev.target){const b=ev.target,o=b.textContent;b.textContent='✓ Zapisano!';setTimeout(()=>b.textContent=o,1600);} }
+function removeGuest(id){if(!confirm('Usunąć gościa?'))return;STATE.guests=STATE.guests.filter(g=>g.id!==id);saveLocal();renderGuestsTable();generateLayoutEngine();renderLivePreview();renderAdminTable();}
+function saveAll(ev){saveLocal();if(ev&&ev.target){const b=ev.target,o=b.textContent;b.textContent='✓ Zapisano!';setTimeout(()=>b.textContent=o,1600);}}
 
 function renderScheduleAdmin(){
   const list=document.getElementById('sch-list');list.innerHTML='';
   STATE.schedule.forEach((item,i)=>{
     const div=document.createElement('div');div.className='sch-row';
-    div.innerHTML=
-      `<input class="sch-time-i" value="${escHtml(item.time)}" placeholder="00:00" maxlength="8" onchange="STATE.schedule[${i}].time=sanitizeText(this.value);saveLocal()">`+
-      `<input class="sch-event-i" value="${escHtml(item.event)}" placeholder="Opis punktu" maxlength="120" onchange="STATE.schedule[${i}].event=sanitizeText(this.value);saveLocal()">`+
-      `<button class="danger-btn" onclick="removeSchItem(${i})">✕</button>`;
+    div.innerHTML=`<input value="${escHtml(item.time)}" placeholder="00:00" maxlength="8" onchange="STATE.schedule[${i}].time=sanitizeText(this.value);saveLocal()"><input value="${escHtml(item.event)}" placeholder="Opis punktu" maxlength="120" onchange="STATE.schedule[${i}].event=sanitizeText(this.value);saveLocal()"><button class="danger-btn" onclick="removeSchItem(${i})">✕</button>`;
     list.appendChild(div);
   });
 }
@@ -1060,10 +1552,7 @@ function renderMenuAdmin(){
   STATE.menu.forEach((item,i)=>{
     const div=document.createElement('div');div.className='menu-row';
     let catOpts=MENU_CATEGORIES.map(c=>`<option value="${escHtml(c)}" ${item.category===c?'selected':''}>${escHtml(c)}</option>`).join('');
-    div.innerHTML=
-      `<select class="tbl-input menu-category" onchange="STATE.menu[${i}].category=this.value;saveLocal()">`+catOpts+`</select>`+
-      `<input value="${escHtml(item.name)}" placeholder="Nazwa dania" maxlength="120" onchange="STATE.menu[${i}].name=sanitizeText(this.value);saveLocal()">`+
-      `<button class="danger-btn" onclick="removeMenuItem(${i})">✕</button>`;
+    div.innerHTML=`<select class="tbl-input menu-category" onchange="STATE.menu[${i}].category=this.value;saveLocal()">${catOpts}</select><input value="${escHtml(item.name)}" placeholder="Nazwa dania" maxlength="120" onchange="STATE.menu[${i}].name=sanitizeText(this.value);saveLocal()"><button class="danger-btn" onclick="removeMenuItem(${i})">✕</button>`;
     list.appendChild(div);
   });
 }
@@ -1077,14 +1566,10 @@ function renderQRGrid(){
     const seats=[g.seat1,g.seat2].filter(Boolean);
     const div=document.createElement('div');div.className='qr-card';
     const nameDisplay=[g.name1,g.name2].filter(Boolean).join(' & ');
-    div.innerHTML=
-      `<div class="qr-card-name">${escHtml(nameDisplay)}</div>`+
-      `<div class="qr-card-info">${escHtml(seats.map(s=>seatLabel(s)).join(' + '))}</div>`+
-      `<span class="pill ${isThrone(g.seat1)||isThrone(g.seat2)?'pill-throne':''}">${escHtml(g.code)}</span>`+
-      `<button class="qr-btn" onclick="showQRModal('${escHtml(g.id)}')">Generuj QR</button>`;
+    div.innerHTML=`<div class="qr-card-name">${escHtml(nameDisplay)}</div><div class="qr-card-info">${escHtml(seats.map(s=>seatLabel(s)).join(' + '))}</div><span class="pill ${isThrone(g.seat1)||isThrone(g.seat2)?'pill-throne':''}">${escHtml(g.code)}</span><button class="qr-btn" onclick="showQRModal('${escHtml(g.id)}')">Generuj QR</button>`;
     grid.appendChild(div);
   });
-  if(!grid.innerHTML)grid.innerHTML='<p style="color:var(--muted);font-size:0.83rem">Dodaj gości w zakładce Goście.</p>';
+  if(!grid.innerHTML)grid.innerHTML='<p style="color:wheat;font-size:0.83rem">Dodaj gości w zakładce Goście.</p>';
 }
 
 function saveSettings(ev){
@@ -1093,12 +1578,10 @@ function saveSettings(ev){
   STATE.settings.date=sanitizeText(document.getElementById('s-date').value)||STATE.settings.date;
   STATE.settings.venue=sanitizeText(document.getElementById('s-venue').value)||STATE.settings.venue;
   STATE.settings.driveUrl=validateDriveUrl(document.getElementById('s-drive-url').value);
-
   const newPass=document.getElementById('s-pass').value;
-  if(newPass){
-    hashPassword(newPass).then(hash=>{ STATE.settings.passHash=hash; saveLocal(); });
-  } else { saveLocal(); }
-  updateDriveStatus();renderLivePreview();
+  if(newPass){hashPassword(newPass).then(hash=>{STATE.settings.passHash=hash;saveLocal();});}
+  else{saveLocal();}
+  updateDriveStatus();generateLayoutEngine();renderLivePreview();
   if(ev&&ev.target){const b=ev.target,o=b.textContent;b.textContent='✓ Zapisano!';setTimeout(()=>b.textContent=o,1600);}
 }
 
@@ -1108,18 +1591,18 @@ function showQRModal(gid){
   const url=window.location.href.split('?')[0]+'?guest='+encodeURIComponent(g.code);
   const nameDisplay=[g.name1,g.name2].filter(Boolean).join(' & ');
   const seats=[g.seat1,g.seat2].filter(Boolean);
-
   document.getElementById('modal-qr-title').textContent=nameDisplay;
   document.getElementById('qr-modal-info').textContent=seats.map(s=>seatLabel(s)).join(' + ');
   document.getElementById('qr-modal-code').textContent='Kod: '+g.code;
-
   const wrap=document.getElementById('qr-canvas-wrap');wrap.innerHTML='';
   try{new QRCode(wrap,{text:url,width:180,height:180,colorDark:'#1A1410',colorLight:'#ffffff'});}
-  catch(e){wrap.innerHTML=`<div style="font-size:1rem;padding:1rem;background:#1A1410;color:var(--gold);border-radius:6px">${g.code}</div>`;}
+  catch(e){wrap.innerHTML=`<div style="font-size:1rem;padding:1rem;background:#1A1410;color:wheat;border-radius:6px">${g.code}</div>`;}
   document.getElementById('modal-overlay').classList.remove('hidden');
 }
 
-// ── GUEST VIEW ──
+// ═══════════════════════════════════════════════════════════
+//  GUEST VIEW
+// ═══════════════════════════════════════════════════════════
 function renderGuestView(g){
   document.getElementById('g-title').textContent=STATE.settings.names;
   document.getElementById('g-date').textContent=(STATE.settings.date||'').toUpperCase();
@@ -1127,216 +1610,135 @@ function renderGuestView(g){
   const seats=[g.seat1,g.seat2].filter(Boolean);
   document.getElementById('g-seat').textContent=seats.map(s=>seatLabel(s)).join(' + ');
   document.getElementById('g-venue-txt').textContent=STATE.settings.venue||'—';
-  
   generateLayoutEngine();
   document.getElementById('g-table-svg-wrap').innerHTML=buildTableSVG(seats,true,'guest').svg;
-  
-  renderGuestNeighbors(g);
-  renderGuestMenu();
-
+  requestAnimationFrame(()=>{initWrap('wrap-guest');centerWrap('wrap-guest');});
+  renderGuestNeighbors(g);renderGuestMenu();
   const schEl=document.getElementById('g-schedule');schEl.innerHTML='';
   STATE.schedule.forEach(item=>{
     const wrap=document.createElement('div');wrap.className='sch-tl-item';
-    const dot=document.createElement('div');dot.className='sch-tl-dot';
     const time=document.createElement('div');time.className='sch-tl-time';time.textContent=item.time;
     const ev=document.createElement('div');ev.className='sch-tl-event';ev.textContent=item.event;
-    wrap.appendChild(dot);wrap.appendChild(time);wrap.appendChild(ev);
-    schEl.appendChild(wrap);
+    wrap.appendChild(time);wrap.appendChild(ev);schEl.appendChild(wrap);
   });
 }
 
 function renderGuestMenu(){
-  const sec=document.getElementById('g-menu-section');
-  const content=document.getElementById('g-menu-content');
+  const sec=document.getElementById('g-menu-section');const content=document.getElementById('g-menu-content');
   if(!STATE.menu||!STATE.menu.length){sec.style.display='none';return;}
-  sec.style.display='';
-  content.innerHTML='';
+  sec.style.display='';content.innerHTML='';
   const cats={};
-  STATE.menu.forEach(item=>{
-    const cat=item.category||'Inne';
-    if(!cats[cat])cats[cat]=[];
-    cats[cat].push(item.name);
-  });
+  STATE.menu.forEach(item=>{const cat=item.category||'Inne';if(!cats[cat])cats[cat]=[];cats[cat].push(item.name);});
   Object.entries(cats).forEach(([cat,items])=>{
-    const hdr=document.createElement('div');hdr.className='menu-section-hdr';hdr.textContent=cat;
-    content.appendChild(hdr);
-    items.forEach(name=>{
-      const row=document.createElement('div');row.className='menu-item-row';row.textContent='· '+name;
-      content.appendChild(row);
-    });
+    const hdr=document.createElement('div');hdr.style.cssText='font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:wheat;opacity:0.7;margin:0.6rem 0 0.3rem';hdr.textContent=cat;content.appendChild(hdr);
+    items.forEach(name=>{const row=document.createElement('div');row.style.cssText='font-size:0.88rem;color:rgba(255,248,238,0.7);padding:0.15rem 0';row.textContent='· '+name;content.appendChild(row);});
   });
 }
 
 function renderGuestNeighbors(g){
   const wrap=document.getElementById('g-neighbors');wrap.innerHTML='';
-  const my=[g.seat1,g.seat2].filter(Boolean);
-  const nids=new Set();
-  
-  my.forEach(s => {
-    const myPos = CURRENT_LAYOUT.posMap[s];
-    if(!myPos) return;
-    SEAT_IDS.forEach(otherId => {
-      if(otherId === s || my.includes(otherId)) return;
-      const otherPos = CURRENT_LAYOUT.posMap[otherId];
-      if(!otherPos) return;
-      const dx = myPos.x - otherPos.x;
-      const dy = myPos.y - otherPos.y;
-      const dist = Math.sqrt(dx*dx + dy*dy);
-      // Szukamy bliskich sąsiadów
-      if(dist < (STATE.settings.table.gap * 2.5)) { nids.add(otherId); }
+  const my=[g.seat1,g.seat2].filter(Boolean);const nids=new Set();
+  const gapVal=(STATE.settings.table.gap||48);
+  my.forEach(s=>{
+    const myPos=CURRENT_LAYOUT.posMap[s];if(!myPos)return;
+    SEAT_IDS.forEach(otherId=>{
+      if(otherId===s||my.includes(otherId))return;
+      const otherPos=CURRENT_LAYOUT.posMap[otherId];if(!otherPos)return;
+      const dx=myPos.x-otherPos.x,dy=myPos.y-otherPos.y;
+      if(Math.sqrt(dx*dx+dy*dy)<gapVal*2.5)nids.add(otherId);
     });
   });
-
-  if(!nids.size){
-    const d=document.createElement('div');d.style.cssText='color:rgba(255,248,238,0.28);font-size:0.83rem;font-style:italic';d.textContent='Brak bliskich sąsiadów w najbliższym obszarze.';wrap.appendChild(d);return;
-  }
-  
+  if(!nids.size){const d=document.createElement('div');d.style.cssText='color:rgba(255,248,238,0.28);font-size:0.83rem;font-style:italic';d.textContent='Brak bliskich sąsiadów.';wrap.appendChild(d);return;}
   nids.forEach(nid=>{
     const name=getNameForSeat(nid)||'wolne miejsce';
     const row=document.createElement('div');row.className='neighbor-row';
     const badge=document.createElement('div');badge.className='neighbor-seat-badge';badge.textContent=isThrone(nid)?'♛':nid;
     const info=document.createElement('div');
     const nm=document.createElement('div');nm.className='neighbor-name';nm.textContent=name;
-    const dr=document.createElement('div');dr.className='neighbor-dir';dr.textContent='obok · '+seatLabel(nid);
-    info.appendChild(nm);info.appendChild(dr);
-    row.appendChild(badge);row.appendChild(info);
-    wrap.appendChild(row);
+    const dr=document.createElement('div');dr.style.cssText='font-size:0.72rem;color:wheat';dr.textContent='obok · '+seatLabel(nid);
+    info.appendChild(nm);info.appendChild(dr);row.appendChild(badge);row.appendChild(info);wrap.appendChild(row);
   });
 }
 
-// ── MUZYKA (API ITUNES) ──
+// ═══════════════════════════════════════════════════════════
+//  MUSIC
+// ═══════════════════════════════════════════════════════════
 let searchTimer;
-function searchMusic(q) {
+function searchMusic(q){
   clearTimeout(searchTimer);
-  const resWrap = document.getElementById('music-results');
-  if(q.length < 2) { resWrap.innerHTML=''; return; }
-  resWrap.innerHTML = '<div style="color:var(--muted);padding:0.5rem;font-style:italic">Szukam w Apple Music...</div>';
-  
-  searchTimer = setTimeout(async () => {
-    try {
-      const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(q)}&entity=song&limit=5`);
-      const data = await res.json();
-      const html = data.results.map(s => `
-        <div class="music-item" onclick="suggestSong('${escHtml(s.trackName)}', '${escHtml(s.artistName)}', '${s.artworkUrl60}')">
-          <img src="${s.artworkUrl60}">
-          <div class="music-info">
-            <span class="music-title">${escHtml(s.trackName)}</span>
-            <span class="music-artist">${escHtml(s.artistName)}</span>
-          </div>
-          <span style="margin-left:auto;color:var(--gold);font-weight:bold;font-size:1.2rem;padding:0 0.5rem">+</span>
-        </div>
-      `).join('');
-      resWrap.innerHTML = html || '<div style="padding:0.5rem;color:var(--muted)">Brak wyników...</div>';
-    } catch(e) {
-      resWrap.innerHTML = '<div style="padding:0.5rem;color:#C0392B">Błąd wyszukiwania. Spróbuj ponownie.</div>';
-    }
-  }, 500);
+  const resWrap=document.getElementById('music-results');
+  if(q.length<2){resWrap.innerHTML='';return;}
+  resWrap.innerHTML='<div style="color:wheat;padding:0.5rem;font-style:italic">Szukam w Apple Music...</div>';
+  searchTimer=setTimeout(async()=>{
+    try{
+      const res=await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(q)}&entity=song&limit=5`);
+      const data=await res.json();
+      const html=data.results.map(s=>`<div class="music-item" onclick="suggestSong('${escHtml(s.trackName)}','${escHtml(s.artistName)}','${s.artworkUrl60}')"><img src="${s.artworkUrl60}"><div class="music-info"><span class="music-title">${escHtml(s.trackName)}</span><span class="music-artist">${escHtml(s.artistName)}</span></div><span style="margin-left:auto;color:wheat;font-weight:bold;font-size:1.2rem;padding:0 0.5rem">+</span></div>`).join('');
+      resWrap.innerHTML=html||'<div style="padding:0.5rem;color:wheat">Brak wyników...</div>';
+    }catch(e){resWrap.innerHTML='<div style="padding:0.5rem;color:#C0392B">Błąd wyszukiwania.</div>';}
+  },500);
+}
+function addManualSong(){const q=document.getElementById('music-search').value.trim();if(!q){alert('Wpisz tytuł w polu wyszukiwania!');return;}suggestSong(q,'Zaproponowane przez Gościa','');}
+function suggestSong(title,artist,thumb){
+  STATE.music.push({title,artist,thumb});saveLocal();
+  document.getElementById('music-search').value='';
+  document.getElementById('music-results').innerHTML='<div style="color:transparent;padding:0.5rem;font-weight:600;background:rgba(45,106,79,0.1);border-radius:6px;border:1px solid wheat">✓ Piosenka zapisana!</div>';
+  setTimeout(()=>{document.getElementById('music-results').innerHTML='';},3500);
+  if(document.getElementById('admin-music-list'))renderAdminMusic();
+}
+function renderAdminMusic(){
+  const el=document.getElementById('admin-music-list');if(!el)return;
+  el.innerHTML=STATE.music.map((m,i)=>`<div class="music-item">${m.thumb?`<img src="${m.thumb}">`:`<div style="width:40px;height:40px;background:wheat;border-radius:4px;display:flex;align-items:center;justify-content:center;color:wheat;font-size:1.2rem">🎵</div>`}<div class="music-info"><span class="music-title">${escHtml(m.title)}</span><span class="music-artist">${escHtml(m.artist)}</span></div><button class="danger-btn" style="margin-left:auto" onclick="STATE.music.splice(${i},1);saveLocal();renderAdminMusic()">✕</button></div>`).join('')||'<div style="color:wheat">Brak zaproponowanych piosenek...</div>';
 }
 
-function addManualSong() {
-  const q = document.getElementById('music-search').value.trim();
-  if(!q) { alert('Wpisz tytuł w polu wyszukiwania przed kliknięciem dodaj!'); return; }
-  suggestSong(q, 'Zaproponowane przez Gościa', '');
+// ═══════════════════════════════════════════════════════════
+//  DRIVE
+// ═══════════════════════════════════════════════════════════
+function parseImportedState(data){
+  if(data.guests&&Array.isArray(data.guests))STATE.guests=data.guests.map(g=>({id:String(g.id||Date.now()),name1:g.name1||'',name2:g.name2||'',seat1:String(g.seat1||''),seat2:String(g.seat2||''),code:String(g.code||'').replace(/[^A-Z0-9\-]/gi,'')}));
+  if(data.schedule&&Array.isArray(data.schedule))STATE.schedule=data.schedule.map(s=>({time:sanitizeText(s.time||''),event:sanitizeText(s.event||'')}));
+  if(data.menu&&Array.isArray(data.menu))STATE.menu=data.menu.map(m=>({category:sanitizeText(m.category||''),name:sanitizeText(m.name||'')}));
+  if(data.music&&Array.isArray(data.music))STATE.music=data.music;
+  if(data.settings){const s=data.settings;if(s.names)STATE.settings.names=s.names;if(s.date)STATE.settings.date=sanitizeText(s.date);if(s.venue)STATE.settings.venue=sanitizeText(s.venue);if(s.table)STATE.settings.table=s.table;}
 }
-
-function suggestSong(title, artist, thumb) {
-  STATE.music.push({title, artist, thumb});
-  saveLocal();
-  document.getElementById('music-search').value = '';
-  document.getElementById('music-results').innerHTML = '<div style="color:#2D6A4F;padding:0.5rem;font-weight:600;background:rgba(45,106,79,0.1);border-radius:6px;border:1px solid #2D6A4F">✓ Piosenka zapisana! Czekamy na parkiecie.</div>';
-  setTimeout(()=>{document.getElementById('music-results').innerHTML = '';}, 3500);
-  if(document.getElementById('admin-music-list')) renderAdminMusic();
-}
-
-function renderAdminMusic() {
-  const el = document.getElementById('admin-music-list');
-  if(!el) return;
-  el.innerHTML = STATE.music.map((m, i) => `
-    <div class="music-item">
-      ${m.thumb ? `<img src="${m.thumb}">` : `<div style="width:40px;height:40px;background:rgba(201,168,76,0.2);border-radius:4px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1.2rem">🎵</div>`}
-      <div class="music-info">
-        <span class="music-title">${escHtml(m.title)}</span>
-        <span class="music-artist">${escHtml(m.artist)}</span>
-      </div>
-      <button class="danger-btn" style="margin-left:auto" onclick="STATE.music.splice(${i},1);saveLocal();renderAdminMusic()">✕</button>
-    </div>
-  `).join('') || '<div style="color:var(--muted)">Brak zaproponowanych piosenek...</div>';
-}
-
-// ── DRIVE ──
 async function driveLoadByUrl(){
   if(!requireAdmin())return;
-  const url=validateDriveUrl(document.getElementById('s-drive-url').value || STATE.settings.driveUrl);
-  if(!url){alert('Nieprawidłowy URL Drive. Skopiuj go poprawnie z ustawień udostępniania.');return;}
+  const url=validateDriveUrl(document.getElementById('s-drive-url').value||STATE.settings.driveUrl);
+  if(!url){alert('Nieprawidłowy URL Drive.');return;}
   try{
     document.getElementById('drive-status-txt').textContent='Ładowanie z Google Drive…';
     const resp=await fetch(url,{credentials:'omit',mode:'cors'});
     if(!resp.ok)throw new Error('HTTP '+resp.status);
-    const text=await resp.text();
-    if(text.length>5_000_000)throw new Error('Plik zbyt duży.');
-    const data=JSON.parse(text);
-    if(data.guests&&Array.isArray(data.guests)) STATE.guests=data.guests.map(g=>({
-      id:String(g.id||Date.now()),name1:g.name1||'',name2:g.name2||'', 
-      seat1:String(g.seat1||''),seat2:String(g.seat2||''),code:String(g.code||'').replace(/[^A-Z0-9\-]/gi,'')
-    }));
-    if(data.schedule&&Array.isArray(data.schedule)) STATE.schedule=data.schedule.map(s=>({time:sanitizeText(s.time||''),event:sanitizeText(s.event||'')}));
-    if(data.menu&&Array.isArray(data.menu)) STATE.menu=data.menu.map(m=>({category:sanitizeText(m.category||''),name:sanitizeText(m.name||'')}));
-    if(data.music&&Array.isArray(data.music)) STATE.music=data.music;
-    if(data.settings){
-      const s=data.settings;
-      if(s.names)STATE.settings.names=s.names; 
-      if(s.date)STATE.settings.date=sanitizeText(s.date);
-      if(s.venue)STATE.settings.venue=sanitizeText(s.venue);
-      if(s.table)STATE.settings.table=s.table;
-    }
-    saveLocal(); generateLayoutEngine(); document.getElementById('drive-status-txt').innerHTML='<strong>Dane wczytane z Drive ✓</strong>'; renderAdmin();
-  }catch(e){ document.getElementById('drive-status-txt').textContent='Błąd Drive: '+sanitizeText(e.message); }
+    const text=await resp.text();if(text.length>5_000_000)throw new Error('Plik zbyt duży.');
+    parseImportedState(JSON.parse(text));
+    saveLocal();generateLayoutEngine();document.getElementById('drive-status-txt').innerHTML='<strong>Dane wczytane z Drive ✓</strong>';renderAdmin();
+  }catch(e){document.getElementById('drive-status-txt').textContent='Błąd Drive: '+sanitizeText(e.message);}
 }
 function driveLoadLocal(){
   if(!requireAdmin())return;
   const inp=document.createElement('input');inp.type='file';inp.accept='.json';
   inp.onchange=async e=>{
-    const f=e.target.files[0];if(!f)return;
-    if(f.size>5_000_000){alert('Plik zbyt duży (max 5MB).');return;}
-    const text=await f.text();
-    try{
-      const data=JSON.parse(text);
-      if(data.guests&&Array.isArray(data.guests)) STATE.guests=data.guests.map(g=>({id:String(g.id||Date.now()),name1:g.name1||'',name2:g.name2||'',seat1:String(g.seat1||''),seat2:String(g.seat2||''),code:String(g.code||'').replace(/[^A-Z0-9\-]/gi,'')}));
-      if(data.schedule&&Array.isArray(data.schedule)) STATE.schedule=data.schedule.map(s=>({time:sanitizeText(s.time||''),event:sanitizeText(s.event||'')}));
-      if(data.menu&&Array.isArray(data.menu)) STATE.menu=data.menu.map(m=>({category:sanitizeText(m.category||''),name:sanitizeText(m.name||'')}));
-      if(data.music&&Array.isArray(data.music)) STATE.music=data.music;
-      if(data.settings){const s=data.settings;if(s.names)STATE.settings.names=s.names;if(s.date)STATE.settings.date=sanitizeText(s.date);if(s.venue)STATE.settings.venue=sanitizeText(s.venue);if(s.table)STATE.settings.table=s.table;}
-      saveLocal(); generateLayoutEngine(); renderAdmin(); document.getElementById('drive-status-txt').innerHTML='<strong>Wczytano z pliku JSON ✓</strong>';
-    }catch(err){alert('Błąd parsowania JSON: '+sanitizeText(err.message));}
+    const f=e.target.files[0];if(!f)return;if(f.size>5_000_000){alert('Plik zbyt duży.');return;}
+    try{parseImportedState(JSON.parse(await f.text()));saveLocal();generateLayoutEngine();renderAdmin();document.getElementById('drive-status-txt').innerHTML='<strong>Wczytano z pliku JSON ✓</strong>';}
+    catch(err){alert('Błąd parsowania JSON: '+sanitizeText(err.message));}
   };inp.click();
 }
 function driveSave(){
   if(!requireAdmin())return;
-  const exportData={
-    settings:{names:STATE.settings.names,date:STATE.settings.date,venue:STATE.settings.venue,driveUrl:STATE.settings.driveUrl,table:STATE.settings.table},
-    guests:STATE.guests,schedule:STATE.schedule,menu:STATE.menu||[],music:STATE.music||[]
-  };
-  const json=JSON.stringify(exportData,null,2);
-  const blob=new Blob([json],{type:'application/json'});
+  const exportData={settings:{names:STATE.settings.names,date:STATE.settings.date,venue:STATE.settings.venue,driveUrl:STATE.settings.driveUrl,table:STATE.settings.table},guests:STATE.guests,schedule:STATE.schedule,menu:STATE.menu||[],music:STATE.music||[]};
+  const blob=new Blob([JSON.stringify(exportData,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='wesele.json';
   document.body.appendChild(a);a.click();document.body.removeChild(a);
   setTimeout(()=>URL.revokeObjectURL(a.href),2000);
-  document.getElementById('drive-status-txt').innerHTML='<strong>Pobrano wesele.json</strong> — wgraj na Drive i zaktualizuj URL';
+  document.getElementById('drive-status-txt').innerHTML='<strong>Pobrano wesele.json</strong>';
 }
 
 async function autoLoadDrive(){
   const url=validateDriveUrl(STATE.settings.driveUrl);if(!url)return;
   try{
     const resp=await fetch(url,{credentials:'omit',mode:'cors'});if(!resp.ok)return;
-    const text=await resp.text();
-    if(text.length>5_000_000)return;
-    const data=JSON.parse(text);
-    if(data.guests&&Array.isArray(data.guests)) STATE.guests=data.guests.map(g=>({id:String(g.id||Date.now()),name1:g.name1||'',name2:g.name2||'',seat1:String(g.seat1||''),seat2:String(g.seat2||''),code:String(g.code||'').replace(/[^A-Z0-9\-]/gi,'')}));
-    if(data.schedule&&Array.isArray(data.schedule)) STATE.schedule=data.schedule.map(s=>({time:sanitizeText(s.time||''),event:sanitizeText(s.event||'')}));
-    if(data.menu&&Array.isArray(data.menu)) STATE.menu=data.menu.map(m=>({category:sanitizeText(m.category||''),name:sanitizeText(m.name||'')}));
-    if(data.music&&Array.isArray(data.music)) STATE.music=data.music;
-    if(data.settings){const s=data.settings;if(s.names)STATE.settings.names=s.names;if(s.date)STATE.settings.date=sanitizeText(s.date);if(s.venue)STATE.settings.venue=sanitizeText(s.venue);if(s.table)STATE.settings.table=s.table;}
-    saveLocal(); generateLayoutEngine();
+    const text=await resp.text();if(text.length>5_000_000)return;
+    parseImportedState(JSON.parse(text));saveLocal();generateLayoutEngine();
     if(document.getElementById('screen-landing').classList.contains('active')){
       document.getElementById('l-title').innerHTML='<em>'+escHtml(STATE.settings.names)+'</em>';
       document.getElementById('l-date').textContent=sanitizeText(STATE.settings.date);
@@ -1344,8 +1746,11 @@ async function autoLoadDrive(){
   }catch(e){}
 }
 
+// ═══════════════════════════════════════════════════════════
+//  BOOT
+// ═══════════════════════════════════════════════════════════
 (async function(){
-  if(!STATE.settings.passHash){ STATE.settings.passHash=await hashPassword('Wesele2026!'); saveLocal(); }
+  if(!STATE.settings.passHash){STATE.settings.passHash=await hashPassword('Wesele2026!');saveLocal();}
   const p=new URLSearchParams(window.location.search);
   const gc=p.get('guest');
   if(gc){
@@ -1355,22 +1760,12 @@ async function autoLoadDrive(){
       if(validateDriveUrl(STATE.settings.driveUrl)){
         try{
           const resp=await fetch(validateDriveUrl(STATE.settings.driveUrl),{credentials:'omit',mode:'cors'});
-          if(resp.ok){
-            const text=await resp.text();
-            if(text.length<5_000_000){
-              const data=JSON.parse(text);
-              if(data.guests) STATE.guests=data.guests.map(g=>({id:String(g.id||''),name1:g.name1||'',name2:g.name2||'',seat1:String(g.seat1||''),seat2:String(g.seat2||''),code:String(g.code||'').replace(/[^A-Z0-9\-]/gi,'')}));
-              if(data.schedule) STATE.schedule=data.schedule.map(s=>({time:sanitizeText(s.time||''),event:sanitizeText(s.event||'')}));
-              if(data.menu) STATE.menu=data.menu.map(m=>({category:sanitizeText(m.category||''),name:sanitizeText(m.name||'')}));
-              if(data.music) STATE.music=data.music;
-              if(data.settings){const s=data.settings;if(s.names)STATE.settings.names=s.names;if(s.date)STATE.settings.date=s.date;if(s.venue)STATE.settings.venue=s.venue;if(s.table)STATE.settings.table=s.table;}
-              saveLocal(); generateLayoutEngine();
-            }
-          }
+          if(resp.ok){const text=await resp.text();if(text.length<5_000_000)parseImportedState(JSON.parse(text));saveLocal();generateLayoutEngine();}
         }catch(e){}
       }
       const fresh=STATE.guests.find(x=>x.code===code)||g;
       renderGuestView(fresh);show('screen-guest');
+      requestAnimationFrame(()=>initWrap('wrap-guest'));
       return;
     }
   }

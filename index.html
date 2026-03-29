@@ -1629,7 +1629,7 @@ function renderGuestView(g){
   });
 }
 
-function renderGuestMenu(){
+function renderGuestNeighbors(g);renderGuestMenu();renderGuestMusicList();){
   const sec=document.getElementById('g-menu-section');const content=document.getElementById('g-menu-content');
   if(!STATE.menu||!STATE.menu.length){sec.style.display='none';return;}
   sec.style.display='';content.innerHTML='';
@@ -1742,7 +1742,88 @@ function suggestSong(title, artist, thumb) {
   // Odświeżamy też panel admina, jeśli to konieczne
   renderAdminMusic(); 
 }
+function suggestSong(title, artist, thumb) {
+  if(!STATE.music) STATE.music = [];
+  
+  // Zabezpieczenie przed duplikatami
+  const isDuplicate = STATE.music.some(m => 
+    m.title.toLowerCase() === title.toLowerCase() && 
+    m.artist.toLowerCase() === artist.toLowerCase()
+  );
 
+  if (isDuplicate) {
+    alert("Ten utwór został już zamówiony przez kogoś innego! 🎵 Wybierz coś innego.");
+    document.getElementById('music-results').innerHTML = '';
+    document.getElementById('music-search').value = '';
+    return;
+  }
+
+  // Dodanie do bazy
+  STATE.music.push({title: title, artist: artist, thumb: thumb});
+  saveLocal();
+  
+  // Komunikat sukcesu i odświeżenie listy
+  document.getElementById('music-search').value = '';
+  document.getElementById('music-results').innerHTML = '<div style="padding:0.5rem;color:#93ff8e">Dodano piosenkę! Dziękujemy.</div>';
+  renderGuestMusicList();
+  if(ADMIN_AUTHED) renderAdminMusic();
+}
+
+function addManualSong() {
+  const title = prompt("Podaj tytuł i wykonawcę piosenki (np. Weekend - Ona tańczy dla mnie):");
+  if(!title) return;
+  suggestSong(title, "Zaproponowane ręcznie", "");
+}
+
+function renderGuestMusicList() {
+  const section = document.getElementById('g-music-list-section');
+  const wrap = document.getElementById('g-music-list-content');
+  
+  if (!STATE.music || STATE.music.length === 0) {
+    if(section) section.style.display = 'none';
+    return;
+  }
+  
+  if(section) section.style.display = 'block';
+  if(wrap) {
+    wrap.innerHTML = STATE.music.map(m => `
+      <div class="music-item" style="cursor:default; background:rgba(255,255,255,0.02)">
+        <img src="${m.thumb || 'https://via.placeholder.com/40x40/2D2218/wheat?text=%E2%99%AB'}" style="opacity: 0.8">
+        <div class="music-info">
+          <span class="music-title" style="color:wheat">${escHtml(m.title)}</span>
+          <span class="music-artist">${escHtml(m.artist)}</span>
+        </div>
+        <span style="margin-left:auto;color:#93ff8e;font-size:0.8rem;">✓ Dodano</span>
+      </div>
+    `).join('');
+  }
+}
+
+function renderAdminMusic() {
+  const list = document.getElementById('admin-music-list');
+  if(!list) return;
+  if (!STATE.music || STATE.music.length === 0) {
+    list.innerHTML = '<div style="color:wheat;font-size:0.8rem">Brak zamówionych piosenek.</div>';
+    return;
+  }
+  list.innerHTML = STATE.music.map((m, i) => `
+    <div class="music-item">
+      <img src="${m.thumb || 'https://via.placeholder.com/40x40/2D2218/wheat?text=%E2%99%AB'}">
+      <div class="music-info">
+        <span class="music-title" style="color:wheat">${escHtml(m.title)}</span>
+        <span class="music-artist">${escHtml(m.artist)}</span>
+      </div>
+      <button class="danger-btn" style="margin-left:auto; border: 1px solid rgba(192,57,43,0.3);" onclick="removeMusicItem(${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+function removeMusicItem(i) {
+  if(!confirm('Usunąć tę piosenkę z listy?')) return;
+  STATE.music.splice(i, 1);
+  saveLocal();
+  renderAdminMusic();
+}
 function renderGuestMusicList() {
   const section = document.getElementById('g-music-list-section');
   const wrap = document.getElementById('g-music-list-content');

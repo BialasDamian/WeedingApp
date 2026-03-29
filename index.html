@@ -677,6 +677,12 @@ button:not(.btn-primary):not(.btn-secondary):hover {
           <div style="margin-top:1rem;text-align:center">
             <span style="color:wheat;font-size:0.75rem">Nie możesz znaleźć w wyszukiwarce? </span>
             <button class="btn-secondary" style="padding:0.3rem 0.8rem;width:auto;font-size:0.7rem;margin-top:0.3rem" onclick="addManualSong()">Wpisz ręcznie</button>
+            <div class="g-section" id="g-music-list-section" style="display:none; margin-top: 1.5rem;">
+              <div class="g-section-lbl">Już zamówione utwory</div>
+              <div class="g-card">
+        <div id="g-music-list-content" style="display:flex;flex-direction:column;gap:0.5rem"></div>
+      </div>
+    </div>
           </div>
         </div>
       </div>
@@ -1663,7 +1669,10 @@ function renderGuestNeighbors(g){
 // ═══════════════════════════════════════════════════════════
 //  MUSIC
 // ═══════════════════════════════════════════════════════════
+// Globalna zmienna trzymająca w pamięci ostatnie wyniki wyszukiwania
+let currentMusicResults = [];
 let searchTimer;
+
 function searchMusic(q) {
   clearTimeout(searchTimer);
   const resWrap = document.getElementById('music-results');
@@ -1674,16 +1683,22 @@ function searchMusic(q) {
     try {
       const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(q)}&entity=song&limit=5`);
       const data = await res.json();
-      const html = data.results.map(s => `
-        <div class="music-item" onclick="suggestSong(decodeURIComponent('${encodeURIComponent(s.trackName)}'), decodeURIComponent('${encodeURIComponent(s.artistName)}'), '${s.artworkUrl60}')">
-          <img src="${s.artworkUrl60}">
+      
+      // Zapisujemy czyste dane z Apple do naszej pamięci
+      currentMusicResults = data.results;
+      
+      // Przekazujemy do onclick TYLKO numer na liście (index), zero problemów ze znakami!
+      const html = currentMusicResults.map((s, index) => `
+        <div class="music-item" onclick="addSelectedSong(${index})">
+          <img src="${s.artworkUrl60 || ''}">
           <div class="music-info">
-            <span class="music-title">${escHtml(s.trackName)}</span>
-            <span class="music-artist">${escHtml(s.artistName)}</span>
+            <span class="music-title">${escHtml(s.trackName || 'Nieznany tytuł')}</span>
+            <span class="music-artist">${escHtml(s.artistName || 'Nieznany wykonawca')}</span>
           </div>
           <span style="margin-left:auto;color:var(--gold);font-weight:bold;font-size:1.2rem;padding:0 0.5rem">+</span>
         </div>
       `).join('');
+      
       resWrap.innerHTML = html || '<div style="padding:0.5rem;color:var(--muted)">Brak wyników...</div>';
     } catch(e) {
       resWrap.innerHTML = '<div style="padding:0.5rem;color:#C0392B">Błąd wyszukiwania. Spróbuj ponownie.</div>';
@@ -1691,6 +1706,66 @@ function searchMusic(q) {
   }, 500);
 }
 
+// Ta funkcja wyciąga czyste dane z pamięci i wywołuje Twoje suggestSong
+function addSelectedSong(index) {
+  const song = currentMusicResults[index];
+  if(song) {
+    suggestSong(song.trackName || '', song.artistName || '', song.artworkUrl60 || '');
+  }
+}
+function suggestSong(title, artist, thumb) {
+  // 1. Sprawdzamy, czy w appData.music jest już taki sam tytuł i wykonawca (ignorując wielkość liter)
+  const isDuplicate = appData.music.some(m => 
+    m.title.toLowerCase() === title.toLowerCase() && 
+    m.artist.toLowerCase() === artist.toLowerCase()
+  );
+
+  // 2. Jeśli to duplikat, przerywamy i wyświetlamy komunikat
+  if (isDuplicate) {
+    alert("Ten utwór został już zamówiony przez innego gościa! 🎵 Wybierz coś innego.");
+    document.getElementById('music-results').innerHTML = ''; // czyścimy wyniki
+    document.getElementById('music-search').value = ''; // czyścimy pole
+    return;
+  }
+
+  // 3. Jeśli to nowa piosenka, dodajemy do bazy
+  appData.music.push({title: title, artist: artist, thumb: thumb});
+  
+  // 4. Zapisujemy i czyścimy UI
+  saveAll(); // Użyj swojej funkcji zapisu (np. saveAll, saveDataLocally itp.)
+  document.getElementById('music-search').value = '';
+  document.getElementById('music-results').innerHTML = '<div style="padding:0.5rem;color:#93ff8e">Dodano piosenkę! Dziękujemy.</div>';
+  
+  // 5. Odświeżamy listę podglądu dla gościa
+  renderGuestMusicList();
+  
+  // Odświeżamy też panel admina, jeśli to konieczne
+  renderAdminMusic(); 
+}
+
+function renderGuestMusicList() {
+  const section = document.getElementById('g-music-list-section');
+  const wrap = document.getElementById('g-music-list-content');
+  
+  // Jeśli nie ma piosenek, ukrywamy całą sekcję
+  if (!appData.music || appData.music.length === 0) {
+    section.style.display = 'none';
+    return;
+  }
+
+  // Jeśli są, pokazujemy sekcję i generujemy listę
+  section.style.display = 'block';
+  wrap.innerHTML = appData.music.map(m => `
+    <div class="music-item" style="cursor:default; background:rgba(255,255,255,0.02)">
+      <img src="${m.thumb || ''}" style="opacity: 0.8">
+      <div class="music-info">
+        <span class="music-title" style="color:#FFF8EE">${escHtml(m.title)}</span>
+        <span class="music-artist">${escHtml(m.artist)}</span>
+      </div>
+      <span style="margin-left:auto;color:#2D6A4F;font-size:0.8rem;">✓ Dodano</span>
+    </div>
+  `).join('');
+}
 // ═══════════════════════════════════════════════════════════
 //  DRIVE
 // ═══════════════════════════════════════════════════════════

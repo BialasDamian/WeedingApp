@@ -341,7 +341,7 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:wheat;font-
 .music-search-wrap{position:relative;margin-bottom:1.5rem}
 .music-search-wrap input{width:100%;padding:0.8rem 1rem;border-radius:8px;border:1px solid wheat;background:rgba(255,253,248,0.05);color:#FFF8EE;font-family:'Jost',sans-serif;font-size:1rem}
 .music-search-wrap input:focus{outline:none;border-color:wheat}
-.music-results{display:flex;flex-direction:column;gap:0.4rem;margin-top:0.5rem}
+.music-results{color:wheat; text-align:center;display:flex;flex-direction:column;gap:0.4rem;margin-top:0.5rem}
 .music-item{display:flex;align-items:center;gap:0.8rem;background:rgba(255,255,255,0.05);padding:0.5rem;border-radius:6px;cursor:pointer;transition:background 0.2s;border:1px solid rgba(201,168,76,0.1)}
 .music-item:hover{background:rgba(201,168,76,0.15)}
 .music-item img{width:40px;height:40px;border-radius:4px;object-fit:cover}
@@ -375,9 +375,9 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:wheat;font-
 .guest-hero{  background:linear-gradient(90deg, #2D2218 0%, #522c1b 100%); text-align:center;padding:2.5rem 1.5rem 2rem}
 .guest-ornament{color:wheat;font-size:0.9rem;letter-spacing:0.4em;opacity:0.5;margin-bottom:0.6rem}
 .guest-wedding-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.7rem,5vw,2.5rem);font-weight:300;color:#FFF8EE;line-height:1.1;margin-bottom:0.3rem}
-.guest-date{font-size:0.72rem;letter-spacing:0.2em;color:wheat;text-transform:uppercase;margin-bottom:1.4rem}
+.guest-date{font-size:0.72rem;letter-spacing:0.2em;color:rgba(255,248,238,0.3);text-transform:uppercase;margin-bottom:1.4rem}
 .guest-welcome{background:rgba(201,168,76,0.07);border:1px solid wheat;border-radius:var(--radius);padding:1rem 1.5rem;display:inline-block;max-width:340px;text-align:center}
-.guest-name-lbl{font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:wheat;margin-bottom:0.2rem}
+.guest-name-lbl{font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,248,238,0.3);margin-bottom:0.2rem}
 .guest-name-big{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:300;color:wheat}
 .guest-body{padding:1.1rem;max-width:700px;margin:0 auto}
 .g-section{margin-bottom:1.8rem}
@@ -628,7 +628,7 @@ button:not(.btn-primary):not(.btn-secondary):hover {
     <div class="guest-wedding-title" id="g-title">Para Młoda</div>
     <div class="guest-date" id="g-date">DATA WESELA</div>
     <div class="guest-welcome">
-      <div class="guest-name-lbl">Witaj</div>
+      <div class="guest-name-lbl">Witaj,</div>
       <div class="guest-name-big" id="g-name">Gość</div>
     </div>
   </div>
@@ -648,7 +648,7 @@ button:not(.btn-primary):not(.btn-secondary):hover {
       <div class="g-section-lbl">Układ stołu (Powiększ dwoma palcami na smartfonie lub scrolluj)</div>
       <div class="g-card" style="padding:0;overflow:hidden">
         <div class="legend" style="padding:1rem 1rem 0">
-          <div class="legend-item" style="color:wheat"><div class="legend-dot" style="background:rgba(147, 255, 142, 1);border:2px solid wheat"></div> Twoje krzesło</div>
+          <div class="legend-item" style="color:wheat"><div class="legend-dot" style="background:wheat;border:2px solid #8B6914"></div> Twoje krzesło</div>
           <div class="legend-item" style="color:wheat"><div class="legend-dot" style="background:rgba(201,168,76,0.22);border:2px solid wheat"></div> Zajęte</div>
           <div class="legend-item" style="color:wheat"><div class="legend-dot" style="background:rgba(255,255,255,0.06);border:2px solid rgba(255,255,255,0.15)"></div> Wolne</div>
         </div>
@@ -677,12 +677,6 @@ button:not(.btn-primary):not(.btn-secondary):hover {
           <div style="margin-top:1rem;text-align:center">
             <span style="color:wheat;font-size:0.75rem">Nie możesz znaleźć w wyszukiwarce? </span>
             <button class="btn-secondary" style="padding:0.3rem 0.8rem;width:auto;font-size:0.7rem;margin-top:0.3rem" onclick="addManualSong()">Wpisz ręcznie</button>
-            <div class="g-section" id="g-music-list-section" style="display:none; margin-top: 1.5rem;">
-              <div class="g-section-lbl">Już zamówione utwory</div>
-              <div class="g-card">
-        <div id="g-music-list-content" style="display:flex;flex-direction:column;gap:0.5rem"></div>
-      </div>
-    </div>
           </div>
         </div>
       </div>
@@ -1188,7 +1182,8 @@ function buildTableSVG(mySeats,darkMode,clickMode){
     const fontC=darkMode?'wheat':'rgba(80,55,5,0.85)';
     const throneFC=darkMode?'#E8D5A3':'#ffa6a6';
     if(th)return{fill:darkMode?'rgba(139,0,0,0.52)':'rgba(139,0,0,0.15)',st:'#ffa6a6',sw:2,tf:throneFC,nf:throneFC,lf:darkMode?'rgba(180,60,60,0.6)':'rgba(139,0,0,0.4)'};
-    if(mine) return {fill:'#93ff8e', st:'#8B6914', sw:2.5, tf:'#1A1410', nf:'#93ff8e', lf:'wheat'};
+    if(mine) return{fill:'#93ff8e',st:'#8B6914',sw:2.5,tf:'#1A1410',nf:darkMode?'#E8D5A3':'#6B4E0A',lf:darkMode?'rgba(220,185,80,0.9)':'rgba(139,104,20,0.75)'};
+    if(mine) return{fill:'#93ff8e',st:'#8B6914',sw:2.5,tf:'#1A1410',nf:'#93ff8e',lf:darkMode?'rgba(220,185,80,0.9)':'rgba(139,104,20,0.75)'};
     if(name)return{fill:darkMode?'rgba(201,168,76,0.12)':'rgba(201,168,76,0.3)',st:darkMode?'wheat':'rgba(100,70,10,0.4)',sw:1.5,tf:darkMode?'rgba(255,248,238,0.65)':'rgba(100,70,10,0.8)',nf:fontC,lf:darkMode?'wheat':'rgba(100,70,10,0.45)'};
     return{fill:darkMode?'rgba(255,255,255,0.03)':'rgba(255,255,255,0.65)',st:darkMode?'rgba(255,255,255,0.12)':'rgba(150,130,100,0.28)',sw:1.5,tf:darkMode?'rgba(255,255,255,0.18)':'rgba(150,130,100,0.45)',nf:null,lf:null};
   }
@@ -1619,7 +1614,7 @@ function renderGuestView(g){
   generateLayoutEngine();
   document.getElementById('g-table-svg-wrap').innerHTML=buildTableSVG(seats,true,'guest').svg;
   requestAnimationFrame(()=>{initWrap('wrap-guest');centerWrap('wrap-guest');});
-  renderGuestNeighbors(g);renderGuestMenu();
+  renderGuestNeighbors(g);renderGuestMenu();renderGuestMusicList();
   const schEl=document.getElementById('g-schedule');schEl.innerHTML='';
   STATE.schedule.forEach(item=>{
     const wrap=document.createElement('div');wrap.className='sch-tl-item';
@@ -1629,7 +1624,7 @@ function renderGuestView(g){
   });
 }
 
-function renderGuestNeighbors(g);renderGuestMenu();renderGuestMusicList();){
+function renderGuestMenu(){
   const sec=document.getElementById('g-menu-section');const content=document.getElementById('g-menu-content');
   if(!STATE.menu||!STATE.menu.length){sec.style.display='none';return;}
   sec.style.display='';content.innerHTML='';
@@ -1677,7 +1672,7 @@ function searchMusic(q) {
   clearTimeout(searchTimer);
   const resWrap = document.getElementById('music-results');
   if(q.length < 2) { resWrap.innerHTML=''; return; }
-  resWrap.innerHTML = '<div style="color:var(--muted);padding:0.5rem;font-style:italic">Szukam w Apple Music...</div>';
+  resWrap.innerHTML = '<div style="text-align:center;color:wheat;padding:0.5rem;font-style:italic">Szukam w Apple Music...</div>';
   
   searchTimer = setTimeout(async () => {
     try {
@@ -1713,35 +1708,7 @@ function addSelectedSong(index) {
     suggestSong(song.trackName || '', song.artistName || '', song.artworkUrl60 || '');
   }
 }
-function suggestSong(title, artist, thumb) {
-  // 1. Sprawdzamy, czy w appData.music jest już taki sam tytuł i wykonawca (ignorując wielkość liter)
-  const isDuplicate = appData.music.some(m => 
-    m.title.toLowerCase() === title.toLowerCase() && 
-    m.artist.toLowerCase() === artist.toLowerCase()
-  );
-
-  // 2. Jeśli to duplikat, przerywamy i wyświetlamy komunikat
-  if (isDuplicate) {
-    alert("Ten utwór został już zamówiony przez innego gościa! 🎵 Wybierz coś innego.");
-    document.getElementById('music-results').innerHTML = ''; // czyścimy wyniki
-    document.getElementById('music-search').value = ''; // czyścimy pole
-    return;
-  }
-
-  // 3. Jeśli to nowa piosenka, dodajemy do bazy
-  appData.music.push({title: title, artist: artist, thumb: thumb});
-  
-  // 4. Zapisujemy i czyścimy UI
-  saveAll(); // Użyj swojej funkcji zapisu (np. saveAll, saveDataLocally itp.)
-  document.getElementById('music-search').value = '';
-  document.getElementById('music-results').innerHTML = '<div style="padding:0.5rem;color:#93ff8e">Dodano piosenkę! Dziękujemy.</div>';
-  
-  // 5. Odświeżamy listę podglądu dla gościa
-  renderGuestMusicList();
-  
-  // Odświeżamy też panel admina, jeśli to konieczne
-  renderAdminMusic(); 
-}
+function addManualSong(){const q=document.getElementById('music-search').value.trim();if(!q){alert('Wpisz tytuł w polu wyszukiwania!');return;}suggestSong(q,'Zaproponowane przez Gościa','');}
 function suggestSong(title, artist, thumb) {
   if(!STATE.music) STATE.music = [];
   
@@ -1823,30 +1790,11 @@ function removeMusicItem(i) {
   STATE.music.splice(i, 1);
   saveLocal();
   renderAdminMusic();
+}function renderAdminMusic(){
+  const el=document.getElementById('admin-music-list');if(!el)return;
+  el.innerHTML=STATE.music.map((m,i)=>`<div class="music-item">${m.thumb?`<img src="${m.thumb}">`:`<div style="width:40px;height:40px;background:wheat;border-radius:4px;display:flex;align-items:center;justify-content:center;color:wheat;font-size:1.2rem">🎵</div>`}<div class="music-info"><span class="music-title">${escHtml(m.title)}</span><span class="music-artist">${escHtml(m.artist)}</span></div><button class="danger-btn" style="margin-left:auto" onclick="STATE.music.splice(${i},1);saveLocal();renderAdminMusic()">✕</button></div>`).join('')||'<div style="color:wheat">Brak zaproponowanych piosenek...</div>';
 }
-function renderGuestMusicList() {
-  const section = document.getElementById('g-music-list-section');
-  const wrap = document.getElementById('g-music-list-content');
-  
-  // Jeśli nie ma piosenek, ukrywamy całą sekcję
-  if (!appData.music || appData.music.length === 0) {
-    section.style.display = 'none';
-    return;
-  }
 
-  // Jeśli są, pokazujemy sekcję i generujemy listę
-  section.style.display = 'block';
-  wrap.innerHTML = appData.music.map(m => `
-    <div class="music-item" style="cursor:default; background:rgba(255,255,255,0.02)">
-      <img src="${m.thumb || ''}" style="opacity: 0.8">
-      <div class="music-info">
-        <span class="music-title" style="color:#FFF8EE">${escHtml(m.title)}</span>
-        <span class="music-artist">${escHtml(m.artist)}</span>
-      </div>
-      <span style="margin-left:auto;color:#2D6A4F;font-size:0.8rem;">✓ Dodano</span>
-    </div>
-  `).join('');
-}
 // ═══════════════════════════════════════════════════════════
 //  DRIVE
 // ═══════════════════════════════════════════════════════════

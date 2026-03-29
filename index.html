@@ -1664,31 +1664,31 @@ function renderGuestNeighbors(g){
 //  MUSIC
 // ═══════════════════════════════════════════════════════════
 let searchTimer;
-function searchMusic(q){
+function searchMusic(q) {
   clearTimeout(searchTimer);
-  const resWrap=document.getElementById('music-results');
-  if(q.length<2){resWrap.innerHTML='';return;}
-  resWrap.innerHTML='<div style="color:wheat;padding:0.5rem;font-style:italic">Szukam w Apple Music...</div>';
-  searchTimer=setTimeout(async()=>{
-    try{
-      const res=await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(q)}&entity=song&limit=5`);
-      const data=await res.json();
-      const html=data.results.map(s=>`<div class="music-item" onclick="suggestSong('${escHtml(s.trackName)}','${escHtml(s.artistName)}','${s.artworkUrl60}')"><img src="${s.artworkUrl60}"><div class="music-info"><span class="music-title">${escHtml(s.trackName)}</span><span class="music-artist">${escHtml(s.artistName)}</span></div><span style="margin-left:auto;color:wheat;font-weight:bold;font-size:1.2rem;padding:0 0.5rem">+</span></div>`).join('');
-      resWrap.innerHTML=html||'<div style="padding:0.5rem;color:wheat">Brak wyników...</div>';
-    }catch(e){resWrap.innerHTML='<div style="padding:0.5rem;color:#C0392B">Błąd wyszukiwania.</div>';}
-  },500);
-}
-function addManualSong(){const q=document.getElementById('music-search').value.trim();if(!q){alert('Wpisz tytuł w polu wyszukiwania!');return;}suggestSong(q,'Zaproponowane przez Gościa','');}
-function suggestSong(title,artist,thumb){
-  STATE.music.push({title,artist,thumb});saveLocal();
-  document.getElementById('music-search').value='';
-  document.getElementById('music-results').innerHTML='<div style="color:transparent;padding:0.5rem;font-weight:600;background:rgba(45,106,79,0.1);border-radius:6px;border:1px solid wheat">✓ Piosenka zapisana!</div>';
-  setTimeout(()=>{document.getElementById('music-results').innerHTML='';},3500);
-  if(document.getElementById('admin-music-list'))renderAdminMusic();
-}
-function renderAdminMusic(){
-  const el=document.getElementById('admin-music-list');if(!el)return;
-  el.innerHTML=STATE.music.map((m,i)=>`<div class="music-item">${m.thumb?`<img src="${m.thumb}">`:`<div style="width:40px;height:40px;background:wheat;border-radius:4px;display:flex;align-items:center;justify-content:center;color:wheat;font-size:1.2rem">🎵</div>`}<div class="music-info"><span class="music-title">${escHtml(m.title)}</span><span class="music-artist">${escHtml(m.artist)}</span></div><button class="danger-btn" style="margin-left:auto" onclick="STATE.music.splice(${i},1);saveLocal();renderAdminMusic()">✕</button></div>`).join('')||'<div style="color:wheat">Brak zaproponowanych piosenek...</div>';
+  const resWrap = document.getElementById('music-results');
+  if(q.length < 2) { resWrap.innerHTML=''; return; }
+  resWrap.innerHTML = '<div style="color:var(--muted);padding:0.5rem;font-style:italic">Szukam w Apple Music...</div>';
+  
+  searchTimer = setTimeout(async () => {
+    try {
+      const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(q)}&entity=song&limit=5`);
+      const data = await res.json();
+      const html = data.results.map(s => `
+        <div class="music-item" onclick="suggestSong(decodeURIComponent('${encodeURIComponent(s.trackName)}'), decodeURIComponent('${encodeURIComponent(s.artistName)}'), '${s.artworkUrl60}')">
+          <img src="${s.artworkUrl60}">
+          <div class="music-info">
+            <span class="music-title">${escHtml(s.trackName)}</span>
+            <span class="music-artist">${escHtml(s.artistName)}</span>
+          </div>
+          <span style="margin-left:auto;color:var(--gold);font-weight:bold;font-size:1.2rem;padding:0 0.5rem">+</span>
+        </div>
+      `).join('');
+      resWrap.innerHTML = html || '<div style="padding:0.5rem;color:var(--muted)">Brak wyników...</div>';
+    } catch(e) {
+      resWrap.innerHTML = '<div style="padding:0.5rem;color:#C0392B">Błąd wyszukiwania. Spróbuj ponownie.</div>';
+    }
+  }, 500);
 }
 
 // ═══════════════════════════════════════════════════════════

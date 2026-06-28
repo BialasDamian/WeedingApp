@@ -10,11 +10,11 @@
       "flipH": false,
       "flipV": false,
       "tw": 60,
-      "gap": 36,
+      "gap": 48,
       "dist": 18,
       "edges": {
         "i_top": 0,
-        "i_bottom": 0,
+        "i_bottom": 2,
         "i_left": 17,
         "i_right": 17,
         "u_top_out": 0,
@@ -41,48 +41,17 @@
         "t_left_end": 1,
         "t_right_end": 1
       }
-    }
+    },
+    "githubToken": "VUMzT2VheFdJU0VJRTI2WVZJUWc0MWVGc0FxRTJrV3lsZnR5MUtmcG44SVljd1J6VEE0eDNpcHVST3VfV1dJbXB3cDJJV1lEMFlPTUZDQUIxMV90YXBfYnVodGln"
   },
   "guests": [
     {
       "id": "g1",
-      "name1": "Aleksandra Jemielniak",
-      "name2": "",
+      "name1": "Pan Młody",
+      "name2": "Pani Młoda",
       "seat1": "T1",
       "seat2": "T2",
       "code": "G-001"
-    },
-    {
-      "id": "g1782645384733",
-      "name1": "Mateusz Dyssy",
-      "name2": "",
-      "seat1": "3",
-      "seat2": "",
-      "code": "G-002"
-    },
-    {
-      "id": "g1782646547988",
-      "name1": "Conrado Ciszek",
-      "name2": "",
-      "seat1": "2",
-      "seat2": "",
-      "code": "G-003"
-    },
-    {
-      "id": "g1782646691803",
-      "name1": "Dorota Białas",
-      "name2": "",
-      "seat1": "4",
-      "seat2": "",
-      "code": "G-004"
-    },
-    {
-      "id": "g1782647534970",
-      "name1": "Janusz Białas",
-      "name2": "",
-      "seat1": "20",
-      "seat2": "",
-      "code": "G-005"
     }
   ],
   "schedule": [

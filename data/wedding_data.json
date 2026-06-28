@@ -77,26 +77,5 @@
     }
   ],
   "menu": [],
-  "music": [
-    {
-      "title": "ReawakeR (feat. Felix of Stray Kids)",
-      "artist": "LiSA feat. Felix of Stray Kids",
-      "thumb": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/72/a3/18/72a318cd-3935-3288-a863-0438ab6a7a93/4547366723885.jpg/60x60bb.jpg"
-    },
-    {
-      "title": "Wesele",
-      "artist": "Bracia Figo Fagot",
-      "thumb": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/ca/e3/65/cae36530-9585-6755-6036-b38be9046b4f/5900000000152.jpg/60x60bb.jpg"
-    },
-    {
-      "title": "BOLO (feat. YDG)",
-      "artist": "PENOMECO",
-      "thumb": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/24/c0/c2/24c0c20a-30a2-5072-280b-4f98403202a3/8809829757360.jpg/60x60bb.jpg"
-    },
-    {
-      "title": "Donia",
-      "artist": "Soulja",
-      "thumb": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/a7/de/6c/a7de6cbf-5881-9723-5c74-3f336a635783/199316120073_cover.jpg/60x60bb.jpg"
-    }
-  ]
+  "music": []
 }

@@ -631,7 +631,9 @@ button:not(.btn-primary):not(.btn-secondary):hover {
     <div class="tab-content" id="tab-settings">
       <div class="section-title">Ustawienia wesela</div>
       <div class="settings-form">
-        <div><label class="settings-label">Imiona pary młodej</label><input class="settings-input" id="s-names" placeholder="np. Zuzanna & Mateusz"></div>
+        <div><label class="settings-label">Imiona pary młodej (Tytuł główny)</label><input class="settings-input" id="s-names" placeholder="np. Zuzanna & Mateusz"></div>
+        <div><label class="settings-label">Tekst dla Tronu 1</label><input class="settings-input" id="s-throne1" placeholder="np. Pan Młody"></div>
+        <div><label class="settings-label">Tekst dla Tronu 2</label><input class="settings-input" id="s-throne2" placeholder="np. Pani Młoda"></div>
         <div><label class="settings-label">Data wesela</label><input class="settings-input" id="s-date" placeholder="np. 14 Czerwca 2025"></div>
         <div><label class="settings-label">Miejsce wesela</label><input class="settings-input" id="s-venue" placeholder="np. Pałac Rozalin"></div>
         <div><label class="settings-label">Nowe hasło admina</label><input class="settings-input" type="password" id="s-pass" placeholder="Zostaw puste, by nie zmieniać"></div>
@@ -1520,7 +1522,11 @@ function takenSeats(excl){
   return t;
 }
 function getNameForSeat(sid){
-  if(isThrone(sid)){const p=STATE.settings.names.split('&');return(sid==='T1'?(p[0]||''):(p[1]||'')).trim()||'Para Młoda';}
+  if(isThrone(sid)){
+    if(sid==='T1' && STATE.settings.throne1) return STATE.settings.throne1;
+    if(sid==='T2' && STATE.settings.throne2) return STATE.settings.throne2;
+    const p=(STATE.settings.names||'').split('&');return(sid==='T1'?(p[0]||''):(p[1]||'')).trim()||'Para Młoda';
+  }
   for(const g of STATE.guests){if(g.seat1===sid)return g.name1||null;if(g.seat2===sid)return g.name2||null;}
   return null;
 }
@@ -1604,8 +1610,10 @@ function _assignSeatName(sid,name){
 function renderAdmin(){
   if(!requireAdmin())return;
   generateLayoutEngine();
-  renderGuestsTable();renderScheduleAdmin();renderMenuAdmin();renderAdminMusic();
+  renderGuestsTable();renderScheduleAdmin();renderMenuAdmin();
   document.getElementById('s-names').value=STATE.settings.names||'';
+  const t1 = document.getElementById('s-throne1'); if(t1) t1.value = STATE.settings.throne1||'';
+  const t2 = document.getElementById('s-throne2'); if(t2) t2.value = STATE.settings.throne2||'';
   document.getElementById('s-date').value=STATE.settings.date||'';
   document.getElementById('s-venue').value=STATE.settings.venue||'';
   document.getElementById('s-pass').value='';
@@ -1708,6 +1716,8 @@ function renderQRGrid(){
 async function saveSettings(ev){
   if(!requireAdmin())return;
   STATE.settings.names=document.getElementById('s-names').value||STATE.settings.names;
+  if(document.getElementById('s-throne1')) STATE.settings.throne1=document.getElementById('s-throne1').value;
+  if(document.getElementById('s-throne2')) STATE.settings.throne2=document.getElementById('s-throne2').value;
   STATE.settings.date=sanitizeText(document.getElementById('s-date').value)||STATE.settings.date;
   STATE.settings.venue=sanitizeText(document.getElementById('s-venue').value)||STATE.settings.venue;
   STATE.settings.driveUrl=validateDriveUrl(document.getElementById('s-drive-url').value);
@@ -1741,6 +1751,7 @@ function showQRModal(gid){
 //  GUEST VIEW
 // ═══════════════════════════════════════════════════════════
 function renderGuestView(g){
+  window._currentGuestName = [g.name1, g.name2].filter(Boolean).join(' & ');
   document.getElementById('g-title').textContent=STATE.settings.names;
   document.getElementById('g-date').textContent=(STATE.settings.date||'').toUpperCase();
   document.getElementById('g-name').textContent=[g.name1,g.name2].filter(Boolean).join(' & ');
@@ -1871,7 +1882,7 @@ function suggestSong(title, artist, thumb) {
   }
 
   // Dodanie do bazy
-  STATE.music.push({title: title, artist: artist, thumb: thumb});
+  STATE.music.push({title: title, artist: artist, thumb: thumb, suggestedBy: window._currentGuestName || 'Admin'});
   saveLocalCache();
   saveNow().catch(function(e){console.warn('Zapis piosenki:',e);});
   
@@ -1900,7 +1911,7 @@ function renderGuestMusicList() {
           <span class="music-title" style="color:wheat">${escHtml(m.title)}</span>
           <span class="music-artist">${escHtml(m.artist)}</span>
         </div>
-        <span style="margin-left:auto;color:#93ff8e;font-size:0.8rem;">✓ Dodano</span>
+        <span style="margin-left:auto;color:#93ff8e;font-size:0.7rem;text-align:right">🎵 Od: ${escHtml(m.suggestedBy||'Gość')}</span>
       </div>
     `).join('');
   }
@@ -1908,7 +1919,7 @@ function renderGuestMusicList() {
 
 function renderAdminMusic(){
   const el=document.getElementById('admin-music-list');if(!el)return;
-  el.innerHTML=STATE.music.map((m,i)=>`<div class="music-item">${m.thumb?`<img src="${m.thumb}">`:`<div style="width:40px;height:40px;background:wheat;border-radius:4px;display:flex;align-items:center;justify-content:center;color:wheat;font-size:1.2rem">🎵</div>`}<div class="music-info"><span class="music-title">${escHtml(m.title)}</span><span class="music-artist">${escHtml(m.artist)}</span></div><button class="danger-btn" style="margin-left:auto" onclick="removeMusicItem(${i})">✕</button></div>`).join('')||'<div style="color:wheat">Brak zaproponowanych piosenek...</div>';
+  el.innerHTML=STATE.music.map((m,i)=>`<div class="music-item">${m.thumb?`<img src="${m.thumb}">`:`<div style="width:40px;height:40px;background:wheat;border-radius:4px;display:flex;align-items:center;justify-content:center;color:wheat;font-size:1.2rem">🎵</div>`}<div class="music-info"><span class="music-title">${escHtml(m.title)}</span><span class="music-artist">${escHtml(m.artist)}</span></div><span style="margin-left:auto;margin-right:0.5rem;color:#93ff8e;font-size:0.75rem;text-align:right">Od: ${escHtml(m.suggestedBy||'Gość')}</span><button class="danger-btn" onclick="removeMusicItem(${i})">✕</button></div>`).join('')||'<div style="color:wheat">Brak zaproponowanych piosenek...</div>';
 }
 
 function removeMusicItem(i) {
@@ -1926,7 +1937,7 @@ function parseImportedState(data){
   if(data.schedule&&Array.isArray(data.schedule))STATE.schedule=data.schedule.map(s=>({time:sanitizeText(s.time||''),event:sanitizeText(s.event||'')}));
   if(data.menu&&Array.isArray(data.menu))STATE.menu=data.menu.map(m=>({category:sanitizeText(m.category||''),name:sanitizeText(m.name||'')}));
   if(data.music&&Array.isArray(data.music))STATE.music=data.music;
-  if(data.settings){const s=data.settings;if(s.names)STATE.settings.names=s.names;if(s.date)STATE.settings.date=sanitizeText(s.date);if(s.venue)STATE.settings.venue=sanitizeText(s.venue);if(s.table)STATE.settings.table=s.table;if(s.githubToken)STATE.settings.githubToken=s.githubToken;}
+  if(data.settings){const s=data.settings;if(s.names)STATE.settings.names=s.names;if(s.throne1)STATE.settings.throne1=s.throne1;if(s.throne2)STATE.settings.throne2=s.throne2;if(s.date)STATE.settings.date=sanitizeText(s.date);if(s.venue)STATE.settings.venue=sanitizeText(s.venue);if(s.table)STATE.settings.table=s.table;if(s.githubToken)STATE.settings.githubToken=s.githubToken;}
 }
 async function driveLoadByUrl(){
   if(!requireAdmin())return;
@@ -1952,7 +1963,7 @@ function driveLoadLocal(){
 }
 function driveSave(){
   if(!requireAdmin())return;
-  const exportData={settings:{names:STATE.settings.names,date:STATE.settings.date,venue:STATE.settings.venue,driveUrl:STATE.settings.driveUrl,table:STATE.settings.table},guests:STATE.guests,schedule:STATE.schedule,menu:STATE.menu||[],music:STATE.music||[]};
+  const exportData={settings:{names:STATE.settings.names,throne1:STATE.settings.throne1,throne2:STATE.settings.throne2,date:STATE.settings.date,venue:STATE.settings.venue,driveUrl:STATE.settings.driveUrl,table:STATE.settings.table},guests:STATE.guests,schedule:STATE.schedule,menu:STATE.menu||[],music:STATE.music||[]};
   const blob=new Blob([JSON.stringify(exportData,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='wesele.json';
   document.body.appendChild(a);a.click();document.body.removeChild(a);

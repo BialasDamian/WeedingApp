@@ -968,7 +968,6 @@ const GitHubStorage={
     this._sha=d.sha;
     const decoded=decodeURIComponent(escape(atob(d.content.replace(/\n/g,''))));
     const parsed=JSON.parse(decoded);
-    this._lastContent=JSON.stringify(parsed);
     return parsed;
   },
   async saveData(stateObj){
@@ -1759,6 +1758,15 @@ function renderGuestView(g){
     const ev=document.createElement('div');ev.className='sch-tl-event';ev.textContent=item.event;
     wrap.appendChild(time);wrap.appendChild(ev);schEl.appendChild(wrap);
   });
+  
+  // Auto-odświeżanie dla gościa
+  GitHubStorage.startPolling(function(newData){
+    parseImportedState(newData);
+    saveLocalCache();
+    generateLayoutEngine();
+    renderGuestMusicList();
+    document.getElementById('g-table-svg-wrap').innerHTML=buildTableSVG(seats,true,'guest').svg;
+  });
 }
 
 function renderGuestMenu(){
@@ -1973,6 +1981,7 @@ async function autoLoadDrive(){
   try{
     const ghData=await GitHubStorage.getData();
     if(ghData){
+      GitHubStorage._lastContent=JSON.stringify(ghData);
       parseImportedState(ghData);
       if(ghData.settings&&ghData.settings.passHash)STATE.settings.passHash=ghData.settings.passHash;
       saveLocalCache();

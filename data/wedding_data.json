@@ -1,0 +1,88 @@
+{
+  "settings": {
+    "names": "Para Młoda",
+    "date": "Data Wesela",
+    "venue": "Sala Weselna",
+    "passHash": "5742e8f366549b124fba91edaac559eb95924bc4227c9dfe09382fdf9cdcca93",
+    "driveUrl": "",
+    "table": {
+      "shape": "I",
+      "flipH": false,
+      "flipV": false,
+      "tw": 60,
+      "gap": 36,
+      "dist": 18,
+      "edges": {
+        "i_top": 0,
+        "i_bottom": 0,
+        "i_left": 17,
+        "i_right": 17,
+        "u_top_out": 0,
+        "u_top_in": 2,
+        "u_l_out": 10,
+        "u_l_in": 8,
+        "u_l_bot": 2,
+        "u_r_out": 10,
+        "u_r_in": 8,
+        "u_r_bot": 2,
+        "l_top": 0,
+        "l_l": 12,
+        "l_r_in": 8,
+        "l_t_in": 6,
+        "l_b": 10,
+        "l_right": 2,
+        "l_v_bot": 0,
+        "t_top_out": 0,
+        "t_t_l": 4,
+        "t_t_r": 4,
+        "t_s_l": 10,
+        "t_s_r": 10,
+        "t_s_b": 2,
+        "t_left_end": 1,
+        "t_right_end": 1
+      }
+    }
+  },
+  "guests": [
+    {
+      "id": "g1",
+      "name1": "Aleksandra Jemielniak",
+      "name2": "",
+      "seat1": "T1",
+      "seat2": "T2",
+      "code": "G-001"
+    },
+    {
+      "id": "g1782645384733",
+      "name1": "Mateusz Dyssy",
+      "name2": "",
+      "seat1": "3",
+      "seat2": "",
+      "code": "G-002"
+    },
+    {
+      "id": "g1782646547988",
+      "name1": "Conrado Ciszek",
+      "name2": "",
+      "seat1": "2",
+      "seat2": "",
+      "code": "G-003"
+    },
+    {
+      "id": "g1782646691803",
+      "name1": "Dorota Białas",
+      "name2": "",
+      "seat1": "4",
+      "seat2": "",
+      "code": "G-004"
+    }
+  ],
+  "schedule": [
+    {
+      "time": "16:30",
+      "event": "Przyjęcie"
+    }
+  ],
+  "menu": [],
+  "music": []
+}

@@ -84,5 +84,11 @@
     }
   ],
   "menu": [],
-  "music": []
+  "music": [
+    {
+      "title": "ReawakeR (feat. Felix of Stray Kids)",
+      "artist": "LiSA feat. Felix of Stray Kids",
+      "thumb": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/72/a3/18/72a318cd-3935-3288-a863-0438ab6a7a93/4547366723885.jpg/60x60bb.jpg"
+    }
+  ]
 }

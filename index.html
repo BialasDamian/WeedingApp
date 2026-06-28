@@ -976,6 +976,11 @@ const GitHubStorage={
       if(this._sha)body.sha=this._sha;
       const resp=await fetch(url,{method:'PUT',headers:{'Authorization':'Bearer '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
       if(resp.ok){const res=await resp.json();this._sha=res.content.sha;this._lastContent=jsonStr;return true;}
+      
+      let errorText = '';
+      try { errorText = await resp.text(); } catch(e){}
+      console.warn(`GitHub PUT attempt ${attempt} failed: ${resp.status} - ${errorText}`);
+
       if(resp.status===409||resp.status===422){
         try{
           const srv=await this.getData();
@@ -986,13 +991,11 @@ const GitHubStorage={
             stateObj.music=merged;
             continue;
           } else {
-            // If the file still doesn't exist but we got 409, the branch might not exist or the repo is empty.
-            // Clear sha and try once more without it.
             this._sha=null;
           }
         }catch(e2){}
       }
-      if(attempt===2) throw new Error('GitHub PUT: '+resp.status);
+      if(attempt===2) throw new Error(`GitHub PUT: ${resp.status} - ${errorText}`);
     }
     return false;
   },
@@ -1026,7 +1029,7 @@ function saveLocal(){
 }
 async function saveNow(){
   saveLocalCache();clearTimeout(_ghSaveDebounce);_ghSaveDebounce=null;
-  try{await GitHubStorage.saveData(STATE);return true;}catch(e){console.warn('GitHub save:',e);return false;}
+  try{return await GitHubStorage.saveData(STATE);}catch(e){console.warn('GitHub save:',e);return false;}
 }
 loadLocalCache();
 if(!STATE.settings.table)STATE.settings.table=DEFAULT_STATE.settings.table;
@@ -2004,6 +2007,3 @@ async function autoLoadDrive(){
   }
   show('screen-landing');
 })();
-</script>
-</body>
-</html>

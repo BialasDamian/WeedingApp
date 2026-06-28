@@ -942,7 +942,7 @@ let STATE=JSON.parse(JSON.stringify(DEFAULT_STATE));
 // ═══════════════════════════════════════════════════════════
 //  GITHUB STORAGE API
 // ═══════════════════════════════════════════════════════════
-const GITHUB_CONFIG={owner:'BialasDamian',repo:'WeedingApp',dataPath:'data/wedding_data.json',branch:'main',pollMs:15000};
+const GITHUB_CONFIG={owner:'BialasDamian',repo:'WeedingApp',dataPath:'data/wedding_data.json',pollMs:15000};
 const GitHubStorage={
   _sha:null,_pollTimer:null,_lastContent:null,
   _getToken(){
@@ -952,9 +952,9 @@ const GitHubStorage={
     return '';
   },
   async getData(){
-    const url='https://api.github.com/repos/'+GITHUB_CONFIG.owner+'/'+GITHUB_CONFIG.repo+'/contents/'+GITHUB_CONFIG.dataPath+'?ref='+GITHUB_CONFIG.branch+'&_t='+Date.now();
+    const url='https://api.github.com/repos/'+GITHUB_CONFIG.owner+'/'+GITHUB_CONFIG.repo+'/contents/'+GITHUB_CONFIG.dataPath+'?_t='+Date.now();
     const h={'Accept':'application/vnd.github.v3+json','If-None-Match':''};
-    const tk=this._getToken();if(tk)h['Authorization']='token '+tk;
+    const tk=this._getToken();if(tk)h['Authorization']='Bearer '+tk;
     const r=await fetch(url,{headers:h,cache:'no-store'});
     if(r.status===404)return null;
     if(!r.ok)throw new Error('GitHub GET: '+r.status);
@@ -972,9 +972,9 @@ const GitHubStorage={
     for(let attempt=0;attempt<3;attempt++){
       const jsonStr=JSON.stringify(stateObj,null,2);
       const content=btoa(unescape(encodeURIComponent(jsonStr)));
-      const body={message:'Aktualizacja danych weselnych',content:content,branch:GITHUB_CONFIG.branch};
+      const body={message:'Aktualizacja danych weselnych',content:content};
       if(this._sha)body.sha=this._sha;
-      const resp=await fetch(url,{method:'PUT',headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+      const resp=await fetch(url,{method:'PUT',headers:{'Authorization':'Bearer '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
       if(resp.ok){const res=await resp.json();this._sha=res.content.sha;this._lastContent=jsonStr;return true;}
       if(resp.status===409||resp.status===422){
         try{
@@ -985,10 +985,14 @@ const GitHubStorage={
             locM.forEach(function(song){if(!merged.some(function(m){return m.title===song.title&&m.artist===song.artist;}))merged.push(song);});
             stateObj.music=merged;
             continue;
+          } else {
+            // If the file still doesn't exist but we got 409, the branch might not exist or the repo is empty.
+            // Clear sha and try once more without it.
+            this._sha=null;
           }
         }catch(e2){}
       }
-      throw new Error('GitHub PUT: '+resp.status);
+      if(attempt===2) throw new Error('GitHub PUT: '+resp.status);
     }
     return false;
   },

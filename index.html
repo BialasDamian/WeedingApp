@@ -1866,12 +1866,6 @@ function suggestSong(title, artist, thumb) {
   if(ADMIN_AUTHED) renderAdminMusic();
 }
 
-function addManualSong() {
-  const title = prompt("Podaj tytuł i wykonawcę piosenki (np. Weekend - Ona tańczy dla mnie):");
-  if(!title) return;
-  suggestSong(title, "Zaproponowane ręcznie", "");
-}
-
 function renderGuestMusicList() {
   const section = document.getElementById('g-music-list-section');
   const wrap = document.getElementById('g-music-list-content');
@@ -1896,23 +1890,9 @@ function renderGuestMusicList() {
   }
 }
 
-function renderAdminMusic() {
-  const list = document.getElementById('admin-music-list');
-  if(!list) return;
-  if (!STATE.music || STATE.music.length === 0) {
-    list.innerHTML = '<div style="color:wheat;font-size:0.8rem">Brak zamówionych piosenek.</div>';
-    return;
-  }
-  list.innerHTML = STATE.music.map((m, i) => `
-    <div class="music-item">
-      <img src="${m.thumb || 'https://via.placeholder.com/40x40/2D2218/wheat?text=%E2%99%AB'}">
-      <div class="music-info">
-        <span class="music-title" style="color:wheat">${escHtml(m.title)}</span>
-        <span class="music-artist">${escHtml(m.artist)}</span>
-      </div>
-      <button class="danger-btn" style="margin-left:auto; border: 1px solid rgba(192,57,43,0.3);" onclick="removeMusicItem(${i})">✕</button>
-    </div>
-  `).join('');
+function renderAdminMusic(){
+  const el=document.getElementById('admin-music-list');if(!el)return;
+  el.innerHTML=STATE.music.map((m,i)=>`<div class="music-item">${m.thumb?`<img src="${m.thumb}">`:`<div style="width:40px;height:40px;background:wheat;border-radius:4px;display:flex;align-items:center;justify-content:center;color:wheat;font-size:1.2rem">🎵</div>`}<div class="music-info"><span class="music-title">${escHtml(m.title)}</span><span class="music-artist">${escHtml(m.artist)}</span></div><button class="danger-btn" style="margin-left:auto" onclick="removeMusicItem(${i})">✕</button></div>`).join('')||'<div style="color:wheat">Brak zaproponowanych piosenek...</div>';
 }
 
 function removeMusicItem(i) {
@@ -1920,9 +1900,6 @@ function removeMusicItem(i) {
   STATE.music.splice(i, 1);
   saveLocal();
   renderAdminMusic();
-}function renderAdminMusic(){
-  const el=document.getElementById('admin-music-list');if(!el)return;
-  el.innerHTML=STATE.music.map((m,i)=>`<div class="music-item">${m.thumb?`<img src="${m.thumb}">`:`<div style="width:40px;height:40px;background:wheat;border-radius:4px;display:flex;align-items:center;justify-content:center;color:wheat;font-size:1.2rem">🎵</div>`}<div class="music-info"><span class="music-title">${escHtml(m.title)}</span><span class="music-artist">${escHtml(m.artist)}</span></div><button class="danger-btn" style="margin-left:auto" onclick="STATE.music.splice(${i},1);saveLocal();renderAdminMusic()">✕</button></div>`).join('')||'<div style="color:wheat">Brak zaproponowanych piosenek...</div>';
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -2007,3 +1984,6 @@ async function autoLoadDrive(){
   }
   show('screen-landing');
 })();
+</script>
+</body>
+</html>

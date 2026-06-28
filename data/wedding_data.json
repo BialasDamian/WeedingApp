@@ -85,5 +85,12 @@
     }
   ],
   "menu": [],
-  "music": []
+  "music": [
+    {
+      "title": "Cruise Control",
+      "artist": "LOLEK",
+      "thumb": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/9d/07/78/9d0778c4-3144-c217-b979-1c19c8ff9e7d/artwork.jpg/60x60bb.jpg",
+      "suggestedBy": "BOBEK"
+    }
+  ]
 }

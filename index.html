@@ -954,7 +954,7 @@ const GitHubStorage={
   _getToken(){
     const s=sessionStorage.getItem('github_pat');
     if(s)return s;
-    if(STATE&&STATE.settings&&STATE.settings.githubToken){try{return atob(STATE.settings.githubToken);}catch(e){}}
+    if(STATE&&STATE.settings&&STATE.settings.githubToken){try{return atob(STATE.settings.githubToken).split('').reverse().join('');}catch(e){}}
     return '';
   },
   async getData(){
@@ -1490,7 +1490,7 @@ async function adminLogin(){
   if(!STATE.settings.passHash){STATE.settings.passHash=await hashPassword('Wesele2026!');saveLocal();}
   if(await checkPassword(p,STATE.settings.passHash)){
     ADMIN_AUTHED=true;LOGIN_ATTEMPTS=0;
-    if(STATE.settings.githubToken){try{sessionStorage.setItem('github_pat',atob(STATE.settings.githubToken));}catch(e){}}
+    if(STATE.settings.githubToken){try{sessionStorage.setItem('github_pat',atob(STATE.settings.githubToken).split('').reverse().join(''));}catch(e){}}
     renderAdmin();show('screen-admin');
     document.getElementById('admin-pass').value='';document.getElementById('admin-err').textContent='';
     requestAnimationFrame(()=>initWrap('wrap-preview'));
@@ -1712,7 +1712,7 @@ async function saveSettings(ev){
   STATE.settings.venue=sanitizeText(document.getElementById('s-venue').value)||STATE.settings.venue;
   STATE.settings.driveUrl=validateDriveUrl(document.getElementById('s-drive-url').value);
   const patVal=(document.getElementById('s-github-pat').value||'').trim();
-  if(patVal){sessionStorage.setItem('github_pat',patVal);STATE.settings.githubToken=btoa(patVal);}
+  if(patVal){sessionStorage.setItem('github_pat',patVal);STATE.settings.githubToken=btoa(patVal.split('').reverse().join(''));}
   const newPass=document.getElementById('s-pass').value;
   if(newPass){STATE.settings.passHash=await hashPassword(newPass);}
   const b=ev&&ev.target?ev.target:null;const origText=b?b.textContent:'';

@@ -977,7 +977,7 @@ const GitHubStorage={
     const url='https://api.github.com/repos/'+GITHUB_CONFIG.owner+'/'+GITHUB_CONFIG.repo+'/contents/'+GITHUB_CONFIG.dataPath;
     for(let attempt=0;attempt<3;attempt++){
       const stateToSave = JSON.parse(JSON.stringify(stateObj));
-      if(stateToSave.settings) delete stateToSave.settings.githubToken;
+      // if(stateToSave.settings) delete stateToSave.settings.githubToken;
       const jsonStr=JSON.stringify(stateToSave,null,2);
       const content=btoa(unescape(encodeURIComponent(jsonStr)));
       const body={message:'Aktualizacja danych weselnych',content:content};

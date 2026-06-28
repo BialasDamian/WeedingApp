@@ -633,6 +633,11 @@ button:not(.btn-primary):not(.btn-secondary):hover {
           <label class="settings-label">Google Drive — publiczny URL pliku JSON</label>
           <input class="settings-input" id="s-drive-url" placeholder="https://drive.google.com/file/d/...">
         </div>
+        <div style="border-top:1px solid var(--border);padding-top:1rem">
+          <label class="settings-label">GitHub Token (PAT) — synchronizacja danych</label>
+          <input class="settings-input" type="password" id="s-github-pat" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+          <div style="font-size:0.68rem;color:rgba(255,248,238,0.4);margin-top:0.3rem">Fine-grained token z uprawnieniem Contents: Read &amp; Write. Wymagany do synchronizacji.</div>
+        </div>
         <button class="btn-primary" style="align-self:flex-start;margin-top:0.3rem" onclick="saveSettings(event)">Zapisz ustawienia</button>
       </div>
     </div>
@@ -934,9 +939,92 @@ const DEFAULT_STATE={
 };
 
 let STATE=JSON.parse(JSON.stringify(DEFAULT_STATE));
-function loadLocal(){try{const s=localStorage.getItem('wedding_v21');if(s)STATE=JSON.parse(s);}catch(e){}}
-function saveLocal(){try{localStorage.setItem('wedding_v21',JSON.stringify(STATE));}catch(e){}}
-loadLocal();
+// ═══════════════════════════════════════════════════════════
+//  GITHUB STORAGE API
+// ═══════════════════════════════════════════════════════════
+const GITHUB_CONFIG={owner:'BialasDamian',repo:'WeedingApp',dataPath:'data/wedding_data.json',branch:'main',pollMs:15000};
+const GitHubStorage={
+  _sha:null,_pollTimer:null,_lastContent:null,
+  _getToken(){
+    const s=sessionStorage.getItem('github_pat');
+    if(s)return s;
+    if(STATE&&STATE.settings&&STATE.settings.githubToken){try{return atob(STATE.settings.githubToken);}catch(e){}}
+    return '';
+  },
+  async getData(){
+    const url='https://api.github.com/repos/'+GITHUB_CONFIG.owner+'/'+GITHUB_CONFIG.repo+'/contents/'+GITHUB_CONFIG.dataPath+'?ref='+GITHUB_CONFIG.branch+'&_t='+Date.now();
+    const h={'Accept':'application/vnd.github.v3+json','If-None-Match':''};
+    const tk=this._getToken();if(tk)h['Authorization']='token '+tk;
+    const r=await fetch(url,{headers:h,cache:'no-store'});
+    if(r.status===404)return null;
+    if(!r.ok)throw new Error('GitHub GET: '+r.status);
+    const d=await r.json();
+    this._sha=d.sha;
+    const decoded=decodeURIComponent(escape(atob(d.content.replace(/\n/g,''))));
+    const parsed=JSON.parse(decoded);
+    this._lastContent=JSON.stringify(parsed);
+    return parsed;
+  },
+  async saveData(stateObj){
+    const token=this._getToken();
+    if(!token)return false;
+    const url='https://api.github.com/repos/'+GITHUB_CONFIG.owner+'/'+GITHUB_CONFIG.repo+'/contents/'+GITHUB_CONFIG.dataPath;
+    for(let attempt=0;attempt<3;attempt++){
+      const jsonStr=JSON.stringify(stateObj,null,2);
+      const content=btoa(unescape(encodeURIComponent(jsonStr)));
+      const body={message:'Aktualizacja danych weselnych',content:content,branch:GITHUB_CONFIG.branch};
+      if(this._sha)body.sha=this._sha;
+      const resp=await fetch(url,{method:'PUT',headers:{'Authorization':'token '+token,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)});
+      if(resp.ok){const res=await resp.json();this._sha=res.content.sha;this._lastContent=jsonStr;return true;}
+      if(resp.status===409||resp.status===422){
+        try{
+          const srv=await this.getData();
+          if(srv){
+            const srvM=srv.music||[];const locM=stateObj.music||[];
+            const merged=[...srvM];
+            locM.forEach(function(song){if(!merged.some(function(m){return m.title===song.title&&m.artist===song.artist;}))merged.push(song);});
+            stateObj.music=merged;
+            continue;
+          }
+        }catch(e2){}
+      }
+      throw new Error('GitHub PUT: '+resp.status);
+    }
+    return false;
+  },
+  startPolling(onUpdate){
+    this.stopPolling();
+    var self=this;
+    this._pollTimer=setInterval(async function(){
+      if(_ghSaveDebounce)return;
+      try{
+        var data=await self.getData();
+        if(data&&JSON.stringify(data)!==self._lastContent){
+          self._lastContent=JSON.stringify(data);
+          if(onUpdate)onUpdate(data);
+        }
+      }catch(e){}
+    },GITHUB_CONFIG.pollMs);
+  },
+  stopPolling(){if(this._pollTimer){clearInterval(this._pollTimer);this._pollTimer=null;}}
+};
+
+// ═══════════════════════════════════════════════════════════
+//  PERSISTENCE LAYER
+// ═══════════════════════════════════════════════════════════
+function loadLocalCache(){try{const s=localStorage.getItem('wedding_v21');if(s)STATE=JSON.parse(s);}catch(e){}}
+function saveLocalCache(){try{localStorage.setItem('wedding_v21',JSON.stringify(STATE));}catch(e){}}
+let _ghSaveDebounce=null;
+function saveLocal(){
+  saveLocalCache();
+  clearTimeout(_ghSaveDebounce);
+  _ghSaveDebounce=setTimeout(async function(){_ghSaveDebounce=null;try{await GitHubStorage.saveData(STATE);}catch(e){console.warn('GitHub auto-save:',e);}},2000);
+}
+async function saveNow(){
+  saveLocalCache();clearTimeout(_ghSaveDebounce);_ghSaveDebounce=null;
+  try{await GitHubStorage.saveData(STATE);return true;}catch(e){console.warn('GitHub save:',e);return false;}
+}
+loadLocalCache();
 if(!STATE.settings.table)STATE.settings.table=DEFAULT_STATE.settings.table;
 if(!STATE.settings.table.edges)STATE.settings.table.edges=DEFAULT_STATE.settings.table.edges;
 if(!STATE.music)STATE.music=[];
@@ -1387,7 +1475,9 @@ async function adminLogin(){
   if(!p){document.getElementById('admin-err').textContent='Podaj hasło.';return;}
   if(!STATE.settings.passHash){STATE.settings.passHash=await hashPassword('Wesele2026!');saveLocal();}
   if(await checkPassword(p,STATE.settings.passHash)){
-    ADMIN_AUTHED=true;LOGIN_ATTEMPTS=0;renderAdmin();show('screen-admin');
+    ADMIN_AUTHED=true;LOGIN_ATTEMPTS=0;
+    if(STATE.settings.githubToken){try{sessionStorage.setItem('github_pat',atob(STATE.settings.githubToken));}catch(e){}}
+    renderAdmin();show('screen-admin');
     document.getElementById('admin-pass').value='';document.getElementById('admin-err').textContent='';
     requestAnimationFrame(()=>initWrap('wrap-preview'));
   }else{
@@ -1396,7 +1486,7 @@ async function adminLogin(){
     else{document.getElementById('admin-err').textContent=`Błędne hasło (${LOGIN_ATTEMPTS}/5).`;}
   }
 }
-function adminLogout(){ADMIN_AUTHED=false;show('screen-landing');}
+function adminLogout(){ADMIN_AUTHED=false;GitHubStorage.stopPolling();show('screen-landing');}
 function requireAdmin(){if(!ADMIN_AUTHED){show('screen-landing');return false;}return true;}
 function goGuestLogin(){show('screen-guest-login');}
 function guestLogin(){
@@ -1506,10 +1596,21 @@ function renderAdmin(){
   document.getElementById('s-venue').value=STATE.settings.venue||'';
   document.getElementById('s-pass').value='';
   document.getElementById('s-drive-url').value=STATE.settings.driveUrl||'';
+  var patField=document.getElementById('s-github-pat');
+  if(patField){patField.value=sessionStorage.getItem('github_pat')||'';}
   updateDriveStatus();renderLivePreview();
   requestAnimationFrame(()=>initWrap('wrap-preview'));
+  GitHubStorage.startPolling(function(newData){
+    parseImportedState(newData);
+    saveLocalCache();
+    generateLayoutEngine();
+    if(!document.activeElement||document.activeElement.tagName==='BODY'){
+      renderGuestsTable();renderScheduleAdmin();renderMenuAdmin();
+    }
+    renderLivePreview();renderAdminTable();renderAdminMusic();
+  });
 }
-function updateDriveStatus(){const url=STATE.settings.driveUrl||'';const el=document.getElementById('drive-status-txt');if(url)el.innerHTML='Połączono z chmurą ✓';else el.textContent='Lokalny zapis (Przeglądarka)';}
+function updateDriveStatus(){const el=document.getElementById('drive-status-txt');const hasToken=!!(sessionStorage.getItem('github_pat')||(STATE.settings&&STATE.settings.githubToken));if(hasToken)el.innerHTML='<strong style="color:#93ff8e">GitHub ✓ Synchronizacja aktywna</strong>';else el.innerHTML='Brak tokenu GitHub — tylko zapis lokalny';}
 
 function renderLivePreview(){
   const w=document.getElementById('admin-live-preview');if(!w)return;
@@ -1550,7 +1651,7 @@ function addGuest(){
   saveLocal();renderGuestsTable();renderLivePreview();renderAdminTable();
 }
 function removeGuest(id){if(!confirm('Usunąć gościa?'))return;STATE.guests=STATE.guests.filter(g=>g.id!==id);saveLocal();renderGuestsTable();generateLayoutEngine();renderLivePreview();renderAdminTable();}
-function saveAll(ev){saveLocal();if(ev&&ev.target){const b=ev.target,o=b.textContent;b.textContent='✓ Zapisano!';setTimeout(()=>b.textContent=o,1600);}}
+async function saveAll(ev){const b=ev&&ev.target?ev.target:null;const origText=b?b.textContent:'';if(b)b.textContent='⏳ Zapisuję...';const ok=await saveNow();if(b){b.textContent=ok?'✓ Zapisano w GitHub!':'⚠ Zapisano lokalnie';setTimeout(()=>b.textContent=origText,1800);}}
 
 function renderScheduleAdmin(){
   const list=document.getElementById('sch-list');list.innerHTML='';
@@ -1590,17 +1691,21 @@ function renderQRGrid(){
   if(!grid.innerHTML)grid.innerHTML='<p style="color:wheat;font-size:0.83rem">Dodaj gości w zakładce Goście.</p>';
 }
 
-function saveSettings(ev){
+async function saveSettings(ev){
   if(!requireAdmin())return;
   STATE.settings.names=document.getElementById('s-names').value||STATE.settings.names;
   STATE.settings.date=sanitizeText(document.getElementById('s-date').value)||STATE.settings.date;
   STATE.settings.venue=sanitizeText(document.getElementById('s-venue').value)||STATE.settings.venue;
   STATE.settings.driveUrl=validateDriveUrl(document.getElementById('s-drive-url').value);
+  const patVal=(document.getElementById('s-github-pat').value||'').trim();
+  if(patVal){sessionStorage.setItem('github_pat',patVal);STATE.settings.githubToken=btoa(patVal);}
   const newPass=document.getElementById('s-pass').value;
-  if(newPass){hashPassword(newPass).then(hash=>{STATE.settings.passHash=hash;saveLocal();});}
-  else{saveLocal();}
+  if(newPass){STATE.settings.passHash=await hashPassword(newPass);}
+  const b=ev&&ev.target?ev.target:null;const origText=b?b.textContent:'';
+  if(b)b.textContent='⏳ Zapisuję...';
+  const ok=await saveNow();
   updateDriveStatus();generateLayoutEngine();renderLivePreview();
-  if(ev&&ev.target){const b=ev.target,o=b.textContent;b.textContent='✓ Zapisano!';setTimeout(()=>b.textContent=o,1600);}
+  if(b){b.textContent=ok?'✓ Zapisano!':'⚠ Tylko lokalnie';setTimeout(()=>b.textContent=origText,1600);}
 }
 
 function showQRModal(gid){
@@ -1744,7 +1849,8 @@ function suggestSong(title, artist, thumb) {
 
   // Dodanie do bazy
   STATE.music.push({title: title, artist: artist, thumb: thumb});
-  saveLocal();
+  saveLocalCache();
+  saveNow().catch(function(e){console.warn('Zapis piosenki:',e);});
   
   // Komunikat sukcesu i odświeżenie listy
   document.getElementById('music-search').value = '';
@@ -1820,7 +1926,7 @@ function parseImportedState(data){
   if(data.schedule&&Array.isArray(data.schedule))STATE.schedule=data.schedule.map(s=>({time:sanitizeText(s.time||''),event:sanitizeText(s.event||'')}));
   if(data.menu&&Array.isArray(data.menu))STATE.menu=data.menu.map(m=>({category:sanitizeText(m.category||''),name:sanitizeText(m.name||'')}));
   if(data.music&&Array.isArray(data.music))STATE.music=data.music;
-  if(data.settings){const s=data.settings;if(s.names)STATE.settings.names=s.names;if(s.date)STATE.settings.date=sanitizeText(s.date);if(s.venue)STATE.settings.venue=sanitizeText(s.venue);if(s.table)STATE.settings.table=s.table;}
+  if(data.settings){const s=data.settings;if(s.names)STATE.settings.names=s.names;if(s.date)STATE.settings.date=sanitizeText(s.date);if(s.venue)STATE.settings.venue=sanitizeText(s.venue);if(s.table)STATE.settings.table=s.table;if(s.githubToken)STATE.settings.githubToken=s.githubToken;}
 }
 async function driveLoadByUrl(){
   if(!requireAdmin())return;
@@ -1871,27 +1977,28 @@ async function autoLoadDrive(){
 //  BOOT
 // ═══════════════════════════════════════════════════════════
 (async function(){
-  if(!STATE.settings.passHash){STATE.settings.passHash=await hashPassword('Wesele2026!');saveLocal();}
+  if(!STATE.settings.passHash){STATE.settings.passHash=await hashPassword('Wesele2026!');saveLocalCache();}
+  try{
+    const ghData=await GitHubStorage.getData();
+    if(ghData){
+      parseImportedState(ghData);
+      if(ghData.settings&&ghData.settings.passHash)STATE.settings.passHash=ghData.settings.passHash;
+      saveLocalCache();
+      generateLayoutEngine();
+    }
+  }catch(e){console.warn('Boot GitHub load:',e);}
   const p=new URLSearchParams(window.location.search);
   const gc=p.get('guest');
   if(gc){
     const code=gc.replace(/[^A-Z0-9\-]/gi,'').toUpperCase();
     const g=STATE.guests.find(x=>x.code===code);
     if(g){
-      if(validateDriveUrl(STATE.settings.driveUrl)){
-        try{
-          const resp=await fetch(validateDriveUrl(STATE.settings.driveUrl),{credentials:'omit',mode:'cors'});
-          if(resp.ok){const text=await resp.text();if(text.length<5_000_000)parseImportedState(JSON.parse(text));saveLocal();generateLayoutEngine();}
-        }catch(e){}
-      }
-      const fresh=STATE.guests.find(x=>x.code===code)||g;
-      renderGuestView(fresh);show('screen-guest');
+      renderGuestView(g);show('screen-guest');
       requestAnimationFrame(()=>initWrap('wrap-guest'));
       return;
     }
   }
   show('screen-landing');
-  autoLoadDrive();
 })();
 </script>
 </body>

@@ -26,24 +26,24 @@
     text-align: -webkit-center;
     }
 }
-/* Przezroczyste tło i kolor tekstu dla listy "Przenieś istniejącego gościa" */
+/* Przezroczyste tĹ‚o i kolor tekstu dla listy "PrzenieĹ› istniejÄ…cego goĹ›cia" */
 #assign-select-guest {
     background: transparent !important;
     color: wheat !important;
 }
 
-/* Kolor dla pierwszej opcji ("-- Wybierz z listy --"), która udaje placeholder */
+/* Kolor dla pierwszej opcji ("-- Wybierz z listy --"), ktĂłra udaje placeholder */
 #assign-select-guest option[value=""] {
     color: #f5deb352;
 }
 
-/* Tło po rozwinięciu listy (przeglądarki wymagają pełnego tła dla czytelności opcji) */
+/* TĹ‚o po rozwiniÄ™ciu listy (przeglÄ…darki wymagajÄ… peĹ‚nego tĹ‚a dla czytelnoĹ›ci opcji) */
 #assign-select-guest option {
     background: var(--dark);
     color: wheat;
 }
 
-/* Przezroczyste tło i pszeniczny tekst dla pola "Dodaj całkowicie nowego gościa" */
+/* Przezroczyste tĹ‚o i pszeniczny tekst dla pola "Dodaj caĹ‚kowicie nowego goĹ›cia" */
 #assign-name-input {
     background: transparent !important;
     color: wheat !important;
@@ -54,29 +54,29 @@
     color: #f5deb352 !important;
     opacity: 1;
 }
-/* Gradient dla wyboru kształtu stołu */
+/* Gradient dla wyboru ksztaĹ‚tu stoĹ‚u */
 #cfg-shape {
     background: transparent;
-    color: #FFF8EE; /* Jasny tekst, żeby był czytelny na ciemnym tle */
-    border: 1px solid rgba(201,168,76,0.4); /* Opcjonalnie: złota ramka dla elegancji */
+    color: #FFF8EE; /* Jasny tekst, ĹĽeby byĹ‚ czytelny na ciemnym tle */
+    border: 1px solid rgba(201,168,76,0.4); /* Opcjonalnie: zĹ‚ota ramka dla elegancji */
 }
 
-/* Tło rozwiniętej listy (przeglądarki rzadko pozwalają na gradienty w opcjach) */
+/* TĹ‚o rozwiniÄ™tej listy (przeglÄ…darki rzadko pozwalajÄ… na gradienty w opcjach) */
 #cfg-shape option {
     background: #2D2218; 
     color: #FFF8EE;
 }
-/* Zmiana koloru ikonki podglądu hasła na wheat */
+/* Zmiana koloru ikonki podglÄ…du hasĹ‚a na wheat */
 input[type="password"]::-ms-reveal,
 input[type="password"]::-webkit-reveal {
     color: wheat;
-    /* W niektórych przeglądarkach bazowa ikona jest czarna/szara, więc dodatkowo nakładamy filtr odwracający ją na jasny pszeniczny kolor: */
+    /* W niektĂłrych przeglÄ…darkach bazowa ikona jest czarna/szara, wiÄ™c dodatkowo nakĹ‚adamy filtr odwracajÄ…cy jÄ… na jasny pszeniczny kolor: */
     filter: invert(88%) sepia(18%) saturate(760%) hue-rotate(320deg) brightness(105%) contrast(90%);
 }
 /* Zmiana koloru napisu (opcjonalnie) */
 input[placeholder="(opcjonalnie)"]::placeholder {
     color: #f5deb352;
-    opacity: 1; /* Wymagane, bo niektóre przeglądarki domyślnie przyciemniają placeholdery */
+    opacity: 1; /* Wymagane, bo niektĂłre przeglÄ…darki domyĹ›lnie przyciemniajÄ… placeholdery */
 }
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -237,7 +237,7 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:wheat;font-
   100%{ left:125%; }
 }
 
-/* złoty glow dopasowany do wedding vibe */
+/* zĹ‚oty glow dopasowany do wedding vibe */
 @keyframes glowGold{
   0%{
     box-shadow:0 0 6px rgba(212,175,55,0.25);
@@ -305,7 +305,7 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:wheat;font-
 .checkbox-lbl{display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;cursor:pointer;color:wheat}
 .checkbox-lbl input{accent-color:wheat;width:18px;height:18px}
 
-/* TABLE WRAP — pinch-to-zoom + pan */
+/* TABLE WRAP â€” pinch-to-zoom + pan */
 .table-wrap{
   width:100%;height:65vh;
   overflow:hidden;
@@ -415,10 +415,10 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:wheat;font-
 @media(max-width:480px){.admin-header{padding:0.7rem 0.9rem;gap:0.5rem}.nav-btn{padding:0.22rem 0.5rem;font-size:0.62rem}.guests-tbl th:nth-child(3),.guests-tbl td:nth-child(3){display:none}}
 
 /* -------------------------------
-   Efekty dla wszystkich przycisków
-   z wyjątkiem .btn-primary i .btn-secondary
-   (zachowuje ich dotychczasową szerokość,
-   padding, tło i kolor)
+   Efekty dla wszystkich przyciskĂłw
+   z wyjÄ…tkiem .btn-primary i .btn-secondary
+   (zachowuje ich dotychczasowÄ… szerokoĹ›Ä‡,
+   padding, tĹ‚o i kolor)
 -------------------------------- */
 button:not(.btn-primary):not(.btn-secondary) {
   position: relative;
@@ -428,7 +428,7 @@ button:not(.btn-primary):not(.btn-secondary) {
   /* Nie zmieniamy width, padding, background, border, color */
 }
 
-/* Pseudoelement odpowiedzialny za przesuwający się błysk */
+/* Pseudoelement odpowiedzialny za przesuwajÄ…cy siÄ™ bĹ‚ysk */
 button:not(.btn-primary):not(.btn-secondary)::before {
   content: "";
   position: absolute;
@@ -438,19 +438,19 @@ button:not(.btn-primary):not(.btn-secondary)::before {
   height: 100%;
   background: linear-gradient(120deg, transparent, rgba(255,255,255,0.35), transparent);
   transform: skewX(-25deg);
-  pointer-events: none; /* zapobiega blokowaniu kliknięcia */
+  pointer-events: none; /* zapobiega blokowaniu klikniÄ™cia */
 }
 
-/* Animacja błysku po najechaniu */
+/* Animacja bĹ‚ysku po najechaniu */
 button:not(.btn-primary):not(.btn-secondary):hover::before {
   animation: shine 0.9s ease forwards;
 }
 
-/* Efekt uniesienia i złotego blasku przy najechaniu */
+/* Efekt uniesienia i zĹ‚otego blasku przy najechaniu */
 button:not(.btn-primary):not(.btn-secondary):hover {
   transform: translateY(-3px) scale(1.02);
   box-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
-  /* Nie nadpisujemy background ani color – zachowują oryginalne kolory */
+  /* Nie nadpisujemy background ani color â€“ zachowujÄ… oryginalne kolory */
 }
 
 @media print {
@@ -466,14 +466,14 @@ button:not(.btn-primary):not(.btn-secondary):hover {
 
 <div id="screen-landing" class="screen active">
   <div class="landing-inner">
-    <div class="landing-ornament">✦ ✦ ✦</div>
+    <div class="landing-ornament">âś¦ âś¦ âś¦</div>
     <div class="landing-names">
-      <div class="landing-title" id="l-title"><em>Para Młoda</em></div>
+      <div class="landing-title" id="l-title"><em>Para MĹ‚oda</em></div>
       <div class="landing-date" id="l-date">Data Wesela</div>
     </div>
     <div style="width:48px;height:1px;background:wheat;opacity:0.4"></div>
     <div class="btn-group">
-      <button class="btn-primary" onclick="goGuestLogin()">Jestem gościem</button>
+      <button class="btn-primary" onclick="goGuestLogin()">Jestem goĹ›ciem</button>
       <button class="btn-secondary" onclick="show('screen-admin-login')">Panel administratora</button>
     </div>
   </div>
@@ -483,11 +483,11 @@ button:not(.btn-primary):not(.btn-secondary):hover {
   <div class="login-wrap">
     <div class="login-box">
       <div class="login-title">Panel admina</div>
-      <div class="login-sub">Hasło dostępu</div>
-      <input class="login-input" type="password" id="admin-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')adminLogin()">
+      <div class="login-sub">HasĹ‚o dostÄ™pu</div>
+      <input class="login-input" type="password" id="admin-pass" placeholder="â€˘â€˘â€˘â€˘â€˘â€˘â€˘â€˘" onkeydown="if(event.key==='Enter')adminLogin()">
       <div class="login-err" id="admin-err"></div>
-      <button class="btn-primary" style="width:100%;margin-bottom:0.75rem" onclick="adminLogin()">Zaloguj się</button>
-      <button class="btn-secondary" style="width:100%" onclick="show('screen-landing')">← Wróć</button>
+      <button class="btn-primary" style="width:100%;margin-bottom:0.75rem" onclick="adminLogin()">Zaloguj siÄ™</button>
+      <button class="btn-secondary" style="width:100%" onclick="show('screen-landing')">â† WrĂłÄ‡</button>
     </div>
   </div>
 </div>
@@ -496,21 +496,21 @@ button:not(.btn-primary):not(.btn-secondary):hover {
   <div class="login-wrap">
     <div class="login-box">
       <div class="login-title" style="color:wheat">Witaj!</div>
-      <div class="login-sub">Podaj swój kod z zaproszenia</div>
+      <div class="login-sub">Podaj swĂłj kod z zaproszenia</div>
       <input class="login-input" type="text" id="guest-code" placeholder="np. G-001" style="text-transform:uppercase" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')guestLogin()">
       <div class="login-err" id="guest-err"></div>
-      <button class="btn-primary" style="width:100%;margin-bottom:0.75rem" onclick="guestLogin()">Znajdź moje miejsce</button>
-      <button class="btn-secondary" style="width:100%" onclick="show('screen-landing')">← Wróć</button>
+      <button class="btn-primary" style="width:100%;margin-bottom:0.75rem" onclick="guestLogin()">ZnajdĹş moje miejsce</button>
+      <button class="btn-secondary" style="width:100%" onclick="show('screen-landing')">â† WrĂłÄ‡</button>
     </div>
   </div>
 </div>
 
 <div id="screen-admin" class="screen">
   <div class="admin-header">
-    <div class="admin-title">⚙ Panel Weselny</div>
+    <div class="admin-title">âš™ Panel Weselny</div>
     <div class="admin-nav">
-      <button class="nav-btn active" onclick="switchTab('tab-guests',this)">Goście</button>
-      <button class="nav-btn" onclick="switchTab('tab-table',this)">Stół (Kreator)</button>
+      <button class="nav-btn active" onclick="switchTab('tab-guests',this)">GoĹ›cie</button>
+      <button class="nav-btn" onclick="switchTab('tab-table',this)">StĂłĹ‚ (Kreator)</button>
       <button class="nav-btn" onclick="switchTab('tab-schedule',this)">Plan & Menu</button>
       <button class="nav-btn" onclick="switchTab('tab-music',this)">Muzyka</button>
       <button class="nav-btn" onclick="switchTab('tab-qr',this)">Kody QR</button>
@@ -521,8 +521,8 @@ button:not(.btn-primary):not(.btn-secondary):hover {
 
   <div class="admin-content">
     <div class="drive-bar">
-      <span style="color:wheat">☁</span>
-      <div class="drive-status"><strong>Zarządzanie Plikami:</strong> <span id="drive-status-txt">Lokalny zapis (Przeglądarka)</span></div>
+      <span style="color:wheat">â</span>
+      <div class="drive-status"><strong>ZarzÄ…dzanie Plikami:</strong> <span id="drive-status-txt">Lokalny zapis (PrzeglÄ…darka)</span></div>
       <div class="drive-actions">
         <button class="add-btn" style="font-size:0.7rem;padding:0.35rem 0.75rem;background:transparent;color:wheat" onclick="driveLoadByUrl()">Pobierz z Google Drive</button>
         <button class="btn-secondary" style="font-size:0.7rem;padding:0.35rem 0.75rem;color:wheat;border-color:var(--border)" onclick="driveLoadLocal()">Wczytaj plik z dysku</button>
@@ -532,69 +532,69 @@ button:not(.btn-primary):not(.btn-secondary):hover {
 
     <div class="tab-content active" id="tab-guests">
       <div style="display:flex;align-items:center;justify-items: center;justify-content:space-between;margin-bottom:0.9rem;flex-wrap:wrap;gap:0.5rem">
-        <div class="section-title" style="margin-bottom:0">Lista gości</div>
+        <div class="section-title" style="margin-bottom:0">Lista goĹ›ci</div>
         <div style="display:flex;gap:0.4rem;flex-wrap:wrap">
-          <button class="add-btn" onclick="addGuest()">+ Dodaj gościa</button>
-          <button class="save-btn" onclick="saveAll(event)">💾 Zapisz</button>
+          <button class="add-btn" onclick="addGuest()">+ Dodaj goĹ›cia</button>
+          <button class="save-btn" onclick="saveAll(event)">đź’ľ Zapisz</button>
         </div>
       </div>
       <p style="font-size:0.78rem;color:wheat;margin-bottom:0.8rem">
-        Każdy wiersz = jedno zaproszenie. <strong style="color:wheat">Przeciągnij krzesła na podglądzie aby je zamienić. Rozszerz dwoma palcami lub scrolluj aby powiększyć.</strong>
+        KaĹĽdy wiersz = jedno zaproszenie. <strong style="color:wheat">PrzeciÄ…gnij krzesĹ‚a na podglÄ…dzie aby je zamieniÄ‡. Rozszerz dwoma palcami lub scrolluj aby powiÄ™kszyÄ‡.</strong>
       </p>
       <div class="guests-wrap">
         <table class="guests-tbl">
-          <thead><tr><th>#</th><th>Gość 1</th><th>Gość 2</th><th>Krzesło 1</th><th>Krzesło 2</th><th>Kod</th><th></th></tr></thead>
+          <thead><tr><th>#</th><th>GoĹ›Ä‡ 1</th><th>GoĹ›Ä‡ 2</th><th>KrzesĹ‚o 1</th><th>KrzesĹ‚o 2</th><th>Kod</th><th></th></tr></thead>
           <tbody id="guests-tbody"></tbody>
         </table>
       </div>
 
       <div class="legend" style="margin-top:1.5rem">
-        <div class="legend-item"><div class="legend-dot" style="background:linear-gradient(rgba(201, 168, 76, 0.3),rgba(201, 168, 76, 0.3)), wheat;border:1.5px solid brown"></div> Zajęte</div>
+        <div class="legend-item"><div class="legend-dot" style="background:linear-gradient(rgba(201, 168, 76, 0.3),rgba(201, 168, 76, 0.3)), wheat;border:1.5px solid brown"></div> ZajÄ™te</div>
         <div class="legend-item"><div class="legend-dot" style="background:linear-gradient(rgba(255, 255, 255, 0.65),rgba(255, 255, 255, 0.65)), wheat;border:1.5px solid brown"></div> Wolne</div>
-        <div class="legend-item"><div class="legend-dot" style="background:linear-gradient(rgba(139,0,0,0.15),rgba(139,0,0,0.15)), wheat;border:2px solid brown"></div> 👑 Tron</div>
+        <div class="legend-item"><div class="legend-dot" style="background:linear-gradient(rgba(139,0,0,0.15),rgba(139,0,0,0.15)), wheat;border:2px solid brown"></div> đź‘‘ Tron</div>
       </div>
 
       <div class="table-wrap" id="wrap-preview" style="margin-top:0.5rem">
         <div class="table-wrap-inner" id="admin-live-preview"></div>
         <div class="zoom-controls">
           <button class="zoom-btn" onclick="wrapZoom('wrap-preview',0.2)">+</button>
-          <button class="zoom-btn" onclick="wrapZoom('wrap-preview',-0.2)">−</button>
-          <button class="zoom-btn" title="Reset" onclick="wrapReset('wrap-preview')" style="font-size:0.75rem">↺</button>
+          <button class="zoom-btn" onclick="wrapZoom('wrap-preview',-0.2)">â’</button>
+          <button class="zoom-btn" title="Reset" onclick="wrapReset('wrap-preview')" style="font-size:0.75rem">â†ş</button>
         </div>
       </div>
     </div>
 
     <div class="tab-content" id="tab-table">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.9rem;flex-wrap:wrap;gap:0.5rem">
-        <div class="section-title" style="margin-bottom:0">Perfekcyjny Kreator Stołu</div>
-        <button class="save-btn" onclick="saveAll(event)">💾 Zapisz</button>
+        <div class="section-title" style="margin-bottom:0">Perfekcyjny Kreator StoĹ‚u</div>
+        <button class="save-btn" onclick="saveAll(event)">đź’ľ Zapisz</button>
       </div>
       <p style="font-size:0.8rem;color:wheat;margin-bottom:0.9rem">
-        Klikaj <strong style="color:#wheat">[+]</strong> i <strong style="color:#wheat">[−]</strong> przy krawędziach aby modyfikować stół.
-        <strong>Drag&amp;Drop:</strong> Złap krzesło i upuść na inne aby zamienić gości. Pinch / scroll = zoom.
+        Klikaj <strong style="color:#wheat">[+]</strong> i <strong style="color:#wheat">[â’]</strong> przy krawÄ™dziach aby modyfikowaÄ‡ stĂłĹ‚.
+        <strong>Drag&amp;Drop:</strong> ZĹ‚ap krzesĹ‚o i upuĹ›Ä‡ na inne aby zamieniÄ‡ goĹ›ci. Pinch / scroll = zoom.
       </p>
 
       <div class="table-config-panel">
         <div class="config-group">
-          <label class="config-lbl">Kształt stołu (Reset)</label>
+          <label class="config-lbl">KsztaĹ‚t stoĹ‚u (Reset)</label>
           <select class="tbl-input" id="cfg-shape" onchange="loadShapePreset(this.value)">
-            <option value="I">Kształt "I" (Podłużny)</option>
-            <option value="U">Kształt "U" (Podkowa)</option>
-            <option value="T">Kształt "T"</option>
-            <option value="L">Kształt "L"</option>
+            <option value="I">KsztaĹ‚t "I" (PodĹ‚uĹĽny)</option>
+            <option value="U">KsztaĹ‚t "U" (Podkowa)</option>
+            <option value="T">KsztaĹ‚t "T"</option>
+            <option value="L">KsztaĹ‚t "L"</option>
           </select>
         </div>
         <div class="config-group" style="min-width:140px">
-          <label class="config-lbl">Szerokość blatu: <span id="lbl-tw">60</span>px</label>
+          <label class="config-lbl">SzerokoĹ›Ä‡ blatu: <span id="lbl-tw">60</span>px</label>
           <input type="range" class="config-range" id="cfg-tw" min="40" max="150" value="60" oninput="updateTableConfig()">
         </div>
         <div class="config-group" style="min-width:140px">
-          <label class="config-lbl">Odstęp krzeseł: <span id="lbl-gap">36</span>px</label>
+          <label class="config-lbl">OdstÄ™p krzeseĹ‚: <span id="lbl-gap">36</span>px</label>
           <input type="range" class="config-range" id="cfg-gap" min="28" max="80" value="36" oninput="updateTableConfig()">
         </div>
         <div class="config-group" style="flex-direction:row;align-items:center;gap:1.5rem;padding-left:1rem;border-left:1px solid var(--border)">
-          <label class="checkbox-lbl"><input type="checkbox" id="cfg-flip-h" onchange="updateTableConfig()"> Odbicie Poziome ↔</label>
-          <label class="checkbox-lbl"><input type="checkbox" id="cfg-flip-v" onchange="updateTableConfig()"> Odbicie Pionowe ↕</label>
+          <label class="checkbox-lbl"><input type="checkbox" id="cfg-flip-h" onchange="updateTableConfig()"> Odbicie Poziome â†”</label>
+          <label class="checkbox-lbl"><input type="checkbox" id="cfg-flip-v" onchange="updateTableConfig()"> Odbicie Pionowe â†•</label>
         </div>
       </div>
 
@@ -602,8 +602,8 @@ button:not(.btn-primary):not(.btn-secondary):hover {
         <div class="table-wrap-inner" id="admin-table-svg-wrap"></div>
         <div class="zoom-controls">
           <button class="zoom-btn" onclick="wrapZoom('wrap-creator',0.2)">+</button>
-          <button class="zoom-btn" onclick="wrapZoom('wrap-creator',-0.2)">−</button>
-          <button class="zoom-btn" title="Reset" onclick="wrapReset('wrap-creator')" style="font-size:0.75rem">↺</button>
+          <button class="zoom-btn" onclick="wrapZoom('wrap-creator',-0.2)">â’</button>
+          <button class="zoom-btn" title="Reset" onclick="wrapReset('wrap-creator')" style="font-size:0.75rem">â†ş</button>
         </div>
       </div>
     </div>
@@ -612,37 +612,37 @@ button:not(.btn-primary):not(.btn-secondary):hover {
       <div class="section-title">Harmonogram wesela</div>
       <div class="sch-list" id="sch-list"></div>
       <button class="add-btn" onclick="addScheduleItem()" style="margin-bottom:2rem">+ Dodaj punkt planu</button>
-      <div class="section-title">Jadłospis</div>
+      <div class="section-title">JadĹ‚ospis</div>
       <div class="menu-list" id="menu-list"></div>
       <button class="add-btn" onclick="addMenuItem()">+ Dodaj danie</button>
-      <button class="save-btn" onclick="saveAll(event)" style="margin-left:0.5rem">💾 Zapisz wszystko</button>
+      <button class="save-btn" onclick="saveAll(event)" style="margin-left:0.5rem">đź’ľ Zapisz wszystko</button>
     </div>
 
     <div class="tab-content" id="tab-music">
-      <div class="section-title">Muzyka na życzenie (Od Gości)</div>
+      <div class="section-title">Muzyka na ĹĽyczenie (Od GoĹ›ci)</div>
       <div id="admin-music-list" style="display:flex;flex-direction:column;gap:0.5rem;max-width:500px"></div>
     </div>
 
     <div class="tab-content" id="tab-qr">
-      <div class="section-title">Kody QR dla gości</div>
+      <div class="section-title">Kody QR dla goĹ›ci</div>
       <div class="qr-grid" id="qr-grid"></div>
     </div>
 
     <div class="tab-content" id="tab-settings">
       <div class="section-title">Ustawienia wesela</div>
       <div class="settings-form">
-        <div><label class="settings-label">Imiona pary młodej (Tytuł główny)</label><input class="settings-input" id="s-names" placeholder="np. Zuzanna & Mateusz"></div>
-        <div><label class="settings-label">Tekst dla Tronu 1</label><input class="settings-input" id="s-throne1" placeholder="np. Pan Młody"></div>
-        <div><label class="settings-label">Tekst dla Tronu 2</label><input class="settings-input" id="s-throne2" placeholder="np. Pani Młoda"></div>
+        <div><label class="settings-label">Imiona pary mĹ‚odej (TytuĹ‚ gĹ‚Ăłwny)</label><input class="settings-input" id="s-names" placeholder="np. Zuzanna & Mateusz"></div>
+        <div><label class="settings-label">Tekst dla Tronu 1</label><input class="settings-input" id="s-throne1" placeholder="np. Pan MĹ‚ody"></div>
+        <div><label class="settings-label">Tekst dla Tronu 2</label><input class="settings-input" id="s-throne2" placeholder="np. Pani MĹ‚oda"></div>
         <div><label class="settings-label">Data wesela</label><input class="settings-input" id="s-date" placeholder="np. 14 Czerwca 2025"></div>
-        <div><label class="settings-label">Miejsce wesela</label><input class="settings-input" id="s-venue" placeholder="np. Pałac Rozalin"></div>
-        <div><label class="settings-label">Nowe hasło admina</label><input class="settings-input" type="password" id="s-pass" placeholder="Zostaw puste, by nie zmieniać"></div>
+        <div><label class="settings-label">Miejsce wesela</label><input class="settings-input" id="s-venue" placeholder="np. PaĹ‚ac Rozalin"></div>
+        <div><label class="settings-label">Nowe hasĹ‚o admina</label><input class="settings-input" type="password" id="s-pass" placeholder="Zostaw puste, by nie zmieniaÄ‡"></div>
         <div style="border-top:1px solid var(--border);padding-top:1rem">
-          <label class="settings-label">Google Drive — publiczny URL pliku JSON</label>
+          <label class="settings-label">Google Drive â€” publiczny URL pliku JSON</label>
           <input class="settings-input" id="s-drive-url" placeholder="https://drive.google.com/file/d/...">
         </div>
         <div style="border-top:1px solid var(--border);padding-top:1rem">
-          <label class="settings-label">GitHub Token (PAT) — synchronizacja danych</label>
+          <label class="settings-label">GitHub Token (PAT) â€” synchronizacja danych</label>
           <input class="settings-input" type="password" id="s-github-pat" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
           <div style="font-size:0.68rem;color:rgba(255,248,238,0.4);margin-top:0.3rem">Fine-grained token z uprawnieniem Contents: Read &amp; Write. Wymagany do synchronizacji.</div>
         </div>
@@ -654,40 +654,40 @@ button:not(.btn-primary):not(.btn-secondary):hover {
 
 <div id="screen-guest" class="screen">
   <div class="guest-hero">
-    <div class="guest-ornament">✦ ✦ ✦</div>
-    <div class="guest-wedding-title" id="g-title">Para Młoda</div>
+    <div class="guest-ornament">âś¦ âś¦ âś¦</div>
+    <div class="guest-wedding-title" id="g-title">Para MĹ‚oda</div>
     <div class="guest-date" id="g-date">DATA WESELA</div>
     <div class="guest-welcome">
       <div class="guest-name-lbl">Witaj,</div>
-      <div class="guest-name-big" id="g-name">Gość</div>
+      <div class="guest-name-big" id="g-name">GoĹ›Ä‡</div>
     </div>
   </div>
   <div class="guest-body">
     <div class="g-section">
       <div class="g-section-lbl">Twoje miejsce przy stole</div>
       <div class="g-card">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:#FFF8EE;margin-bottom:0.5rem">Stół Główny</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:#FFF8EE;margin-bottom:0.5rem">StĂłĹ‚ GĹ‚Ăłwny</div>
         <div style="display:flex;gap:1.5rem;flex-wrap:wrap">
-          <div><div style="font-size:0.67rem;text-transform:uppercase;letter-spacing:0.1em;color:wheat;opacity:0.6">Krzesło</div><div style="color:wheat;font-weight:500;font-size:0.88rem" id="g-seat">—</div></div>
-          <div><div style="font-size:0.67rem;text-transform:uppercase;letter-spacing:0.1em;color:wheat;opacity:0.6">Miejsce</div><div style="color:wheat;font-weight:500;font-size:0.88rem" id="g-venue-txt">—</div></div>
+          <div><div style="font-size:0.67rem;text-transform:uppercase;letter-spacing:0.1em;color:wheat;opacity:0.6">KrzesĹ‚o</div><div style="color:wheat;font-weight:500;font-size:0.88rem" id="g-seat">â€”</div></div>
+          <div><div style="font-size:0.67rem;text-transform:uppercase;letter-spacing:0.1em;color:wheat;opacity:0.6">Miejsce</div><div style="color:wheat;font-weight:500;font-size:0.88rem" id="g-venue-txt">â€”</div></div>
         </div>
       </div>
     </div>
 
     <div class="g-section">
-      <div class="g-section-lbl">Układ stołu <br> (Powiększ dwoma palcami na smartfonie lub scrolluj)</div>
+      <div class="g-section-lbl">UkĹ‚ad stoĹ‚u <br> (PowiÄ™ksz dwoma palcami na smartfonie lub scrolluj)</div>
       <div class="g-card" style="padding:0;overflow:hidden">
         <div class="legend" style="padding:1rem 1rem 0">
-          <div class="legend-item" style="color:wheat"><div class="legend-dot" style="background:wheat;border:2px solid #8B6914"></div> Twoje krzesło</div>
-          <div class="legend-item" style="color:wheat"><div class="legend-dot" style="background:linear-gradient(rgba(201, 168, 76, 0.3),rgba(201, 168, 76, 0.3)), wheat;border:1.5px solid brown"></div> Zajęte</div>
+          <div class="legend-item" style="color:wheat"><div class="legend-dot" style="background:wheat;border:2px solid #8B6914"></div> Twoje krzesĹ‚o</div>
+          <div class="legend-item" style="color:wheat"><div class="legend-dot" style="background:linear-gradient(rgba(201, 168, 76, 0.3),rgba(201, 168, 76, 0.3)), wheat;border:1.5px solid brown"></div> ZajÄ™te</div>
           <div class="legend-item" style="color:wheat"><div class="legend-dot" style="background:linear-gradient(rgba(255, 255, 255, 0.65),rgba(255, 255, 255, 0.65)), wheat;border:1.5px solid brown"></div> Wolne</div>
         </div>
         <div class="table-wrap" id="wrap-guest" style="background:transparent;border:none;height:60vh">
           <div class="table-wrap-inner" id="g-table-svg-wrap"></div>
           <div class="zoom-controls">
             <button class="zoom-btn" onclick="wrapZoom('wrap-guest',0.2)" style="background:rgba(255,253,248,0.08);border-color:rgba(201,168,76,0.3);color:wheat">+</button>
-            <button class="zoom-btn" onclick="wrapZoom('wrap-guest',-0.2)" style="background:rgba(255,253,248,0.08);border-color:rgba(201,168,76,0.3);color:wheat">−</button>
-            <button class="zoom-btn" onclick="wrapReset('wrap-guest')" style="background:rgba(255,253,248,0.08);border-color:rgba(201,168,76,0.3);color:wheat;font-size:0.75rem">↺</button>
+            <button class="zoom-btn" onclick="wrapZoom('wrap-guest',-0.2)" style="background:rgba(255,253,248,0.08);border-color:rgba(201,168,76,0.3);color:wheat">â’</button>
+            <button class="zoom-btn" onclick="wrapReset('wrap-guest')" style="background:rgba(255,253,248,0.08);border-color:rgba(201,168,76,0.3);color:wheat;font-size:0.75rem">â†ş</button>
           </div>
         </div>
       </div>
@@ -699,21 +699,21 @@ button:not(.btn-primary):not(.btn-secondary):hover {
     </div>
 
     <div class="g-section">
-      <div class="g-section-lbl">Zamów Piosenkę na Parkiet <br>(z Apple Music)</div>
+      <div class="g-section-lbl">ZamĂłw PiosenkÄ™ na Parkiet <br>(z Apple Music)</div>
       <div class="g-card">
         <div class="music-search-wrap">
-          <input type="text" id="music-search" placeholder="Wpisz tytuł piosenki lub wykonawcę..." oninput="searchMusic(this.value)">
+          <input type="text" id="music-search" placeholder="Wpisz tytuĹ‚ piosenki lub wykonawcÄ™..." oninput="searchMusic(this.value)">
           <div id="music-results" class="music-results"></div>
           <div style="margin-top:1rem;text-align:center">
-            <span style="color:wheat;font-size:0.75rem">Nie możesz znaleźć w wyszukiwarce? </span>
-            <button class="btn-secondary" style="padding:0.3rem 0.8rem;width:auto;font-size:0.7rem;margin-top:0.3rem" onclick="addManualSong()">Wpisz ręcznie</button>
+            <span style="color:wheat;font-size:0.75rem">Nie moĹĽesz znaleĹşÄ‡ w wyszukiwarce? </span>
+            <button class="btn-secondary" style="padding:0.3rem 0.8rem;width:auto;font-size:0.7rem;margin-top:0.3rem" onclick="addManualSong()">Wpisz rÄ™cznie</button>
           </div>
         </div>
       </div>
     </div>
 
     <div class="g-section" id="g-menu-section" style="display:none">
-      <div class="g-section-lbl">Jadłospis</div>
+      <div class="g-section-lbl">JadĹ‚ospis</div>
       <div class="g-card" id="g-menu-content"></div>
     </div>
     <div class="g-section">
@@ -732,7 +732,7 @@ button:not(.btn-primary):not(.btn-secondary):hover {
       <div style="font-size:0.78rem;color:wheat;margin-top:0.5rem" id="qr-modal-info"></div>
       <div style="font-family:monospace;font-size:0.83rem;color:wheat;margin-top:0.25rem" id="qr-modal-code"></div>
     </div>
-    <div class="modal-footer"><button class="modal-cancel" onclick="closeModal()">Zamknij</button><button class="add-btn" onclick="window.print()">🖨 Drukuj</button></div>
+    <div class="modal-footer"><button class="modal-cancel" onclick="closeModal()">Zamknij</button><button class="add-btn" onclick="window.print()">đź–¨ Drukuj</button></div>
   </div>
 </div>
 
@@ -740,21 +740,21 @@ button:not(.btn-primary):not(.btn-secondary):hover {
   <div id="seat-modal" style="background:#1a1410bf;    place-items: center;
     box-shadow: wheat 0px 0px 70px 4px;
     background: #522c1b;border-radius:var(--radius);padding:1.4rem;max-width:300px;width:100%;border:1px solid var(--border)">
-    <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;margin-bottom:0.5rem" id="seat-modal-num">Krzesło 1</div>
-    <div style="font-size:1.3rem;font-family:'Cormorant Garamond',serif" id="seat-modal-name">—</div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;margin-bottom:0.5rem" id="seat-modal-num">KrzesĹ‚o 1</div>
+    <div style="font-size:1.3rem;font-family:'Cormorant Garamond',serif" id="seat-modal-name">â€”</div>
     <div class="modal-footer" style="margin-top:1rem"><button class="modal-cancel" onclick="closeModal()">Zamknij</button></div>
   </div>
 </div>
 
 <div class="modal-overlay hidden" id="assign-modal-overlay" onclick="if(event.target===this)closeModal()">
   <div id="assign-modal">
-    <div class="modal-title">Zarządzaj Krzesłem</div>
-    <div style="font-size:0.85rem;color:wheat;margin-bottom:0.9rem" id="assign-modal-seat">Krzesło 1</div>
-    <label style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:wheat;display:block;margin-bottom:0.3rem">Przenieś istniejącego gościa:</label>
+    <div class="modal-title">ZarzÄ…dzaj KrzesĹ‚em</div>
+    <div style="font-size:0.85rem;color:wheat;margin-bottom:0.9rem" id="assign-modal-seat">KrzesĹ‚o 1</div>
+    <label style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:wheat;display:block;margin-bottom:0.3rem">PrzenieĹ› istniejÄ…cego goĹ›cia:</label>
     <select class="tbl-input" id="assign-select-guest" style="margin-bottom:1rem;background:var(--card)">
       <option value="">-- Wybierz z listy --</option>
     </select>
-    <label style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:wheat;display:block;margin-bottom:0.3rem">Lub dodaj nowego gościa:</label>
+    <label style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:wheat;display:block;margin-bottom:0.3rem">Lub dodaj nowego goĹ›cia:</label>
     <input class="tbl-input" id="assign-name-input" placeholder="np. Jan Kowalski" maxlength="100" onkeydown="if(event.key==='Enter')confirmAssign()">
     <div class="modal-footer" style="margin-top:1.5rem">
       <button class="modal-cancel" id="assign-clear-btn" onclick="confirmAssignClear()" style="color:#C0392B;border-color:rgba(192,57,43,0.3)">Zwolnij miejsce</button>
@@ -765,9 +765,9 @@ button:not(.btn-primary):not(.btn-secondary):hover {
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 //  UTILS
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 function sanitizeText(s){return String(s||'').replace(/<[^>]*>/g,'').trim();}
 function validateDriveUrl(url){
@@ -781,9 +781,9 @@ function validateDriveUrl(url){
 }
 function safeGetE(key){if(!STATE.settings.table||!STATE.settings.table.edges)return 0;return parseInt(STATE.settings.table.edges[key])||0;}
 
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 //  ZOOM & PAN ENGINE  (per-wrapper, pinch-to-zoom)
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 const wrapState={};
 
 function initWrap(wrapId){
@@ -802,7 +802,7 @@ function initWrap(wrapId){
     if(!inner)return;
     const ww=wrap.clientWidth,wh=wrap.clientHeight;
     if(ww===0||wh===0)return;
-    // Pobierz rozmiar z SVG (najdokładniejsze źródło)
+    // Pobierz rozmiar z SVG (najdokĹ‚adniejsze ĹşrĂłdĹ‚o)
     const svg=inner.querySelector('svg');
     let iw,ih;
     if(svg){
@@ -812,12 +812,12 @@ function initWrap(wrapId){
       iw=inner.offsetWidth||200;
       ih=inner.offsetHeight||200;
     }
-    // Przy pierwszej inicjalizacji (scale===1 i nie przeciągano) — auto-fit
+    // Przy pierwszej inicjalizacji (scale===1 i nie przeciÄ…gano) â€” auto-fit
     if(st.scale===1&&st.ox===0&&st.oy===0){
       const padding=40;
       const scaleX=(ww-padding)/iw;
       const scaleY=(wh-padding)/ih;
-      const fitScale=Math.min(scaleX,scaleY,1); // nigdy nie powiększaj powyżej 1:1
+      const fitScale=Math.min(scaleX,scaleY,1); // nigdy nie powiÄ™kszaj powyĹĽej 1:1
       st.scale=Math.max(0.3,fitScale);
     }
     st.ox=(ww-iw*st.scale)/2;
@@ -837,7 +837,7 @@ function initWrap(wrapId){
     st.scale=newS;apply();
   },{passive:false});
 
-  // Mouse drag (only on the wrapper itself, not seat circles — those have their own handlers)
+  // Mouse drag (only on the wrapper itself, not seat circles â€” those have their own handlers)
   wrap.addEventListener('mousedown',e=>{
     if(e.target.closest('.seat-circle')||e.target.closest('.zoom-controls'))return;
     st.dragging=true;st.lastX=e.clientX;st.lastY=e.clientY;
@@ -899,21 +899,21 @@ function wrapZoom(wrapId,delta){
 }
 function wrapReset(wrapId){
   const st=wrapState[wrapId];if(!st)return;
-  // reset do baseline — centerContent sam wyliczy auto-fit
+  // reset do baseline â€” centerContent sam wyliczy auto-fit
   st.scale=1;st.ox=0;st.oy=0;
   if(st._center)requestAnimationFrame(st._center);
 }
 function centerWrap(wrapId){
   const st=wrapState[wrapId];
   if(st&&st._center){
-    // Dwa rAF: pierwszy daje czas na render SVG, drugi na obliczenie wymiarów
+    // Dwa rAF: pierwszy daje czas na render SVG, drugi na obliczenie wymiarĂłw
     requestAnimationFrame(()=>requestAnimationFrame(st._center));
   }
 }
 
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 //  CRYPTO
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 const PASS_SALT='w3dd1ng-s4lt-2026';
 async function hashPassword(pass){
   if(window.crypto&&window.crypto.subtle){
@@ -932,24 +932,24 @@ let ADMIN_AUTHED=false;
 let SEAT_IDS=[];
 let CURRENT_LAYOUT=null;
 
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 //  STATE
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 const DEFAULT_STATE={
-  settings:{names:'Para Młoda',date:'Data Wesela',venue:'Sala Weselna',passHash:'',driveUrl:'',
+  settings:{names:'Para MĹ‚oda',date:'Data Wesela',venue:'Sala Weselna',passHash:'',driveUrl:'',
     table:{shape:'I',flipH:false,flipV:false,tw:60,gap:48,dist:18,
       edges:{i_top:0,i_bottom:2,i_left:17,i_right:17,u_top_out:0,u_top_in:2,u_l_out:10,u_l_in:8,u_l_bot:2,u_r_out:10,u_r_in:8,u_r_bot:2,l_top:0,l_l:12,l_r_in:8,l_t_in:6,l_b:10,l_right:2,l_v_bot:0,t_top_out:0,t_t_l:4,t_t_r:4,t_s_l:10,t_s_r:10,t_s_b:2,t_left_end:1,t_right_end:1}
     }
   },
-  guests:[{id:'g1',name1:'Pan Młody',name2:'Pani Młoda',seat1:'T1',seat2:'T2',code:'G-001'}],
-  schedule:[{time:'16:30',event:'Przyjęcie'}],
+  guests:[{id:'g1',name1:'Pan MĹ‚ody',name2:'Pani MĹ‚oda',seat1:'T1',seat2:'T2',code:'G-001'}],
+  schedule:[{time:'16:30',event:'PrzyjÄ™cie'}],
   menu:[],music:[]
 };
 
 let STATE=JSON.parse(JSON.stringify(DEFAULT_STATE));
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 //  GITHUB STORAGE API
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 const GITHUB_CONFIG={owner:'BialasDamian',repo:'WeedingApp',dataPath:'data/wedding_data.json',pollMs:15000};
 const GitHubStorage={
   _sha:null,_pollTimer:null,_lastContent:null,
@@ -1025,9 +1025,9 @@ const GitHubStorage={
   stopPolling(){if(this._pollTimer){clearInterval(this._pollTimer);this._pollTimer=null;}}
 };
 
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 //  PERSISTENCE LAYER
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function loadLocalCache(){try{const s=localStorage.getItem('wedding_v21');if(s)STATE=JSON.parse(s);}catch(e){}}
 function saveLocalCache(){try{localStorage.setItem('wedding_v21',JSON.stringify(STATE));}catch(e){}}
 let _ghSaveDebounce=null;
@@ -1045,9 +1045,9 @@ if(!STATE.settings.table)STATE.settings.table=DEFAULT_STATE.settings.table;
 if(!STATE.settings.table.edges)STATE.settings.table.edges=DEFAULT_STATE.settings.table.edges;
 if(!STATE.music)STATE.music=[];
 
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 //  LAYOUT ENGINE
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function getOffsets(count,gap){
   if(!count||count<1)return[];
   const start=-((count-1)*gap)/2;
@@ -1070,10 +1070,10 @@ function generateLayoutEngine(){
     let center=(start+end)/2;
     let btnDist=dist+R+34;
     if(isH){
-      controls.push({x:center-16,y:fixed+(dir*btnDist),key,d:-1,t:'−'});
+      controls.push({x:center-16,y:fixed+(dir*btnDist),key,d:-1,t:'â’'});
       controls.push({x:center+16,y:fixed+(dir*btnDist),key,d:1,t:'+'});
     }else{
-      controls.push({x:fixed+(dir*btnDist),y:center-16,key,d:-1,t:'−'});
+      controls.push({x:fixed+(dir*btnDist),y:center-16,key,d:-1,t:'â’'});
       controls.push({x:fixed+(dir*btnDist),y:center+16,key,d:1,t:'+'});
     }
     if(totalChairs===0)return;
@@ -1099,7 +1099,7 @@ function generateLayoutEngine(){
   if(cfg.shape==='I'){
     let W=TW;
     let H=Math.max(safeGetE('i_left')*gap+2*E_BUF,safeGetE('i_right')*gap+2*E_BUF);
-    tables.push({x:-W/2,y:0,w:W,h:H,lbl:'Stół Główny'});
+    tables.push({x:-W/2,y:0,w:W,h:H,lbl:'StĂłĹ‚ GĹ‚Ăłwny'});
     placeEdge('i_top',-W/2+E_BUF,W/2-E_BUF,0,true,-1,safeGetE('i_top'),false,true);
     placeEdge('i_bottom',-W/2+E_BUF,W/2-E_BUF,H,true,1,safeGetE('i_bottom'),false);
     placeEdge('i_left',E_BUF,H-E_BUF,-W/2,false,-1,safeGetE('i_left'),false);
@@ -1108,7 +1108,7 @@ function generateLayoutEngine(){
     let topW=Math.max(3*TW,safeGetE('u_top_in')*gap+2*C_BUF+2*TW,(safeGetE('u_top_out')+2)*gap+2*E_BUF);
     let hL=Math.max(safeGetE('u_l_out')*gap+2*E_BUF,safeGetE('u_l_in')*gap+C_BUF+E_BUF);
     let hR=Math.max(safeGetE('u_r_out')*gap+2*E_BUF,safeGetE('u_r_in')*gap+C_BUF+E_BUF);
-    tables.push({x:-topW/2,y:0,w:topW,h:TW,lbl:'Główny'});
+    tables.push({x:-topW/2,y:0,w:topW,h:TW,lbl:'GĹ‚Ăłwny'});
     tables.push({x:-topW/2,y:TW,w:TW,h:hL,lbl:''});
     tables.push({x:topW/2-TW,y:TW,w:TW,h:hR,lbl:''});
     placeEdge('u_top_out',-topW/2+E_BUF,topW/2-E_BUF,0,true,-1,safeGetE('u_top_out'),false,true);
@@ -1123,7 +1123,7 @@ function generateLayoutEngine(){
     let wTop=TW;
     let hV=Math.max(safeGetE('l_l')*gap+2*E_BUF,safeGetE('l_r_in')*gap+E_BUF+C_BUF+TW);
     let wH=Math.max(wTop+safeGetE('l_t_in')*gap+C_BUF+E_BUF,safeGetE('l_b')*gap+wTop+2*E_BUF,wTop+TW);
-    tables.push({x:0,y:0,w:wTop,h:hV,lbl:'Główny'});
+    tables.push({x:0,y:0,w:wTop,h:hV,lbl:'GĹ‚Ăłwny'});
     tables.push({x:wTop,y:hV-TW,w:wH-wTop,h:TW,lbl:''});
     placeEdge('l_top',E_BUF,wTop-E_BUF,0,true,-1,safeGetE('l_top'),false,true);
     placeEdge('l_l',E_BUF,hV-E_BUF,0,false,-1,safeGetE('l_l'),false);
@@ -1137,7 +1137,7 @@ function generateLayoutEngine(){
     let armR=Math.max(safeGetE('t_t_r')*gap+E_BUF+C_BUF,40);
     let wTop=armL+TW+armR;
     let hV=Math.max(safeGetE('t_s_l')*gap+C_BUF+E_BUF,safeGetE('t_s_r')*gap+C_BUF+E_BUF);
-    tables.push({x:-wTop/2,y:0,w:wTop,h:TW,lbl:'Stół Główny'});
+    tables.push({x:-wTop/2,y:0,w:wTop,h:TW,lbl:'StĂłĹ‚ GĹ‚Ăłwny'});
     tables.push({x:-TW/2,y:TW,w:TW,h:hV,lbl:''});
     placeEdge('t_top_out',-wTop/2+E_BUF,wTop/2-E_BUF,0,true,-1,safeGetE('t_top_out'),false,true);
     placeEdge('t_left_end',E_BUF,TW-E_BUF,-wTop/2,false,-1,safeGetE('t_left_end'),false);
@@ -1171,18 +1171,18 @@ function generateLayoutEngine(){
   if(cfg.flipH){
     tables.forEach(t=>{t.x=-t.x-t.w;});
     seats.forEach(s=>{s.x=-s.x;if(!s.isH)s.dir=-s.dir;});
-    controls.forEach(c=>{c.x=-c.x;c.d=-c.d;c.t=c.t==='−'?'+':'−';});
+    controls.forEach(c=>{c.x=-c.x;c.d=-c.d;c.t=c.t==='â’'?'+':'â’';});
   }
   if(cfg.flipV){
     tables.forEach(t=>{t.y=-t.y-t.h;});
     seats.forEach(s=>{s.y=-s.y;if(s.isH)s.dir=-s.dir;});
-    controls.forEach(c=>{c.y=-c.y;c.d=-c.d;c.t=c.t==='−'?'+':'−';});
+    controls.forEach(c=>{c.y=-c.y;c.d=-c.d;c.t=c.t==='â’'?'+':'â’';});
   }
 
   // Build posMap
   seats.forEach(s=>{posMap[s.id]=s;});
 
-  // ── LABEL PLACEMENT with collision detection ────────────────
+  // â”€â”€ LABEL PLACEMENT with collision detection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   // Step 1: assign raw label positions per seat
   const R_SEAT=13;
   const LABEL_OFFSET=50;    // distance from seat centre to text anchor
@@ -1195,7 +1195,7 @@ function generateLayoutEngine(){
   // We'll place labels in SVG-space.  For horizontal seats (isH=true) the
   // natural direction is along Y (above/below the table).  For vertical seats
   // the natural direction is along X (left/right of the table).
-  // After flips these may be inverted — we use the already-flipped dir value.
+  // After flips these may be inverted â€” we use the already-flipped dir value.
 
   // Collect label rects for AABB collision
   const labelRects=[];   // {x1,y1,x2,y2, seatId}
@@ -1213,12 +1213,12 @@ function generateLayoutEngine(){
 
     let lx,ly,anchor;
     if(isH){
-      // seat is horizontal (top/bottom edge) → label goes vertically above/below
+      // seat is horizontal (top/bottom edge) â†’ label goes vertically above/below
       lx=sx;
       ly=sy+sign*(R_SEAT+LABEL_OFFSET);
       anchor='middle';
     }else{
-      // seat is vertical (left/right edge) → label goes horizontally left/right
+      // seat is vertical (left/right edge) â†’ label goes horizontally left/right
       lx=sx+sign*(R_SEAT+LABEL_OFFSET);
       ly=sy;
       anchor=sign<0?'end':'start';
@@ -1241,7 +1241,7 @@ function generateLayoutEngine(){
     return{lx,ly,anchor,isH,dir:sign,bx1,by1,bx2,by2};
   }
 
-  const seatLabels={};  // seatId → {lx,ly,anchor,isH,dir}
+  const seatLabels={};  // seatId â†’ {lx,ly,anchor,isH,dir}
 
   seats.forEach(s=>{
     const name=getNameForSeat(s.id);
@@ -1273,7 +1273,7 @@ function generateLayoutEngine(){
     }
   });
 
-  // Viewbox — generous margin for labels
+  // Viewbox â€” generous margin for labels
   let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
   labelRects.forEach(r=>{minX=Math.min(minX,r.x1-30);maxX=Math.max(maxX,r.x2+30);minY=Math.min(minY,r.y1-20);maxY=Math.max(maxY,r.y2+20);});
   [...seats,...controls].forEach(item=>{
@@ -1289,9 +1289,9 @@ function generateLayoutEngine(){
   CURRENT_LAYOUT={tables,seats,controls,posMap,seatLabels,viewBox:`${minX} ${minY} ${maxX-minX} ${maxY-minY}`,svgWidth:maxX-minX,svgHeight:maxY-minY};
 }
 
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 //  SVG BUILDER
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function buildTableSVG(mySeats,darkMode,clickMode){
   const mode=clickMode||'guest';
   const layout=CURRENT_LAYOUT;
@@ -1317,7 +1317,7 @@ function buildTableSVG(mySeats,darkMode,clickMode){
     if(t.lbl)svg+=`<text x="${t.x+t.w/2}" y="${t.y+18}" text-anchor="middle" font-size="10" font-family=${FF} fill="${darkMode?'rgba(255,248,238,0.18)':'brown'}">${t.lbl}</text>`;
   });
 
-  // LABELS — drawn BEFORE circles so circles appear on top
+  // LABELS â€” drawn BEFORE circles so circles appear on top
   Object.entries(layout.seatLabels||{}).forEach(([sid,lb])=>{
     const c=col(sid);if(!c.lf)return;
     const s=layout.posMap[sid];if(!s)return;
@@ -1337,7 +1337,7 @@ function buildTableSVG(mySeats,darkMode,clickMode){
       const y1=ly-LINE_H*0.5+4;
       const y2=ly+LINE_H*0.5+4;
       if(isH){
-        // vertical seat — text is horizontal, rotated -90° around connector point for readability
+        // vertical seat â€” text is horizontal, rotated -90Â° around connector point for readability
         // Actually keep text horizontal (no rotation) for horizontal seats too
         svg+=`<text x="${lx}" y="${y1}" text-anchor="${anchor}" font-size="${NAME_FS}" font-family=${FF} font-weight="600" font-style="italic" ${strokeAttrs}>${escHtml(line1)}</text>`;
         svg+=`<text x="${lx}" y="${y1}" text-anchor="${anchor}" font-size="${NAME_FS}" font-family=${FF} font-weight="600" font-style="italic" fill="${c.nf}">${escHtml(line1)}</text>`;
@@ -1364,7 +1364,7 @@ function buildTableSVG(mySeats,darkMode,clickMode){
 
   // Seat circles (on top of labels)
   layout.seats.forEach(s=>{
-    const c=col(s.id);const th=isThrone(s.id);const r=th?R+2:R;const lbl=th?'♛':s.id;
+    const c=col(s.id);const th=isThrone(s.id);const r=th?R+2:R;const lbl=th?'â™›':s.id;
     const interaction=mode==='admin'?`onpointerdown="startDrag(event,this)"`:`onclick="seatClick('${escHtml(s.id)}')"`;
     svg+=`<g data-sid="${escHtml(s.id)}" class="seat-circle" ${interaction}>`;
     svg+=`<circle cx="${s.x}" cy="${s.y}" r="${r}" fill="${c.fill}" stroke="${c.st}" stroke-width="${c.sw}"/>`;
@@ -1389,9 +1389,9 @@ function buildTableSVG(mySeats,darkMode,clickMode){
 // LINE_H constant used in layout engine
 const LINE_H=18;
 
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 //  DRAG AND DROP
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 let dragSeat=null,dragStart={x:0,y:0};
 
 function startDrag(e,el){
@@ -1448,9 +1448,9 @@ function cleanUpInvalidSeats(){
   STATE.guests=STATE.guests.filter(g=>g.seat1||g.seat2||g.name1||g.name2);
 }
 
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 //  NAV & AUTH
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 let LOGIN_LOCKED_UNTIL=0,LOGIN_ATTEMPTS=0;
 
 function show(id){
@@ -1488,7 +1488,7 @@ async function adminLogin(){
   const now=Date.now();
   if(now<LOGIN_LOCKED_UNTIL){document.getElementById('admin-err').textContent=`Poczekaj ${Math.ceil((LOGIN_LOCKED_UNTIL-now)/1000)}s.`;return;}
   const p=document.getElementById('admin-pass').value;
-  if(!p){document.getElementById('admin-err').textContent='Podaj hasło.';return;}
+  if(!p){document.getElementById('admin-err').textContent='Podaj hasĹ‚o.';return;}
   if(!STATE.settings.passHash){STATE.settings.passHash=await hashPassword('Wesele2026!');saveLocal();}
   if(await checkPassword(p,STATE.settings.passHash)){
     ADMIN_AUTHED=true;LOGIN_ATTEMPTS=0;
@@ -1499,7 +1499,7 @@ async function adminLogin(){
   }else{
     LOGIN_ATTEMPTS++;
     if(LOGIN_ATTEMPTS>=5){LOGIN_LOCKED_UNTIL=Date.now()+30000;LOGIN_ATTEMPTS=0;document.getElementById('admin-err').textContent='Blokada 30s.';}
-    else{document.getElementById('admin-err').textContent=`Błędne hasło (${LOGIN_ATTEMPTS}/5).`;}
+    else{document.getElementById('admin-err').textContent=`BĹ‚Ä™dne hasĹ‚o (${LOGIN_ATTEMPTS}/5).`;}
   }
 }
 function adminLogout(){ADMIN_AUTHED=false;GitHubStorage.stopPolling();show('screen-landing');}
@@ -1511,10 +1511,10 @@ function guestLogin(){
   if(!code){document.getElementById('guest-err').textContent='Podaj kod.';return;}
   const g=STATE.guests.find(x=>x.code===code);
   if(g){renderGuestView(g);show('screen-guest');requestAnimationFrame(()=>initWrap('wrap-guest'));}
-  else document.getElementById('guest-err').textContent='Nie znaleziono gościa. Upewnij się, że wpisujesz poprawny kod.';
+  else document.getElementById('guest-err').textContent='Nie znaleziono goĹ›cia. Upewnij siÄ™, ĹĽe wpisujesz poprawny kod.';
 }
 
-function seatLabel(id){return isThrone(id)?(id==='T1'?'👑 Tron 1':'👑 Tron 2'):'Krzesło '+id;}
+function seatLabel(id){return isThrone(id)?(id==='T1'?'đź‘‘ Tron 1':'đź‘‘ Tron 2'):'KrzesĹ‚o '+id;}
 function isThrone(id){return id==='T1'||id==='T2';}
 function takenSeats(excl){
   const t=new Set();
@@ -1525,7 +1525,7 @@ function getNameForSeat(sid){
   if(isThrone(sid)){
     if(sid==='T1' && STATE.settings.throne1) return STATE.settings.throne1;
     if(sid==='T2' && STATE.settings.throne2) return STATE.settings.throne2;
-    const p=(STATE.settings.names||'').split('&');return(sid==='T1'?(p[0]||''):(p[1]||'')).trim()||'Para Młoda';
+    const p=(STATE.settings.names||'').split('&');return(sid==='T1'?(p[0]||''):(p[1]||'')).trim()||'Para MĹ‚oda';
   }
   for(const g of STATE.guests){if(g.seat1===sid)return g.name1||null;if(g.seat2===sid)return g.name2||null;}
   return null;
@@ -1533,7 +1533,7 @@ function getNameForSeat(sid){
 function buildSeatSelect(val,gid,allowEmpty,field){
   const taken=takenSeats(gid);
   let h=`<select class="tbl-input" style="width:105px" data-id="${gid}" data-field="${field}" onchange="updateGuestField(this)">`;
-  if(allowEmpty)h+=`<option value="">— brak —</option>`;
+  if(allowEmpty)h+=`<option value="">â€” brak â€”</option>`;
   SEAT_IDS.forEach(sid=>{
     const dis=(taken.has(sid)&&sid!==val)?'disabled':'';
     h+=`<option value="${escHtml(sid)}" ${sid===val?'selected':''} ${dis}>${escHtml(seatLabel(sid))}</option>`;
@@ -1560,7 +1560,7 @@ function adminSeatClick(sid){
   document.getElementById('assign-modal-seat').textContent=seatLabel(sid);
   document.getElementById('assign-name-input').value=currentName||'';
   const sel=document.getElementById('assign-select-guest');
-  sel.innerHTML='<option value="">-- Wybierz istniejącego gościa --</option>';
+  sel.innerHTML='<option value="">-- Wybierz istniejÄ…cego goĹ›cia --</option>';
   STATE.guests.forEach(g=>{
     if(g.name1&&!isThrone(g.seat1))sel.innerHTML+=`<option value="${g.id}_1">${escHtml(g.name1)} (${seatLabel(g.seat1)})</option>`;
     if(g.name2&&!isThrone(g.seat2))sel.innerHTML+=`<option value="${g.id}_2">${escHtml(g.name2)} (${seatLabel(g.seat2)})</option>`;
@@ -1584,10 +1584,10 @@ function confirmAssign(){
     }
   }
   const name=document.getElementById('assign-name-input').value.trim();
-  if(!name){alert('Wpisz imię gościa lub wybierz z listy.');return;}
+  if(!name){alert('Wpisz imiÄ™ goĹ›cia lub wybierz z listy.');return;}
   _assignSeatName(_assignSid,name);closeModal();
 }
-function confirmAssignClear(){if(!_assignSid)return;if(!confirm('Usunąć gościa z tego krzesła?'))return;_assignSeatName(_assignSid,null);closeModal();}
+function confirmAssignClear(){if(!_assignSid)return;if(!confirm('UsunÄ…Ä‡ goĹ›cia z tego krzesĹ‚a?'))return;_assignSeatName(_assignSid,null);closeModal();}
 function _assignSeatName(sid,name){
   STATE.guests.forEach(g=>{
     if(g.seat1===sid){g.seat1='';g.name1='';}
@@ -1632,12 +1632,12 @@ function renderAdmin(){
     renderLivePreview();renderAdminTable();renderAdminMusic();
   });
 }
-function updateDriveStatus(){const el=document.getElementById('drive-status-txt');const hasToken=!!(sessionStorage.getItem('github_pat')||(STATE.settings&&STATE.settings.githubToken));if(hasToken)el.innerHTML='<strong style="color:#93ff8e">GitHub ✓ Synchronizacja aktywna</strong>';else el.innerHTML='Brak tokenu GitHub — tylko zapis lokalny';}
+function updateDriveStatus(){const el=document.getElementById('drive-status-txt');const hasToken=!!(sessionStorage.getItem('github_pat')||(STATE.settings&&STATE.settings.githubToken));if(hasToken)el.innerHTML='<strong style="color:#93ff8e">GitHub âś“ Synchronizacja aktywna</strong>';else el.innerHTML='Brak tokenu GitHub â€” tylko zapis lokalny';}
 
 function renderLivePreview(){
   const w=document.getElementById('admin-live-preview');if(!w)return;
   w.innerHTML=buildTableSVG(null,false,'admin').svg;
-  // Zresetuj skalę przy każdym pełnym przerysowaniu (zmiana layoutu)
+  // Zresetuj skalÄ™ przy kaĹĽdym peĹ‚nym przerysowaniu (zmiana layoutu)
   if(wrapState['wrap-preview']){wrapState['wrap-preview'].scale=1;wrapState['wrap-preview'].ox=0;wrapState['wrap-preview'].oy=0;}
   centerWrap('wrap-preview');
 }
@@ -1654,50 +1654,68 @@ function renderGuestsTable(){
     const tr=document.createElement('tr');const tf=isThrone(g.seat1)||isThrone(g.seat2);
     tr.innerHTML=
       `<td style="color:wheat;font-size:0.75rem">${i+1}</td>`+
-      `<td><input class="tbl-input" value="${escHtml(g.name1)}" data-id="${escHtml(g.id)}" data-field="name1" oninput="liveUpdate(this)" placeholder="Imię nazwisko" maxlength="80"></td>`+
+      `<td><input class="tbl-input" value="${escHtml(g.name1)}" data-id="${escHtml(g.id)}" data-field="name1" oninput="liveUpdate(this)" placeholder="ImiÄ™ nazwisko" maxlength="80"></td>`+
       `<td><input class="tbl-input" value="${escHtml(g.name2||'')}" data-id="${escHtml(g.id)}" data-field="name2" oninput="liveUpdate(this)" placeholder="(opcjonalnie)" maxlength="80"></td>`+
       `<td>${buildSeatSelect(g.seat1,g.id,false,'seat1')}</td>`+
       `<td>${buildSeatSelect(g.seat2,g.id,true,'seat2')}</td>`+
       `<td><span class="pill ${tf?'pill-throne':''}">${escHtml(g.code)}</span></td>`+
-      `<td><button class="danger-btn" onclick="removeGuest('${escHtml(g.id)}')">✕</button></td>`;
+      `<td><button class="danger-btn" onclick="removeGuest('${escHtml(g.id)}')">âś•</button></td>`;
     tbody.appendChild(tr);
   });
 }
 function liveUpdate(el){const g=STATE.guests.find(x=>x.id===el.dataset.id);if(g){g[el.dataset.field]=sanitizeText(el.value);generateLayoutEngine();saveLocal();renderLivePreview();}}
 function updateGuestField(el){const g=STATE.guests.find(x=>x.id===el.dataset.id);if(g){g[el.dataset.field]=el.value;generateLayoutEngine();saveLocal();renderLivePreview();renderAdminTable();}}
 function addGuest(){
-  const idx=STATE.guests.length+1;const code='G-'+String(idx).padStart(3,'0');
+  let maxIdx = 0;
+  for (let i = 0; i < STATE.guests.length; i++) {
+    const c = STATE.guests[i].code;
+    if (c && c.startsWith('G-')) {
+      const num = parseInt(c.replace('G-', ''), 10);
+      if (!isNaN(num) && num > maxIdx) maxIdx = num;
+    }
+  }
+  const idx = maxIdx + 1;
+  const code = 'G-' + String(idx).padStart(3, '0');
+  
+  // Naprawa starych duplikatĂłw: jeĹ›li ten kod jednak istnieje, znajdĹşmy pierwszy wolny
+  let finalCode = code;
+  let attempt = idx;
+  while(STATE.guests.some(g => g.code === finalCode)) {
+    attempt++;
+    finalCode = 'G-' + String(attempt).padStart(3, '0');
+  }
+
   const taken=takenSeats(null);let ff='';
   for(let i=0;i<SEAT_IDS.length;i++){const s=SEAT_IDS[i];if(!taken.has(s)&&!isThrone(s)){ff=s;break;}}
-  STATE.guests.push({id:'g'+Date.now(),name1:'',name2:'',seat1:ff||SEAT_IDS[2]||'',seat2:'',code});
+  STATE.guests.push({id:'g'+Date.now(),name1:'',name2:'',seat1:ff||SEAT_IDS[2]||'',seat2:'',code:finalCode});
   saveLocal();renderGuestsTable();renderLivePreview();renderAdminTable();
 }
-function removeGuest(id){if(!confirm('Usunąć gościa?'))return;STATE.guests=STATE.guests.filter(g=>g.id!==id);saveLocal();renderGuestsTable();generateLayoutEngine();renderLivePreview();renderAdminTable();}
-async function saveAll(ev){const b=ev&&ev.target?ev.target:null;const origText=b?b.textContent:'';if(b)b.textContent='⏳ Zapisuję...';const ok=await saveNow();if(b){b.textContent=ok?'✓ Zapisano w GitHub!':'⚠ Zapisano lokalnie';setTimeout(()=>b.textContent=origText,1800);}}
+function removeGuest(id){if(!confirm('UsunÄ…Ä‡ goĹ›cia?'))return;STATE.guests=STATE.guests.filter(g=>g.id!==id);saveLocal();renderGuestsTable();generateLayoutEngine();renderLivePreview();renderAdminTable();}
+async function saveAll(ev){const b=ev&&ev.target?ev.target:null;const origText=b?b.textContent:'';if(b)b.textContent='âŹł ZapisujÄ™...';const ok=await saveNow();if(b){b.textContent=ok?'âś“ Zapisano w GitHub!':'âš  Zapisano lokalnie';setTimeout(()=>b.textContent=origText,1800);}}
 
 function renderScheduleAdmin(){
   const list=document.getElementById('sch-list');list.innerHTML='';
   STATE.schedule.forEach((item,i)=>{
     const div=document.createElement('div');div.className='sch-row';
-    div.innerHTML=`<input value="${escHtml(item.time)}" placeholder="00:00" maxlength="8" onchange="STATE.schedule[${i}].time=sanitizeText(this.value);saveLocal()"><input value="${escHtml(item.event)}" placeholder="Opis punktu" maxlength="120" onchange="STATE.schedule[${i}].event=sanitizeText(this.value);saveLocal()"><button class="danger-btn" onclick="removeSchItem(${i})">✕</button>`;
+    div.innerHTML=`<input value="${escHtml(item.time)}" placeholder="00:00" maxlength="8" onchange="STATE.schedule[${i}].time=sanitizeText(this.value);saveLocal()"><input value="${escHtml(item.event)}" placeholder="Opis punktu" maxlength="120" onchange="STATE.schedule[${i}].event=sanitizeText(this.value);saveLocal()"><button class="danger-btn" onclick="removeSchItem(${i})">âś•</button>`;
     list.appendChild(div);
   });
 }
 function addScheduleItem(){STATE.schedule.push({time:'00:00',event:''});renderScheduleAdmin();}
 function removeSchItem(i){STATE.schedule.splice(i,1);renderScheduleAdmin();saveLocal();}
 
-const MENU_CATEGORIES=['Przystawki','Zupa','Danie główne','Deser','Napoje','Inne'];
+const MENU_CATEGORIES=['Przystawki','Zupa','Danie gĹ‚Ăłwne','Deser','Napoje','Inne'];
 function renderMenuAdmin(){
   const list=document.getElementById('menu-list');list.innerHTML='';
   if(!STATE.menu)STATE.menu=[];
   STATE.menu.forEach((item,i)=>{
     const div=document.createElement('div');div.className='menu-row';
     let catOpts=MENU_CATEGORIES.map(c=>`<option value="${escHtml(c)}" ${item.category===c?'selected':''}>${escHtml(c)}</option>`).join('');
-    div.innerHTML=`<select class="tbl-input menu-category" onchange="STATE.menu[${i}].category=this.value;saveLocal()">${catOpts}</select><input value="${escHtml(item.name)}" placeholder="Nazwa dania" maxlength="120" onchange="STATE.menu[${i}].name=sanitizeText(this.value);saveLocal()"><button class="danger-btn" onclick="removeMenuItem(${i})">✕</button>`;
+    div.innerHTML=`<select class="tbl-input menu-category" onchange="STATE.menu[${i}].category=this.value;saveLocal()">${catOpts}</select><input value="${escHtml(item.name)}" placeholder="Nazwa dania" maxlength="120" onchange="STATE.menu[${i}].name=sanitizeText(this.value);saveLocal()"><button class="danger-btn" onclick="removeMenuItem(${i})">âś•</button>`;
     list.appendChild(div);
   });
 }
-function addMenuItem(){if(!STATE.menu)STATE.menu=[];STATE.menu.push({category:'Danie główne',name:''});renderMenuAdmin();}
+function addMenuItem(){if(!STATE.menu)STATE.menu=[];STATE.menu.push({category:'Danie gĹ‚Ăłwne',name:''});renderMenuAdmin();}
 function removeMenuItem(i){STATE.menu.splice(i,1);renderMenuAdmin();saveLocal();}
 
 function renderQRGrid(){
@@ -1710,7 +1728,7 @@ function renderQRGrid(){
     div.innerHTML=`<div class="qr-card-name">${escHtml(nameDisplay)}</div><div class="qr-card-info">${escHtml(seats.map(s=>seatLabel(s)).join(' + '))}</div><span class="pill ${isThrone(g.seat1)||isThrone(g.seat2)?'pill-throne':''}">${escHtml(g.code)}</span><button class="qr-btn" onclick="showQRModal('${escHtml(g.id)}')">Generuj QR</button>`;
     grid.appendChild(div);
   });
-  if(!grid.innerHTML)grid.innerHTML='<p style="color:wheat;font-size:0.83rem">Dodaj gości w zakładce Goście.</p>';
+  if(!grid.innerHTML)grid.innerHTML='<p style="color:wheat;font-size:0.83rem">Dodaj goĹ›ci w zakĹ‚adce GoĹ›cie.</p>';
 }
 
 async function saveSettings(ev){
@@ -1726,10 +1744,10 @@ async function saveSettings(ev){
   const newPass=document.getElementById('s-pass').value;
   if(newPass){STATE.settings.passHash=await hashPassword(newPass);}
   const b=ev&&ev.target?ev.target:null;const origText=b?b.textContent:'';
-  if(b)b.textContent='⏳ Zapisuję...';
+  if(b)b.textContent='âŹł ZapisujÄ™...';
   const ok=await saveNow();
   updateDriveStatus();generateLayoutEngine();renderLivePreview();
-  if(b){b.textContent=ok?'✓ Zapisano!':'⚠ Tylko lokalnie';setTimeout(()=>b.textContent=origText,1600);}
+  if(b){b.textContent=ok?'âś“ Zapisano!':'âš  Tylko lokalnie';setTimeout(()=>b.textContent=origText,1600);}
 }
 
 function showQRModal(gid){
@@ -1747,9 +1765,9 @@ function showQRModal(gid){
   document.getElementById('modal-overlay').classList.remove('hidden');
 }
 
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 //  GUEST VIEW
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function renderGuestView(g){
   window._currentGuestName = [g.name1, g.name2].filter(Boolean).join(' & ');
   document.getElementById('g-title').textContent=STATE.settings.names;
@@ -1757,7 +1775,7 @@ function renderGuestView(g){
   document.getElementById('g-name').textContent=[g.name1,g.name2].filter(Boolean).join(' & ');
   const seats=[g.seat1,g.seat2].filter(Boolean);
   document.getElementById('g-seat').textContent=seats.map(s=>seatLabel(s)).join(' + ');
-  document.getElementById('g-venue-txt').textContent=STATE.settings.venue||'—';
+  document.getElementById('g-venue-txt').textContent=STATE.settings.venue||'â€”';
   generateLayoutEngine();
   document.getElementById('g-table-svg-wrap').innerHTML=buildTableSVG(seats,true,'guest').svg;
   requestAnimationFrame(()=>{initWrap('wrap-guest');centerWrap('wrap-guest');});
@@ -1770,7 +1788,7 @@ function renderGuestView(g){
     wrap.appendChild(time);wrap.appendChild(ev);schEl.appendChild(wrap);
   });
   
-  // Auto-odświeżanie dla gościa
+  // Auto-odĹ›wieĹĽanie dla goĹ›cia
   GitHubStorage.startPolling(function(newData){
     parseImportedState(newData);
     saveLocalCache();
@@ -1788,7 +1806,7 @@ function renderGuestMenu(){
   STATE.menu.forEach(item=>{const cat=item.category||'Inne';if(!cats[cat])cats[cat]=[];cats[cat].push(item.name);});
   Object.entries(cats).forEach(([cat,items])=>{
     const hdr=document.createElement('div');hdr.style.cssText='font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:wheat;opacity:0.7;margin:0.6rem 0 0.3rem';hdr.textContent=cat;content.appendChild(hdr);
-    items.forEach(name=>{const row=document.createElement('div');row.style.cssText='font-size:0.88rem;color:rgba(255,248,238,0.7);padding:0.15rem 0';row.textContent='· '+name;content.appendChild(row);});
+    items.forEach(name=>{const row=document.createElement('div');row.style.cssText='font-size:0.88rem;color:rgba(255,248,238,0.7);padding:0.15rem 0';row.textContent='Â· '+name;content.appendChild(row);});
   });
 }
 
@@ -1805,22 +1823,22 @@ function renderGuestNeighbors(g){
       if(Math.sqrt(dx*dx+dy*dy)<gapVal*2.5)nids.add(otherId);
     });
   });
-  if(!nids.size){const d=document.createElement('div');d.style.cssText='color:rgba(255,248,238,0.28);font-size:0.83rem;font-style:italic';d.textContent='Brak bliskich sąsiadów.';wrap.appendChild(d);return;}
+  if(!nids.size){const d=document.createElement('div');d.style.cssText='color:rgba(255,248,238,0.28);font-size:0.83rem;font-style:italic';d.textContent='Brak bliskich sÄ…siadĂłw.';wrap.appendChild(d);return;}
   nids.forEach(nid=>{
     const name=getNameForSeat(nid)||'wolne miejsce';
     const row=document.createElement('div');row.className='neighbor-row';
-    const badge=document.createElement('div');badge.className='neighbor-seat-badge';badge.textContent=isThrone(nid)?'♛':nid;
+    const badge=document.createElement('div');badge.className='neighbor-seat-badge';badge.textContent=isThrone(nid)?'â™›':nid;
     const info=document.createElement('div');
     const nm=document.createElement('div');nm.className='neighbor-name';nm.textContent=name;
-    const dr=document.createElement('div');dr.style.cssText='font-size:0.72rem;color:wheat';dr.textContent='obok · '+seatLabel(nid);
+    const dr=document.createElement('div');dr.style.cssText='font-size:0.72rem;color:wheat';dr.textContent='obok Â· '+seatLabel(nid);
     info.appendChild(nm);info.appendChild(dr);row.appendChild(badge);row.appendChild(info);wrap.appendChild(row);
   });
 }
 
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 //  MUSIC
-// ═══════════════════════════════════════════════════════════
-// Globalna zmienna trzymająca w pamięci ostatnie wyniki wyszukiwania
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// Globalna zmienna trzymajÄ…ca w pamiÄ™ci ostatnie wyniki wyszukiwania
 let currentMusicResults = [];
 let searchTimer;
 
@@ -1835,36 +1853,36 @@ function searchMusic(q) {
       const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(q)}&entity=song&limit=5`);
       const data = await res.json();
       
-      // Zapisujemy czyste dane z Apple do naszej pamięci
+      // Zapisujemy czyste dane z Apple do naszej pamiÄ™ci
       currentMusicResults = data.results;
       
-      // Przekazujemy do onclick TYLKO numer na liście (index), zero problemów ze znakami!
+      // Przekazujemy do onclick TYLKO numer na liĹ›cie (index), zero problemĂłw ze znakami!
       const html = currentMusicResults.map((s, index) => `
         <div class="music-item" onclick="addSelectedSong(${index})">
           <img src="${s.artworkUrl60 || ''}">
           <div class="music-info">
-            <span class="music-title">${escHtml(s.trackName || 'Nieznany tytuł')}</span>
+            <span class="music-title">${escHtml(s.trackName || 'Nieznany tytuĹ‚')}</span>
             <span class="music-artist">${escHtml(s.artistName || 'Nieznany wykonawca')}</span>
           </div>
           <span style="margin-left:auto;color:var(--gold);font-weight:bold;font-size:1.2rem;padding:0 0.5rem">+</span>
         </div>
       `).join('');
       
-      resWrap.innerHTML = html || '<div style="padding:0.5rem;color:var(--muted)">Brak wyników...</div>';
+      resWrap.innerHTML = html || '<div style="padding:0.5rem;color:var(--muted)">Brak wynikĂłw...</div>';
     } catch(e) {
-      resWrap.innerHTML = '<div style="padding:0.5rem;color:#C0392B">Błąd wyszukiwania. Spróbuj ponownie.</div>';
+      resWrap.innerHTML = '<div style="padding:0.5rem;color:#C0392B">BĹ‚Ä…d wyszukiwania. SprĂłbuj ponownie.</div>';
     }
   }, 500);
 }
 
-// Ta funkcja wyciąga czyste dane z pamięci i wywołuje Twoje suggestSong
+// Ta funkcja wyciÄ…ga czyste dane z pamiÄ™ci i wywoĹ‚uje Twoje suggestSong
 function addSelectedSong(index) {
   const song = currentMusicResults[index];
   if(song) {
     suggestSong(song.trackName || '', song.artistName || '', song.artworkUrl60 || '');
   }
 }
-function addManualSong(){const q=document.getElementById('music-search').value.trim();if(!q){alert('Wpisz tytuł w polu wyszukiwania!');return;}suggestSong(q,'Zaproponowane przez Gościa','');}
+function addManualSong(){const q=document.getElementById('music-search').value.trim();if(!q){alert('Wpisz tytuĹ‚ w polu wyszukiwania!');return;}suggestSong(q,'Zaproponowane przez GoĹ›cia','');}
 function suggestSong(title, artist, thumb) {
   if(!STATE.music) STATE.music = [];
   
@@ -1875,7 +1893,7 @@ function suggestSong(title, artist, thumb) {
   );
 
   if (isDuplicate) {
-    alert("Ten utwór został już zamówiony przez kogoś innego! 🎵 Wybierz coś innego.");
+    alert("Ten utwĂłr zostaĹ‚ juĹĽ zamĂłwiony przez kogoĹ› innego! đźŽµ Wybierz coĹ› innego.");
     document.getElementById('music-results').innerHTML = '';
     document.getElementById('music-search').value = '';
     return;
@@ -1886,9 +1904,9 @@ function suggestSong(title, artist, thumb) {
   saveLocalCache();
   saveNow().catch(function(e){console.warn('Zapis piosenki:',e);});
   
-  // Komunikat sukcesu i odświeżenie listy
+  // Komunikat sukcesu i odĹ›wieĹĽenie listy
   document.getElementById('music-search').value = '';
-  document.getElementById('music-results').innerHTML = '<div style="padding:0.5rem;color:#93ff8e">Dodano piosenkę! Dziękujemy.</div>';
+  document.getElementById('music-results').innerHTML = '<div style="padding:0.5rem;color:#93ff8e">Dodano piosenkÄ™! DziÄ™kujemy.</div>';
   renderGuestMusicList();
   if(ADMIN_AUTHED) renderAdminMusic();
 }
@@ -1911,7 +1929,7 @@ function renderGuestMusicList() {
           <span class="music-title" style="color:wheat">${escHtml(m.title)}</span>
           <span class="music-artist">${escHtml(m.artist)}</span>
         </div>
-        <span style="margin-left:auto;color:#93ff8e;font-size:0.7rem;text-align:right">🎵 Od: ${escHtml(m.suggestedBy||'Gość')}</span>
+        <span style="margin-left:auto;color:#93ff8e;font-size:0.7rem;text-align:right">đźŽµ Od: ${escHtml(m.suggestedBy||'GoĹ›Ä‡')}</span>
       </div>
     `).join('');
   }
@@ -1919,19 +1937,19 @@ function renderGuestMusicList() {
 
 function renderAdminMusic(){
   const el=document.getElementById('admin-music-list');if(!el)return;
-  el.innerHTML=STATE.music.map((m,i)=>`<div class="music-item">${m.thumb?`<img src="${m.thumb}">`:`<div style="width:40px;height:40px;background:wheat;border-radius:4px;display:flex;align-items:center;justify-content:center;color:wheat;font-size:1.2rem">🎵</div>`}<div class="music-info"><span class="music-title">${escHtml(m.title)}</span><span class="music-artist">${escHtml(m.artist)}</span></div><span style="margin-left:auto;margin-right:0.5rem;color:#93ff8e;font-size:0.75rem;text-align:right">Od: ${escHtml(m.suggestedBy||'Gość')}</span><button class="danger-btn" onclick="removeMusicItem(${i})">✕</button></div>`).join('')||'<div style="color:wheat">Brak zaproponowanych piosenek...</div>';
+  el.innerHTML=STATE.music.map((m,i)=>`<div class="music-item">${m.thumb?`<img src="${m.thumb}">`:`<div style="width:40px;height:40px;background:wheat;border-radius:4px;display:flex;align-items:center;justify-content:center;color:wheat;font-size:1.2rem">đźŽµ</div>`}<div class="music-info"><span class="music-title">${escHtml(m.title)}</span><span class="music-artist">${escHtml(m.artist)}</span></div><span style="margin-left:auto;margin-right:0.5rem;color:#93ff8e;font-size:0.75rem;text-align:right">Od: ${escHtml(m.suggestedBy||'GoĹ›Ä‡')}</span><button class="danger-btn" onclick="removeMusicItem(${i})">âś•</button></div>`).join('')||'<div style="color:wheat">Brak zaproponowanych piosenek...</div>';
 }
 
 function removeMusicItem(i) {
-  if(!confirm('Usunąć tę piosenkę z listy?')) return;
+  if(!confirm('UsunÄ…Ä‡ tÄ™ piosenkÄ™ z listy?')) return;
   STATE.music.splice(i, 1);
   saveLocal();
   renderAdminMusic();
 }
 
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 //  DRIVE
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function parseImportedState(data){
   if(data.guests&&Array.isArray(data.guests))STATE.guests=data.guests.map(g=>({id:String(g.id||Date.now()),name1:g.name1||'',name2:g.name2||'',seat1:String(g.seat1||''),seat2:String(g.seat2||''),code:String(g.code||'').replace(/[^A-Z0-9\-]/gi,'')}));
   if(data.schedule&&Array.isArray(data.schedule))STATE.schedule=data.schedule.map(s=>({time:sanitizeText(s.time||''),event:sanitizeText(s.event||'')}));
@@ -1942,23 +1960,23 @@ function parseImportedState(data){
 async function driveLoadByUrl(){
   if(!requireAdmin())return;
   const url=validateDriveUrl(document.getElementById('s-drive-url').value||STATE.settings.driveUrl);
-  if(!url){alert('Nieprawidłowy URL Drive.');return;}
+  if(!url){alert('NieprawidĹ‚owy URL Drive.');return;}
   try{
-    document.getElementById('drive-status-txt').textContent='Ładowanie z Google Drive…';
+    document.getElementById('drive-status-txt').textContent='Ĺadowanie z Google Driveâ€¦';
     const resp=await fetch(url,{credentials:'omit',mode:'cors'});
     if(!resp.ok)throw new Error('HTTP '+resp.status);
-    const text=await resp.text();if(text.length>5_000_000)throw new Error('Plik zbyt duży.');
+    const text=await resp.text();if(text.length>5_000_000)throw new Error('Plik zbyt duĹĽy.');
     parseImportedState(JSON.parse(text));
-    saveLocal();generateLayoutEngine();document.getElementById('drive-status-txt').innerHTML='<strong>Dane wczytane z Drive ✓</strong>';renderAdmin();
-  }catch(e){document.getElementById('drive-status-txt').textContent='Błąd Drive: '+sanitizeText(e.message);}
+    saveLocal();generateLayoutEngine();document.getElementById('drive-status-txt').innerHTML='<strong>Dane wczytane z Drive âś“</strong>';renderAdmin();
+  }catch(e){document.getElementById('drive-status-txt').textContent='BĹ‚Ä…d Drive: '+sanitizeText(e.message);}
 }
 function driveLoadLocal(){
   if(!requireAdmin())return;
   const inp=document.createElement('input');inp.type='file';inp.accept='.json';
   inp.onchange=async e=>{
-    const f=e.target.files[0];if(!f)return;if(f.size>5_000_000){alert('Plik zbyt duży.');return;}
-    try{parseImportedState(JSON.parse(await f.text()));saveLocal();generateLayoutEngine();renderAdmin();document.getElementById('drive-status-txt').innerHTML='<strong>Wczytano z pliku JSON ✓</strong>';}
-    catch(err){alert('Błąd parsowania JSON: '+sanitizeText(err.message));}
+    const f=e.target.files[0];if(!f)return;if(f.size>5_000_000){alert('Plik zbyt duĹĽy.');return;}
+    try{parseImportedState(JSON.parse(await f.text()));saveLocal();generateLayoutEngine();renderAdmin();document.getElementById('drive-status-txt').innerHTML='<strong>Wczytano z pliku JSON âś“</strong>';}
+    catch(err){alert('BĹ‚Ä…d parsowania JSON: '+sanitizeText(err.message));}
   };inp.click();
 }
 function driveSave(){
@@ -1984,9 +2002,9 @@ async function autoLoadDrive(){
   }catch(e){}
 }
 
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 //  BOOT
-// ═══════════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 (async function(){
   if(!STATE.settings.passHash){STATE.settings.passHash=await hashPassword('Wesele2026!');saveLocalCache();}
   try{

@@ -15,8 +15,8 @@
       "edges": {
         "i_top": 0,
         "i_bottom": 2,
-        "i_left": 16,
-        "i_right": 16,
+        "i_left": 15,
+        "i_right": 15,
         "u_top_out": 0,
         "u_top_in": 2,
         "u_l_out": 10,

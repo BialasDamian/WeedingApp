@@ -14,7 +14,7 @@
       "dist": 18,
       "edges": {
         "i_top": 0,
-        "i_bottom": 1,
+        "i_bottom": 0,
         "i_left": 17,
         "i_right": 17,
         "u_top_out": 0,

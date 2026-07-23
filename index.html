@@ -533,8 +533,10 @@ button:not(.btn-primary):not(.btn-secondary):hover {
 #rosegate-overlay.hidden { display: none !important; pointer-events: none !important; }
 
 #rosegate-iframe {
-  width: 175vw !important;
-  height: 175vh !important;
+  width: 250vmax !important;
+  height: 250vmax !important;
+  min-width: 100vw !important;
+  min-height: 100vh !important;
   position: absolute !important;
   top: 50% !important;
   left: 50% !important;
@@ -960,16 +962,7 @@ button:not(.btn-primary):not(.btn-secondary):hover {
   </div>
 </div>
 
-<!-- VIDEO WEJŚCIOWE OGRODU RÓŻANEGO:
-     walking-through-beautiful-rose-garden-tunnel-at-daytime-in-summer Stock Videos by Vecteezy
-     https://www.vecteezy.com/video/72007545-walking-through-beautiful-rose-garden-tunnel-at-daytime-in-summer
--->
-<div id="rosegate-overlay" class="hidden">
-  <iframe id="rosegate-iframe" src="" allow="autoplay; fullscreen"></iframe>
-  <video id="rosegate-video" autoplay muted playsinline preload="auto" style="width:100vw;height:100vh;object-fit:cover;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;display:none;background:#000">
-    <source id="rosegate-video-src" src="" type="video/webm">
-  </video>
-</div>
+<!-- USUNIĘTO VIDEO WEJŚCIOWE -->
 
 <!-- MODAL ZWYCIĘZCY -->
 <div class="modal-overlay hidden" id="winner-modal-overlay" onclick="if(event.target===this)closeModal()">
@@ -1774,20 +1767,7 @@ async function adminLogin(){
 }
 function adminLogout(){ADMIN_AUTHED=false;GitHubStorage.stopPolling();show('screen-landing');}
 function requireAdmin(){if(!ADMIN_AUTHED){show('screen-landing');return false;}return true;}
-function preloadEntranceVideo() {
-  if (window._videoPreloaded) return;
-  window._videoPreloaded = true;
-  const fileId = '14qvpprdiF471E6ugzr3ExUYt93bZxqYw';
-  const iframe = document.getElementById('rosegate-iframe');
-  if (iframe) {
-    iframe.src = 'https://drive.google.com/file/d/' + fileId + '/preview?autoplay=1&vq=hd1080&hd=1';
-  }
-}
-document.addEventListener('DOMContentLoaded', function(){
-  setTimeout(preloadEntranceVideo, 200);
-});
 function goGuestLogin(){
-  preloadEntranceVideo();
   show('screen-guest-login');
 }
 function guestLogin(){
@@ -1796,16 +1776,9 @@ function guestLogin(){
   if(!code){document.getElementById('guest-err').textContent='Podaj kod.';return;}
   const g=STATE.guests.find(x=>x.code===code);
   if(g){
-    const openGuestView = () => {
-      renderGuestView(g);
-      show('screen-guest');
-      requestAnimationFrame(()=>initWrap('wrap-guest'));
-    };
-    if(STATE.missionsSettings && STATE.missionsSettings.enableRoseGateAnimation !== false){
-      triggerRoseGateAnimation(openGuestView);
-    } else {
-      openGuestView();
-    }
+    renderGuestView(g);
+    show('screen-guest');
+    requestAnimationFrame(()=>initWrap('wrap-guest'));
   }
   else document.getElementById('guest-err').textContent='Nie znaleziono gościa. Upewnij się, że wpisujesz poprawny kod.';
 }

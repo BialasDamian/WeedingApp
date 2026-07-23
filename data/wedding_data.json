@@ -211,6 +211,16 @@
         }
       },
       "completedCount": 1
+    },
+    "G-002": {
+      "answers": {
+        "m3": {
+          "status": "completed",
+          "text": "1",
+          "updatedAt": 1784843323206
+        }
+      },
+      "completedCount": 0
     }
   },
   "firstWinner": null

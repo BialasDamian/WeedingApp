@@ -520,60 +520,28 @@ button:not(.btn-primary):not(.btn-secondary):hover {
   position: fixed;
   inset: 0;
   z-index: 99999;
-  background: #0f0a07;
+  background: #000;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   perspective: 1200px;
+  transition: opacity 0.5s ease;
 }
 #rosegate-overlay.hidden { display: none !important; pointer-events: none !important; }
 
 .garden-view {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, #2e1d11 0%, #0d0805 100%);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 2.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 1.8s ease;
-  transform-style: preserve-3d;
-}
-.garden-view.zoom-in {
-  transform: scale(3.5);
-  opacity: 0;
-}
-
-.rose-portal {
-  position: relative;
-  width: 280px;
-  height: 380px;
-  border-radius: 190px 190px 0 0;
-  border: 6px solid #d4af37;
-  box-shadow: 0 0 50px rgba(212, 175, 55, 0.6), inset 0 0 40px rgba(255, 182, 193, 0.4);
-  background: radial-gradient(circle, rgba(255,220,230,0.2) 0%, rgba(20,10,5,0.8) 80%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-.rose-portal::before {
-  content: "🌹 🌺 🌸 🌹 🌺";
-  position: absolute;
-  top: -15px;
-  font-size: 1.8rem;
-  letter-spacing: 12px;
-}
-.fountain-graphic {
-  position: absolute;
-  bottom: 20px;
-  font-size: 2.5rem;
-  animation: fountainBounce 1.2s infinite ease-in-out alternate;
-}
-@keyframes fountainBounce {
-  0% { transform: translateY(0) scale(1); }
-  100% { transform: translateY(-8px) scale(1.05); }
+  transform-origin: center center;
+  will-change: transform, opacity;
+  background-image: url('https://lh3.googleusercontent.com/d/1GuTW1gLVj8plWriQBBJm3mMz0SZt4ydo');
 }
 
 .gate-doors {
@@ -586,31 +554,50 @@ button:not(.btn-primary):not(.btn-secondary):hover {
 .gate-door-left, .gate-door-right {
   width: 50%;
   height: 100%;
-  background: linear-gradient(135deg, #2b1a10 0%, #150c07 100%);
-  border: 4px solid #d4af37;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transition: transform 2.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: transform 2.8s cubic-bezier(0.25, 1, 0.35, 1);
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.6);
+  will-change: transform;
 }
 .gate-door-left {
   transform-origin: left center;
-  border-right: 2px solid #d4af37;
+  background-image: url('https://lh3.googleusercontent.com/d/193_U3wk5cpme05YuLiOZm5Gt--L5usdx');
 }
 .gate-door-right {
   transform-origin: right center;
-  border-left: 2px solid #d4af37;
+  background-image: url('https://lh3.googleusercontent.com/d/1dxti3ElfH-q_f-IEiF1nEYCqtcg79YEd');
 }
-.gate-doors.open .gate-door-left { transform: rotateY(-115deg); }
-.gate-doors.open .gate-door-right { transform: rotateY(115deg); }
 
-.gate-ornament {
-  font-size: 3rem;
-  color: gold;
-  text-shadow: 0 0 15px rgba(212,175,55,0.7);
+/* Mobile (<768px) images */
+@media (max-width: 768px) {
+  .garden-view {
+    background-image: url('https://lh3.googleusercontent.com/d/1XXyF9yGHalN8rGGdwwN9pqV_gCnkQcHy');
+  }
+  .gate-door-left {
+    background-image: url('https://lh3.googleusercontent.com/d/1y8rgN2BBKDnU7Kn_MZ4lJazdDeSzJFNu');
+  }
+  .gate-door-right {
+    background-image: url('https://lh3.googleusercontent.com/d/1t2RPqWAv9ZbBpPK469SWV-zKIsW7so6t');
+  }
+}
+
+/* Odsuwanie skrzydeł bramy na boki (translateX) */
+.gate-doors.open .gate-door-left { transform: translateX(-100%); }
+.gate-doors.open .gate-door-right { transform: translateX(100%); }
+
+/* Animation Keyframes:
+   Szybsze odsuwanie bramy: (2.8s)
+   Przybliżenie ogrodu: wolniejsze o 1/3 (11.0s) — czyste przejście od 100% (scale(1)) do 800% (scale(8))
+*/
+@keyframes gardenZoomFlow {
+  0% { transform: scale(1); opacity: 1; }
+  90% { transform: scale(8); opacity: 1; }
+  100% { transform: scale(8.5); opacity: 0; }
+}
+.garden-view.animating {
+  animation: gardenZoomFlow 11s cubic-bezier(0.25, 1, 0.4, 1) forwards;
 }
 
 .skip-gate-btn {
@@ -1031,23 +1018,10 @@ button:not(.btn-primary):not(.btn-secondary):hover {
 
 <!-- ANIMACJA RÓŻANEJ BRAMY I OGRODU -->
 <div id="rosegate-overlay" class="hidden">
-  <div class="garden-view" id="rosegate-garden">
-    <div class="rose-portal">
-      <div style="text-align:center;color:wheat;font-family:'Cormorant Garamond',serif;font-size:1.6rem;margin-top:35px;padding:0 1rem">
-        <em>Witaj w Ogrodzie Weselnym!</em>
-      </div>
-      <div class="fountain-graphic">⛲</div>
-    </div>
-  </div>
+  <div class="garden-view" id="rosegate-garden"></div>
   <div class="gate-doors" id="rosegate-doors">
-    <div class="gate-door-left">
-      <div class="gate-ornament">⚜️</div>
-      <div style="color:gold;font-size:2rem;margin-top:10px">🌹</div>
-    </div>
-    <div class="gate-door-right">
-      <div class="gate-ornament">⚜️</div>
-      <div style="color:gold;font-size:2rem;margin-top:10px">🌹</div>
-    </div>
+    <div class="gate-door-left"></div>
+    <div class="gate-door-right"></div>
   </div>
   <button class="skip-gate-btn" onclick="skipRoseGateAnimation()">Przejdź od razu ➔</button>
 </div>
@@ -1353,9 +1327,10 @@ const GitHubStorage={
     }
     return false;
   },
-  startPolling(onUpdate){
+  startPolling(onUpdate, intervalMs){
     this.stopPolling();
     var self=this;
+    var ms = intervalMs || GITHUB_CONFIG.pollMs || 15000;
     this._pollTimer=setInterval(async function(){
       if(_ghSaveDebounce)return;
       try{
@@ -1365,7 +1340,7 @@ const GitHubStorage={
           if(onUpdate)onUpdate(data);
         }
       }catch(e){}
-    },GITHUB_CONFIG.pollMs);
+    }, ms);
   },
   stopPolling(){if(this._pollTimer){clearInterval(this._pollTimer);this._pollTimer=null;}}
 };
@@ -2150,7 +2125,7 @@ function renderGuestView(g){
     wrap.appendChild(time);wrap.appendChild(ev);schEl.appendChild(wrap);
   });
   
-  // Auto-odświeżanie dla gościa
+  // Auto-odświeżanie dla gościa (co 3 sekundy)
   GitHubStorage.startPolling(function(newData){
     parseImportedState(newData);
     saveLocalCache();
@@ -2159,7 +2134,7 @@ function renderGuestView(g){
     renderGuestMissions(g);
     renderGuestRanking();
     document.getElementById('g-table-svg-wrap').innerHTML=buildTableSVG(seats,true,'guest').svg;
-  });
+  }, 3000);
 }
 
 function renderGuestMenu(){
@@ -2566,6 +2541,45 @@ function copyGasScriptCode() {
 //  GUEST MISSIONS VIEW & SUBMISSIONS
 // ═══════════════════════════════════════════════════════════
 
+// Local Broadcast Channel for instant tab sync
+try {
+  const syncChannel = new BroadcastChannel('wedding_app_realtime_sync');
+  syncChannel.onmessage = function(ev) {
+    if(ev.data && ev.data.type === 'state_update') {
+      if(ev.data.state) parseImportedState(ev.data.state);
+      renderGuestRanking();
+      const code = (window._currentGuestCode || '').toUpperCase();
+      const g = STATE.guests ? STATE.guests.find(x => x.code === code) : null;
+      if(g) renderGuestMissions(g);
+    }
+  };
+  window._broadcastStateUpdate = function() {
+    try { syncChannel.postMessage({ type: 'state_update', state: STATE }); } catch(e){}
+  };
+} catch(e) {
+  window._broadcastStateUpdate = function(){};
+}
+
+function updateFileCountBadge(mId, reqCount) {
+  const fCam = document.getElementById('g-m-file-cam-' + mId);
+  const fGal = document.getElementById('g-m-file-gal-' + mId);
+  let total = 0;
+  if(fCam && fCam.files) total += fCam.files.length;
+  if(fGal && fGal.files) total += fGal.files.length;
+  
+  const badge = document.getElementById('file-count-badge-' + mId);
+  if(badge) {
+    badge.textContent = `Wybrano ${total} / ${reqCount} plików`;
+    if(total >= reqCount) {
+      badge.style.color = '#93ff8e';
+      badge.style.fontWeight = 'bold';
+    } else {
+      badge.style.color = 'wheat';
+      badge.style.fontWeight = 'normal';
+    }
+  }
+}
+
 function renderGuestMissions(g) {
   const sec = document.getElementById('g-missions-section');
   if(!sec) return;
@@ -2592,39 +2606,45 @@ function renderGuestMissions(g) {
     const isDone = ans && ans.status === 'completed';
     if(isDone) completedCount++;
 
+    const reqCount = m.targetCount || 1;
     const div = document.createElement('div');
     div.className = 'mission-card-item ' + (isDone ? 'completed' : '');
     
     let typeLabel = '✍️ Tekst';
     let typeClass = 'mission-badge-tekst';
-    if(m.type === 'zdjecie') { typeLabel = `📸 Zdjęcie (wymagane: ${m.targetCount||1})`; typeClass = 'mission-badge-zdjecie'; }
-    if(m.type === 'wideo') { typeLabel = `🎥 Wideo (wymagane: ${m.targetCount||1})`; typeClass = 'mission-badge-wideo'; }
+    if(m.type === 'zdjecie') { typeLabel = `📸 Zdjęcie (wymagane: ${reqCount})`; typeClass = 'mission-badge-zdjecie'; }
+    if(m.type === 'wideo') { typeLabel = `🎥 Wideo (wymagane: ${reqCount})`; typeClass = 'mission-badge-wideo'; }
 
     let inputHtml = '';
     if(isDone) {
       if(m.type === 'tekst') {
         inputHtml = `<div style="font-size:0.83rem;color:#93ff8e;margin-top:0.4rem;font-style:italic">" ${escHtml(ans.text)} "</div>`;
       } else {
-        inputHtml = `<div style="font-size:0.83rem;color:#93ff8e;margin-top:0.4rem">✓ Przesłano i zapisano plik(i) na Dysku Google!</div>`;
+        inputHtml = `<div style="font-size:0.83rem;color:#93ff8e;margin-top:0.4rem">✓ Przesłano ${reqCount} plik(ów) i zapisano na Dysku Google!</div>`;
       }
     } else {
       if(m.type === 'tekst') {
         inputHtml = `
           <textarea class="settings-input" id="g-m-text-${m.id}" rows="2" placeholder="Wpisz swoją odpowiedź..." style="margin-top:0.5rem"></textarea>
-          <button class="btn-primary" style="padding:0.45rem;font-size:0.75rem;margin-top:0.4rem;width:auto" onclick="submitMissionText('${m.id}')">Wyślij odpowiedź</button>
+          <button class="btn-primary" style="padding:0.45rem 1rem;font-size:0.75rem;margin-top:0.4rem;width:auto" onclick="submitMissionText('${m.id}')">Wyślij odpowiedź</button>
         `;
-      } else if(m.type === 'zdjecie') {
+      } else {
+        const isImg = m.type === 'zdjecie';
+        const acceptType = isImg ? 'image/*' : 'video/*';
         inputHtml = `
-          <div style="margin-top:0.5rem;display:flex;flex-direction:column;gap:0.4rem">
-            <input type="file" id="g-m-file-${m.id}" accept="image/*" capture="environment" multiple class="tbl-input" style="font-size:0.75rem">
-            <button class="btn-primary" id="btn-sub-${m.id}" style="padding:0.45rem;font-size:0.75rem;width:auto;align-self:flex-start" onclick="submitMissionFiles('${m.id}', 'zdjecie')">📸 Wgraj zdjęcia na Dysk Google</button>
-          </div>
-        `;
-      } else if(m.type === 'wideo') {
-        inputHtml = `
-          <div style="margin-top:0.5rem;display:flex;flex-direction:column;gap:0.4rem">
-            <input type="file" id="g-m-file-${m.id}" accept="video/*" capture="user" class="tbl-input" style="font-size:0.75rem">
-            <button class="btn-primary" id="btn-sub-${m.id}" style="padding:0.45rem;font-size:0.75rem;width:auto;align-self:flex-start" onclick="submitMissionFiles('${m.id}', 'wideo')">🎥 Wgraj wideo na Dysk Google</button>
+          <div style="margin-top:0.6rem;display:flex;flex-direction:column;gap:0.5rem">
+            <div style="display:flex;flex-wrap:wrap;gap:0.5rem;align-items:center">
+              <label class="btn-secondary" style="font-size:0.7rem;padding:0.4rem 0.75rem;width:auto;cursor:pointer;margin:0">
+                ${isImg ? '📸 Zrób zdjęcie' : '🎥 Nagraj wideo'}
+                <input type="file" id="g-m-file-cam-${m.id}" accept="${acceptType}" capture="${isImg?'environment':'user'}" ${reqCount>1?'multiple':''} style="display:none" onchange="updateFileCountBadge('${m.id}', ${reqCount})">
+              </label>
+              <label class="btn-secondary" style="font-size:0.7rem;padding:0.4rem 0.75rem;width:auto;cursor:pointer;margin:0">
+                📁 Wybierz z galerii / dysku
+                <input type="file" id="g-m-file-gal-${m.id}" accept="${acceptType}" ${reqCount>1?'multiple':''} style="display:none" onchange="updateFileCountBadge('${m.id}', ${reqCount})">
+              </label>
+              <span id="file-count-badge-${m.id}" style="font-size:0.75rem;color:wheat">Wybrano 0 / ${reqCount} plików</span>
+            </div>
+            <button class="btn-primary" id="btn-sub-${m.id}" style="padding:0.45rem 1rem;font-size:0.75rem;width:auto;align-self:flex-start;margin-top:0.3rem" onclick="submitMissionFiles('${m.id}', '${m.type}')">☁️ Wyślij pliki na Dysk Google</button>
           </div>
         `;
       }
@@ -2678,6 +2698,7 @@ async function submitMissionText(mId) {
   };
 
   saveLocal();
+  if(window._broadcastStateUpdate) window._broadcastStateUpdate();
   saveNow().catch(e => console.warn('Save mission:', e));
 
   // Przesyłanie informacji/pliku tekstowego na Dysk Google (jeśli GAS jest podpięty)
@@ -2699,9 +2720,18 @@ async function submitMissionFiles(mId, type) {
   const guest = STATE.guests.find(x => x.code === code);
   const guestName = window._currentGuestName || (guest ? [guest.name1, guest.name2].filter(Boolean).join(' & ') : 'Gość');
 
-  const fileInput = document.getElementById('g-m-file-' + mId);
-  if(!fileInput || !fileInput.files || fileInput.files.length === 0) {
-    alert('Wybierz plik z aparatu lub pamięci telefonu!');
+  const mission = (STATE.missions || []).find(m => m.id === mId);
+  const reqCount = (mission && mission.targetCount) ? mission.targetCount : 1;
+
+  const fCam = document.getElementById('g-m-file-cam-' + mId);
+  const fGal = document.getElementById('g-m-file-gal-' + mId);
+
+  const selectedFiles = [];
+  if(fCam && fCam.files) { for(let i=0; i<fCam.files.length; i++) selectedFiles.push(fCam.files[i]); }
+  if(fGal && fGal.files) { for(let i=0; i<fGal.files.length; i++) selectedFiles.push(fGal.files[i]); }
+
+  if(selectedFiles.length < reqCount) {
+    alert(`To zadanie wymaga wgrania co najmniej ${reqCount} ${type==='zdjecie'?'zdjęć':'filmów'}. Wybrano obecnie: ${selectedFiles.length}. Dołącz pozostałe pliki!`);
     return;
   }
 
@@ -2709,12 +2739,11 @@ async function submitMissionFiles(mId, type) {
   const origBtnText = btn ? btn.textContent : '';
   if(btn) { btn.textContent = '⏳ Wgrywanie na Dysk Google...'; btn.disabled = true; }
 
-  const mission = (STATE.missions || []).find(m => m.id === mId);
   const mTitle = mission ? mission.title : 'Zadanie';
   const uploadedUrls = [];
 
-  for(let i = 0; i < fileInput.files.length; i++) {
-    const file = fileInput.files[i];
+  for(let i = 0; i < selectedFiles.length; i++) {
+    const file = selectedFiles[i];
     try {
       const dataUrl = await readFileAsDataURL(file);
       const res = await uploadToGoogleDrive({
@@ -2740,6 +2769,7 @@ async function submitMissionFiles(mId, type) {
   };
 
   saveLocal();
+  if(window._broadcastStateUpdate) window._broadcastStateUpdate();
   saveNow().catch(e => console.warn('Save mission:', e));
 
   if(btn) { btn.textContent = origBtnText; btn.disabled = false; }
@@ -2754,6 +2784,37 @@ function readFileAsDataURL(file) {
     reader.onerror = e => reject(e);
     reader.readAsDataURL(file);
   });
+}
+
+async function uploadToGoogleDrive(params) {
+  const scriptUrl = STATE.missionsSettings ? STATE.missionsSettings.driveScriptUrl : '';
+  if (!scriptUrl) {
+    return { success: false, message: 'Brak skryptu Google Apps Script' };
+  }
+  try {
+    const payload = {
+      parentFolder: (STATE.missionsSettings && STATE.missionsSettings.parentFolder) || 'Wesele 2026',
+      guestName: params.guestName || 'Gość',
+      taskFolderName: params.taskTitle || 'Zadanie',
+      fileName: params.fileName || 'plik.txt',
+      fileData: params.fileData || '',
+      mimeType: params.mimeType || 'text/plain'
+    };
+    const resp = await fetch(scriptUrl, {
+      method: 'POST',
+      mode: 'cors',
+      redirect: 'follow',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+    const text = await resp.text();
+    let res = {};
+    try { res = JSON.parse(text); } catch(e) { res = { status: 'success' }; }
+    return { success: res.status === 'success', url: res.fileUrl || '', message: res.message || '' };
+  } catch (e) {
+    console.warn('Google Drive Upload:', e);
+    return { success: false, message: e.message };
+  }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -2877,25 +2938,32 @@ function triggerRoseGateAnimation(callback) {
     return;
   }
 
+  overlay.style.opacity = '1';
   overlay.classList.remove('hidden');
   doors.classList.remove('open');
-  garden.classList.remove('zoom-in');
+  garden.classList.remove('animating');
 
+  void garden.offsetWidth; // Force reflow
+
+  // Start otwierania skrzydeł bramy (2.8s) i przybliżenia ogrodu (11.0s)
   setTimeout(() => {
     doors.classList.add('open');
-  }, 300);
+    garden.classList.add('animating');
+  }, 100);
 
+  // Przygotowanie widoku gościa pod spodem tuż przed płynnym przenikaniem (9.8s)
   setTimeout(() => {
-    garden.classList.add('zoom-in');
-  }, 1200);
-
-  _roseGateTimer = setTimeout(() => {
-    overlay.classList.add('hidden');
     if (_roseGateCallback) {
       _roseGateCallback();
       _roseGateCallback = null;
     }
-  }, 2500);
+  }, 9800);
+
+  // Po 11.0s: Całkowite ukrycie i wyłączenie warstw animacji (display: none !important)
+  _roseGateTimer = setTimeout(() => {
+    overlay.classList.add('hidden');
+    overlay.style.opacity = '1';
+  }, 11000);
 }
 
 function skipRoseGateAnimation() {

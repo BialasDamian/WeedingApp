@@ -185,13 +185,13 @@
     },
     {
       "id": "m9",
-      "title": "",
+      "title": "Zrób pamiątkowe zdjęcie ze swoimi sąsiadami ze stołu",
       "type": "tekst",
       "targetCount": 1
     },
     {
       "id": "m10",
-      "title": "Zrób pamiątkowe zdjęcie ze swoimi sąsiadami ze stołu",
+      "title": "Napisz przy której piosence tańczyło Ci się najlepiej!",
       "type": "zdjecie",
       "targetCount": 1
     }

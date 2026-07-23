@@ -381,7 +381,7 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:wheat;font-
 .drive-status{font-size:0.78rem;color:wheat;flex:1;min-width:0}
 
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem}
-.modal-overlay.hidden{display:none}
+.modal-overlay.hidden{display:none !important; pointer-events:none !important;}
 .modal{background:var(--card);border-radius:var(--radius);padding:1.4rem;max-width:380px;width:100%;border:1px solid var(--border);max-height:90vh;overflow-y:auto}
 .modal-title{place-self: center;font-family:'Cormorant Garamond',serif;font-size:1.35rem;margin-bottom:0.9rem}
 .modal-footer{justify-self: center;display:flex;gap:0.5rem;justify-content:flex-end;margin-top:0.9rem}
@@ -453,6 +453,200 @@ button:not(.btn-primary):not(.btn-secondary):hover {
   /* Nie nadpisujemy background ani color – zachowują oryginalne kolory */
 }
 
+/* MISJE & RANKING STYLES */
+.mission-card-item {
+  background: rgba(255, 253, 248, 0.04);
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  border-radius: var(--radius);
+  padding: 1.1rem;
+  margin-bottom: 0.85rem;
+  transition: all 0.25s ease;
+}
+.mission-card-item.completed {
+  border-color: rgba(147, 255, 142, 0.4);
+  background: rgba(147, 255, 142, 0.05);
+}
+.mission-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.mission-badge-tekst { background: rgba(201, 168, 76, 0.2); color: wheat; border: 1px solid rgba(201, 168, 76, 0.4); }
+.mission-badge-zdjecie { background: rgba(52, 152, 219, 0.2); color: #74b9ff; border: 1px solid rgba(52, 152, 219, 0.4); }
+.mission-badge-wideo { background: rgba(155, 89, 182, 0.2); color: #a29bfe; border: 1px solid rgba(155, 89, 182, 0.4); }
+
+.mission-progress-bar {
+  width: 100%;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 0.6rem 0 1.2rem;
+  border: 1px solid rgba(201, 168, 76, 0.2);
+}
+.mission-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #d4af37, #93ff8e);
+  width: 0%;
+  transition: width 0.5s ease;
+}
+
+.ranking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.ranking-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.9rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(201, 168, 76, 0.15);
+  border-radius: 8px;
+}
+.ranking-item.first-place {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: gold;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+/* ROSE GATE ANIMATION OVERLAY */
+#rosegate-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #0f0a07;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1200px;
+}
+#rosegate-overlay.hidden { display: none !important; pointer-events: none !important; }
+
+.garden-view {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, #2e1d11 0%, #0d0805 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 2.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 1.8s ease;
+  transform-style: preserve-3d;
+}
+.garden-view.zoom-in {
+  transform: scale(3.5);
+  opacity: 0;
+}
+
+.rose-portal {
+  position: relative;
+  width: 280px;
+  height: 380px;
+  border-radius: 190px 190px 0 0;
+  border: 6px solid #d4af37;
+  box-shadow: 0 0 50px rgba(212, 175, 55, 0.6), inset 0 0 40px rgba(255, 182, 193, 0.4);
+  background: radial-gradient(circle, rgba(255,220,230,0.2) 0%, rgba(20,10,5,0.8) 80%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.rose-portal::before {
+  content: "🌹 🌺 🌸 🌹 🌺";
+  position: absolute;
+  top: -15px;
+  font-size: 1.8rem;
+  letter-spacing: 12px;
+}
+.fountain-graphic {
+  position: absolute;
+  bottom: 20px;
+  font-size: 2.5rem;
+  animation: fountainBounce 1.2s infinite ease-in-out alternate;
+}
+@keyframes fountainBounce {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-8px) scale(1.05); }
+}
+
+.gate-doors {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  z-index: 10;
+  pointer-events: none;
+}
+.gate-door-left, .gate-door-right {
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(135deg, #2b1a10 0%, #150c07 100%);
+  border: 4px solid #d4af37;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 2.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+}
+.gate-door-left {
+  transform-origin: left center;
+  border-right: 2px solid #d4af37;
+}
+.gate-door-right {
+  transform-origin: right center;
+  border-left: 2px solid #d4af37;
+}
+.gate-doors.open .gate-door-left { transform: rotateY(-115deg); }
+.gate-doors.open .gate-door-right { transform: rotateY(115deg); }
+
+.gate-ornament {
+  font-size: 3rem;
+  color: gold;
+  text-shadow: 0 0 15px rgba(212,175,55,0.7);
+}
+
+.skip-gate-btn {
+  position: absolute;
+  bottom: 25px;
+  right: 25px;
+  z-index: 100;
+  background: rgba(0,0,0,0.6);
+  color: wheat;
+  border: 1px solid wheat;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+/* CONFETTI & WINNER MODAL */
+.confetti-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 14px;
+  top: -20px;
+  opacity: 0.8;
+  animation: fall 3s linear infinite;
+}
+@keyframes fall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
 @media print {
   body * { visibility: hidden !important; }
   #modal-overlay, #modal-overlay * { visibility: visible !important; color: #000 !important; border-color: #000 !important; }
@@ -460,6 +654,7 @@ button:not(.btn-primary):not(.btn-secondary):hover {
   #modal-overlay .modal { background: transparent !important; box-shadow: none !important; border: none !important; }
   .modal-footer { display: none !important; }
 }
+
 </style>
 </head>
 <body>
@@ -514,6 +709,7 @@ button:not(.btn-primary):not(.btn-secondary):hover {
       <button class="nav-btn" onclick="switchTab('tab-schedule',this)">Plan & Menu</button>
       <button class="nav-btn" onclick="switchTab('tab-music',this)">Muzyka</button>
       <button class="nav-btn" onclick="switchTab('tab-qr',this)">Kody QR</button>
+      <button class="nav-btn" onclick="switchTab('tab-missions',this)">🎯 Misje</button>
       <button class="nav-btn" onclick="switchTab('tab-settings',this)">Ustawienia</button>
     </div>
     <button class="back-btn" onclick="adminLogout()">Wyloguj</button>
@@ -627,6 +823,55 @@ button:not(.btn-primary):not(.btn-secondary):hover {
       <div class="section-title">Kody QR dla gości</div>
       <div class="qr-grid" id="qr-grid"></div>
     </div>
+    <div class="tab-content" id="tab-missions">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
+        <div class="section-title" style="margin-bottom:0">🎯 Misje i Wyzwania Weselne</div>
+        <button class="save-btn" onclick="saveAll(event)">💾 Zapisz wszystko (GitHub)</button>
+      </div>
+
+      <!-- PRZEŁĄCZNIKI I USTAWIENIA MISJI -->
+      <div class="table-config-panel" style="flex-direction:column;align-items:flex-start;gap:0.8rem">
+        <div style="font-weight:bold;color:wheat;font-size:0.9rem">⚙️ Konfiguracja &amp; Przełączniki funkcji:</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0.8rem;width:100%">
+          <label class="checkbox-lbl"><input type="checkbox" id="m-cfg-enabled" onchange="saveMissionsSettings(event)"> Włącz moduł zadań/misji dla gości</label>
+          <label class="checkbox-lbl"><input type="checkbox" id="m-cfg-ranking" onchange="saveMissionsSettings(event)"> Wyświetlaj ranking na żywo u gości</label>
+          <label class="checkbox-lbl"><input type="checkbox" id="m-cfg-winner-notif" onchange="saveMissionsSettings(event)"> Włącz powiadomienie o zwycięzcy</label>
+          <label class="checkbox-lbl"><input type="checkbox" id="m-cfg-rosegate" onchange="saveMissionsSettings(event)"> Włącz animację Różanej Bramy przy wejściu</label>
+        </div>
+
+        <div style="width:100%;border-top:1px solid var(--border);padding-top:0.8rem;margin-top:0.3rem">
+          <label class="settings-label">Dysk Google — Nazwa folderu nadrzędnego</label>
+          <input class="settings-input" id="m-cfg-parent-folder" placeholder="Wesele 2026" onchange="saveMissionsSettings(event)" style="max-width:350px">
+        </div>
+
+        <div style="width:100%">
+          <label class="settings-label">Powiadomienie dla Pierwszego Zwycięzcy (Treść pop-up)</label>
+          <textarea class="settings-input" id="m-cfg-winner-msg" rows="2" placeholder="Wpisz treść życzeń/nagrody dla pierwszego zwycięzcy..." onchange="saveMissionsSettings(event)"></textarea>
+        </div>
+
+        <div style="width:100%;border-top:1px solid var(--border);padding-top:0.8rem">
+          <label class="settings-label">Dysk Google — Google Apps Script Web App URL (do automatycznego tworzenia folderów i wgrywania)</label>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+            <input class="settings-input" id="m-cfg-drive-script" placeholder="https://script.google.com/macros/s/..." onchange="saveMissionsSettings(event)" style="flex:1;min-width:260px">
+            <button class="btn-secondary" style="width:auto;padding:0.4rem 0.8rem;font-size:0.75rem" onclick="showGasScriptModal()">📄 Instrukcja &amp; Kod GAS</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- LISTA ZADAŃ WESELNYCH -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin:1.5rem 0 0.8rem">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:wheat">Zadania Weselne (Lista)</div>
+        <button class="add-btn" onclick="addAdminMission()">+ Dodaj nowe zadanie</button>
+      </div>
+
+      <div id="admin-missions-list" style="display:flex;flex-direction:column;gap:0.75rem"></div>
+
+      <!-- POSTĘP GOŚCI (ADMIN LEADERBOARD) -->
+      <div style="margin-top:2rem">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:wheat;margin-bottom:0.8rem">🏆 Postępy i Odpowiedzi Gości</div>
+        <div id="admin-guest-progress-list"></div>
+      </div>
+    </div>
 
     <div class="tab-content" id="tab-settings">
       <div class="section-title">Ustawienia wesela</div>
@@ -712,6 +957,26 @@ button:not(.btn-primary):not(.btn-secondary):hover {
       </div>
     </div>
 
+    <!-- SEKCJA MISJI I WYZWAŃ WESELNYCH -->
+    <div class="g-section" id="g-missions-section">
+      <div class="g-section-lbl">🎯 Misje &amp; Wyzwania Weselne</div>
+      <div class="g-card">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:#FFF8EE;margin-bottom:0.3rem">Twoje Wyzwania</div>
+        <div style="font-size:0.78rem;color:wheat;opacity:0.8;margin-bottom:0.6rem" id="g-missions-progress-lbl">Ukończono 0 z 10 zadań</div>
+        <div class="mission-progress-bar"><div class="mission-progress-fill" id="g-missions-progress-fill"></div></div>
+        <div id="g-missions-list" style="display:flex;flex-direction:column;gap:0.75rem"></div>
+      </div>
+    </div>
+
+    <!-- SEKCJA RANKINGU NA ŻYWO -->
+    <div class="g-section" id="g-ranking-section">
+      <div class="g-section-lbl">🏆 Ranking Misji na Żywo</div>
+      <div class="g-card">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:#FFF8EE;margin-bottom:0.8rem">Liderzy Wyzwań</div>
+        <div id="g-ranking-list" class="ranking-list"></div>
+      </div>
+    </div>
+
     <div class="g-section" id="g-menu-section" style="display:none">
       <div class="g-section-lbl">Jadłospis</div>
       <div class="g-card" id="g-menu-content"></div>
@@ -760,6 +1025,63 @@ button:not(.btn-primary):not(.btn-secondary):hover {
       <button class="modal-cancel" id="assign-clear-btn" onclick="confirmAssignClear()" style="color:#C0392B;border-color:rgba(192,57,43,0.3)">Zwolnij miejsce</button>
       <button class="modal-cancel" onclick="closeModal()">Anuluj</button>
       <button class="add-btn" onclick="confirmAssign()">Zapisz</button>
+    </div>
+  </div>
+</div>
+
+<!-- ANIMACJA RÓŻANEJ BRAMY I OGRODU -->
+<div id="rosegate-overlay" class="hidden">
+  <div class="garden-view" id="rosegate-garden">
+    <div class="rose-portal">
+      <div style="text-align:center;color:wheat;font-family:'Cormorant Garamond',serif;font-size:1.6rem;margin-top:35px;padding:0 1rem">
+        <em>Witaj w Ogrodzie Weselnym!</em>
+      </div>
+      <div class="fountain-graphic">⛲</div>
+    </div>
+  </div>
+  <div class="gate-doors" id="rosegate-doors">
+    <div class="gate-door-left">
+      <div class="gate-ornament">⚜️</div>
+      <div style="color:gold;font-size:2rem;margin-top:10px">🌹</div>
+    </div>
+    <div class="gate-door-right">
+      <div class="gate-ornament">⚜️</div>
+      <div style="color:gold;font-size:2rem;margin-top:10px">🌹</div>
+    </div>
+  </div>
+  <button class="skip-gate-btn" onclick="skipRoseGateAnimation()">Przejdź od razu ➔</button>
+</div>
+
+<!-- MODAL ZWYCIĘZCY -->
+<div class="modal-overlay hidden" id="winner-modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" style="background: linear-gradient(135deg, #2D2218 0%, #522c1b 100%); text-align:center; border:2px solid gold; box-shadow: 0 0 40px gold; position:relative; overflow:hidden">
+    <div class="confetti-container" id="confetti-container"></div>
+    <div style="font-size:3rem;margin-bottom:0.5rem">🏆 🎉 👑</div>
+    <div class="modal-title" style="color:gold;font-size:1.8rem">GRATULACJE!</div>
+    <div style="font-size:1.05rem;color:wheat;margin:1rem 0;line-height:1.4" id="winner-modal-body">
+      Jesteś 1. osobą, która ukończyła wszystkie misje!
+    </div>
+    <button class="btn-primary" style="width:100%;margin-top:1rem" onclick="closeModal()">Wspaniale! 🥳</button>
+  </div>
+</div>
+
+<!-- MODAL INSTRUKCJI I KODU GOOGLE APPS SCRIPT -->
+<div class="modal-overlay hidden" id="gas-script-modal-overlay" onclick="if(event.target===this)closeGasScriptModal()">
+  <div class="modal" style="background:#1A1410; max-width:620px; width:95%; border:1px solid wheat">
+    <div class="modal-title" style="color:wheat">📄 Skrypt Google Apps Script (Automatyczny Dysk Google)</div>
+    <p style="font-size:0.8rem;color:wheat;margin-bottom:0.8rem;line-height:1.4">
+      Oto kod skryptu, który automatycznie tworzy katalogi <code>Wesele 2026 / [Imię Nazwisko] / Zadanie X</code> na Twoim Dysku Google i zapisuje w nich zdjęcia, wideo oraz pliki tekstowe od gości:
+    </p>
+    <ol style="font-size:0.75rem;color:wheat;margin-left:1.2rem;margin-bottom:0.8rem;line-height:1.4">
+      <li>Wejdź na <a href="https://script.google.com" target="_blank" style="color:gold">script.google.com</a> i kliknij "Nowy projekt".</li>
+      <li>Wklej poniższy kod i zapisz.</li>
+      <li>Kliknij <strong>Wdrożenie ➔ Nowe wdrożenie</strong>, wybierz typ <em>Aplikacja internetowa</em>, dostęp: <em>Każdy (Anyone)</em>.</li>
+      <li>Skopiuj adres URL wdrożenia i wklej go w polu w zakładce Misje.</li>
+    </ol>
+    <textarea id="gas-script-code" rows="12" readonly style="width:100%;background:#0d0805;color:#93ff8e;font-family:monospace;font-size:0.75rem;padding:0.8rem;border:1px solid var(--border);border-radius:6px;resize:vertical"></textarea>
+    <div class="modal-footer" style="margin-top:1rem">
+      <button class="modal-cancel" onclick="closeGasScriptModal()">Zamknij</button>
+      <button class="add-btn" onclick="copyGasScriptCode()">📋 Skopiuj kod</button>
     </div>
   </div>
 </div>
@@ -943,7 +1265,30 @@ const DEFAULT_STATE={
   },
   guests:[{id:'g1',name1:'Pan Młody',name2:'Pani Młoda',seat1:'T1',seat2:'T2',code:'G-001'}],
   schedule:[{time:'16:30',event:'Przyjęcie'}],
-  menu:[],music:[]
+  menu:[],music:[],
+  missionsSettings:{
+    enabled:true,
+    showRanking:true,
+    enableWinnerNotification:true,
+    enableRoseGateAnimation:true,
+    parentFolder:'Wesele 2026',
+    winnerMessage:'🎉 Gratulacje! Jesteś pierwszą osobą, która ukończyła wszystkie misje weselne! Odbierz swoją nagrodę u Pary Młodej! 🏆',
+    driveScriptUrl:''
+  },
+  missions:[
+    {id:'m1',title:'Uchwyć 3 zdjęcia w trakcie krojenia tortu',type:'zdjecie',targetCount:3},
+    {id:'m2',title:'Nagraj pierwszy taniec jakby to był Twój własny',type:'wideo',targetCount:1},
+    {id:'m3',title:'Napisz 3 zdania opisujące imprezę weselną',type:'tekst',targetCount:1},
+    {id:'m4',title:'Zrób wspólne selfie z Panem i Panią Młodą',type:'zdjecie',targetCount:1},
+    {id:'m5',title:'Sfotografuj najbardziej szalone tańce na parkiecie',type:'zdjecie',targetCount:2},
+    {id:'m6',title:'Krótkie życzenia wideo dla Pary Młodej (15 sekund)',type:'wideo',targetCount:1},
+    {id:'m7',title:'Zostaw złote rady na pierwsze 5 lat małżeństwa',type:'tekst',targetCount:1},
+    {id:'m8',title:'Uchwyć toast wznoszony przy Twoim stole',type:'zdjecie',targetCount:1},
+    {id:'m9',title:'Napisz które danie z menu zasmakowało Ci najbardziej',type:'tekst',targetCount:1},
+    {id:'m10',title:'Zrób pamiątkowe zdjęcie ze swoimi sąsiadami ze stołu',type:'zdjecie',targetCount:1}
+  ],
+  guestMissions:{},
+  firstWinner:null
 };
 
 let STATE=JSON.parse(JSON.stringify(DEFAULT_STATE));
@@ -1044,6 +1389,10 @@ loadLocalCache();
 if(!STATE.settings.table)STATE.settings.table=DEFAULT_STATE.settings.table;
 if(!STATE.settings.table.edges)STATE.settings.table.edges=DEFAULT_STATE.settings.table.edges;
 if(!STATE.music)STATE.music=[];
+if(!STATE.missionsSettings)STATE.missionsSettings=JSON.parse(JSON.stringify(DEFAULT_STATE.missionsSettings));
+if(!STATE.missions)STATE.missions=JSON.parse(JSON.stringify(DEFAULT_STATE.missions));
+if(!STATE.guestMissions)STATE.guestMissions={};
+if(STATE.firstWinner===undefined)STATE.firstWinner=null;
 
 // ═══════════════════════════════════════════════════════════
 //  LAYOUT ENGINE
@@ -1482,6 +1831,7 @@ function switchTab(tabId,btn){
   if(tabId==='tab-qr')renderQRGrid();
   if(tabId==='tab-schedule'){renderScheduleAdmin();renderMenuAdmin();}
   if(tabId==='tab-music')renderAdminMusic();
+  if(tabId==='tab-missions')renderAdminMissions();
 }
 
 async function adminLogin(){
@@ -1510,7 +1860,18 @@ function guestLogin(){
   const code=raw.replace(/[^A-Z0-9\-]/gi,'').toUpperCase();
   if(!code){document.getElementById('guest-err').textContent='Podaj kod.';return;}
   const g=STATE.guests.find(x=>x.code===code);
-  if(g){renderGuestView(g);show('screen-guest');requestAnimationFrame(()=>initWrap('wrap-guest'));}
+  if(g){
+    const openGuestView = () => {
+      renderGuestView(g);
+      show('screen-guest');
+      requestAnimationFrame(()=>initWrap('wrap-guest'));
+    };
+    if(STATE.missionsSettings && STATE.missionsSettings.enableRoseGateAnimation !== false){
+      triggerRoseGateAnimation(openGuestView);
+    } else {
+      openGuestView();
+    }
+  }
   else document.getElementById('guest-err').textContent='Nie znaleziono gościa. Upewnij się, że wpisujesz poprawny kod.';
 }
 
@@ -1610,7 +1971,7 @@ function _assignSeatName(sid,name){
 function renderAdmin(){
   if(!requireAdmin())return;
   generateLayoutEngine();
-  renderGuestsTable();renderScheduleAdmin();renderMenuAdmin();renderAdminMusic();
+  renderGuestsTable();renderScheduleAdmin();renderMenuAdmin();renderAdminMusic();renderAdminMissions();
   document.getElementById('s-names').value=STATE.settings.names||'';
   const t1 = document.getElementById('s-throne1'); if(t1) t1.value = STATE.settings.throne1||'';
   const t2 = document.getElementById('s-throne2'); if(t2) t2.value = STATE.settings.throne2||'';
@@ -1769,6 +2130,7 @@ function showQRModal(gid){
 //  GUEST VIEW
 // ═══════════════════════════════════════════════════════════
 function renderGuestView(g){
+  window._currentGuestCode = g.code;
   window._currentGuestName = [g.name1, g.name2].filter(Boolean).join(' & ');
   document.getElementById('g-title').textContent=STATE.settings.names;
   document.getElementById('g-date').textContent=(STATE.settings.date||'').toUpperCase();
@@ -1779,7 +2141,7 @@ function renderGuestView(g){
   generateLayoutEngine();
   document.getElementById('g-table-svg-wrap').innerHTML=buildTableSVG(seats,true,'guest').svg;
   requestAnimationFrame(()=>{initWrap('wrap-guest');centerWrap('wrap-guest');});
-  renderGuestNeighbors(g);renderGuestMenu();renderGuestMusicList();
+  renderGuestNeighbors(g);renderGuestMenu();renderGuestMusicList();renderGuestMissions(g);renderGuestRanking();
   const schEl=document.getElementById('g-schedule');schEl.innerHTML='';
   STATE.schedule.forEach(item=>{
     const wrap=document.createElement('div');wrap.className='sch-tl-item';
@@ -1794,6 +2156,8 @@ function renderGuestView(g){
     saveLocalCache();
     generateLayoutEngine();
     renderGuestMusicList();
+    renderGuestMissions(g);
+    renderGuestRanking();
     document.getElementById('g-table-svg-wrap').innerHTML=buildTableSVG(seats,true,'guest').svg;
   });
 }
@@ -1955,6 +2319,10 @@ function parseImportedState(data){
   if(data.schedule&&Array.isArray(data.schedule))STATE.schedule=data.schedule.map(s=>({time:sanitizeText(s.time||''),event:sanitizeText(s.event||'')}));
   if(data.menu&&Array.isArray(data.menu))STATE.menu=data.menu.map(m=>({category:sanitizeText(m.category||''),name:sanitizeText(m.name||'')}));
   if(data.music&&Array.isArray(data.music))STATE.music=data.music;
+  if(data.missionsSettings)STATE.missionsSettings=Object.assign({},DEFAULT_STATE.missionsSettings,data.missionsSettings);
+  if(data.missions&&Array.isArray(data.missions))STATE.missions=data.missions;
+  if(data.guestMissions)STATE.guestMissions=data.guestMissions;
+  if(data.firstWinner!==undefined)STATE.firstWinner=data.firstWinner;
   if(data.settings){const s=data.settings;if(s.names)STATE.settings.names=s.names;if(s.throne1)STATE.settings.throne1=s.throne1;if(s.throne2)STATE.settings.throne2=s.throne2;if(s.date)STATE.settings.date=sanitizeText(s.date);if(s.venue)STATE.settings.venue=sanitizeText(s.venue);if(s.table)STATE.settings.table=s.table;if(s.githubToken)STATE.settings.githubToken=s.githubToken;}
 }
 async function driveLoadByUrl(){
@@ -1981,13 +2349,565 @@ function driveLoadLocal(){
 }
 function driveSave(){
   if(!requireAdmin())return;
-  const exportData={settings:{names:STATE.settings.names,throne1:STATE.settings.throne1,throne2:STATE.settings.throne2,date:STATE.settings.date,venue:STATE.settings.venue,driveUrl:STATE.settings.driveUrl,table:STATE.settings.table},guests:STATE.guests,schedule:STATE.schedule,menu:STATE.menu||[],music:STATE.music||[]};
+  const exportData={settings:{names:STATE.settings.names,throne1:STATE.settings.throne1,throne2:STATE.settings.throne2,date:STATE.settings.date,venue:STATE.settings.venue,driveUrl:STATE.settings.driveUrl,table:STATE.settings.table},guests:STATE.guests,schedule:STATE.schedule,menu:STATE.menu||[],music:STATE.music||[],missionsSettings:STATE.missionsSettings,missions:STATE.missions,guestMissions:STATE.guestMissions,firstWinner:STATE.firstWinner};
   const blob=new Blob([JSON.stringify(exportData,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='wesele.json';
   document.body.appendChild(a);a.click();document.body.removeChild(a);
   setTimeout(()=>URL.revokeObjectURL(a.href),2000);
   document.getElementById('drive-status-txt').innerHTML='<strong>Pobrano wesele.json</strong>';
 }
+
+// ═══════════════════════════════════════════════════════════
+//  MISJE & WYZWANIA WESELNE ENGINE
+// ═══════════════════════════════════════════════════════════
+
+function renderAdminMissions() {
+  if(!requireAdmin()) return;
+  const cfg = STATE.missionsSettings || DEFAULT_STATE.missionsSettings;
+  
+  const elEnabled = document.getElementById('m-cfg-enabled');
+  if(elEnabled) elEnabled.checked = cfg.enabled !== false;
+  
+  const elRanking = document.getElementById('m-cfg-ranking');
+  if(elRanking) elRanking.checked = cfg.showRanking !== false;
+  
+  const elWinnerNotif = document.getElementById('m-cfg-winner-notif');
+  if(elWinnerNotif) elWinnerNotif.checked = cfg.enableWinnerNotification !== false;
+
+  const elRosegate = document.getElementById('m-cfg-rosegate');
+  if(elRosegate) elRosegate.checked = cfg.enableRoseGateAnimation !== false;
+
+  const elFolder = document.getElementById('m-cfg-parent-folder');
+  if(elFolder) elFolder.value = cfg.parentFolder || 'Wesele 2026';
+
+  const elMsg = document.getElementById('m-cfg-winner-msg');
+  if(elMsg) elMsg.value = cfg.winnerMessage || '';
+
+  const elScript = document.getElementById('m-cfg-drive-script');
+  if(elScript) elScript.value = cfg.driveScriptUrl || '';
+
+  // Render missions list
+  const list = document.getElementById('admin-missions-list');
+  if(list) {
+    list.innerHTML = '';
+    (STATE.missions || []).forEach((m, idx) => {
+      const div = document.createElement('div');
+      div.className = 'sch-row';
+      div.style.flexWrap = 'wrap';
+      div.innerHTML = `
+        <span style="color:wheat;font-weight:bold;min-width:30px">#${idx+1}</span>
+        <input value="${escHtml(m.title)}" placeholder="Treść zadania" style="flex:2;min-width:200px" onchange="STATE.missions[${idx}].title=sanitizeText(this.value);saveLocal()">
+        <select class="tbl-input" style="width:130px" onchange="STATE.missions[${idx}].type=this.value;renderAdminMissions();saveLocal()">
+          <option value="zdjecie" ${m.type==='zdjecie'?'selected':''}>📸 Zdjęcie</option>
+          <option value="wideo" ${m.type==='wideo'?'selected':''}>🎥 Wideo</option>
+          <option value="tekst" ${m.type==='tekst'?'selected':''}>✍️ Tekst</option>
+        </select>
+        ${m.type !== 'tekst' ? `
+          <div style="display:flex;align-items:center;gap:0.3rem;color:wheat;font-size:0.75rem">
+            <span>Ilość:</span>
+            <input type="number" min="1" max="10" value="${m.targetCount||1}" style="width:50px" class="tbl-input" onchange="STATE.missions[${idx}].targetCount=parseInt(this.value)||1;saveLocal()">
+          </div>
+        ` : ''}
+        <button class="danger-btn" onclick="removeAdminMission(${idx})">✕ Usuń</button>
+      `;
+      list.appendChild(div);
+    });
+  }
+
+  // Render Admin Guest Progress
+  renderAdminGuestProgress();
+}
+
+function saveMissionsSettings(ev) {
+  if(!STATE.missionsSettings) STATE.missionsSettings = JSON.parse(JSON.stringify(DEFAULT_STATE.missionsSettings));
+  STATE.missionsSettings.enabled = document.getElementById('m-cfg-enabled').checked;
+  STATE.missionsSettings.showRanking = document.getElementById('m-cfg-ranking').checked;
+  STATE.missionsSettings.enableWinnerNotification = document.getElementById('m-cfg-winner-notif').checked;
+  STATE.missionsSettings.enableRoseGateAnimation = document.getElementById('m-cfg-rosegate').checked;
+  STATE.missionsSettings.parentFolder = document.getElementById('m-cfg-parent-folder').value.trim() || 'Wesele 2026';
+  STATE.missionsSettings.winnerMessage = document.getElementById('m-cfg-winner-msg').value.trim();
+  STATE.missionsSettings.driveScriptUrl = document.getElementById('m-cfg-drive-script').value.trim();
+  saveLocal();
+}
+
+function addAdminMission() {
+  if(!STATE.missions) STATE.missions = [];
+  const newId = 'm' + Date.now();
+  STATE.missions.push({
+    id: newId,
+    title: 'Nowe wyzwanie weselne',
+    type: 'zdjecie',
+    targetCount: 1
+  });
+  saveLocal();
+  renderAdminMissions();
+}
+
+function removeAdminMission(idx) {
+  if(!confirm('Usunąć to zadanie?')) return;
+  STATE.missions.splice(idx, 1);
+  saveLocal();
+  renderAdminMissions();
+}
+
+function renderAdminGuestProgress() {
+  const wrap = document.getElementById('admin-guest-progress-list');
+  if(!wrap) return;
+  wrap.innerHTML = '';
+  
+  if(!STATE.guests || STATE.guests.length === 0) {
+    wrap.innerHTML = '<div style="color:wheat">Brak gości na liście.</div>';
+    return;
+  }
+
+  const totalMissions = (STATE.missions || []).length;
+  
+  STATE.guests.forEach(g => {
+    const name = [g.name1, g.name2].filter(Boolean).join(' & ') || 'Gość bez imienia';
+    const gData = (STATE.guestMissions && STATE.guestMissions[g.code]) || { answers: {}, completedCount: 0 };
+    const compCount = gData.completedCount || 0;
+    const isWinner = STATE.firstWinner && STATE.firstWinner.code === g.code;
+
+    const card = document.createElement('div');
+    card.style.cssText = 'background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.18);border-radius:8px;padding:0.8rem 1rem;margin-bottom:0.6rem';
+    
+    let answersHtml = '';
+    Object.entries(gData.answers || {}).forEach(([mId, ans]) => {
+      const mission = (STATE.missions || []).find(m => m.id === mId);
+      const title = mission ? mission.title : mId;
+      if(ans.text) {
+        answersHtml += `<div style="font-size:0.75rem;color:wheat;margin-top:0.3rem"><strong>${escHtml(title)}:</strong> "${escHtml(ans.text)}"</div>`;
+      } else if(ans.files && ans.files.length) {
+        answersHtml += `<div style="font-size:0.75rem;color:wheat;margin-top:0.3rem"><strong>${escHtml(title)}:</strong> ${ans.files.length} plik(ów) wgrano do Drive</div>`;
+      }
+    });
+
+    card.innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <span style="font-weight:bold;color:wheat">${escHtml(name)}</span>
+          <span class="pill" style="margin-left:0.5rem">${escHtml(g.code)}</span>
+          ${isWinner ? '<span style="color:gold;font-weight:bold;margin-left:0.5rem">🏆 ZWYCIĘZCA!</span>' : ''}
+        </div>
+        <div style="font-size:0.85rem;color:#93ff8e;font-weight:bold">${compCount} / ${totalMissions} ukończone</div>
+      </div>
+      ${answersHtml}
+    `;
+    wrap.appendChild(card);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+//  GAS SCRIPT MODAL & UTILS
+// ═══════════════════════════════════════════════════════════
+const GAS_SCRIPT_SOURCE_CODE = `function doPost(e) {
+  try {
+    var data = JSON.parse(e.postData.contents);
+    var parentFolderName = data.parentFolder || "Wesele 2026";
+    var guestName = data.guestName || "Gość";
+    var taskFolderName = data.taskFolderName || "Zadanie";
+    var fileName = data.fileName || "plik.txt";
+    var fileData = data.fileData || "";
+    var mimeType = data.mimeType || "text/plain";
+
+    var parentFolder = getOrCreateSubFolder(DriveApp.getRootFolder(), parentFolderName);
+    var guestFolder = getOrCreateSubFolder(parentFolder, guestName);
+    var taskFolder = getOrCreateSubFolder(guestFolder, taskFolderName);
+
+    var file;
+    if (fileData.startsWith("data:")) {
+      var base64Data = fileData.split(",")[1];
+      var bytes = Utilities.base64Decode(base64Data);
+      var blob = Utilities.newBlob(bytes, mimeType, fileName);
+      file = taskFolder.createFile(blob);
+    } else {
+      file = taskFolder.createFile(fileName, fileData, mimeType);
+    }
+
+    return ContentService.createTextOutput(JSON.stringify({
+      status: "success",
+      fileUrl: file.getUrl(),
+      fileId: file.getId()
+    })).setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({
+      status: "error",
+      message: err.toString()
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function getOrCreateSubFolder(parent, folderName) {
+  var folders = parent.getFoldersByName(folderName);
+  if (folders.hasNext()) {
+    return folders.next();
+  } else {
+    return parent.createFolder(folderName);
+  }
+}`;
+
+function showGasScriptModal() {
+  document.getElementById('gas-script-code').value = GAS_SCRIPT_SOURCE_CODE;
+  document.getElementById('gas-script-modal-overlay').classList.remove('hidden');
+}
+
+function closeGasScriptModal() {
+  document.getElementById('gas-script-modal-overlay').classList.add('hidden');
+}
+
+function copyGasScriptCode() {
+  const ta = document.getElementById('gas-script-code');
+  ta.select();
+  document.execCommand('copy');
+  alert('Kod skryptu Google Apps Script został skopiowany do schowka! 📋');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  GUEST MISSIONS VIEW & SUBMISSIONS
+// ═══════════════════════════════════════════════════════════
+
+function renderGuestMissions(g) {
+  const sec = document.getElementById('g-missions-section');
+  if(!sec) return;
+  
+  if(!STATE.missionsSettings || STATE.missionsSettings.enabled === false) {
+    sec.style.display = 'none';
+    return;
+  }
+  sec.style.display = '';
+
+  const list = document.getElementById('g-missions-list');
+  if(!list) return;
+  list.innerHTML = '';
+
+  const missions = STATE.missions || [];
+  if(!STATE.guestMissions) STATE.guestMissions = {};
+  if(!STATE.guestMissions[g.code]) STATE.guestMissions[g.code] = { answers: {}, completedCount: 0 };
+  
+  const gMissions = STATE.guestMissions[g.code];
+  let completedCount = 0;
+
+  missions.forEach((m, idx) => {
+    const ans = gMissions.answers[m.id];
+    const isDone = ans && ans.status === 'completed';
+    if(isDone) completedCount++;
+
+    const div = document.createElement('div');
+    div.className = 'mission-card-item ' + (isDone ? 'completed' : '');
+    
+    let typeLabel = '✍️ Tekst';
+    let typeClass = 'mission-badge-tekst';
+    if(m.type === 'zdjecie') { typeLabel = `📸 Zdjęcie (wymagane: ${m.targetCount||1})`; typeClass = 'mission-badge-zdjecie'; }
+    if(m.type === 'wideo') { typeLabel = `🎥 Wideo (wymagane: ${m.targetCount||1})`; typeClass = 'mission-badge-wideo'; }
+
+    let inputHtml = '';
+    if(isDone) {
+      if(m.type === 'tekst') {
+        inputHtml = `<div style="font-size:0.83rem;color:#93ff8e;margin-top:0.4rem;font-style:italic">" ${escHtml(ans.text)} "</div>`;
+      } else {
+        inputHtml = `<div style="font-size:0.83rem;color:#93ff8e;margin-top:0.4rem">✓ Przesłano i zapisano plik(i) na Dysku Google!</div>`;
+      }
+    } else {
+      if(m.type === 'tekst') {
+        inputHtml = `
+          <textarea class="settings-input" id="g-m-text-${m.id}" rows="2" placeholder="Wpisz swoją odpowiedź..." style="margin-top:0.5rem"></textarea>
+          <button class="btn-primary" style="padding:0.45rem;font-size:0.75rem;margin-top:0.4rem;width:auto" onclick="submitMissionText('${m.id}')">Wyślij odpowiedź</button>
+        `;
+      } else if(m.type === 'zdjecie') {
+        inputHtml = `
+          <div style="margin-top:0.5rem;display:flex;flex-direction:column;gap:0.4rem">
+            <input type="file" id="g-m-file-${m.id}" accept="image/*" capture="environment" multiple class="tbl-input" style="font-size:0.75rem">
+            <button class="btn-primary" id="btn-sub-${m.id}" style="padding:0.45rem;font-size:0.75rem;width:auto;align-self:flex-start" onclick="submitMissionFiles('${m.id}', 'zdjecie')">📸 Wgraj zdjęcia na Dysk Google</button>
+          </div>
+        `;
+      } else if(m.type === 'wideo') {
+        inputHtml = `
+          <div style="margin-top:0.5rem;display:flex;flex-direction:column;gap:0.4rem">
+            <input type="file" id="g-m-file-${m.id}" accept="video/*" capture="user" class="tbl-input" style="font-size:0.75rem">
+            <button class="btn-primary" id="btn-sub-${m.id}" style="padding:0.45rem;font-size:0.75rem;width:auto;align-self:flex-start" onclick="submitMissionFiles('${m.id}', 'wideo')">🎥 Wgraj wideo na Dysk Google</button>
+          </div>
+        `;
+      }
+    }
+
+    div.innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;margin-bottom:0.4rem">
+        <span class="mission-badge ${typeClass}">${typeLabel}</span>
+        <span style="font-size:0.75rem;font-weight:bold;color:${isDone?'#93ff8e':'wheat'}">${isDone ? '✓ Ukończone' : '⏳ Niewykonane'}</span>
+      </div>
+      <div style="font-weight:500;color:wheat;font-size:0.92rem">${idx+1}. ${escHtml(m.title)}</div>
+      ${inputHtml}
+    `;
+    list.appendChild(div);
+  });
+
+  gMissions.completedCount = completedCount;
+  
+  // Progress Bar
+  const pct = missions.length > 0 ? Math.round((completedCount / missions.length) * 100) : 0;
+  const pLbl = document.getElementById('g-missions-progress-lbl');
+  if(pLbl) pLbl.textContent = `Ukończono ${completedCount} z ${missions.length} zadań (${pct}%)`;
+  const pFill = document.getElementById('g-missions-progress-fill');
+  if(pFill) pFill.style.width = pct + '%';
+
+  // Check if winner
+  if(completedCount > 0 && completedCount === missions.length) {
+    checkWinnerCompletion(g);
+  }
+}
+
+async function submitMissionText(mId) {
+  const code = (window._currentGuestCode || '').toUpperCase();
+  const guest = STATE.guests.find(x => x.code === code);
+  const guestName = window._currentGuestName || (guest ? [guest.name1, guest.name2].filter(Boolean).join(' & ') : 'Gość');
+  
+  const textEl = document.getElementById('g-m-text-' + mId);
+  const text = textEl ? textEl.value.trim() : '';
+  if(!text) { alert('Wpisz tekst przed wysłaniem!'); return; }
+
+  const mission = (STATE.missions || []).find(m => m.id === mId);
+  const mTitle = mission ? mission.title : 'Zadanie';
+
+  if(!STATE.guestMissions) STATE.guestMissions = {};
+  if(!STATE.guestMissions[code]) STATE.guestMissions[code] = { answers: {}, completedCount: 0 };
+  
+  STATE.guestMissions[code].answers[mId] = {
+    status: 'completed',
+    text: text,
+    updatedAt: Date.now()
+  };
+
+  saveLocal();
+  saveNow().catch(e => console.warn('Save mission:', e));
+
+  // Przesyłanie informacji/pliku tekstowego na Dysk Google (jeśli GAS jest podpięty)
+  const fileContent = `Odpowiedź na zadanie: ${mTitle}\nAutor: ${guestName} (${code})\nData: ${new Date().toLocaleString('pl-PL')}\n\nTreść odpowiedzi:\n${text}`;
+  uploadToGoogleDrive({
+    guestName: guestName,
+    taskTitle: `Zadanie - ${mTitle}`,
+    fileName: `Odpowiedz_${guestName}.txt`,
+    fileData: fileContent,
+    mimeType: 'text/plain;charset=utf-8'
+  }).catch(e => console.warn('Drive text upload:', e));
+
+  if(guest) renderGuestMissions(guest);
+  renderGuestRanking();
+}
+
+async function submitMissionFiles(mId, type) {
+  const code = (window._currentGuestCode || '').toUpperCase();
+  const guest = STATE.guests.find(x => x.code === code);
+  const guestName = window._currentGuestName || (guest ? [guest.name1, guest.name2].filter(Boolean).join(' & ') : 'Gość');
+
+  const fileInput = document.getElementById('g-m-file-' + mId);
+  if(!fileInput || !fileInput.files || fileInput.files.length === 0) {
+    alert('Wybierz plik z aparatu lub pamięci telefonu!');
+    return;
+  }
+
+  const btn = document.getElementById('btn-sub-' + mId);
+  const origBtnText = btn ? btn.textContent : '';
+  if(btn) { btn.textContent = '⏳ Wgrywanie na Dysk Google...'; btn.disabled = true; }
+
+  const mission = (STATE.missions || []).find(m => m.id === mId);
+  const mTitle = mission ? mission.title : 'Zadanie';
+  const uploadedUrls = [];
+
+  for(let i = 0; i < fileInput.files.length; i++) {
+    const file = fileInput.files[i];
+    try {
+      const dataUrl = await readFileAsDataURL(file);
+      const res = await uploadToGoogleDrive({
+        guestName: guestName,
+        taskTitle: `Zadanie - ${mTitle}`,
+        fileName: `${type==='zdjecie'?'Zdjecie':'Wideo'}_${i+1}_${file.name}`,
+        fileData: dataUrl,
+        mimeType: file.type || (type==='zdjecie'?'image/jpeg':'video/mp4')
+      });
+      if(res.success && res.url) uploadedUrls.push(res.url);
+    } catch(err) {
+      console.warn('File upload failed:', err);
+    }
+  }
+
+  if(!STATE.guestMissions) STATE.guestMissions = {};
+  if(!STATE.guestMissions[code]) STATE.guestMissions[code] = { answers: {}, completedCount: 0 };
+  
+  STATE.guestMissions[code].answers[mId] = {
+    status: 'completed',
+    files: uploadedUrls,
+    updatedAt: Date.now()
+  };
+
+  saveLocal();
+  saveNow().catch(e => console.warn('Save mission:', e));
+
+  if(btn) { btn.textContent = origBtnText; btn.disabled = false; }
+  if(guest) renderGuestMissions(guest);
+  renderGuestRanking();
+}
+
+function readFileAsDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = e => resolve(e.target.result);
+    reader.onerror = e => reject(e);
+    reader.readAsDataURL(file);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+//  REAL-TIME LEADERBOARD RANKING & WINNER NOTIFICATION
+// ═══════════════════════════════════════════════════════════
+
+function renderGuestRanking() {
+  const sec = document.getElementById('g-ranking-section');
+  if(!sec) return;
+
+  if(!STATE.missionsSettings || STATE.missionsSettings.showRanking === false) {
+    sec.style.display = 'none';
+    return;
+  }
+  sec.style.display = '';
+
+  const list = document.getElementById('g-ranking-list');
+  if(!list) return;
+  list.innerHTML = '';
+
+  const totalMissions = (STATE.missions || []).length;
+  if(totalMissions === 0) {
+    list.innerHTML = '<div style="color:wheat;font-style:italic">Brak zadań w wyzwaniu.</div>';
+    return;
+  }
+
+  const scores = [];
+  (STATE.guests || []).forEach(g => {
+    const gData = (STATE.guestMissions && STATE.guestMissions[g.code]) || { completedCount: 0 };
+    const name = [g.name1, g.name2].filter(Boolean).join(' & ') || 'Gość';
+    scores.push({
+      code: g.code,
+      name: name,
+      count: gData.completedCount || 0
+    });
+  });
+
+  scores.sort((a, b) => b.count - a.count);
+
+  scores.forEach((s, rank) => {
+    if(s.count === 0 && rank > 4) return;
+    const isWinner = STATE.firstWinner && STATE.firstWinner.code === s.code;
+
+    const div = document.createElement('div');
+    div.className = 'ranking-item ' + (rank === 0 && s.count > 0 ? 'first-place' : '');
+    
+    let medal = `${rank + 1}.`;
+    if(rank === 0) medal = '🥇';
+    if(rank === 1) medal = '🥈';
+    if(rank === 2) medal = '🥉';
+
+    div.innerHTML = `
+      <div style="display:flex;align-items:center;gap:0.6rem">
+        <span style="font-size:1.1rem">${medal}</span>
+        <span style="color:wheat;font-weight:500;font-size:0.88rem">${escHtml(s.name)}</span>
+        ${isWinner ? '<span style="color:gold;font-size:0.7rem;font-weight:bold;border:1px solid gold;border-radius:10px;padding:0.1rem 0.4rem">🏆 1. Zwycięzca</span>' : ''}
+      </div>
+      <div style="color:#93ff8e;font-weight:bold;font-size:0.85rem">${s.count} / ${totalMissions}</div>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function checkWinnerCompletion(g) {
+  if(!STATE.missionsSettings || STATE.missionsSettings.enableWinnerNotification === false) return;
+  const totalMissions = (STATE.missions || []).length;
+  if(totalMissions === 0) return;
+
+  const gData = STATE.guestMissions[g.code];
+  if(gData && gData.completedCount === totalMissions) {
+    if(!STATE.firstWinner) {
+      STATE.firstWinner = {
+        code: g.code,
+        guestName: window._currentGuestName || g.name1 || 'Gość',
+        completedAt: new Date().toISOString()
+      };
+      saveLocal();
+      saveNow().catch(e => console.warn('Save winner:', e));
+    }
+
+    if(STATE.firstWinner.code === g.code) {
+      const msg = (STATE.missionsSettings && STATE.missionsSettings.winnerMessage) || 'Jesteś pierwszą osobą, która ukończyła wszystkie wyzwania!';
+      const msgEl = document.getElementById('winner-modal-body');
+      if(msgEl) msgEl.textContent = msg;
+      
+      const confWrap = document.getElementById('confetti-container');
+      if(confWrap) {
+        confWrap.innerHTML = '';
+        const colors = ['#f1c40f', '#e74c3c', '#2ecc71', '#3498db', '#9b59b6'];
+        for(let i=0; i<30; i++) {
+          const piece = document.createElement('div');
+          piece.className = 'confetti-piece';
+          piece.style.left = Math.random()*100 + '%';
+          piece.style.background = colors[Math.floor(Math.random()*colors.length)];
+          piece.style.animationDelay = (Math.random()*2) + 's';
+          confWrap.appendChild(piece);
+        }
+      }
+
+      const wModal = document.getElementById('winner-modal-overlay');
+      if(wModal) wModal.classList.remove('hidden');
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  ROSE GATE ANIMATION ENGINE
+// ═══════════════════════════════════════════════════════════
+
+let _roseGateTimer = null;
+let _roseGateCallback = null;
+
+function triggerRoseGateAnimation(callback) {
+  _roseGateCallback = callback;
+  const overlay = document.getElementById('rosegate-overlay');
+  const doors = document.getElementById('rosegate-doors');
+  const garden = document.getElementById('rosegate-garden');
+  
+  if (!overlay || !doors || !garden) {
+    if (callback) callback();
+    return;
+  }
+
+  overlay.classList.remove('hidden');
+  doors.classList.remove('open');
+  garden.classList.remove('zoom-in');
+
+  setTimeout(() => {
+    doors.classList.add('open');
+  }, 300);
+
+  setTimeout(() => {
+    garden.classList.add('zoom-in');
+  }, 1200);
+
+  _roseGateTimer = setTimeout(() => {
+    overlay.classList.add('hidden');
+    if (_roseGateCallback) {
+      _roseGateCallback();
+      _roseGateCallback = null;
+    }
+  }, 2500);
+}
+
+function skipRoseGateAnimation() {
+  clearTimeout(_roseGateTimer);
+  const overlay = document.getElementById('rosegate-overlay');
+  if (overlay) overlay.classList.add('hidden');
+  if (_roseGateCallback) {
+    _roseGateCallback();
+    _roseGateCallback = null;
+  }
+}
+
 
 async function autoLoadDrive(){
   const url=validateDriveUrl(STATE.settings.driveUrl);if(!url)return;

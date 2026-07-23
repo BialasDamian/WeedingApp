@@ -124,5 +124,78 @@
       "thumb": "",
       "suggestedBy": "Mati"
     }
-  ]
+  ],
+  "missionsSettings": {
+    "enabled": true,
+    "showRanking": true,
+    "enableWinnerNotification": true,
+    "enableRoseGateAnimation": true,
+    "parentFolder": "Wesele 2026",
+    "winnerMessage": "🎉 Gratulacje! Jesteś pierwszą osobą, która ukończyła wszystkie misje weselne! Odbierz swoją nagrodę u Pary Młodej! 🏆",
+    "driveScriptUrl": "https://script.google.com/macros/s/AKfycbz91-95zDTqcoyYyCAZy5nHiu1dnWf112JrkBMYSeSW4nroUMOyukF9UY6Wj3RMGzoRjQ/exec"
+  },
+  "missions": [
+    {
+      "id": "m1",
+      "title": "Uchwyć 3 zdjęcia w trakcie krojenia tortu",
+      "type": "zdjecie",
+      "targetCount": 3
+    },
+    {
+      "id": "m2",
+      "title": "Nagraj pierwszy taniec jakby to był Twój własny",
+      "type": "wideo",
+      "targetCount": 1
+    },
+    {
+      "id": "m3",
+      "title": "Napisz 3 zdania opisujące imprezę weselną",
+      "type": "tekst",
+      "targetCount": 1
+    },
+    {
+      "id": "m4",
+      "title": "Zrób wspólne selfie z Panem i Panią Młodą",
+      "type": "zdjecie",
+      "targetCount": 1
+    },
+    {
+      "id": "m5",
+      "title": "Sfotografuj najbardziej szalone tańce na parkiecie",
+      "type": "zdjecie",
+      "targetCount": 2
+    },
+    {
+      "id": "m6",
+      "title": "Krótkie życzenia wideo dla Pary Młodej (15 sekund)",
+      "type": "wideo",
+      "targetCount": 1
+    },
+    {
+      "id": "m7",
+      "title": "Zostaw złote rady na pierwsze 5 lat małżeństwa",
+      "type": "tekst",
+      "targetCount": 1
+    },
+    {
+      "id": "m8",
+      "title": "Uchwyć toast wznoszony przy Twoim stole",
+      "type": "zdjecie",
+      "targetCount": 1
+    },
+    {
+      "id": "m9",
+      "title": "Napisz które danie z menu zasmakowało Ci najbardziej",
+      "type": "tekst",
+      "targetCount": 1
+    },
+    {
+      "id": "m10",
+      "title": "Zrób pamiątkowe zdjęcie ze swoimi sąsiadami ze stołu",
+      "type": "zdjecie",
+      "targetCount": 1
+    }
+  ],
+  "guestMissions": {},
+  "firstWinner": null
 }

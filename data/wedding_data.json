@@ -196,6 +196,17 @@
       "targetCount": 1
     }
   ],
-  "guestMissions": {},
+  "guestMissions": {
+    "G-004": {
+      "answers": {
+        "m1": {
+          "status": "completed",
+          "files": [],
+          "updatedAt": 1784843141801
+        }
+      },
+      "completedCount": 0
+    }
+  },
   "firstWinner": null
 }

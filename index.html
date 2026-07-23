@@ -528,8 +528,20 @@ button:not(.btn-primary):not(.btn-secondary):hover {
   align-items: center;
   justify-content: center;
   transition: opacity 0.8s ease;
+  pointer-events: none;
 }
 #rosegate-overlay.hidden { display: none !important; pointer-events: none !important; }
+
+#rosegate-iframe {
+  width: 175vw !important;
+  height: 175vh !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  border: none !important;
+  pointer-events: none !important;
+}
 
 .skip-gate-btn {
   position: absolute;
@@ -953,8 +965,8 @@ button:not(.btn-primary):not(.btn-secondary):hover {
      https://www.vecteezy.com/video/72007545-walking-through-beautiful-rose-garden-tunnel-at-daytime-in-summer
 -->
 <div id="rosegate-overlay" class="hidden">
-  <iframe id="rosegate-iframe" src="" allow="autoplay; fullscreen" style="width:115vw;height:130vh;position:absolute;top:-15vh;left:-7.5vw;border:none;pointer-events:none"></iframe>
-  <video id="rosegate-video" autoplay muted playsinline preload="auto" style="width:100vw;height:100vh;object-fit:cover;position:absolute;inset:0;pointer-events:none;display:none;background:#000">
+  <iframe id="rosegate-iframe" src="" allow="autoplay; fullscreen"></iframe>
+  <video id="rosegate-video" autoplay muted playsinline preload="auto" style="width:100vw;height:100vh;object-fit:cover;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;display:none;background:#000">
     <source id="rosegate-video-src" src="" type="video/webm">
   </video>
 </div>
@@ -1765,13 +1777,15 @@ function requireAdmin(){if(!ADMIN_AUTHED){show('screen-landing');return false;}r
 function preloadEntranceVideo() {
   if (window._videoPreloaded) return;
   window._videoPreloaded = true;
-  const isDesktopOrTablet = window.innerWidth >= 768;
-  const fileId = isDesktopOrTablet ? '14qvpprdiF471E6ugzr3ExUYt93bZxqYw' : '1ejrX3HWOR77MF0bNpRMnF0kbLQK1VEz3';
+  const fileId = '14qvpprdiF471E6ugzr3ExUYt93bZxqYw';
   const iframe = document.getElementById('rosegate-iframe');
   if (iframe) {
     iframe.src = 'https://drive.google.com/file/d/' + fileId + '/preview?autoplay=1&vq=hd1080&hd=1';
   }
 }
+document.addEventListener('DOMContentLoaded', function(){
+  setTimeout(preloadEntranceVideo, 200);
+});
 function goGuestLogin(){
   preloadEntranceVideo();
   show('screen-guest-login');
@@ -2885,10 +2899,7 @@ function triggerRoseGateAnimation(callback) {
     return;
   }
 
-  const isDesktopOrTablet = window.innerWidth >= 768;
-  const fileId = isDesktopOrTablet 
-    ? '14qvpprdiF471E6ugzr3ExUYt93bZxqYw'  // Desktop & Tablet
-    : '1ejrX3HWOR77MF0bNpRMnF0kbLQK1VEz3'; // Mobile
+  const fileId = '14qvpprdiF471E6ugzr3ExUYt93bZxqYw';
 
   overlay.style.opacity = '1';
   overlay.classList.remove('hidden');

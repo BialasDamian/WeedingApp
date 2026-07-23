@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Aplikacja Weselna</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://drive.google.com" crossorigin>
+<link rel="dns-prefetch" href="https://drive.google.com">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 #qr-canvas-wrap {
@@ -515,7 +517,7 @@ button:not(.btn-primary):not(.btn-secondary):hover {
   box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
 }
 
-/* ROSE GATE ANIMATION OVERLAY */
+/* ROSE GARDEN ENTRANCE VIDEO OVERLAY */
 #rosegate-overlay {
   position: fixed;
   inset: 0;
@@ -525,80 +527,9 @@ button:not(.btn-primary):not(.btn-secondary):hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  perspective: 1200px;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.8s ease;
 }
 #rosegate-overlay.hidden { display: none !important; pointer-events: none !important; }
-
-.garden-view {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform-origin: center center;
-  will-change: transform, opacity;
-  background-image: url('https://lh3.googleusercontent.com/d/1GuTW1gLVj8plWriQBBJm3mMz0SZt4ydo');
-}
-
-.gate-doors {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  z-index: 10;
-  pointer-events: none;
-}
-.gate-door-left, .gate-door-right {
-  width: 50%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  transition: transform 2.8s cubic-bezier(0.25, 1, 0.35, 1);
-  box-shadow: inset 0 0 30px rgba(0,0,0,0.6);
-  will-change: transform;
-}
-.gate-door-left {
-  transform-origin: left center;
-  background-image: url('https://lh3.googleusercontent.com/d/193_U3wk5cpme05YuLiOZm5Gt--L5usdx');
-}
-.gate-door-right {
-  transform-origin: right center;
-  background-image: url('https://lh3.googleusercontent.com/d/1dxti3ElfH-q_f-IEiF1nEYCqtcg79YEd');
-}
-
-/* Mobile (<768px) images */
-@media (max-width: 768px) {
-  .garden-view {
-    background-image: url('https://lh3.googleusercontent.com/d/1XXyF9yGHalN8rGGdwwN9pqV_gCnkQcHy');
-  }
-  .gate-door-left {
-    background-image: url('https://lh3.googleusercontent.com/d/1y8rgN2BBKDnU7Kn_MZ4lJazdDeSzJFNu');
-  }
-  .gate-door-right {
-    background-image: url('https://lh3.googleusercontent.com/d/1t2RPqWAv9ZbBpPK469SWV-zKIsW7so6t');
-  }
-}
-
-/* Odsuwanie skrzydeł bramy na boki (translateX) */
-.gate-doors.open .gate-door-left { transform: translateX(-100%); }
-.gate-doors.open .gate-door-right { transform: translateX(100%); }
-
-/* Animation Keyframes:
-   Szybsze odsuwanie bramy: (2.8s)
-   Przybliżenie ogrodu: wolniejsze o 1/3 (11.0s) — czyste przejście od 100% (scale(1)) do 800% (scale(8))
-*/
-@keyframes gardenZoomFlow {
-  0% { transform: scale(1); opacity: 1; }
-  90% { transform: scale(8); opacity: 1; }
-  100% { transform: scale(8.5); opacity: 0; }
-}
-.garden-view.animating {
-  animation: gardenZoomFlow 11s cubic-bezier(0.25, 1, 0.4, 1) forwards;
-}
 
 .skip-gate-btn {
   position: absolute;
@@ -612,6 +543,7 @@ button:not(.btn-primary):not(.btn-secondary):hover {
   border-radius: 20px;
   font-size: 0.78rem;
   cursor: pointer;
+  backdrop-filter: blur(4px);
 }
 
 /* CONFETTI & WINNER MODAL */
@@ -1016,14 +948,15 @@ button:not(.btn-primary):not(.btn-secondary):hover {
   </div>
 </div>
 
-<!-- ANIMACJA RÓŻANEJ BRAMY I OGRODU -->
+<!-- VIDEO WEJŚCIOWE OGRODU RÓŻANEGO:
+     walking-through-beautiful-rose-garden-tunnel-at-daytime-in-summer Stock Videos by Vecteezy
+     https://www.vecteezy.com/video/72007545-walking-through-beautiful-rose-garden-tunnel-at-daytime-in-summer
+-->
 <div id="rosegate-overlay" class="hidden">
-  <div class="garden-view" id="rosegate-garden"></div>
-  <div class="gate-doors" id="rosegate-doors">
-    <div class="gate-door-left"></div>
-    <div class="gate-door-right"></div>
-  </div>
-  <button class="skip-gate-btn" onclick="skipRoseGateAnimation()">Przejdź od razu ➔</button>
+  <iframe id="rosegate-iframe" src="" allow="autoplay; fullscreen" style="width:115vw;height:130vh;position:absolute;top:-15vh;left:-7.5vw;border:none;pointer-events:none"></iframe>
+  <video id="rosegate-video" autoplay muted playsinline preload="auto" style="width:100vw;height:100vh;object-fit:cover;position:absolute;inset:0;pointer-events:none;display:none;background:#000">
+    <source id="rosegate-video-src" src="" type="video/webm">
+  </video>
 </div>
 
 <!-- MODAL ZWYCIĘZCY -->
@@ -1829,7 +1762,20 @@ async function adminLogin(){
 }
 function adminLogout(){ADMIN_AUTHED=false;GitHubStorage.stopPolling();show('screen-landing');}
 function requireAdmin(){if(!ADMIN_AUTHED){show('screen-landing');return false;}return true;}
-function goGuestLogin(){show('screen-guest-login');}
+function preloadEntranceVideo() {
+  if (window._videoPreloaded) return;
+  window._videoPreloaded = true;
+  const isDesktopOrTablet = window.innerWidth >= 768;
+  const fileId = isDesktopOrTablet ? '14qvpprdiF471E6ugzr3ExUYt93bZxqYw' : '1ejrX3HWOR77MF0bNpRMnF0kbLQK1VEz3';
+  const iframe = document.getElementById('rosegate-iframe');
+  if (iframe) {
+    iframe.src = 'https://drive.google.com/file/d/' + fileId + '/preview?autoplay=1&vq=hd1080&hd=1';
+  }
+}
+function goGuestLogin(){
+  preloadEntranceVideo();
+  show('screen-guest-login');
+}
 function guestLogin(){
   const raw=document.getElementById('guest-code').value.trim();
   const code=raw.replace(/[^A-Z0-9\-]/gi,'').toUpperCase();
@@ -2930,46 +2876,69 @@ let _roseGateCallback = null;
 function triggerRoseGateAnimation(callback) {
   _roseGateCallback = callback;
   const overlay = document.getElementById('rosegate-overlay');
-  const doors = document.getElementById('rosegate-doors');
-  const garden = document.getElementById('rosegate-garden');
+  const iframe = document.getElementById('rosegate-iframe');
+  const video = document.getElementById('rosegate-video');
+  const videoSource = document.getElementById('rosegate-video-src');
   
-  if (!overlay || !doors || !garden) {
+  if (!overlay) {
     if (callback) callback();
     return;
   }
 
+  const isDesktopOrTablet = window.innerWidth >= 768;
+  const fileId = isDesktopOrTablet 
+    ? '14qvpprdiF471E6ugzr3ExUYt93bZxqYw'  // Desktop & Tablet
+    : '1ejrX3HWOR77MF0bNpRMnF0kbLQK1VEz3'; // Mobile
+
   overlay.style.opacity = '1';
   overlay.classList.remove('hidden');
-  doors.classList.remove('open');
-  garden.classList.remove('animating');
 
-  void garden.offsetWidth; // Force reflow
+  if (iframe) {
+    const targetUrl = 'https://drive.google.com/file/d/' + fileId + '/preview?autoplay=1&vq=hd1080&hd=1';
+    if (!iframe.src || iframe.src.indexOf(fileId) === -1 || iframe.src.indexOf('about:blank') !== -1) {
+      iframe.src = targetUrl;
+    }
+  }
 
-  // Start otwierania skrzydeł bramy (2.8s) i przybliżenia ogrodu (11.0s)
+  if (video && videoSource) {
+    try {
+      videoSource.src = 'https://drive.google.com/uc?export=download&id=' + fileId;
+      video.load();
+      video.currentTime = 0;
+      const p = video.play();
+      if (p !== undefined) p.then(() => { video.style.display = 'block'; }).catch(() => {});
+    } catch(e) {}
+  }
+
+  // Przy 5.2s: rozpoczęcie płynnego zanikania (fade-out 0.8s) i wywołanie ekranu gościa pod spodem
   setTimeout(() => {
-    doors.classList.add('open');
-    garden.classList.add('animating');
-  }, 100);
-
-  // Przygotowanie widoku gościa pod spodem tuż przed płynnym przenikaniem (9.8s)
-  setTimeout(() => {
+    overlay.style.opacity = '0';
     if (_roseGateCallback) {
       _roseGateCallback();
       _roseGateCallback = null;
     }
-  }, 9800);
+  }, 5200);
 
-  // Po 11.0s: Całkowite ukrycie i wyłączenie warstw animacji (display: none !important)
+  // W 6-tej sekundzie: wyłączenie i zatrzymanie wideo (aby zapobiec zapętleniu) oraz pełne ukrycie nakładki
   _roseGateTimer = setTimeout(() => {
+    if (iframe) { iframe.src = 'about:blank'; iframe.style.display = 'none'; }
+    if (video) { try { video.pause(); video.currentTime = 0; } catch(e){} }
     overlay.classList.add('hidden');
     overlay.style.opacity = '1';
-  }, 11000);
+  }, 6000);
 }
 
 function skipRoseGateAnimation() {
   clearTimeout(_roseGateTimer);
   const overlay = document.getElementById('rosegate-overlay');
-  if (overlay) overlay.classList.add('hidden');
+  const iframe = document.getElementById('rosegate-iframe');
+  const video = document.getElementById('rosegate-video');
+  if (iframe) iframe.src = 'about:blank';
+  if (video) { try { video.pause(); video.currentTime = 0; } catch(e){} }
+  if (overlay) {
+    overlay.classList.add('hidden');
+    overlay.style.opacity = '1';
+  }
   if (_roseGateCallback) {
     _roseGateCallback();
     _roseGateCallback = null;

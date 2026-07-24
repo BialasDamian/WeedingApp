@@ -222,9 +222,14 @@
             "https://drive.google.com/file/d/1-87fA1KYSpQIALOk0HlPhHWKMr-AFdz5/view?usp=drivesdk"
           ],
           "updatedAt": 1784874032144
+        },
+        "m7": {
+          "status": "completed",
+          "text": "Tekst",
+          "updatedAt": 1784874127864
         }
       },
-      "completedCount": 3
+      "completedCount": 4
     },
     "G-002": {
       "answers": {

@@ -47,7 +47,7 @@
       "throneEdge": "auto",
       "customThrones": {
         "3": true,
-        "T1": false,
+        "T1": "T1",
         "T2": "T2"
       }
     },

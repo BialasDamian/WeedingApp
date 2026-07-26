@@ -9,7 +9,7 @@
     "driveUrl": "",
     "table": {
       "shape": "I",
-      "flipH": true,
+      "flipH": false,
       "flipV": false,
       "tw": 60,
       "gap": 48,

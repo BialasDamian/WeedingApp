@@ -47,8 +47,8 @@
       "throneEdge": "auto",
       "customThrones": {
         "3": true,
-        "T1": "T1",
-        "T2": "T2"
+        "T2": "T2",
+        "T1": false
       }
     },
     "githubToken": "VUMzT2VheFdJU0VJRTI2WVZJUWc0MWVGc0FxRTJrV3lsZnR5MUtmcG44SVljd1J6VEE0eDNpcHVST3VfV1dJbXB3cDJJV1lEMFlPTUZDQUIxMV90YXBfYnVodGln"
@@ -59,14 +59,6 @@
       "name1": "Pan Młody",
       "name2": "",
       "seat1": "3",
-      "seat2": "",
-      "code": "G-002"
-    },
-    {
-      "id": "g1785104950528",
-      "name1": "test11",
-      "name2": "",
-      "seat1": "T1",
       "seat2": "",
       "code": "G-002"
     },
@@ -83,6 +75,14 @@
       "name1": "Pani Młoda",
       "name2": "",
       "seat1": "T2",
+      "seat2": "",
+      "code": "G-004"
+    },
+    {
+      "id": "g1785105255180",
+      "name1": "test11",
+      "name2": "",
+      "seat1": "T1",
       "seat2": "",
       "code": "G-004"
     }

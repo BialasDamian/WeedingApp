@@ -48,7 +48,7 @@
       "customThrones": {
         "3": true,
         "T1": false,
-        "T2": false
+        "T2": true
       }
     },
     "githubToken": "VUMzT2VheFdJU0VJRTI2WVZJUWc0MWVGc0FxRTJrV3lsZnR5MUtmcG44SVljd1J6VEE0eDNpcHVST3VfV1dJbXB3cDJJV1lEMFlPTUZDQUIxMV90YXBfYnVodGln"
@@ -71,18 +71,18 @@
       "code": "G-002"
     },
     {
-      "id": "g1785104985141",
-      "name1": "Pan Wołodyjowski",
-      "name2": "",
-      "seat1": "T2",
-      "seat2": "",
-      "code": "G-003"
-    },
-    {
       "id": "g1785104991559",
       "name1": "Pan Wołodyjowski",
       "name2": "",
       "seat1": "1",
+      "seat2": "",
+      "code": "G-004"
+    },
+    {
+      "id": "g1785105243725",
+      "name1": "Pan Wołodyjowski",
+      "name2": "",
+      "seat1": "T2",
       "seat2": "",
       "code": "G-004"
     }

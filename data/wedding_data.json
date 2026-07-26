@@ -12,7 +12,7 @@
       "flipH": false,
       "flipV": false,
       "tw": 60,
-      "gap": 48,
+      "gap": 36,
       "dist": 18,
       "edges": {
         "i_top": 0,
@@ -46,7 +46,8 @@
       "swapThrones": false,
       "throneEdge": "auto",
       "customThrones": {
-        "3": true
+        "3": true,
+        "T1": false
       }
     },
     "githubToken": "VUMzT2VheFdJU0VJRTI2WVZJUWc0MWVGc0FxRTJrV3lsZnR5MUtmcG44SVljd1J6VEE0eDNpcHVST3VfV1dJbXB3cDJJV1lEMFlPTUZDQUIxMV90YXBfYnVodGln"

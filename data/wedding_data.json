@@ -1,15 +1,15 @@
 {
   "settings": {
     "names": "Para Młoda",
-    "throne1": "Pani Młoda",
-    "throne2": "Pan Młody",
+    "throne1": "Pan Młody",
+    "throne2": "Pani Młoda",
     "date": "Data Wesela",
     "venue": "Sala Weselna",
     "passHash": "5742e8f366549b124fba91edaac559eb95924bc4227c9dfe09382fdf9cdcca93",
     "driveUrl": "",
     "table": {
       "shape": "I",
-      "flipH": false,
+      "flipH": true,
       "flipV": false,
       "tw": 60,
       "gap": 48,
@@ -43,7 +43,8 @@
         "t_left_end": 1,
         "t_right_end": 1
       },
-      "swapThrones": true
+      "swapThrones": false,
+      "throneEdge": "auto"
     },
     "githubToken": "VUMzT2VheFdJU0VJRTI2WVZJUWc0MWVGc0FxRTJrV3lsZnR5MUtmcG44SVljd1J6VEE0eDNpcHVST3VfV1dJbXB3cDJJV1lEMFlPTUZDQUIxMV90YXBfYnVodGln"
   },

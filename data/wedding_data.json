@@ -1,6 +1,8 @@
 {
   "settings": {
     "names": "Para Młoda",
+    "throne1": "Pan Młody",
+    "throne2": "Pani Młoda",
     "date": "Data Wesela",
     "venue": "Sala Weselna",
     "passHash": "5742e8f366549b124fba91edaac559eb95924bc4227c9dfe09382fdf9cdcca93",
@@ -47,8 +49,8 @@
   "guests": [
     {
       "id": "g1",
-      "name1": "Pan Młody",
-      "name2": "Pani Młoda",
+      "name1": "Pani Młoda",
+      "name2": "Pan Młody",
       "seat1": "T2",
       "seat2": "T2",
       "code": "G-001"

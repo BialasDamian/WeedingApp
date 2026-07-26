@@ -101,7 +101,11 @@
     },
     {
       "time": "16:30",
-      "event": "Obiad"
+      "event": "Obiad weselny"
+    },
+    {
+      "time": "00:00",
+      "event": ""
     }
   ],
   "menu": [],

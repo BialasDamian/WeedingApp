@@ -13,7 +13,7 @@
       "gap": 48,
       "dist": 18,
       "edges": {
-        "i_top": 0,
+        "i_top": 1,
         "i_bottom": 2,
         "i_left": 15,
         "i_right": 15,

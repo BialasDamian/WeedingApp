@@ -118,6 +118,14 @@
     {
       "time": "20:30",
       "event": "Uroczyste krojenie tortu"
+    },
+    {
+      "time": "23:00",
+      "event": "Kolacja"
+    },
+    {
+      "time": "00:00",
+      "event": ""
     }
   ],
   "menu": [],

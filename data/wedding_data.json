@@ -54,8 +54,8 @@
       "code": "G-001"
     },
     {
-      "id": "g1785088877107",
-      "name1": "",
+      "id": "g1785099909818",
+      "name1": "Test",
       "name2": "",
       "seat1": "3",
       "seat2": "",
@@ -156,7 +156,11 @@
     "enableRoseGateAnimation": true,
     "parentFolder": "Wesele 2026",
     "winnerMessage": "🎉 Gratulacje! Jesteś pierwszą osobą, która ukończyła wszystkie misje weselne! Odbierz swoją nagrodę u Pary Młodej! 🏆",
-    "driveScriptUrl": "https://script.google.com/macros/s/AKfycbz91-95zDTqcoyYyCAZy5nHiu1dnWf112JrkBMYSeSW4nroUMOyukF9UY6Wj3RMGzoRjQ/exec"
+    "driveScriptUrl": "https://script.google.com/macros/s/AKfycbz91-95zDTqcoyYyCAZy5nHiu1dnWf112JrkBMYSeSW4nroUMOyukF9UY6Wj3RMGzoRjQ/exec",
+    "startTime": "15:00",
+    "endTime": "23:40",
+    "manualOverride": null,
+    "publishResults": false
   },
   "missions": [
     {

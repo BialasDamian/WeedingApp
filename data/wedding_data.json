@@ -48,7 +48,7 @@
       "customThrones": {
         "3": true,
         "T1": false,
-        "T2": true
+        "T2": "T2"
       }
     },
     "githubToken": "VUMzT2VheFdJU0VJRTI2WVZJUWc0MWVGc0FxRTJrV3lsZnR5MUtmcG44SVljd1J6VEE0eDNpcHVST3VfV1dJbXB3cDJJV1lEMFlPTUZDQUIxMV90YXBfYnVodGln"
@@ -79,8 +79,8 @@
       "code": "G-004"
     },
     {
-      "id": "g1785105243725",
-      "name1": "Pan Wołodyjowski",
+      "id": "g1785105248091",
+      "name1": "Pani Młoda",
       "name2": "",
       "seat1": "T2",
       "seat2": "",
@@ -255,41 +255,6 @@
       "targetCount": 1
     }
   ],
-  "guestMissions": {
-    "G-004": {
-      "answers": {
-        "m1": {
-          "status": "completed",
-          "files": [],
-          "updatedAt": 1784843141801
-        },
-        "m2": {
-          "status": "completed",
-          "files": [],
-          "updatedAt": 1784843175374
-        },
-        "m6": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1jrVrb_APMEUdY_iu31AB2HwNDbV5Ukf7/view?usp=drivesdk"
-          ],
-          "updatedAt": 1784850442364
-        },
-        "m4": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1-87fA1KYSpQIALOk0HlPhHWKMr-AFdz5/view?usp=drivesdk"
-          ],
-          "updatedAt": 1784874032144
-        },
-        "m7": {
-          "status": "completed",
-          "text": "Tekst",
-          "updatedAt": 1784874127864
-        }
-      },
-      "completedCount": 4
-    }
-  },
+  "guestMissions": {},
   "firstWinner": null
 }

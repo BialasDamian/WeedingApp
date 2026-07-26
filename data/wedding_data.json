@@ -47,7 +47,6 @@
       "throneEdge": "auto",
       "customThrones": {
         "3": true,
-        "13": "T1",
         "T2": "T2",
         "T1": "T1"
       }
@@ -88,7 +87,7 @@
       "code": "G-004"
     },
     {
-      "id": "g1785105262786",
+      "id": "g1785105267630",
       "name1": "Pan Młody",
       "name2": "",
       "seat1": "13",

@@ -187,7 +187,7 @@
     "showRanking": true,
     "enableWinnerNotification": true,
     "enableWinnerNotif1": true,
-    "enableWinnerNotif2": true,
+    "enableWinnerNotif2": false,
     "enableWinnerNotif3": true,
     "enableRoseGateAnimation": true,
     "parentFolder": "Wesele 2026",

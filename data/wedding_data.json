@@ -44,7 +44,8 @@
         "t_right_end": 1
       },
       "swapThrones": false,
-      "throneEdge": "auto"
+      "throneEdge": "auto",
+      "customThrones": {}
     },
     "githubToken": "VUMzT2VheFdJU0VJRTI2WVZJUWc0MWVGc0FxRTJrV3lsZnR5MUtmcG44SVljd1J6VEE0eDNpcHVST3VfV1dJbXB3cDJJV1lEMFlPTUZDQUIxMV90YXBfYnVodGln"
   },

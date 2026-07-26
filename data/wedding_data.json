@@ -52,22 +52,6 @@
       "seat1": "T1",
       "seat2": "T2",
       "code": "G-001"
-    },
-    {
-      "id": "g1782656230116",
-      "name1": "Kondzio",
-      "name2": "",
-      "seat1": "2",
-      "seat2": "",
-      "code": "G-003"
-    },
-    {
-      "id": "g1782659103424",
-      "name1": "Ania Forma",
-      "name2": "",
-      "seat1": "20",
-      "seat2": "",
-      "code": "G-005"
     }
   ],
   "schedule": [

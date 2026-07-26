@@ -77,6 +77,14 @@
       "seat1": "T2",
       "seat2": "",
       "code": "G-003"
+    },
+    {
+      "id": "g1785104991559",
+      "name1": "Pan Wołodyjowski",
+      "name2": "",
+      "seat1": "1",
+      "seat2": "",
+      "code": "G-004"
     }
   ],
   "schedule": [

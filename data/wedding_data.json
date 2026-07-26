@@ -52,14 +52,6 @@
       "seat1": "T2",
       "seat2": "T2",
       "code": "G-001"
-    },
-    {
-      "id": "g1785101478896",
-      "name1": "Test mój",
-      "name2": "",
-      "seat1": "3",
-      "seat2": "",
-      "code": "G-002"
     }
   ],
   "schedule": [
@@ -153,9 +145,15 @@
     "enabled": true,
     "showRanking": true,
     "enableWinnerNotification": true,
+    "enableWinnerNotif1": true,
+    "enableWinnerNotif2": true,
+    "enableWinnerNotif3": true,
     "enableRoseGateAnimation": true,
     "parentFolder": "Wesele 2026",
     "winnerMessage": "🎉 Gratulacje! Jesteś pierwszą osobą, która ukończyła wszystkie misje weselne! Odbierz swoją nagrodę u Pary Młodej! 🏆",
+    "winnerMessage1": "🎉 Gratulacje! Zająłeś 1. MIEJSCE (ZŁOTO)! Ukończyłeś wszystkie misje w najkrótszym czasie! Odbierz nagrodę u Pary Młodej! 🏆",
+    "winnerMessage2": "🥈 Gratulacje! Zająłeś 2. MIEJSCE (SREBRO) w wyzwaniach weselnych! Wspaniały wynik! 🏆",
+    "winnerMessage3": "🥉 Gratulacje! Zająłeś 3. MIEJSCE (BRĄZ) w wyzwaniach weselnych! Brawo! 🏆",
     "driveScriptUrl": "https://script.google.com/macros/s/AKfycbz91-95zDTqcoyYyCAZy5nHiu1dnWf112JrkBMYSeSW4nroUMOyukF9UY6Wj3RMGzoRjQ/exec",
     "startTime": "15:00",
     "endTime": "23:40",
@@ -258,41 +256,6 @@
         }
       },
       "completedCount": 4
-    },
-    "G-002": {
-      "answers": {
-        "m3": {
-          "status": "completed",
-          "text": "1",
-          "updatedAt": 1784843325384
-        },
-        "m5": {
-          "status": "completed",
-          "files": [],
-          "updatedAt": 1784843371586
-        },
-        "m1": {
-          "status": "completed",
-          "files": [],
-          "updatedAt": 1784843605178
-        },
-        "m6": {
-          "status": "completed",
-          "files": [],
-          "updatedAt": 1784843624700
-        },
-        "m7": {
-          "status": "completed",
-          "text": "Heheheheheh",
-          "updatedAt": 1784843649983
-        },
-        "m2": {
-          "status": "completed",
-          "files": [],
-          "updatedAt": 1784843740637
-        }
-      },
-      "completedCount": 5
     }
   },
   "firstWinner": null

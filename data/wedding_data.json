@@ -60,6 +60,14 @@
       "seat1": "3",
       "seat2": "",
       "code": "G-002"
+    },
+    {
+      "id": "g1785104943797",
+      "name1": "test",
+      "name2": "",
+      "seat1": "T1",
+      "seat2": "",
+      "code": "G-002"
     }
   ],
   "schedule": [

@@ -52,6 +52,14 @@
       "seat1": "T2",
       "seat2": "T2",
       "code": "G-001"
+    },
+    {
+      "id": "g1785088877107",
+      "name1": "tata",
+      "name2": "",
+      "seat1": "3",
+      "seat2": "",
+      "code": "G-002"
     }
   ],
   "schedule": [

@@ -1,8 +1,8 @@
 {
   "settings": {
     "names": "Para Młoda",
-    "throne1": "Pan Młody",
-    "throne2": "Pani Młoda",
+    "throne1": "Pani Młoda",
+    "throne2": "Pan Młody",
     "date": "Data Wesela",
     "venue": "Sala Weselna",
     "passHash": "5742e8f366549b124fba91edaac559eb95924bc4227c9dfe09382fdf9cdcca93",
@@ -42,7 +42,8 @@
         "t_s_b": 2,
         "t_left_end": 1,
         "t_right_end": 1
-      }
+      },
+      "swapThrones": true
     },
     "githubToken": "VUMzT2VheFdJU0VJRTI2WVZJUWc0MWVGc0FxRTJrV3lsZnR5MUtmcG44SVljd1J6VEE0eDNpcHVST3VfV1dJbXB3cDJJV1lEMFlPTUZDQUIxMV90YXBfYnVodGln"
   },

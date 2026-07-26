@@ -81,7 +81,11 @@
   "schedule": [
     {
       "time": "14:45",
-      "event": "Przyjęcie"
+      "event": "Przybycie gości i zajęcie miejsc"
+    },
+    {
+      "time": "00:00",
+      "event": ""
     }
   ],
   "menu": [],

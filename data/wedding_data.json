@@ -46,7 +46,6 @@
       "swapThrones": false,
       "throneEdge": "auto",
       "customThrones": {
-        "1": "T1",
         "T2": "T1",
         "T1": "T2"
       }

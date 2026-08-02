@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://drive.google.com" crossorigin>
 <link rel="dns-prefetch" href="https://drive.google.com">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 #qr-canvas-wrap {
 	place-self: center;
@@ -588,7 +590,7 @@ button:not(.btn-primary):not(.btn-secondary):hover {
     <div class="login-box">
       <div class="login-title" style="color:wheat">Witaj!</div>
       <div class="login-sub">Podaj swój kod z zaproszenia</div>
-      <input class="login-input" type="text" id="guest-code" placeholder="np. G-001" style="text-transform:uppercase" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')guestLogin()">
+      <input class="login-input" type="text" id="guest-code" placeholder="Kod z zaproszenia" style="text-transform:uppercase" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')guestLogin()">
       <div class="login-err" id="guest-err"></div>
       <button class="btn-primary" style="width:100%;margin-bottom:0.75rem" onclick="guestLogin()">Znajdź moje miejsce</button>
       <button class="btn-secondary" style="width:100%" onclick="show('screen-landing')">← Wróć</button>
@@ -729,7 +731,14 @@ button:not(.btn-primary):not(.btn-secondary):hover {
     </div>
 
     <div class="tab-content" id="tab-qr">
-      <div class="section-title">Kody QR dla gości</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.6rem">
+        <div class="section-title" style="margin-bottom:0">Kody QR i Zaproszenia dla Gości</div>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+          <button class="add-btn" id="btn-zip-png" style="font-size:0.78rem;padding:0.45rem 0.9rem" onclick="downloadAllInvitationsZip('png')">📦 Pobierz zaproszenia PNG (.ZIP)</button>
+          <button class="btn-primary" id="btn-zip-pdf" style="font-size:0.78rem;padding:0.45rem 0.9rem;width:auto" onclick="downloadAllInvitationsZip('pdf')">📄 Pobierz zaproszenia PDF (.ZIP)</button>
+        </div>
+      </div>
+      <div id="zip-progress-bar" style="display:none;background:rgba(212,175,55,0.12);border:1px solid gold;border-radius:8px;padding:0.8rem 1rem;margin-bottom:1rem;text-align:center;color:gold;font-size:0.9rem;font-weight:bold"></div>
       <div class="qr-grid" id="qr-grid"></div>
     </div>
     <div class="tab-content" id="tab-missions">
@@ -1900,19 +1909,28 @@ function goGuestLogin(){
   setTimeout(()=>{ if(codeEl) codeEl.focus(); }, 100);
 }
 function guestLogin(){
-  const raw=document.getElementById('guest-code').value.trim();
-  let code=raw.replace(/[^A-Z0-9\-]/gi,'').toUpperCase();
-  if(!code){
-    if(STATE.guests && STATE.guests[0] && STATE.guests[0].code) code = STATE.guests[0].code;
-    else code = 'G-001';
+  const errEl = document.getElementById('guest-err');
+  if(errEl) errEl.textContent = '';
+
+  const raw = (document.getElementById('guest-code').value || '').trim();
+  if (!raw) {
+    if(errEl) errEl.textContent = 'Wpisz kod znajdujący się na Twoim zaproszeniu.';
+    return;
   }
-  const g=STATE.guests.find(x=>x.code===code) || (STATE.guests && STATE.guests[0]);
-  if(g){
+
+  let code = raw.replace(/[^A-Z0-9\-]/gi, '').toUpperCase();
+  if (/^\d+$/.test(code)) {
+    code = 'G-' + String(parseInt(code, 10)).padStart(3, '0');
+  }
+
+  const g = (STATE.guests || []).find(x => x.code === code);
+  if (g) {
     renderGuestView(g);
     show('screen-guest');
-    requestAnimationFrame(()=>initWrap('wrap-guest'));
+    requestAnimationFrame(() => initWrap('wrap-guest'));
+  } else {
+    if(errEl) errEl.textContent = 'Podany kod zaproszenia jest nieprawidłowy. Sprawdź kod na swoim zaproszeniu.';
   }
-  else document.getElementById('guest-err').textContent='Nie znaleziono gościa. Upewnij się, że wpisujesz poprawny kod.';
 }
 
 function isThrone(id){
@@ -2302,6 +2320,226 @@ function renderQRGrid(){
     grid.appendChild(div);
   });
   if(!grid.innerHTML)grid.innerHTML='<p style="color:wheat;font-size:0.83rem">Dodaj gości w zakładce Goście.</p>';
+}
+
+async function createInvitationCanvas(g) {
+  const canvas = document.createElement('canvas');
+  const width = 800;
+  const height = 1080;
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext('2d');
+
+  const grad = ctx.createLinearGradient(0, 0, width, height);
+  grad.addColorStop(0, '#1a1410');
+  grad.addColorStop(0.5, '#2d1e16');
+  grad.addColorStop(1, '#120d09');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, width, height);
+
+  ctx.strokeStyle = '#c9a84c';
+  ctx.lineWidth = 6;
+  ctx.strokeRect(20, 20, width - 40, height - 40);
+
+  ctx.strokeStyle = 'rgba(201,168,76,0.35)';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(32, 32, width - 64, height - 64);
+
+  ctx.fillStyle = '#c9a84c';
+  ctx.font = '24px serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('✦  ✦  ✦', width / 2, 75);
+
+  const weddingTitle = (STATE.settings && STATE.settings.names) ? STATE.settings.names : 'Para Młoda';
+  ctx.font = 'italic 46px "Cormorant Garamond", Georgia, serif';
+  ctx.fillStyle = '#f5deb3';
+  ctx.fillText(weddingTitle, width / 2, 135);
+
+  ctx.font = '500 15px "Jost", sans-serif';
+  ctx.fillStyle = '#c9a84c';
+  ctx.letterSpacing = '3px';
+  ctx.fillText('ZAPROSZENIE NA WESELE & INTERAKTYWNA APLIKACJA', width / 2, 175);
+
+  ctx.strokeStyle = 'rgba(245,222,179,0.3)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(160, 202);
+  ctx.lineTo(width - 160, 202);
+  ctx.stroke();
+
+  const nameDisplay = [g.name1, g.name2].filter(Boolean).join(' & ') || 'Szanowny Gość';
+  ctx.font = 'bold 36px "Cormorant Garamond", Georgia, serif';
+  ctx.fillStyle = '#ffffff';
+  ctx.fillText(nameDisplay, width / 2, 260);
+
+  const seats = [g.seat1, g.seat2].filter(Boolean);
+  const seatsTxt = seats.map(s => seatLabel(s)).join('  +  ') || 'Witaj na Weselu!';
+  ctx.font = '400 20px "Jost", sans-serif';
+  ctx.fillStyle = '#f5deb3';
+  ctx.fillText(seatsTxt, width / 2, 302);
+
+  const baseUrl = window.location.href.split('?')[0];
+  const targetUrl = `${baseUrl}?guest=${encodeURIComponent(g.code)}`;
+
+  const tempQrWrap = document.createElement('div');
+  tempQrWrap.style.display = 'none';
+  document.body.appendChild(tempQrWrap);
+
+  let qrDataUrl = '';
+  try {
+    const qrcode = new QRCode(tempQrWrap, {
+      text: targetUrl,
+      width: 320,
+      height: 320,
+      colorDark: '#1a1410',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.H
+    });
+    await new Promise(r => setTimeout(r, 180));
+    const qrImg = tempQrWrap.querySelector('img') || tempQrWrap.querySelector('canvas');
+    if (qrImg) {
+      if (qrImg.tagName === 'CANVAS') {
+        qrDataUrl = qrImg.toDataURL('image/png');
+      } else {
+        qrDataUrl = qrImg.src;
+      }
+    }
+  } catch (e) {
+    console.warn('QR canvas generation warning:', e);
+  } finally {
+    document.body.removeChild(tempQrWrap);
+  }
+
+  const qrBoxSize = 380;
+  const qrBoxX = (width - qrBoxSize) / 2;
+  const qrBoxY = 345;
+
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(qrBoxX, qrBoxY, qrBoxSize, qrBoxSize);
+  ctx.strokeStyle = '#c9a84c';
+  ctx.lineWidth = 4;
+  ctx.strokeRect(qrBoxX, qrBoxY, qrBoxSize, qrBoxSize);
+
+  if (qrDataUrl) {
+    const img = new Image();
+    img.src = qrDataUrl;
+    await new Promise(res => { img.onload = res; img.onerror = res; });
+    ctx.drawImage(img, qrBoxX + 30, qrBoxY + 30, 320, 320);
+  }
+
+  const badgeY = 775;
+  const badgeW = 320;
+  const badgeH = 54;
+  const badgeX = (width - badgeW) / 2;
+
+  ctx.fillStyle = 'rgba(201,168,76,0.15)';
+  ctx.strokeStyle = '#c9a84c';
+  ctx.lineWidth = 2;
+  ctx.fillRect(badgeX, badgeY, badgeW, badgeH);
+  ctx.strokeRect(badgeX, badgeY, badgeW, badgeH);
+
+  ctx.font = 'bold 22px "Jost", monospace';
+  ctx.fillStyle = '#ffd700';
+  ctx.fillText(`KOD ZAPROSZENIA: ${g.code}`, width / 2, badgeY + 35);
+
+  ctx.font = '400 16px "Jost", sans-serif';
+  ctx.fillStyle = '#f5deb3';
+  ctx.fillText('Zeskanuj kod QR aparatem lub wpisz kod w aplikacji', width / 2, 875);
+
+  const dateStr = (STATE.settings && STATE.settings.date) ? STATE.settings.date : '';
+  const venueStr = (STATE.settings && STATE.settings.venue) ? STATE.settings.venue : '';
+  const footTxt = [dateStr, venueStr].filter(Boolean).join('  •  ');
+  if (footTxt) {
+    ctx.font = 'italic 16px "Cormorant Garamond", Georgia, serif';
+    ctx.fillStyle = 'rgba(245,222,179,0.7)';
+    ctx.fillText(footTxt, width / 2, 1005);
+  }
+
+  return canvas;
+}
+
+async function downloadAllInvitationsZip(format) {
+  if (!window.JSZip) {
+    alert('Biblioteka JSZip nie została załadowana. Sprawdź połączenie z internetem.');
+    return;
+  }
+  if (format === 'pdf' && (!window.jspdf || !window.jspdf.jsPDF)) {
+    alert('Biblioteka jsPDF nie została załadowana. Sprawdź połączenie z internetem.');
+    return;
+  }
+
+  const validGuests = (STATE.guests || []).filter(g => g.name1 || g.name2);
+  if (validGuests.length === 0) {
+    alert('Brak gości na liście do wygenerowania zaproszeń!');
+    return;
+  }
+
+  const pBar = document.getElementById('zip-progress-bar');
+  const btnPng = document.getElementById('btn-zip-png');
+  const btnPdf = document.getElementById('btn-zip-pdf');
+
+  if (pBar) {
+    pBar.style.display = 'block';
+    pBar.textContent = `⏳ Inicjalizacja generowania ${validGuests.length} zaproszeń w formacie ${format.toUpperCase()}...`;
+  }
+  if (btnPng) btnPng.disabled = true;
+  if (btnPdf) btnPdf.disabled = true;
+
+  try {
+    const zip = new JSZip();
+    const folder = zip.folder(`Zaproszenia_${format.toUpperCase()}`);
+
+    for (let i = 0; i < validGuests.length; i++) {
+      const g = validGuests[i];
+      const pct = Math.round(((i + 1) / validGuests.length) * 100);
+      const nameDisp = [g.name1, g.name2].filter(Boolean).join('_');
+      const safeName = (nameDisp || 'Gosc').replace(/[^a-zA-Z0-9_\-]/g, '_');
+      const fileNameBase = `Zaproszenie_${g.code}_${safeName}`;
+
+      if (pBar) {
+        pBar.textContent = `⏳ Generuję zaproszenie ${i + 1} z ${validGuests.length} (${g.code} - ${[g.name1, g.name2].filter(Boolean).join(' ')}) [${pct}%]...`;
+      }
+
+      const canvas = await createInvitationCanvas(g);
+
+      if (format === 'png') {
+        const dataUrl = canvas.toDataURL('image/png');
+        const base64Data = dataUrl.replace(/^data:image\/png;base64,/, '');
+        folder.file(`${fileNameBase}.png`, base64Data, { base64: true });
+      } else if (format === 'pdf') {
+        const imgData = canvas.toDataURL('image/jpeg', 0.92);
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a5' });
+        pdf.addImage(imgData, 'JPEG', 0, 0, 148, 210);
+        const pdfArrayBuffer = pdf.output('arraybuffer');
+        folder.file(`${fileNameBase}.pdf`, pdfArrayBuffer);
+      }
+    }
+
+    if (pBar) pBar.textContent = `⏳ Pakowanie archiwum ZIP (${format.toUpperCase()})... Proszę czekać...`;
+
+    const zipBlob = await zip.generateAsync({ type: 'blob' });
+    const downloadUrl = URL.createObjectURL(zipBlob);
+    const a = document.createElement('a');
+    a.href = downloadUrl;
+    a.download = `Zaproszenia_Weselne_${format.toUpperCase()}.zip`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(downloadUrl), 5000);
+
+    if (pBar) {
+      pBar.textContent = `✓ Wygenerowano i pobrano ${validGuests.length} zaproszeń w pliku ZIP (${format.toUpperCase()})!`;
+      setTimeout(() => { pBar.style.display = 'none'; }, 4000);
+    }
+  } catch (err) {
+    console.error('ZIP Error:', err);
+    alert('Wystąpił błąd podczas pakowania zaproszeń: ' + err.message);
+    if (pBar) pBar.style.display = 'none';
+  } finally {
+    if (btnPng) btnPng.disabled = false;
+    if (btnPdf) btnPdf.disabled = false;
+  }
 }
 
 async function saveSettings(ev){

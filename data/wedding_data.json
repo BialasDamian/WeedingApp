@@ -568,9 +568,16 @@
           "status": "completed",
           "text": "Dupa dupa dupa",
           "updatedAt": 1785698654934
+        },
+        "m2": {
+          "status": "completed",
+          "files": [
+            "https://drive.google.com/file/d/1T_lrWAa1w1B3zE7RG6aXseolPsP02QhJ/view?usp=drivesdk"
+          ],
+          "updatedAt": 1785698662390
         }
       },
-      "completedCount": 0
+      "completedCount": 1
     }
   },
   "firstWinner": null

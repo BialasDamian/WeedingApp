@@ -3186,17 +3186,21 @@ try {
   window._broadcastStateUpdate = function(){};
 }
 
+window._activeMissionUploads = window._activeMissionUploads || {};
 window._missionSelectedFiles = window._missionSelectedFiles || {};
 
 function handleMissionFileSelection(mId, inputEl, reqCount) {
   if (!window._missionSelectedFiles) window._missionSelectedFiles = {};
   if (!window._missionSelectedFiles[mId]) window._missionSelectedFiles[mId] = [];
 
-  if (inputEl && inputEl.files) {
-    for (let i = 0; i < inputEl.files.length; i++) {
-      window._missionSelectedFiles[mId].push(inputEl.files[i]);
+  if (inputEl && inputEl.files && inputEl.files.length > 0) {
+    const newFiles = Array.from(inputEl.files);
+    for (let i = 0; i < newFiles.length; i++) {
+      const file = newFiles[i];
+      file._uid = Date.now() + '_' + Math.random().toString(36).substring(2, 7);
+      window._missionSelectedFiles[mId].push(file);
     }
-    inputEl.value = '';
+    try { inputEl.value = ''; } catch(e) {}
   }
 
   updateFileCountBadge(mId, reqCount);
@@ -3309,7 +3313,7 @@ function renderGuestMissions(g) {
       if(m.type === 'tekst') {
         inputHtml = `<div style="font-size:0.83rem;color:#93ff8e;margin-top:0.4rem;font-style:italic">" ${escHtml(ans.text)} "</div>`;
       } else {
-        inputHtml = `<div style="font-size:0.83rem;color:#93ff8e;margin-top:0.4rem">✓ Przesłano ${reqCount} plik(ów) i zapisano na Dysku Google!</div>`;
+        inputHtml = `<div style="font-size:0.83rem;color:#93ff8e;margin-top:0.4rem">✓ Przesłano do Pary Młodej i zapisano na Dysku Google!</div>`;
       }
     } else {
       if(!times.isWindowActive) {
@@ -3317,26 +3321,51 @@ function renderGuestMissions(g) {
       } else if(m.type === 'tekst') {
         inputHtml = `
           <textarea class="settings-input" id="g-m-text-${m.id}" rows="2" placeholder="Wpisz swoją odpowiedź..." style="margin-top:0.5rem"></textarea>
-          <button class="btn-primary" style="padding:0.45rem 1rem;font-size:0.75rem;margin-top:0.4rem;width:auto" onclick="submitMissionText('${m.id}')">Wyślij odpowiedź</button>
+          <button class="btn-primary" style="padding:0.45rem 1rem;font-size:0.75rem;margin-top:0.4rem;width:auto" onclick="submitMissionText('${m.id}')">Wyślij odpowiedź do Pary Młodej</button>
         `;
       } else {
         const isImg = m.type === 'zdjecie';
         const acceptType = isImg ? 'image/*' : 'video/*';
+        const activeUpload = window._activeMissionUploads && window._activeMissionUploads[m.id];
+        
+        let uploadProgressHtml = '';
+        if (activeUpload) {
+          const p = activeUpload.percent || 0;
+          const curr = activeUpload.current || 1;
+          const tot = activeUpload.total || reqCount;
+          uploadProgressHtml = `
+            <div id="upload-progress-box-${m.id}" style="margin-top:0.6rem;background:rgba(212,175,55,0.12);border:1px solid gold;border-radius:8px;padding:0.65rem 0.9rem">
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem;color:gold;font-weight:bold;margin-bottom:0.4rem">
+                <span>⏳ Wgrywam pliki do Pary Młodej... (${curr}/${tot})</span>
+                <span>${p}%</span>
+              </div>
+              <div style="width:100%;height:8px;background:rgba(255,255,255,0.15);border-radius:4px;overflow:hidden">
+                <div id="upload-progress-bar-${m.id}" style="width:${p}%;height:100%;background:linear-gradient(90deg, #d4af37, #93ff8e);transition:width 0.25s ease"></div>
+              </div>
+              <div id="upload-progress-lbl-${m.id}" style="font-size:0.75rem;color:wheat;margin-top:0.35rem;text-align:right">Przesyłanie: plik ${curr} z ${tot} (${p}%)</div>
+            </div>
+          `;
+        }
+
         inputHtml = `
           <div style="margin-top:0.6rem;display:flex;flex-direction:column;gap:0.5rem">
             <div style="display:flex;flex-wrap:wrap;gap:0.5rem;align-items:center">
-              <label class="btn-secondary" style="font-size:0.7rem;padding:0.4rem 0.75rem;width:auto;cursor:pointer;margin:0">
+              <label class="btn-secondary" style="font-size:0.7rem;padding:0.4rem 0.75rem;width:auto;cursor:pointer;margin:0;${activeUpload?'opacity:0.5;pointer-events:none':''}">
                 ${isImg ? '📸 Zrób zdjęcie' : '🎥 Nagraj wideo'}
-                <input type="file" id="g-m-file-cam-${m.id}" accept="${acceptType}" capture="${isImg?'environment':'user'}" multiple style="display:none" onchange="handleMissionFileSelection('${m.id}', this, ${reqCount})">
+                <input type="file" id="g-m-file-cam-${m.id}" accept="${acceptType}" capture="${isImg?'environment':'user'}" multiple style="display:none" ${activeUpload?'disabled':''} onchange="handleMissionFileSelection('${m.id}', this, ${reqCount})">
               </label>
-              <label class="btn-secondary" style="font-size:0.7rem;padding:0.4rem 0.75rem;width:auto;cursor:pointer;margin:0">
+              <label class="btn-secondary" style="font-size:0.7rem;padding:0.4rem 0.75rem;width:auto;cursor:pointer;margin:0;${activeUpload?'opacity:0.5;pointer-events:none':''}">
                 📁 Wybierz z galerii / dysku
-                <input type="file" id="g-m-file-gal-${m.id}" accept="${acceptType}" multiple style="display:none" onchange="handleMissionFileSelection('${m.id}', this, ${reqCount})">
+                <input type="file" id="g-m-file-gal-${m.id}" accept="${acceptType}" multiple style="display:none" ${activeUpload?'disabled':''} onchange="handleMissionFileSelection('${m.id}', this, ${reqCount})">
               </label>
               <span id="file-count-badge-${m.id}" style="font-size:0.75rem;color:wheat">Wybrano 0 / ${reqCount} plików</span>
             </div>
             <div id="file-list-preview-${m.id}" style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.2rem"></div>
-            <button class="btn-primary" id="btn-sub-${m.id}" style="padding:0.45rem 1rem;font-size:0.75rem;width:auto;align-self:flex-start;margin-top:0.3rem" onclick="submitMissionFiles('${m.id}', '${m.type}')">☁️ Wyślij pliki na Dysk Google</button>
+            ${uploadProgressHtml}
+            <div style="margin-top:0.3rem;display:flex;flex-direction:column;gap:0.25rem">
+              <div style="font-size:0.74rem;color:wheat;font-style:italic;opacity:0.9">Kliknij poniższy przycisk, aby wysłać plik</div>
+              <button class="btn-primary" id="btn-sub-${m.id}" style="padding:0.45rem 1rem;font-size:0.75rem;width:auto;align-self:flex-start" ${activeUpload?'disabled':''} onclick="submitMissionFiles('${m.id}', '${m.type}')">✉️ Wyślij pliki do Pary Młodej</button>
+            </div>
           </div>
         `;
       }
@@ -3407,7 +3436,7 @@ async function submitMissionText(mId) {
     fileName: `Odpowiedz_${guestName}.txt`,
     fileData: fileContent,
     mimeType: 'text/plain;charset=utf-8'
-  }).catch(e => console.warn('Drive text upload:', e));
+  }, 5).catch(e => console.warn('Drive text upload:', e));
 
   if(guest) renderGuestMissions(guest);
   renderGuestRanking();
@@ -3432,29 +3461,60 @@ async function submitMissionFiles(mId, type) {
     return;
   }
 
-  const btn = document.getElementById('btn-sub-' + mId);
-  const origBtnText = btn ? btn.textContent : '';
-  if(btn) { btn.textContent = '⏳ Wgrywanie na Dysk Google...'; btn.disabled = true; }
+  if (!window._activeMissionUploads) window._activeMissionUploads = {};
+  if (window._activeMissionUploads[mId]) {
+    return; // Already uploading this mission
+  }
+
+  window._activeMissionUploads[mId] = {
+    current: 1,
+    total: selectedFiles.length,
+    percent: 0
+  };
+
+  if(guest) renderGuestMissions(guest);
+
+  const updateProgress = (curr, total, pct) => {
+    if(window._activeMissionUploads[mId]) {
+      window._activeMissionUploads[mId].current = curr;
+      window._activeMissionUploads[mId].total = total;
+      window._activeMissionUploads[mId].percent = pct;
+    }
+    const bar = document.getElementById('upload-progress-bar-' + mId);
+    if(bar) bar.style.width = pct + '%';
+    const lbl = document.getElementById('upload-progress-lbl-' + mId);
+    if(lbl) lbl.textContent = `Przesyłanie: plik ${curr} z ${total} (${pct}%)`;
+  };
 
   const mTitle = mission ? mission.title : 'Zadanie';
   const uploadedUrls = [];
 
   for(let i = 0; i < selectedFiles.length; i++) {
     const file = selectedFiles[i];
+    const currNum = i + 1;
+    const totalNum = selectedFiles.length;
+    const currentPct = Math.round(((i) / totalNum) * 100);
+    updateProgress(currNum, totalNum, currentPct);
+
     try {
       const dataUrl = await readFileAsDataURL(file);
       const res = await uploadToGoogleDrive({
         guestName: guestName,
         taskTitle: `Zadanie - ${mTitle}`,
-        fileName: `${type==='zdjecie'?'Zdjecie':'Wideo'}_${i+1}_${file.name}`,
+        fileName: `${type==='zdjecie'?'Zdjecie':'Wideo'}_${currNum}_${file.name}`,
         fileData: dataUrl,
         mimeType: file.type || (type==='zdjecie'?'image/jpeg':'video/mp4')
-      });
+      }, 3);
       if(res.success && res.url) uploadedUrls.push(res.url);
     } catch(err) {
       console.warn('File upload failed:', err);
     }
+    const endPct = Math.round(((currNum) / totalNum) * 100);
+    updateProgress(currNum, totalNum, endPct);
   }
+
+  delete window._activeMissionUploads[mId];
+  window._missionSelectedFiles[mId] = [];
 
   if(!STATE.guestMissions) STATE.guestMissions = {};
   if(!STATE.guestMissions[code]) STATE.guestMissions[code] = { answers: {}, completedCount: 0 };
@@ -3465,14 +3525,10 @@ async function submitMissionFiles(mId, type) {
     updatedAt: Date.now()
   };
 
-  // Clear accumulated selected files after upload
-  window._missionSelectedFiles[mId] = [];
-
   saveLocal();
   if(window._broadcastStateUpdate) window._broadcastStateUpdate();
   saveNow().catch(e => console.warn('Save mission:', e));
 
-  if(btn) { btn.textContent = origBtnText; btn.disabled = false; }
   if(guest) renderGuestMissions(guest);
   renderGuestRanking();
 }
@@ -3480,41 +3536,53 @@ async function submitMissionFiles(mId, type) {
 function readFileAsDataURL(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.onload = e => resolve(e.target.result);
-    reader.onerror = e => reject(e);
+    const timer = setTimeout(() => {
+      try { reader.abort(); } catch(e){}
+      reject(new Error('Przekroczono czas odczytu pliku. Spróbuj ponownie.'));
+    }, 90000);
+    reader.onload = e => { clearTimeout(timer); resolve(e.target.result); };
+    reader.onerror = e => { clearTimeout(timer); reject(e); };
     reader.readAsDataURL(file);
   });
 }
 
-async function uploadToGoogleDrive(params) {
+async function uploadToGoogleDrive(params, retries = 3) {
   const scriptUrl = STATE.missionsSettings ? STATE.missionsSettings.driveScriptUrl : '';
   if (!scriptUrl) {
     return { success: false, message: 'Brak skryptu Google Apps Script' };
   }
-  try {
-    const payload = {
-      parentFolder: (STATE.missionsSettings && STATE.missionsSettings.parentFolder) || 'Wesele 2026',
-      guestName: params.guestName || 'Gość',
-      taskFolderName: params.taskTitle || 'Zadanie',
-      fileName: params.fileName || 'plik.txt',
-      fileData: params.fileData || '',
-      mimeType: params.mimeType || 'text/plain'
-    };
-    const resp = await fetch(scriptUrl, {
-      method: 'POST',
-      mode: 'cors',
-      redirect: 'follow',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(payload)
-    });
-    const text = await resp.text();
-    let res = {};
-    try { res = JSON.parse(text); } catch(e) { res = { status: 'success' }; }
-    return { success: res.status === 'success', url: res.fileUrl || '', message: res.message || '' };
-  } catch (e) {
-    console.warn('Google Drive Upload:', e);
-    return { success: false, message: e.message };
+
+  const payload = {
+    parentFolder: (STATE.missionsSettings && STATE.missionsSettings.parentFolder) || 'Wesele 2026',
+    guestName: params.guestName || 'Gość',
+    taskFolderName: params.taskTitle || 'Zadanie',
+    fileName: params.fileName || 'plik.txt',
+    fileData: params.fileData || '',
+    mimeType: params.mimeType || 'text/plain'
+  };
+
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      const resp = await fetch(scriptUrl, {
+        method: 'POST',
+        mode: 'cors',
+        redirect: 'follow',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+      const text = await resp.text();
+      let res = {};
+      try { res = JSON.parse(text); } catch(e) { res = { status: 'success' }; }
+      if (res.status === 'success' || res.fileUrl) {
+        return { success: true, url: res.fileUrl || '', message: res.message || '' };
+      }
+    } catch (e) {
+      console.warn(`Drive Upload Attempt ${attempt} failed:`, e);
+      if (attempt === retries) return { success: false, message: e.message };
+      await new Promise(r => setTimeout(r, attempt * 1000));
+    }
   }
+  return { success: false, message: 'Upload failed after retries' };
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -3541,8 +3609,8 @@ function renderGuestRanking() {
     return;
   }
 
-  const isPublished = STATE.missionsSettings && STATE.missionsSettings.publishResults === true;
   const times = getMissionsStartEndTimestamps();
+  const isPublished = (STATE.missionsSettings && STATE.missionsSettings.publishResults === true) || times.isAfterEnd;
 
   if (!isPublished) {
     list.innerHTML = `
@@ -3560,7 +3628,7 @@ function renderGuestRanking() {
 
   const scores = [];
   (STATE.guests || []).forEach(g => {
-    const name = [g.name1, g.name2].filter(Boolean).join(' ') || 'Gość';
+    const name = getGuestFirstName(g) || 'Gość';
     const gData = (STATE.guestMissions && STATE.guestMissions[g.code]) || { answers: {}, completedCount: 0 };
     const compCount = gData.completedCount || 0;
     let durationMs = gData.durationMs || 0;
@@ -3586,10 +3654,14 @@ function renderGuestRanking() {
     if(idx === 0) medal = '🥇 1.';
     if(idx === 1) medal = '🥈 2.';
     if(idx === 2) medal = '🥉 3.';
-    const timeTxt = isFinished ? `⏱ ${formatDuration(s.durationMs)}` : `${s.completedCount}/${totalMissions}`;
+    const timeTxt = isFinished ? `⏱ ${formatDuration(s.durationMs)}` : `${s.completedCount} / ${totalMissions} ukończone`;
     const div = document.createElement('div');
     div.className = 'ranking-item' + (idx === 0 ? ' first-place' : '');
-    div.innerHTML = `<span style="font-weight:bold;color:gold">${medal} ${escHtml(s.name)}</span><span style="font-size:0.8rem;color:wheat">${timeTxt}</span>`;
+    div.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0.8rem;margin-bottom:0.4rem;background:rgba(255,255,255,0.05);border-radius:8px;border:1px solid rgba(201,168,76,0.2)';
+    div.innerHTML = `
+      <span style="font-weight:bold;color:gold">${medal} ${escHtml(s.name)}</span>
+      <span style="font-size:0.8rem;color:${isFinished?'#93ff8e':'wheat'};font-weight:${isFinished?'bold':'normal'}">${timeTxt}</span>
+    `;
     list.appendChild(div);
   });
 }

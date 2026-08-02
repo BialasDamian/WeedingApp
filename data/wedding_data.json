@@ -558,9 +558,17 @@
           "status": "completed",
           "text": "test",
           "updatedAt": 1785702388245
+        },
+        "m1": {
+          "status": "completed",
+          "files": [
+            "https://drive.google.com/file/d/1mKV7FuOWJ_O21jlfXtI4W0JpxMJowUO5/view?usp=drivesdk",
+            "https://drive.google.com/file/d/1MWrh_swNa5pNLuSulHnRvoJW2ohH-0Y7/view?usp=drivesdk"
+          ],
+          "updatedAt": 1785702403048
         }
       },
-      "completedCount": 0
+      "completedCount": 1
     }
   },
   "firstWinner": null

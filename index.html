@@ -1390,7 +1390,7 @@ function getOffsets(count,gap){
   return Array.from({length:count},(_,i)=>start+i*gap);
 }
 
-function generateLayoutEngine(){
+function generateLayoutEngine(isGuestView = false){
   const cfg=STATE.settings.table;
   const gap=Math.max(36,parseInt(cfg.gap)||48);
   const dist=parseInt(cfg.dist)||18,R=13;
@@ -1600,13 +1600,13 @@ function generateLayoutEngine(){
   const seatLabels={};  // seatId → {lx,ly,anchor,isH,dir}
 
   seats.forEach(s=>{
-    const name=getNameForSeat(s.id);
+    const name=getNameForSeat(s.id, isGuestView);
     if(!name)return;
-    const lines=name.split(/\s+/);
-    // two-line: first name + surname (split at first space)
     let line1=name,line2='';
-    const spaceIdx=name.indexOf(' ');
-    if(spaceIdx>0){line1=name.substring(0,spaceIdx);line2=name.substring(spaceIdx+1);}
+    if(!isGuestView){
+      const spaceIdx=name.indexOf(' ');
+      if(spaceIdx>0){line1=name.substring(0,spaceIdx);line2=name.substring(spaceIdx+1);}
+    }
     const lineCount=line2?2:1;
     const textW=Math.max(estimateTextW(line1),estimateTextW(line2));
 
@@ -1979,7 +1979,7 @@ function getGuestFullName(g) {
 
 function getGuestFirstName(g) {
   if (!g) return '';
-  if (g.firstName) return g.firstName.trim();
+  if (g.firstName) return getFirstNameOnly(g.firstName);
   if (g.name1) return getFirstNameOnly(g.name1);
   return getFirstNameOnly(getGuestFullName(g));
 }
@@ -2351,7 +2351,7 @@ function renderGuestView(g){
   const seats=[g.seat1,g.seat2].filter(Boolean);
   document.getElementById('g-seat').textContent=seats.map(s=>seatLabel(s)).join(' + ');
   document.getElementById('g-venue-txt').textContent=STATE.settings.venue||'—';
-  generateLayoutEngine();
+  generateLayoutEngine(true);
   document.getElementById('g-table-svg-wrap').innerHTML=buildTableSVG(seats,true,'guest').svg;
   requestAnimationFrame(()=>{initWrap('wrap-guest');centerWrap('wrap-guest');});
   renderGuestNeighbors(g);renderGuestMenu();renderGuestMusicList();renderGuestMissions(g);renderGuestRanking();
@@ -2367,7 +2367,7 @@ function renderGuestView(g){
   GitHubStorage.startPolling(function(newData){
     parseImportedState(newData);
     saveLocalCache();
-    generateLayoutEngine();
+    generateLayoutEngine(true);
     renderGuestMusicList();
     renderGuestMissions(g);
     renderGuestRanking();

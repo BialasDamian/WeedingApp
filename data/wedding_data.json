@@ -500,7 +500,7 @@
     "enableWinnerNotification": true,
     "enableWinnerNotif1": true,
     "enableWinnerNotif2": true,
-    "enableWinnerNotif3": false,
+    "enableWinnerNotif3": true,
     "enableRoseGateAnimation": true,
     "parentFolder": "Wesele 2026",
     "winnerMessage": "🎉 Gratulacje! Jesteś pierwszą osobą, która ukończyła wszystkie misje weselne! Odbierz swoją nagrodę u Pary Młodej! 🏆",

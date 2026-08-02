@@ -56,14 +56,6 @@
   },
   "guests": [
     {
-      "id": "g1785105267630",
-      "name1": "Pan Młody",
-      "name2": "",
-      "seat1": "13",
-      "seat2": "",
-      "code": "G-005"
-    },
-    {
       "id": "g1785664141297",
       "name1": "Pan Młody",
       "name2": "",
@@ -164,6 +156,14 @@
       "name1": "Paulina Gajdzik",
       "name2": "",
       "seat1": "12",
+      "seat2": "",
+      "code": "G-014"
+    },
+    {
+      "id": "g1785664405454",
+      "name1": "Michał Gawron",
+      "name2": "",
+      "seat1": "13",
       "seat2": "",
       "code": "G-014"
     }

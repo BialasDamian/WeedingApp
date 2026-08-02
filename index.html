@@ -521,48 +521,7 @@ button:not(.btn-primary):not(.btn-secondary):hover {
   box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
 }
 
-/* ROSE GARDEN ENTRANCE VIDEO OVERLAY */
-#rosegate-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-  background: #000;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.8s ease;
-  pointer-events: none;
-}
-#rosegate-overlay.hidden { display: none !important; pointer-events: none !important; }
 
-#rosegate-iframe {
-  width: 250vmax !important;
-  height: 250vmax !important;
-  min-width: 100vw !important;
-  min-height: 100vh !important;
-  position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  border: none !important;
-  pointer-events: none !important;
-}
-
-.skip-gate-btn {
-  position: absolute;
-  bottom: 25px;
-  right: 25px;
-  z-index: 100;
-  background: rgba(0,0,0,0.6);
-  color: wheat;
-  border: 1px solid wheat;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 0.78rem;
-  cursor: pointer;
-  backdrop-filter: blur(4px);
-}
 
 /* CONFETTI & WINNER MODAL */
 .confetti-container {
@@ -785,7 +744,6 @@ button:not(.btn-primary):not(.btn-secondary):hover {
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0.8rem;width:100%">
           <label class="checkbox-lbl" style="color:wheat"><input type="checkbox" id="m-cfg-enabled" onchange="saveMissionsSettings(event)"> Włącz moduł zadań/misji dla gości</label>
           <label class="checkbox-lbl" style="color:wheat"><input type="checkbox" id="m-cfg-ranking" onchange="saveMissionsSettings(event)"> Wyświetlaj ranking u gości (włącz/wyłącz)</label>
-          <label class="checkbox-lbl" style="color:wheat"><input type="checkbox" id="m-cfg-rosegate" onchange="saveMissionsSettings(event)"> Włącz animację Różanej Bramy przy wejściu</label>
         </div>
 
         <!-- USTAWIENIA POWIADOMIEŃ PODIUM (1, 2, 3 MIEJSCE) -->
@@ -1291,7 +1249,6 @@ const DEFAULT_STATE={
     enableWinnerNotif1:true,
     enableWinnerNotif2:true,
     enableWinnerNotif3:true,
-    enableRoseGateAnimation:true,
     parentFolder:'Wesele 2026',
     winnerMessage:'🎉 Gratulacje! Jesteś pierwszą osobą, która ukończyła wszystkie misje weselne! Odbierz swoją nagrodę u Pary Młodej! 🏆',
     winnerMessage1:'🎉 Gratulacje! Zająłeś 1. MIEJSCE (ZŁOTO)! Ukończyłeś wszystkie misje w najkrótszym czasie! Odbierz nagrodę u Pary Młodej! 🏆',
@@ -2340,7 +2297,7 @@ function renderQRGrid(){
     if(!g.name1&&!g.name2)return;
     const seats=[g.seat1,g.seat2].filter(Boolean);
     const div=document.createElement('div');div.className='qr-card';
-    const nameDisplay=[g.name1,g.name2].filter(Boolean).join(' ');
+    const nameDisplay=[g.name1,g.name2].filter(Boolean).join(' & ');
     div.innerHTML=`<div class="qr-card-name">${escHtml(nameDisplay)}</div><div class="qr-card-info">${escHtml(seats.map(s=>seatLabel(s)).join(' + '))}</div><span class="pill ${isThrone(g.seat1)||isThrone(g.seat2)?'pill-throne':''}">${escHtml(g.code)}</span><button class="qr-btn" onclick="showQRModal('${escHtml(g.id)}')">Generuj QR</button>`;
     grid.appendChild(div);
   });
@@ -2370,7 +2327,7 @@ function showQRModal(gid){
   if(!requireAdmin())return;
   const g=STATE.guests.find(x=>x.id===gid);if(!g)return;
   const url=window.location.href.split('?')[0]+'?guest='+encodeURIComponent(g.code);
-  const nameDisplay=[g.name1,g.name2].filter(Boolean).join(' ');
+  const nameDisplay=[g.name1,g.name2].filter(Boolean).join(' & ');
   const seats=[g.seat1,g.seat2].filter(Boolean);
   document.getElementById('modal-qr-title').textContent=nameDisplay;
   document.getElementById('qr-modal-info').textContent=seats.map(s=>seatLabel(s)).join(' + ');
@@ -2806,9 +2763,6 @@ function renderAdminMissions() {
   const elWinnerNotif3 = document.getElementById('m-cfg-winner-notif3');
   if(elWinnerNotif3) elWinnerNotif3.checked = cfg.enableWinnerNotif3 !== false;
 
-  const elRosegate = document.getElementById('m-cfg-rosegate');
-  if(elRosegate) elRosegate.checked = cfg.enableRoseGateAnimation !== false;
-
   const elStart = document.getElementById('m-cfg-start-time');
   if(elStart) elStart.value = cfg.startTime || '15:00';
 
@@ -2925,8 +2879,6 @@ function saveMissionsSettings(ev) {
 
   const elNotif3 = document.getElementById('m-cfg-winner-notif3');
   if(elNotif3) STATE.missionsSettings.enableWinnerNotif3 = elNotif3.checked;
-
-  STATE.missionsSettings.enableRoseGateAnimation = document.getElementById('m-cfg-rosegate').checked;
 
   const elStart = document.getElementById('m-cfg-start-time');
   if(elStart) STATE.missionsSettings.startTime = elStart.value.trim() || '15:00';
@@ -3384,7 +3336,7 @@ async function submitMissionText(mId) {
 
   const code = (window._currentGuestCode || '').toUpperCase();
   const guest = STATE.guests.find(x => x.code === code);
-  const guestName = window._currentGuestName || (guest ? [guest.name1, guest.name2].filter(Boolean).join(' ') : 'Gość');
+  const guestName = window._currentGuestName || (guest ? [guest.name1, guest.name2].filter(Boolean).join(' & ') : 'Gość');
   
   const textEl = document.getElementById('g-m-text-' + mId);
   const text = textEl ? textEl.value.trim() : '';
@@ -3426,7 +3378,7 @@ async function submitMissionFiles(mId, type) {
 
   const code = (window._currentGuestCode || '').toUpperCase();
   const guest = STATE.guests.find(x => x.code === code);
-  const guestName = window._currentGuestName || (guest ? [guest.name1, guest.name2].filter(Boolean).join(' ') : 'Gość');
+  const guestName = window._currentGuestName || (guest ? [guest.name1, guest.name2].filter(Boolean).join(' & ') : 'Gość');
 
   const mission = (STATE.missions || []).find(m => m.id === mId);
   const reqCount = (mission && mission.targetCount) ? mission.targetCount : 1;
@@ -3568,7 +3520,7 @@ function renderGuestRanking() {
 
   const scores = [];
   (STATE.guests || []).forEach(g => {
-    const name = [g.name1, g.name2].filter(Boolean).join(' ') || 'Gość';
+    const name = [g.name1, g.name2].filter(Boolean).join(' & ') || 'Gość';
     const gData = (STATE.guestMissions && STATE.guestMissions[g.code]) || { answers: {}, completedCount: 0 };
     const compCount = gData.completedCount || 0;
     let durationMs = gData.durationMs || 0;
@@ -3610,7 +3562,7 @@ function checkAndTriggerWinnerNotification(g, compCount, totalMissions) {
   if (cfg.enableWinnerNotification === false) return;
   let notify = false, winnerMsg = '', medalTitle = '';
   if (!STATE.firstWinner) {
-    STATE.firstWinner = { code: g.code, name: [g.name1, g.name2].filter(Boolean).join(' '), at: Date.now() };
+    STATE.firstWinner = { code: g.code, name: [g.name1, g.name2].filter(Boolean).join(' & '), at: Date.now() };
     if (cfg.enableWinnerNotif1 !== false) {
       notify = true;
       winnerMsg = cfg.winnerMessage1 || cfg.winnerMessage || '🎉 Gratulacje! Zająłeś 1. MIEJSCE (ZŁOTO)!';

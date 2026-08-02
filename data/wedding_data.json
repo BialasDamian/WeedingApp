@@ -633,7 +633,9 @@
           "updatedAt": 1785698887933
         }
       },
-      "completedCount": 7
+      "completedCount": 8,
+      "completedAllAt": 1785698887940,
+      "durationMs": 1567940
     }
   },
   "firstWinner": null

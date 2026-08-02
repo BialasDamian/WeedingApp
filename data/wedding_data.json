@@ -366,7 +366,12 @@
       "event": "Oficjalne zakończenie wesela / Pożegnanie"
     }
   ],
-  "menu": [],
+  "menu": [
+    {
+      "category": "Zupa",
+      "name": ""
+    }
+  ],
   "music": [
     {
       "title": "Cruise Control",

@@ -618,27 +618,6 @@
       "completedCount": 2,
       "lastActivityAt": 1785708821523,
       "durationMs": 3221523
-    },
-    "G-020": {
-      "answers": {
-        "m3": {
-          "status": "completed",
-          "text": "testtetst",
-          "updatedAt": 1785705951710
-        },
-        "m1": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1kXcXmuu1h78c_y0vod-FZZWdQfWXwTTc/view?usp=drivesdk",
-            "https://drive.google.com/file/d/16raPcUdQhDkqaakIz8Ifeukid6i0Hkkz/view?usp=drivesdk",
-            "https://drive.google.com/file/d/1cCjxcC8UOGKoApoVJAITz1a64iFnzG5b/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785705997947
-        }
-      },
-      "completedCount": 1,
-      "lastActivityAt": 1785705997947,
-      "durationMs": 397947
     }
   },
   "firstWinner": null

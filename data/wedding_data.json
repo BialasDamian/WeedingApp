@@ -682,9 +682,16 @@
           "status": "completed",
           "text": "Heheheh",
           "updatedAt": 1785702649664
+        },
+        "m1": {
+          "status": "completed",
+          "files": [
+            "https://drive.google.com/file/d/1SbrtgTRzQj_cp-Of7qv0O0atub5Arlux/view?usp=drivesdk"
+          ],
+          "updatedAt": 1785702656623
         }
       },
-      "completedCount": 0
+      "completedCount": 1
     }
   },
   "firstWinner": null

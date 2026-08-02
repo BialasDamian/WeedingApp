@@ -4136,14 +4136,23 @@ function checkWinnerCompletion(g) {
     scores.push({ code: item.code, completedCount: cCount, durationMs: dur });
   });
 
-  scores.sort((a, b) => {
-    const aFinished = totalMissions > 0 && a.completedCount === totalMissions;
-    const bFinished = totalMissions > 0 && b.completedCount === totalMissions;
-    if (aFinished && bFinished) return (a.durationMs || Infinity) - (b.durationMs || Infinity);
-    if (aFinished) return -1;
-    if (bFinished) return 1;
+function compareLeaderboardScores(a, b, totalMissions) {
+  const aFinished = totalMissions > 0 && a.completedCount === totalMissions;
+  const bFinished = totalMissions > 0 && b.completedCount === totalMissions;
+
+  if (aFinished && bFinished) {
+    return (a.durationMs || Infinity) - (b.durationMs || Infinity);
+  }
+  if (aFinished) return -1;
+  if (bFinished) return 1;
+
+  if (b.completedCount !== a.completedCount) {
     return b.completedCount - a.completedCount;
-  });
+  }
+  return (a.durationMs || Infinity) - (b.durationMs || Infinity);
+}
+
+  scores.sort((a, b) => compareLeaderboardScores(a, b, totalMissions));
 
   const pos = scores.findIndex(s => s.code === g.code);
   if (pos < 0 || pos > 2) return;

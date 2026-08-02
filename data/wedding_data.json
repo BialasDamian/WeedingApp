@@ -49,7 +49,7 @@
         "1": "T1",
         "3": true,
         "T2": "T1",
-        "T1": "T1"
+        "T1": "T2"
       }
     },
     "githubToken": "VUMzT2VheFdJU0VJRTI2WVZJUWc0MWVGc0FxRTJrV3lsZnR5MUtmcG44SVljd1J6VEE0eDNpcHVST3VfV1dJbXB3cDJJV1lEMFlPTUZDQUIxMV90YXBfYnVodGln"
@@ -62,14 +62,6 @@
       "seat1": "3",
       "seat2": "",
       "code": "G-002"
-    },
-    {
-      "id": "g1785105258154",
-      "name1": "Pani Młoda",
-      "name2": "",
-      "seat1": "T1",
-      "seat2": "",
-      "code": "G-004"
     },
     {
       "id": "g1785105267630",
@@ -92,6 +84,14 @@
       "name1": "Pan Młody",
       "name2": "",
       "seat1": "T2",
+      "seat2": "",
+      "code": "G-005"
+    },
+    {
+      "id": "g1785664264801",
+      "name1": "Pani Młoda",
+      "name2": "",
+      "seat1": "T1",
       "seat2": "",
       "code": "G-005"
     }

@@ -591,6 +591,16 @@
         }
       },
       "completedCount": 4
+    },
+    "G-017": {
+      "answers": {
+        "m3": {
+          "status": "completed",
+          "text": "Test2",
+          "updatedAt": 1785702485396
+        }
+      },
+      "completedCount": 0
     }
   },
   "firstWinner": null

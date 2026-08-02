@@ -294,16 +294,6 @@
       "code": "G-027"
     },
     {
-      "id": "g1785664592231",
-      "firstName": "Basia",
-      "lastName": "Sielańczyk",
-      "name1": "Basia",
-      "name2": "Sielańczyk",
-      "seat1": "30",
-      "seat2": "",
-      "code": "G-028"
-    },
-    {
       "id": "g1785664598285",
       "firstName": "Bartłomiej",
       "lastName": "Miecznikowski",
@@ -365,9 +355,19 @@
     },
     {
       "id": "g1785691740361",
+      "firstName": "Basia Sielańczyk",
+      "lastName": "",
       "name1": "Basia Sielańczyk",
       "name2": "",
       "seat1": "26",
+      "seat2": "",
+      "code": "G-032"
+    },
+    {
+      "id": "g1785691760953",
+      "name1": "Haytham Ghanem",
+      "name2": "",
+      "seat1": "30",
       "seat2": "",
       "code": "G-032"
     }

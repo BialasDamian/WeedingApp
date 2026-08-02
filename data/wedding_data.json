@@ -547,7 +547,7 @@
     {
       "id": "m9",
       "title": "Uwiecznij na zdjęciu moment wpisywania się do Księgi Gości.",
-      "type": "tekst",
+      "type": "zdjecie",
       "targetCount": 1
     },
     {

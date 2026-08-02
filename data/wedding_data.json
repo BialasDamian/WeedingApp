@@ -588,9 +588,10 @@
           "updatedAt": 1785708860902
         }
       },
-      "completedCount": 4,
+      "completedCount": 5,
       "lastActivityAt": 1785708860902,
-      "durationMs": 3260902
+      "durationMs": 3260902,
+      "notifiedWinner1": true
     },
     "19": {
       "answers": {

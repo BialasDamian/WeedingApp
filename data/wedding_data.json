@@ -682,6 +682,20 @@
       "completedCount": 2,
       "lastActivityAt": 1785711566316,
       "durationMs": 146316
+    },
+    "G-012": {
+      "answers": {
+        "m1": {
+          "status": "completed",
+          "files": [
+            "https://drive.google.com/file/d/1tQPfTs9gT68UqKxWLZPjkJcS9BcY6SxZ/view?usp=drivesdk"
+          ],
+          "updatedAt": 1785711585927
+        }
+      },
+      "completedCount": 0,
+      "lastActivityAt": 1785711585927,
+      "durationMs": 165927
     }
   },
   "firstWinner": null

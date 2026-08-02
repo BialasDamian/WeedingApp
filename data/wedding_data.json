@@ -634,9 +634,10 @@
           "updatedAt": 1785711502292
         }
       },
-      "completedCount": 1,
+      "completedCount": 2,
       "lastActivityAt": 1785711502292,
-      "durationMs": 82292
+      "durationMs": 82292,
+      "notifiedWinner1": true
     },
     "G-006": {
       "answers": {

@@ -551,38 +551,6 @@
       "targetCount": 1
     }
   ],
-  "guestMissions": {
-    "G-023": {
-      "answers": {
-        "m3": {
-          "status": "completed",
-          "text": "Fiu fiu fiu extra!",
-          "updatedAt": 1785698605840
-        },
-        "m1": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1XUjXem26lIgMkuDJ4-k-Yr0d1dIW3-jB/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785698812806
-        },
-        "m5": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1J4wRFIr-uq1tm79TKz8GpbHWnwVh8OG4/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785698845513
-        },
-        "m6": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1C43VhqsGjaB_MkekBz-16Q4hzhcoTw57/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785698895853
-        }
-      },
-      "completedCount": 3
-    }
-  },
+  "guestMissions": {},
   "firstWinner": null
 }

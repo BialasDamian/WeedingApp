@@ -639,53 +639,6 @@
       "completedCount": 1,
       "lastActivityAt": 1785705997947,
       "durationMs": 397947
-    },
-    "G-019": {
-      "answers": {
-        "m5": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1NXvYT5vgP7hnTAmuc68wvYOhAe4pRc5F/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785706088084
-        },
-        "m6": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/18A-pEbg-Z_xtIGTgZBxYhXInzNy4K7MM/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785706275361
-        }
-      },
-      "completedCount": 1,
-      "lastActivityAt": 1785706275361,
-      "durationMs": 675361
-    },
-    "G-030": {
-      "answers": {
-        "m1": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1hsfslb01VEFtMJhd6h3Kqcru0jpND5YT/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785708375028
-        },
-        "m3": {
-          "status": "completed",
-          "text": "test",
-          "updatedAt": 1785708379676
-        },
-        "m2": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1JdXKjgrjOKChzlrF9LfB1qCue2NljOK9/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785708561788
-        }
-      },
-      "completedCount": 2,
-      "lastActivityAt": 1785708561788,
-      "durationMs": 2961788
     }
   },
   "firstWinner": null

@@ -3186,12 +3186,33 @@ try {
   window._broadcastStateUpdate = function(){};
 }
 
+window._missionSelectedFiles = window._missionSelectedFiles || {};
+
+function handleMissionFileSelection(mId, inputEl, reqCount) {
+  if (!window._missionSelectedFiles) window._missionSelectedFiles = {};
+  if (!window._missionSelectedFiles[mId]) window._missionSelectedFiles[mId] = [];
+
+  if (inputEl && inputEl.files) {
+    for (let i = 0; i < inputEl.files.length; i++) {
+      window._missionSelectedFiles[mId].push(inputEl.files[i]);
+    }
+    inputEl.value = '';
+  }
+
+  updateFileCountBadge(mId, reqCount);
+}
+
+function removeMissionFile(mId, fileIndex, reqCount) {
+  if (window._missionSelectedFiles && window._missionSelectedFiles[mId]) {
+    window._missionSelectedFiles[mId].splice(fileIndex, 1);
+  }
+  updateFileCountBadge(mId, reqCount);
+}
+
 function updateFileCountBadge(mId, reqCount) {
-  const fCam = document.getElementById('g-m-file-cam-' + mId);
-  const fGal = document.getElementById('g-m-file-gal-' + mId);
-  let total = 0;
-  if(fCam && fCam.files) total += fCam.files.length;
-  if(fGal && fGal.files) total += fGal.files.length;
+  if (!window._missionSelectedFiles) window._missionSelectedFiles = {};
+  const files = window._missionSelectedFiles[mId] || [];
+  const total = files.length;
   
   const badge = document.getElementById('file-count-badge-' + mId);
   if(badge) {
@@ -3202,6 +3223,23 @@ function updateFileCountBadge(mId, reqCount) {
     } else {
       badge.style.color = 'wheat';
       badge.style.fontWeight = 'normal';
+    }
+  }
+
+  const listEl = document.getElementById('file-list-preview-' + mId);
+  if(listEl) {
+    if(files.length === 0) {
+      listEl.innerHTML = '';
+    } else {
+      listEl.innerHTML = files.map((f, idx) => {
+        const isVid = f.type && f.type.startsWith('video');
+        const icon = isVid ? '🎥' : '📸';
+        const nameShort = f.name.length > 20 ? f.name.substring(0, 17) + '...' : f.name;
+        return `<div style="display:inline-flex;align-items:center;gap:0.4rem;background:rgba(255,255,255,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:15px;padding:0.2rem 0.65rem;font-size:0.75rem;color:wheat">
+          <span>${icon} ${escHtml(nameShort)}</span>
+          <button type="button" style="background:none;border:none;color:#ff6b6b;font-weight:bold;cursor:pointer;padding:0 0.2rem" onclick="removeMissionFile('${mId}', ${idx}, ${reqCount})">✕</button>
+        </div>`;
+      }).join('');
     }
   }
 }
@@ -3289,14 +3327,15 @@ function renderGuestMissions(g) {
             <div style="display:flex;flex-wrap:wrap;gap:0.5rem;align-items:center">
               <label class="btn-secondary" style="font-size:0.7rem;padding:0.4rem 0.75rem;width:auto;cursor:pointer;margin:0">
                 ${isImg ? '📸 Zrób zdjęcie' : '🎥 Nagraj wideo'}
-                <input type="file" id="g-m-file-cam-${m.id}" accept="${acceptType}" capture="${isImg?'environment':'user'}" ${reqCount>1?'multiple':''} style="display:none" onchange="updateFileCountBadge('${m.id}', ${reqCount})">
+                <input type="file" id="g-m-file-cam-${m.id}" accept="${acceptType}" capture="${isImg?'environment':'user'}" multiple style="display:none" onchange="handleMissionFileSelection('${m.id}', this, ${reqCount})">
               </label>
               <label class="btn-secondary" style="font-size:0.7rem;padding:0.4rem 0.75rem;width:auto;cursor:pointer;margin:0">
                 📁 Wybierz z galerii / dysku
-                <input type="file" id="g-m-file-gal-${m.id}" accept="${acceptType}" ${reqCount>1?'multiple':''} style="display:none" onchange="updateFileCountBadge('${m.id}', ${reqCount})">
+                <input type="file" id="g-m-file-gal-${m.id}" accept="${acceptType}" multiple style="display:none" onchange="handleMissionFileSelection('${m.id}', this, ${reqCount})">
               </label>
               <span id="file-count-badge-${m.id}" style="font-size:0.75rem;color:wheat">Wybrano 0 / ${reqCount} plików</span>
             </div>
+            <div id="file-list-preview-${m.id}" style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.2rem"></div>
             <button class="btn-primary" id="btn-sub-${m.id}" style="padding:0.45rem 1rem;font-size:0.75rem;width:auto;align-self:flex-start;margin-top:0.3rem" onclick="submitMissionFiles('${m.id}', '${m.type}')">☁️ Wyślij pliki na Dysk Google</button>
           </div>
         `;
@@ -3312,6 +3351,8 @@ function renderGuestMissions(g) {
       ${inputHtml}
     `;
     list.appendChild(div);
+    // Refresh badges if files already accumulated before rerender
+    updateFileCountBadge(m.id, reqCount);
   });
 
   gMissions.completedCount = completedCount;
@@ -3383,12 +3424,8 @@ async function submitMissionFiles(mId, type) {
   const mission = (STATE.missions || []).find(m => m.id === mId);
   const reqCount = (mission && mission.targetCount) ? mission.targetCount : 1;
 
-  const fCam = document.getElementById('g-m-file-cam-' + mId);
-  const fGal = document.getElementById('g-m-file-gal-' + mId);
-
-  const selectedFiles = [];
-  if(fCam && fCam.files) { for(let i=0; i<fCam.files.length; i++) selectedFiles.push(fCam.files[i]); }
-  if(fGal && fGal.files) { for(let i=0; i<fGal.files.length; i++) selectedFiles.push(fGal.files[i]); }
+  if (!window._missionSelectedFiles) window._missionSelectedFiles = {};
+  const selectedFiles = window._missionSelectedFiles[mId] || [];
 
   if(selectedFiles.length < reqCount) {
     alert(`To zadanie wymaga wgrania co najmniej ${reqCount} ${type==='zdjecie'?'zdjęć':'filmów'}. Wybrano obecnie: ${selectedFiles.length}. Dołącz pozostałe pliki!`);
@@ -3427,6 +3464,9 @@ async function submitMissionFiles(mId, type) {
     files: uploadedUrls,
     updatedAt: Date.now()
   };
+
+  // Clear accumulated selected files after upload
+  window._missionSelectedFiles[mId] = [];
 
   saveLocal();
   if(window._broadcastStateUpdate) window._broadcastStateUpdate();

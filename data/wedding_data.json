@@ -551,6 +551,17 @@
       "targetCount": 1
     }
   ],
-  "guestMissions": {},
+  "guestMissions": {
+    "G-012": {
+      "answers": {
+        "m3": {
+          "status": "completed",
+          "text": "test",
+          "updatedAt": 1785702388245
+        }
+      },
+      "completedCount": 0
+    }
+  },
   "firstWinner": null
 }

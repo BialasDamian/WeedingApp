@@ -112,7 +112,7 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:wheat;font-
   align-items:center;
   gap:2rem;
   width:100%;
-  max-width:500px;
+  max-width:750px;
   text-align:center
 }
 
@@ -125,10 +125,12 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:wheat;font-
 
 .landing-title{
   font-family:'Cormorant Garamond',serif;
-  font-size:clamp(2.4rem,8vw,4.2rem);
+  font-size:clamp(1.6rem, 6vw, 3.6rem);
   font-weight:300;
   color:#FFF8EE;
-  line-height:1.05
+  line-height:1.1;
+  white-space:nowrap;
+  max-width:98vw;
 }
 
 .landing-title em{
@@ -561,7 +563,7 @@ button:not(.btn-primary):not(.btn-secondary):hover {
   <div class="landing-inner">
     <div class="landing-ornament">✦ ✦ ✦</div>
     <div class="landing-names">
-      <div class="landing-title" id="l-title"><em>Aleksandra & Damian</em></div>
+      <div class="landing-title" id="l-title"><em>Aleksandra &amp; Damian</em></div>
       <div class="landing-date" id="l-date">11.09.2026</div>
     </div>
     <div style="width:48px;height:1px;background:wheat;opacity:0.4"></div>
@@ -902,7 +904,7 @@ button:not(.btn-primary):not(.btn-secondary):hover {
 <div id="screen-guest" class="screen">
   <div class="guest-hero">
     <div class="guest-ornament">✦ ✦ ✦</div>
-    <div class="guest-wedding-title" id="g-title">Aleksandra & Damian</div>
+    <div class="guest-wedding-title" id="g-title">Aleksandra &amp; Damian</div>
     <div class="guest-date" id="g-date">11.09.2026</div>
     <div class="guest-welcome">
       <div class="guest-name-lbl">Witaj,</div>
@@ -1863,9 +1865,17 @@ function show(id){
   if(el) el.classList.add('active');
   if(id==='screen-landing'){
     const t = document.getElementById('l-title');
-    if(t && STATE && STATE.settings) t.innerHTML='<em>'+escHtml(STATE.settings.names || 'Aleksandra & Damian')+'</em>';
+    if(t && STATE && STATE.settings) {
+      let n = STATE.settings.names || 'Aleksandra & Damian';
+      if (!n || n === 'Pan Młody & Pani Młoda' || n === 'Para Młoda') n = 'Aleksandra & Damian';
+      t.innerHTML = '<em>' + escHtml(n) + '</em>';
+    }
     const d = document.getElementById('l-date');
-    if(d && STATE && STATE.settings) d.textContent=sanitizeText(STATE.settings.date || '11.09.2026');
+    if(d && STATE && STATE.settings) {
+      let dt = STATE.settings.date || '11.09.2026';
+      if (!dt || dt === 'Data Wesela') dt = '11.09.2026';
+      d.textContent = sanitizeText(dt);
+    }
   }
 }
 function switchTab(tabId,btn){

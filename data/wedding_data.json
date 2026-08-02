@@ -516,8 +516,8 @@
     },
     {
       "id": "m3",
-      "title": "Napisz 3 zdania opisujące imprezę weselną",
-      "type": "tekst",
+      "title": "Uchwyć najpiękniejszy lub najbardziej szalony moment w tańcu.",
+      "type": "wideo",
       "targetCount": 1
     },
     {

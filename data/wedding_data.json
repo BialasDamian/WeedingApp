@@ -552,69 +552,6 @@
     }
   ],
   "guestMissions": {
-    "G-012": {
-      "answers": {
-        "m3": {
-          "status": "completed",
-          "text": "test",
-          "updatedAt": 1785702388245
-        },
-        "m1": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1mKV7FuOWJ_O21jlfXtI4W0JpxMJowUO5/view?usp=drivesdk",
-            "https://drive.google.com/file/d/1MWrh_swNa5pNLuSulHnRvoJW2ohH-0Y7/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785702403048
-        },
-        "m5": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1bx7OCn5jVyCR0Bf0JPHc9J3mZjcqLuf5/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785702405675
-        },
-        "m9": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1in4CIx0Re3on-vm-1SfPNUDLdWnrMp7O/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785702418580
-        },
-        "m4": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1OzF4JVG9JDRtdz5EXHzhR4Op0j1X523a/view?usp=drivesdk",
-            "https://drive.google.com/file/d/1STYFoOKhSQgwtUcMiT5swmYIae6lgIG4/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785702422396
-        },
-        "m2": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1hmpDqtsalJqX0D54ayxS-aa-RWT7fe-f/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785702570428
-        },
-        "m6": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1f7JQ3n20IoStVG_QynWjJbl7zVOCK_xS/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785702584799
-        },
-        "m10": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1Xptfusb4RUtlvMbBj1sepR6X72wWsuFd/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785702594815
-        }
-      },
-      "completedCount": 8,
-      "completedAllAt": 1785702594817,
-      "durationMs": 414817
-    },
     "G-017": {
       "answers": {
         "m3": {

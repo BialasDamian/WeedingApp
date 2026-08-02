@@ -55,6 +55,8 @@
   "guests": [
     {
       "id": "g1785664261309",
+      "firstName": "Pan Młody",
+      "lastName": "",
       "name1": "Pan Młody",
       "name2": "",
       "seat1": "T2",
@@ -63,6 +65,8 @@
     },
     {
       "id": "g1785664264801",
+      "firstName": "Pani Młoda",
+      "lastName": "",
       "name1": "Pani Młoda",
       "name2": "",
       "seat1": "T1",
@@ -71,14 +75,18 @@
     },
     {
       "id": "g1785664293498",
-      "name1": "Marek Romanowski",
-      "name2": "",
+      "firstName": "Marek",
+      "lastName": "Romanowski",
+      "name1": "Marek",
+      "name2": "Romanowski",
       "seat1": "4",
       "seat2": "",
       "code": "G-006"
     },
     {
       "id": "g1785664310914",
+      "firstName": "Krystyna Źrałek",
+      "lastName": "",
       "name1": "Krystyna Źrałek",
       "name2": "",
       "seat1": "5",
@@ -87,6 +95,8 @@
     },
     {
       "id": "g1785664319929",
+      "firstName": "Adam Jędrzejewski",
+      "lastName": "",
       "name1": "Adam Jędrzejewski",
       "name2": "",
       "seat1": "6",
@@ -95,6 +105,8 @@
     },
     {
       "id": "g1785664335153",
+      "firstName": "Izolda Jemielniak",
+      "lastName": "",
       "name1": "Izolda Jemielniak",
       "name2": "",
       "seat1": "7",
@@ -103,6 +115,8 @@
     },
     {
       "id": "g1785664345106",
+      "firstName": "Andrzej Źrałek",
+      "lastName": "",
       "name1": "Andrzej Źrałek",
       "name2": "",
       "seat1": "8",
@@ -111,6 +125,8 @@
     },
     {
       "id": "g1785664352578",
+      "firstName": "Krzysztof Jemielniak",
+      "lastName": "",
       "name1": "Krzysztof Jemielniak",
       "name2": "",
       "seat1": "9",
@@ -119,6 +135,8 @@
     },
     {
       "id": "g1785664380134",
+      "firstName": "Sandra Karaś-Jemielniak",
+      "lastName": "",
       "name1": "Sandra Karaś-Jemielniak",
       "name2": "",
       "seat1": "10",
@@ -127,6 +145,8 @@
     },
     {
       "id": "g1785664387816",
+      "firstName": "Łukasz Gajdzik",
+      "lastName": "",
       "name1": "Łukasz Gajdzik",
       "name2": "",
       "seat1": "11",
@@ -135,6 +155,8 @@
     },
     {
       "id": "g1785664398288",
+      "firstName": "Paulina Gajdzik",
+      "lastName": "",
       "name1": "Paulina Gajdzik",
       "name2": "",
       "seat1": "12",
@@ -143,6 +165,8 @@
     },
     {
       "id": "g1785664405454",
+      "firstName": "Michał Gawron",
+      "lastName": "",
       "name1": "Michał Gawron",
       "name2": "",
       "seat1": "13",
@@ -151,6 +175,8 @@
     },
     {
       "id": "g1785664413454",
+      "firstName": "Ewelina Kędzierska",
+      "lastName": "",
       "name1": "Ewelina Kędzierska",
       "name2": "",
       "seat1": "14",
@@ -159,6 +185,8 @@
     },
     {
       "id": "g1785664419475",
+      "firstName": "Jacek Kaim",
+      "lastName": "",
       "name1": "Jacek Kaim",
       "name2": "",
       "seat1": "15",
@@ -167,6 +195,8 @@
     },
     {
       "id": "g1785664427496",
+      "firstName": "Justyna Kaim",
+      "lastName": "",
       "name1": "Justyna Kaim",
       "name2": "",
       "seat1": "16",
@@ -175,6 +205,8 @@
     },
     {
       "id": "g1785664465305",
+      "firstName": "Konrad Ciszek",
+      "lastName": "",
       "name1": "Konrad Ciszek",
       "name2": "",
       "seat1": "17",
@@ -183,6 +215,8 @@
     },
     {
       "id": "g1785664468885",
+      "firstName": "Magda Ciszek",
+      "lastName": "",
       "name1": "Magda Ciszek",
       "name2": "",
       "seat1": "18",
@@ -191,6 +225,8 @@
     },
     {
       "id": "g1785664472795",
+      "firstName": "Mateusz Dyssy",
+      "lastName": "",
       "name1": "Mateusz Dyssy",
       "name2": "",
       "seat1": "19",
@@ -199,6 +235,8 @@
     },
     {
       "id": "g1785664478041",
+      "firstName": "Sylwia Wrzochal",
+      "lastName": "",
       "name1": "Sylwia Wrzochal",
       "name2": "",
       "seat1": "20",
@@ -207,6 +245,8 @@
     },
     {
       "id": "g1785664482065",
+      "firstName": "Janusz Białas",
+      "lastName": "",
       "name1": "Janusz Białas",
       "name2": "",
       "seat1": "21",
@@ -215,6 +255,8 @@
     },
     {
       "id": "g1785664485872",
+      "firstName": "Dorota Białas",
+      "lastName": "",
       "name1": "Dorota Białas",
       "name2": "",
       "seat1": "22",
@@ -223,6 +265,8 @@
     },
     {
       "id": "g1785664507331",
+      "firstName": "Weronika Białas",
+      "lastName": "",
       "name1": "Weronika Białas",
       "name2": "",
       "seat1": "23",
@@ -231,6 +275,8 @@
     },
     {
       "id": "g1785664578779",
+      "firstName": "Jan Kurczyński",
+      "lastName": "",
       "name1": "Jan Kurczyński",
       "name2": "",
       "seat1": "24",
@@ -239,6 +285,8 @@
     },
     {
       "id": "g1785664588012",
+      "firstName": "Anita Sielańczyk",
+      "lastName": "",
       "name1": "Anita Sielańczyk",
       "name2": "",
       "seat1": "25",
@@ -247,6 +295,8 @@
     },
     {
       "id": "g1785664592231",
+      "firstName": "Basia Sielańczyk",
+      "lastName": "",
       "name1": "Basia Sielańczyk",
       "name2": "",
       "seat1": "30",
@@ -255,6 +305,8 @@
     },
     {
       "id": "g1785664598285",
+      "firstName": "Bartłomiej Miecznikowski",
+      "lastName": "",
       "name1": "Bartłomiej Miecznikowski",
       "name2": "",
       "seat1": "27",
@@ -263,6 +315,8 @@
     },
     {
       "id": "g1785664603853",
+      "firstName": "Marta Zielińska",
+      "lastName": "",
       "name1": "Marta Zielińska",
       "name2": "",
       "seat1": "28",
@@ -271,6 +325,8 @@
     },
     {
       "id": "g1785664609083",
+      "firstName": "Dawid Lewicki",
+      "lastName": "",
       "name1": "Dawid Lewicki",
       "name2": "",
       "seat1": "29",
@@ -279,6 +335,8 @@
     },
     {
       "id": "g1785664616538",
+      "firstName": "Haytham Ghanem",
+      "lastName": "",
       "name1": "Haytham Ghanem",
       "name2": "",
       "seat1": "26",
@@ -287,6 +345,8 @@
     },
     {
       "id": "g1785664625369",
+      "firstName": "Patrycja Sołtysik",
+      "lastName": "",
       "name1": "Patrycja Sołtysik",
       "name2": "",
       "seat1": "1",
@@ -295,6 +355,8 @@
     },
     {
       "id": "g1785664629567",
+      "firstName": "Damian Sołtysik",
+      "lastName": "",
       "name1": "Damian Sołtysik",
       "name2": "",
       "seat1": "2",
@@ -303,6 +365,8 @@
     },
     {
       "id": "g1785668607854",
+      "firstName": "Anna Forma",
+      "lastName": "",
       "name1": "Anna Forma",
       "name2": "",
       "seat1": "3",

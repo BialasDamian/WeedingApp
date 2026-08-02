@@ -2629,37 +2629,106 @@ function renderGuestMenu(){
 function renderGuestNeighbors(g){
   const wrap=document.getElementById('g-neighbors');if(!wrap)return;
   wrap.innerHTML='';
-  const my=[g.seat1,g.seat2].filter(Boolean);const nids=new Set();
-  const gapVal=(STATE.settings.table.gap||48);
-  my.forEach(s=>{
-    const myPos=CURRENT_LAYOUT.posMap[s];if(!myPos)return;
-    SEAT_IDS.forEach(otherId=>{
-      if(otherId===s||my.includes(otherId))return;
-      const otherPos=CURRENT_LAYOUT.posMap[otherId];if(!otherPos)return;
-      const dx=myPos.x-otherPos.x,dy=myPos.y-otherPos.y;
-      if(Math.sqrt(dx*dx+dy*dy)<gapVal*2.8)nids.add(otherId);
-    });
-  });
-  if(!nids.size){const d=document.createElement('div');d.style.cssText='color:rgba(255,248,238,0.28);font-size:0.83rem;font-style:italic';d.textContent='Brak bliskich sąsiadów.';wrap.appendChild(d);return;}
-  nids.forEach(nid=>{
-    const name=getNameForSeat(nid, true)||'wolne miejsce';
-    const myPos = my[0] ? CURRENT_LAYOUT.posMap[my[0]] : null;
-    const otherPos = CURRENT_LAYOUT.posMap[nid];
-    let relPos = 'obok';
-    if (myPos && otherPos) {
-      if (myPos.isH === otherPos.isH && myPos.dir !== otherPos.dir) {
-        relPos = 'naprzeciwko';
-      } else if (myPos.isH !== otherPos.isH && (Math.abs(myPos.x - otherPos.x) > 40 || Math.abs(myPos.y - otherPos.y) > 40)) {
-        relPos = 'naprzeciwko';
+
+  const mySeats = [g.seat1, g.seat2].filter(Boolean);
+  if (!mySeats.length || !CURRENT_LAYOUT || !CURRENT_LAYOUT.posMap) {
+    wrap.innerHTML = '<div style="color:wheat;font-size:0.83rem;font-style:italic">Brak przydzielonego miejsca.</div>';
+    return;
+  }
+
+  const primarySeat = mySeats[0];
+  const myPos = CURRENT_LAYOUT.posMap[primarySeat];
+  if (!myPos) {
+    wrap.innerHTML = '<div style="color:wheat;font-size:0.83rem;font-style:italic">Brak przydzielonego miejsca.</div>';
+    return;
+  }
+
+  const allSeats = (CURRENT_LAYOUT.seats || []).filter(s => s.id && !mySeats.includes(s.id));
+
+  const sameSideSeats = [];
+  const oppositeSideSeats = [];
+
+  allSeats.forEach(s => {
+    const sPos = CURRENT_LAYOUT.posMap[s.id];
+    if (!sPos) return;
+
+    if (myPos.isH === sPos.isH && myPos.dir === sPos.dir) {
+      const dist = Math.abs((myPos.isH ? myPos.x : myPos.y) - (myPos.isH ? sPos.x : sPos.y));
+      sameSideSeats.push({ id: s.id, pos: sPos, dist });
+    } else if (myPos.isH === sPos.isH && myPos.dir !== sPos.dir) {
+      const alignDist = Math.abs((myPos.isH ? myPos.x : myPos.y) - (myPos.isH ? sPos.x : sPos.y));
+      oppositeSideSeats.push({ id: s.id, pos: sPos, dist: alignDist });
+    } else {
+      const dx = myPos.x - sPos.x;
+      const dy = myPos.y - sPos.y;
+      const totalDist = Math.sqrt(dx * dx + dy * dy);
+      if (totalDist < 250) {
+        oppositeSideSeats.push({ id: s.id, pos: sPos, dist: totalDist });
       }
     }
-    const row=document.createElement('div');row.className='neighbor-row';
-    const badge=document.createElement('div');badge.className='neighbor-seat-badge';badge.textContent=isThrone(nid)?'♛':getSeatNumber(nid);
-    const info=document.createElement('div');
-    const nm=document.createElement('div');nm.className='neighbor-name';nm.textContent=name;
-    const dr=document.createElement('div');dr.style.cssText='font-size:0.72rem;color:wheat';dr.textContent=`${relPos} · Krzesło ${getSeatNumber(nid)}`;
-    info.appendChild(nm);info.appendChild(dr);row.appendChild(badge);row.appendChild(info);wrap.appendChild(row);
   });
+
+  sameSideSeats.sort((a, b) => a.dist - b.dist);
+  const obokList = sameSideSeats.slice(0, 2);
+
+  oppositeSideSeats.sort((a, b) => a.dist - b.dist);
+  const maxOppositeCount = oppositeSideSeats.length >= 3 ? 3 : 2;
+  const naprzeciwList = oppositeSideSeats.slice(0, maxOppositeCount);
+
+  naprzeciwList.sort((a, b) => {
+    const aCoord = myPos.isH ? a.pos.x : a.pos.y;
+    const bCoord = myPos.isH ? b.pos.x : b.pos.y;
+    return aCoord - bCoord;
+  });
+
+  function createSection(title, items) {
+    const secDiv = document.createElement('div');
+    secDiv.style.cssText = 'margin-bottom:0.8rem';
+    
+    const headDiv = document.createElement('div');
+    headDiv.style.cssText = 'font-weight:bold;color:gold;font-size:0.83rem;margin-bottom:0.4rem;display:flex;align-items:center;gap:0.3rem';
+    headDiv.innerHTML = `<span>${title}</span>`;
+    secDiv.appendChild(headDiv);
+
+    if (items.length === 0) {
+      const emptyDiv = document.createElement('div');
+      emptyDiv.style.cssText = 'color:wheat;font-size:0.78rem;font-style:italic;padding-left:0.4rem';
+      emptyDiv.textContent = 'Brak / wolne miejsce';
+      secDiv.appendChild(emptyDiv);
+    } else {
+      items.forEach(item => {
+        const nid = item.id;
+        const name = getNameForSeat(nid, true) || 'wolne miejsce';
+        const row = document.createElement('div');
+        row.className = 'neighbor-row';
+        row.style.cssText = 'display:flex;align-items:center;gap:0.6rem;padding:0.35rem 0;border-bottom:1px solid rgba(201,168,76,0.12)';
+        
+        const badge = document.createElement('div');
+        badge.className = 'neighbor-seat-badge';
+        badge.textContent = isThrone(nid) ? '♛' : getSeatNumber(nid);
+        
+        const info = document.createElement('div');
+        const nm = document.createElement('div');
+        nm.className = 'neighbor-name';
+        nm.style.cssText = 'font-size:0.88rem;color:wheat;font-weight:500';
+        nm.textContent = name;
+        
+        const dr = document.createElement('div');
+        dr.style.cssText = 'font-size:0.72rem;color:gold;opacity:0.85';
+        dr.textContent = `Krzesło ${getSeatNumber(nid)}`;
+        
+        info.appendChild(nm);
+        info.appendChild(dr);
+        row.appendChild(badge);
+        row.appendChild(info);
+        secDiv.appendChild(row);
+      });
+    }
+    wrap.appendChild(secDiv);
+  }
+
+  createSection('👥 Obok Ciebie przy stole (2 osoby):', obokList);
+  createSection(`👀 Naprzeciwko po drugiej stronie stołu (${naprzeciwList.length} ${naprzeciwList.length === 3 ? 'osoby' : 'osoby'}):`, naprzeciwList);
 }
 
 // ═══════════════════════════════════════════════════════════

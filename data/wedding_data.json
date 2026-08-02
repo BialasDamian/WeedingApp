@@ -47,7 +47,6 @@
       "throneEdge": "auto",
       "customThrones": {
         "1": "T1",
-        "3": true,
         "T2": "T1",
         "T1": "T2"
       }
@@ -68,14 +67,6 @@
       "name1": "Pani Młoda",
       "name2": "",
       "seat1": "T1",
-      "seat2": "",
-      "code": "G-005"
-    },
-    {
-      "id": "g1785664284089",
-      "name1": "Anna Forma",
-      "name2": "",
-      "seat1": "3",
       "seat2": "",
       "code": "G-005"
     },
@@ -308,6 +299,14 @@
       "name1": "Damian Sołtysik",
       "name2": "",
       "seat1": "2",
+      "seat2": "",
+      "code": "G-032"
+    },
+    {
+      "id": "g1785668607854",
+      "name1": "Anna Forma",
+      "name2": "",
+      "seat1": "3",
       "seat2": "",
       "code": "G-032"
     }

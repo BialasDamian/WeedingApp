@@ -589,19 +589,9 @@
             "https://drive.google.com/file/d/1tOIM6DAq0KPR7CrPR0NYD3EWRrEgfSKY/view?usp=drivesdk"
           ],
           "updatedAt": 1785698707116
-        },
-        "m6": {
-          "status": "completed",
-          "files": [],
-          "updatedAt": 1785698763884
-        },
-        "m9": {
-          "status": "completed",
-          "files": [],
-          "updatedAt": 1785698763902
         }
       },
-      "completedCount": 5
+      "completedCount": 4
     }
   },
   "firstWinner": null

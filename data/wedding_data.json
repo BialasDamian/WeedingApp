@@ -580,9 +580,16 @@
             "https://drive.google.com/file/d/1317E1sS9p2q9MyDT0Mg2UDcP7qtBXvVx/view?usp=drivesdk"
           ],
           "updatedAt": 1785695591675
+        },
+        "m3": {
+          "status": "completed",
+          "files": [
+            "https://drive.google.com/file/d/1rv7D9baGxYQbIeeP1KK3d1Sz6NSsQfv6/view?usp=drivesdk"
+          ],
+          "updatedAt": 1785695646605
         }
       },
-      "completedCount": 1
+      "completedCount": 2
     }
   },
   "firstWinner": null

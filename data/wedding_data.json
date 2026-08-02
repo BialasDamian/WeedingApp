@@ -558,8 +558,8 @@
     },
     {
       "id": "m10",
-      "title": "Napisz przy której piosence tańczyło Ci się najlepiej!",
-      "type": "zdjecie",
+      "title": "Wideo-Wspomnienie - Nagraj krótki, najciekawszy fragment weselnej zabawy.",
+      "type": "wideo",
       "targetCount": 1
     }
   ],

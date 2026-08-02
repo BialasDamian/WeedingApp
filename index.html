@@ -740,8 +740,21 @@ button:not(.btn-primary):not(.btn-secondary):hover {
         </div>
       </div>
       <div style="width:100%;margin-bottom:1rem;background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:0.8rem 1rem">
-        <div style="font-weight:bold;color:gold;font-size:0.85rem;margin-bottom:0.4rem">✍️ Treść instrukcji na zaproszeniach QR:</div>
-        <input class="login-input" type="text" id="qr-footer-input" maxlength="160" style="text-align:left;width:100%;margin-bottom:0" placeholder="Zeskanuj kod QR aparatem, poznaj szczegóły wydarzenia i weź udział w konkursie weselnym" onchange="saveQRFooterText(this.value)">
+        <div style="font-weight:bold;color:gold;font-size:0.88rem;margin-bottom:0.6rem">⚙️ Konfiguracja nagłówka i tekstu zaproszeń QR:</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.8rem;margin-bottom:0.6rem">
+          <div>
+            <div style="font-size:0.78rem;color:wheat;margin-bottom:0.3rem">💍 Imiona Pary Młodej (nagłówek):</div>
+            <input class="login-input" type="text" id="qr-names-input" style="text-align:left;width:100%" placeholder="Aleksandra & Damian" onchange="saveQRNamesText(this.value)">
+          </div>
+          <div>
+            <div style="font-size:0.78rem;color:wheat;margin-bottom:0.3rem">📅 Data wesela (stopka):</div>
+            <input class="login-input" type="text" id="qr-date-input" style="text-align:left;width:100%" placeholder="11.09.2026" onchange="saveQRDateText(this.value)">
+          </div>
+        </div>
+        <div>
+          <div style="font-size:0.78rem;color:wheat;margin-bottom:0.3rem">✍️ Treść instrukcji na zaproszeniach QR:</div>
+          <input class="login-input" type="text" id="qr-footer-input" maxlength="160" style="text-align:left;width:100%;margin-bottom:0" placeholder="Zeskanuj kod QR aparatem, poznaj szczegóły wydarzenia i weź udział w konkursie weselnym" onchange="saveQRFooterText(this.value)">
+        </div>
       </div>
       <div id="zip-progress-bar" style="display:none;background:rgba(212,175,55,0.12);border:1px solid gold;border-radius:8px;padding:0.8rem 1rem;margin-bottom:1rem;text-align:center;color:gold;font-size:0.9rem;font-weight:bold"></div>
       <div class="qr-grid" id="qr-grid"></div>
@@ -868,8 +881,8 @@ button:not(.btn-primary):not(.btn-secondary):hover {
         <div style="margin-bottom:0.8rem">
           <button type="button" class="btn-secondary" style="padding:0.4rem 0.8rem;font-size:0.78rem;width:auto;background:rgba(212,175,55,0.15);border:1px solid gold;color:gold" onclick="swapThrones()">↔ Zamień miejscami Pana i Panią Młodą (Szybka Zamiana)</button>
         </div>
-        <div><label class="settings-label">Aleksandra & Damian</label><input class="settings-input" id="s-date" placeholder="np. 14 Czerwca 2025"></div>
-        <div><label class="settings-label">11.09.2026</label><input class="settings-input" id="s-venue" placeholder="np. Pałac Rozalin"></div>
+        <div><label class="settings-label">Data wesela</label><input class="settings-input" id="s-date" placeholder="np. 14 Czerwca 2025"></div>
+        <div><label class="settings-label">Miejsce wesela</label><input class="settings-input" id="s-venue" placeholder="np. Pałac Rozalin"></div>
         <div><label class="settings-label">Nowe hasło admina</label><input class="settings-input" type="password" id="s-pass" placeholder="Zostaw puste, by nie zmieniać"></div>
         <div style="border-top:1px solid var(--border);padding-top:1rem">
           <label class="settings-label">Google Drive — publiczny URL pliku JSON</label>
@@ -1248,7 +1261,7 @@ let CURRENT_LAYOUT=null;
 //  STATE
 // ═══════════════════════════════════════════════════════════
 const DEFAULT_STATE={
-  settings:{names:'Pan Młody & Pani Młoda',throne1:'Pan Młody',throne2:'Pani Młoda',date:'11.09.2026',venue:'Sala Weselna',passHash:'',driveUrl:'',
+  settings:{names:'Aleksandra & Damian',throne1:'Pan Młody',throne2:'Pani Młoda',date:'11.09.2026',venue:'Sala Weselna',passHash:'',driveUrl:'',
     table:{shape:'I',flipH:false,flipV:false,tw:60,gap:48,dist:18,
       edges:{i_top:0,i_bottom:2,i_left:17,i_right:17,u_top_out:0,u_top_in:2,u_l_out:10,u_l_in:8,u_l_bot:2,u_r_out:10,u_r_in:8,u_r_bot:2,l_top:0,l_l:12,l_r_in:8,l_t_in:6,l_b:10,l_right:2,l_v_bot:0,t_top_out:0,t_t_l:4,t_t_r:4,t_s_l:10,t_s_r:10,t_s_b:2,t_left_end:1,t_right_end:1}
     }
@@ -1850,9 +1863,9 @@ function show(id){
   if(el) el.classList.add('active');
   if(id==='screen-landing'){
     const t = document.getElementById('l-title');
-    if(t && STATE && STATE.settings) t.innerHTML='<em>'+escHtml(STATE.settings.names || 'Aleksandra & Damian')+'</em>';
+    if(t && STATE && STATE.settings) t.innerHTML='<em>'+escHtml(STATE.settings.names || 'Para Młoda')+'</em>';
     const d = document.getElementById('l-date');
-    if(d && STATE && STATE.settings) d.textContent=sanitizeText(STATE.settings.date || '11.09.2026');
+    if(d && STATE && STATE.settings) d.textContent=sanitizeText(STATE.settings.date || 'Data Wesela');
   }
 }
 function switchTab(tabId,btn){
@@ -2319,6 +2332,26 @@ function renderMenuAdmin(){
 function addMenuItem(){if(!STATE.menu)STATE.menu=[];STATE.menu.push({category:'Danie główne',name:''});renderMenuAdmin();}
 function removeMenuItem(i){STATE.menu.splice(i,1);renderMenuAdmin();saveLocal();}
 
+function saveQRNamesText(val) {
+  if (!STATE.settings) STATE.settings = {};
+  STATE.settings.names = (val || '').trim() || 'Aleksandra & Damian';
+  const elNames = document.getElementById('s-names');
+  if (elNames) elNames.value = STATE.settings.names;
+  const lTitle = document.getElementById('l-title');
+  if (lTitle) lTitle.innerHTML = `<em>${escHtml(STATE.settings.names)}</em>`;
+  saveLocal();
+}
+
+function saveQRDateText(val) {
+  if (!STATE.settings) STATE.settings = {};
+  STATE.settings.date = (val || '').trim() || '11.09.2026';
+  const elDate = document.getElementById('s-date');
+  if (elDate) elDate.value = STATE.settings.date;
+  const lDate = document.getElementById('l-date');
+  if (lDate) lDate.textContent = STATE.settings.date;
+  saveLocal();
+}
+
 function saveQRFooterText(val) {
   if (!STATE.settings) STATE.settings = {};
   STATE.settings.qrFooterText = (val || '').trim();
@@ -2328,6 +2361,20 @@ function saveQRFooterText(val) {
 function renderQRGrid(){
   const grid=document.getElementById('qr-grid');if(!grid)return;
   grid.innerHTML='';
+
+  const nInput = document.getElementById('qr-names-input');
+  if (nInput) {
+    let curNames = (STATE.settings && STATE.settings.names) ? STATE.settings.names : 'Aleksandra & Damian';
+    if (!curNames || curNames === 'Pan Młody & Pani Młoda' || curNames === 'Para Młoda') curNames = 'Aleksandra & Damian';
+    nInput.value = curNames;
+  }
+
+  const dInput = document.getElementById('qr-date-input');
+  if (dInput) {
+    let curDate = (STATE.settings && STATE.settings.date) ? STATE.settings.date : '11.09.2026';
+    if (!curDate || curDate === 'Data Wesela') curDate = '11.09.2026';
+    dInput.value = curDate;
+  }
 
   const fInput = document.getElementById('qr-footer-input');
   if (fInput) {
@@ -2400,7 +2447,11 @@ async function createInvitationCanvas(g) {
   ctx.textAlign = 'center';
   ctx.fillText('✦  ✦  ✦', width / 2, 75);
 
-  const weddingTitle = (STATE.settings && STATE.settings.names) ? STATE.settings.names : 'Aleksandra & Damian';
+  let weddingTitle = (STATE.settings && STATE.settings.names) ? STATE.settings.names : 'Aleksandra & Damian';
+  if (!weddingTitle || weddingTitle === 'Pan Młody & Pani Młoda' || weddingTitle === 'Para Młoda') {
+    weddingTitle = 'Aleksandra & Damian';
+  }
+
   ctx.font = 'italic 46px "Cormorant Garamond", Georgia, serif';
   ctx.fillStyle = isTransparent ? '#3d2817' : '#f5deb3';
   ctx.fillText(weddingTitle, width / 2, 135);
@@ -2521,7 +2572,10 @@ async function createInvitationCanvas(g) {
     ctx.fillText(line, width / 2, startTextY + (i * lineH));
   });
 
-  const dateStr = (STATE.settings && STATE.settings.date) ? STATE.settings.date.trim() : '';
+  let dateStr = (STATE.settings && STATE.settings.date) ? STATE.settings.date.trim() : '11.09.2026';
+  if (!dateStr || dateStr === 'Data Wesela') {
+    dateStr = '11.09.2026';
+  }
   if (dateStr) {
     const footTxt = `•   ${dateStr.toUpperCase()}   •`;
     ctx.font = 'italic 17px "Cormorant Garamond", Georgia, serif';

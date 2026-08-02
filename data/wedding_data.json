@@ -515,6 +515,12 @@
       "targetCount": 1
     },
     {
+      "id": "m3",
+      "title": "Uchwyć najpiękniejszy lub najbardziej szalony moment w tańcu.",
+      "type": "wideo",
+      "targetCount": 1
+    },
+    {
       "id": "m4",
       "title": "Zrób wspólne selfie z Parą Młodą (2 zdjęcia)",
       "type": "zdjecie",
@@ -530,12 +536,6 @@
       "id": "m6",
       "title": "Życzenia Prosto z Serca - Nagraj krótkie wideo z radą lub życzeniami na nową drogę życia dla Pary Młodej",
       "type": "wideo",
-      "targetCount": 1
-    },
-    {
-      "id": "m7",
-      "title": "Opisz w 3 zdaniach klimat dzisiejszego wieczoru.",
-      "type": "tekst",
       "targetCount": 1
     },
     {

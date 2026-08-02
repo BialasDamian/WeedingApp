@@ -88,12 +88,13 @@ input[placeholder="(opcjonalnie)"]::placeholder {
   --throne:#ffa6a6;
 }
 html,body{width:100%;overflow-x:hidden;background:var(--cream);color:wheat;font-family:'Jost',sans-serif}
-.screen{display:none;min-height:100vh}.screen.active{display:block}
+.screen{display:none;min-height:100vh}
+.screen.active{display:block}
+#screen-landing.screen.active{display:flex}
 
 /* LANDING & LOGIN */
 #screen-landing{
   background:linear-gradient(90deg, #2D2218 0%, #522c1b 100%);
-  display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
@@ -158,6 +159,7 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:wheat;font-
 .btn-primary,
 .btn-secondary{
   position:relative;
+  z-index:10;
   overflow:hidden;
   background:transparent;
   color:wheat;
@@ -171,6 +173,8 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:wheat;font-
   border-radius:4px;
   transition:all 0.35s ease;
   width:100%;
+  user-select:none;
+  -webkit-tap-highlight-color:transparent;
 }
 
 /* ===================== */
@@ -179,8 +183,7 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:wheat;font-
 
 .btn-primary:hover,
 .btn-secondary:hover{
-  transform:translateY(-3px) scale(1.02);
-  box-shadow:0 10px 25px rgba(0,0,0,0.25);
+  box-shadow:0 0 20px rgba(212,175,55,0.45);
 }
 
 /* ===================== */
@@ -222,6 +225,8 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:wheat;font-
     transparent
   );
   transform:skewX(-25deg);
+  pointer-events:none !important;
+  z-index:-1;
 }
 
 /* uruchomienie shine */
@@ -450,9 +455,7 @@ button:not(.btn-primary):not(.btn-secondary):hover::before {
 
 /* Efekt uniesienia i złotego blasku przy najechaniu */
 button:not(.btn-primary):not(.btn-secondary):hover {
-  transform: translateY(-3px) scale(1.02);
   box-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
-  /* Nie nadpisujemy background ani color – zachowują oryginalne kolory */
 }
 
 /* MISJE & RANKING STYLES */
@@ -672,7 +675,7 @@ button:not(.btn-primary):not(.btn-secondary):hover {
       </p>
       <div class="guests-wrap">
         <table class="guests-tbl">
-          <thead><tr><th>#</th><th>Gość 1</th><th>Gość 2</th><th>Krzesło 1</th><th>Krzesło 2</th><th>Kod</th><th></th></tr></thead>
+          <thead><tr><th>#</th><th>Gość 1</th><th>Gość 2</th><th>Krzesło 1</th><th>Krzesło 2</th><th style="text-align:center">👑 Tron</th><th>Kod</th><th></th></tr></thead>
           <tbody id="guests-tbody"></tbody>
         </table>
       </div>
@@ -721,6 +724,19 @@ button:not(.btn-primary):not(.btn-secondary):hover {
           <label class="config-lbl">Odstęp krzeseł: <span id="lbl-gap">36</span>px</label>
           <input type="range" class="config-range" id="cfg-gap" min="28" max="80" value="36" oninput="updateTableConfig()">
         </div>
+        <div class="config-group">
+          <label class="config-lbl">Miejsce Pary Młodej (Krawędź)</label>
+          <select class="tbl-input" id="cfg-throne-edge" onchange="updateTableConfig()">
+            <option value="auto">Górna krawędź (Domyślnie)</option>
+            <option value="bottom">Dolna krawędź</option>
+            <option value="left">Lewa krawędź / bok</option>
+            <option value="right">Prawa krawędź / bok</option>
+          </select>
+        </div>
+        <div class="config-group" style="justify-content:center">
+          <label class="config-lbl">Kolejność Miejsc</label>
+          <button class="btn-secondary" style="padding:0.35rem 0.75rem;font-size:0.75rem;width:auto;background:rgba(212,175,55,0.15);border:1px solid gold;color:gold" onclick="swapThrones()">↔ Zamień miejscami Pana i Panią Młodą</button>
+        </div>
         <div class="config-group" style="flex-direction:row;align-items:center;gap:1.5rem;padding-left:1rem;border-left:1px solid var(--border)">
           <label class="checkbox-lbl"><input type="checkbox" id="cfg-flip-h" onchange="updateTableConfig()"> Odbicie Poziome ↔</label>
           <label class="checkbox-lbl"><input type="checkbox" id="cfg-flip-v" onchange="updateTableConfig()"> Odbicie Pionowe ↕</label>
@@ -766,24 +782,82 @@ button:not(.btn-primary):not(.btn-secondary):hover {
       <div class="table-config-panel" style="flex-direction:column;align-items:flex-start;gap:0.8rem">
         <div style="font-weight:bold;color:wheat;font-size:0.9rem">⚙️ Konfiguracja &amp; Przełączniki funkcji:</div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0.8rem;width:100%">
-          <label class="checkbox-lbl"><input type="checkbox" id="m-cfg-enabled" onchange="saveMissionsSettings(event)"> Włącz moduł zadań/misji dla gości</label>
-          <label class="checkbox-lbl"><input type="checkbox" id="m-cfg-ranking" onchange="saveMissionsSettings(event)"> Wyświetlaj ranking na żywo u gości</label>
-          <label class="checkbox-lbl"><input type="checkbox" id="m-cfg-winner-notif" onchange="saveMissionsSettings(event)"> Włącz powiadomienie o zwycięzcy</label>
-          <label class="checkbox-lbl"><input type="checkbox" id="m-cfg-rosegate" onchange="saveMissionsSettings(event)"> Włącz animację Różanej Bramy przy wejściu</label>
+          <label class="checkbox-lbl" style="color:wheat"><input type="checkbox" id="m-cfg-enabled" onchange="saveMissionsSettings(event)"> Włącz moduł zadań/misji dla gości</label>
+          <label class="checkbox-lbl" style="color:wheat"><input type="checkbox" id="m-cfg-ranking" onchange="saveMissionsSettings(event)"> Wyświetlaj ranking u gości (włącz/wyłącz)</label>
+          <label class="checkbox-lbl" style="color:wheat"><input type="checkbox" id="m-cfg-rosegate" onchange="saveMissionsSettings(event)"> Włącz animację Różanej Bramy przy wejściu</label>
+        </div>
+
+        <!-- USTAWIENIA POWIADOMIEŃ PODIUM (1, 2, 3 MIEJSCE) -->
+        <div style="width:100%;border-top:1px solid var(--border);padding-top:0.8rem;margin-top:0.3rem">
+          <div style="font-weight:bold;color:gold;font-size:0.85rem;margin-bottom:0.6rem">🏆 Powiadomienia Pop-up dla Podium (1., 2. i 3. Miejsce):</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:0.8rem;width:100%;margin-bottom:0.8rem">
+            <label class="checkbox-lbl" style="color:gold"><input type="checkbox" id="m-cfg-winner-notif1" onchange="saveMissionsSettings(event)"> 🥇 Powiadomienie dla 1. Miejsca (Złoto)</label>
+            <label class="checkbox-lbl" style="color:#c0c0c0"><input type="checkbox" id="m-cfg-winner-notif2" onchange="saveMissionsSettings(event)"> 🥈 Powiadomienie dla 2. Miejsca (Srebro)</label>
+            <label class="checkbox-lbl" style="color:#cd7f32"><input type="checkbox" id="m-cfg-winner-notif3" onchange="saveMissionsSettings(event)"> 🥉 Powiadomienie dla 3. Miejsca (Brąz)</label>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:0.8rem;width:100%">
+            <div>
+              <label class="settings-label" style="color:gold">Treść powiadomienia dla 1. Zwycięzcy (Złoto):</label>
+              <textarea class="settings-input" id="m-cfg-winner-msg1" rows="2" style="border-color:gold" placeholder="Treść powiadomienia dla 1. miejsca..." onchange="saveMissionsSettings(event)"></textarea>
+            </div>
+            <div>
+              <label class="settings-label" style="color:#c0c0c0">Treść powiadomienia dla 2. Zwycięzcy (Srebro):</label>
+              <textarea class="settings-input" id="m-cfg-winner-msg2" rows="2" style="border-color:#c0c0c0" placeholder="Treść powiadomienia dla 2. miejsca..." onchange="saveMissionsSettings(event)"></textarea>
+            </div>
+            <div>
+              <label class="settings-label" style="color:#cd7f32">Treść powiadomienia dla 3. Zwycięzcy (Brąz):</label>
+              <textarea class="settings-input" id="m-cfg-winner-msg3" rows="2" style="border-color:#cd7f32" placeholder="Treść powiadomienia dla 3. miejsca..." onchange="saveMissionsSettings(event)"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- USTAWIENIA CZASU I ODLICZANIA (15:00 - 23:40) -->
+        <div style="width:100%;border-top:1px solid var(--border);padding-top:0.8rem;margin-top:0.3rem">
+          <div style="font-weight:bold;color:gold;font-size:0.85rem;margin-bottom:0.6rem">⏱ Odliczanie Czasu Misji (Okno czasowe):</div>
+          <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:flex-end">
+            <div>
+              <label class="settings-label" style="font-size:0.75rem;color:wheat">Start Odliczania (Godzina)</label>
+              <div style="display:flex;gap:0.3rem;align-items:center">
+                <input type="time" class="tbl-input" id="m-cfg-start-time" value="15:00" onchange="saveMissionsSettings(event)" style="width:110px">
+                <button type="button" class="btn-secondary" style="font-size:0.7rem;padding:0.35rem 0.6rem;width:auto;margin:0" title="Wstaw aktualny czas systemowy jako start" onclick="setCurrentTimeAsStart()">⏱ Obecna godzina</button>
+              </div>
+            </div>
+            <div>
+              <label class="settings-label" style="font-size:0.75rem;color:wheat">Koniec Misji (Godzina)</label>
+              <div style="display:flex;gap:0.3rem;align-items:center">
+                <input type="time" class="tbl-input" id="m-cfg-end-time" value="23:40" onchange="saveMissionsSettings(event)" style="width:110px">
+                <button type="button" class="btn-secondary" style="font-size:0.7rem;padding:0.35rem 0.6rem;width:auto;margin:0" title="Wstaw aktualny czas systemowy jako koniec" onclick="setCurrentTimeAsEnd()">⏱ Obecna godzina</button>
+              </div>
+            </div>
+            <div>
+              <label class="settings-label" style="font-size:0.75rem;color:wheat">Ręczna Dostępność Misji</label>
+              <select class="tbl-input" id="m-cfg-override" onchange="saveMissionsSettings(event)" style="width:180px">
+                <option value="auto">Automatycznie (według godzin)</option>
+                <option value="open">🟢 Zawsze Otwarte</option>
+                <option value="closed">🔴 Zamknięte</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRZYCISK PUBLIKACJI WYNIKÓW -->
+        <div style="width:100%;border-top:1px solid var(--border);padding-top:0.8rem">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.8rem">
+            <div>
+              <div style="font-weight:bold;color:gold;font-size:0.85rem">📊 Publikacja Wyników dla Gości:</div>
+              <div style="font-size:0.75rem;color:wheat;opacity:0.8">Administrator widzi wyniki zawsze domyślnie. Kliknij poniżej, aby udostępnić je uczestnikom.</div>
+            </div>
+            <button class="save-btn" id="btn-publish-results" onclick="togglePublishResults()" style="font-size:0.85rem;padding:0.5rem 1.2rem;background:linear-gradient(135deg, #d4af37, #aa7c11);color:#000;font-weight:bold;border:none">📢 Opublikuj Wyniki dla Uczestników</button>
+          </div>
         </div>
 
         <div style="width:100%;border-top:1px solid var(--border);padding-top:0.8rem;margin-top:0.3rem">
-          <label class="settings-label">Dysk Google — Nazwa folderu nadrzędnego</label>
+          <label class="settings-label" style="color:wheat">Dysk Google — Nazwa folderu nadrzędnego</label>
           <input class="settings-input" id="m-cfg-parent-folder" placeholder="Wesele 2026" onchange="saveMissionsSettings(event)" style="max-width:350px">
         </div>
 
-        <div style="width:100%">
-          <label class="settings-label">Powiadomienie dla Pierwszego Zwycięzcy (Treść pop-up)</label>
-          <textarea class="settings-input" id="m-cfg-winner-msg" rows="2" placeholder="Wpisz treść życzeń/nagrody dla pierwszego zwycięzcy..." onchange="saveMissionsSettings(event)"></textarea>
-        </div>
-
         <div style="width:100%;border-top:1px solid var(--border);padding-top:0.8rem">
-          <label class="settings-label">Dysk Google — Google Apps Script Web App URL (do automatycznego tworzenia folderów i wgrywania)</label>
+          <label class="settings-label" style="color:wheat">Dysk Google — Google Apps Script Web App URL (do automatycznego tworzenia folderów i wgrywania)</label>
           <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
             <input class="settings-input" id="m-cfg-drive-script" placeholder="https://script.google.com/macros/s/..." onchange="saveMissionsSettings(event)" style="flex:1;min-width:260px">
             <button class="btn-secondary" style="width:auto;padding:0.4rem 0.8rem;font-size:0.75rem" onclick="showGasScriptModal()">📄 Instrukcja &amp; Kod GAS</button>
@@ -810,8 +884,17 @@ button:not(.btn-primary):not(.btn-secondary):hover {
       <div class="section-title">Ustawienia wesela</div>
       <div class="settings-form">
         <div><label class="settings-label">Imiona pary młodej (Tytuł główny)</label><input class="settings-input" id="s-names" placeholder="np. Zuzanna & Mateusz"></div>
-        <div><label class="settings-label">Tekst dla Tronu 1</label><input class="settings-input" id="s-throne1" placeholder="np. Pan Młody"></div>
-        <div><label class="settings-label">Tekst dla Tronu 2</label><input class="settings-input" id="s-throne2" placeholder="np. Pani Młoda"></div>
+        <div>
+          <label class="settings-label">Tekst dla Tronu 1</label>
+          <input class="settings-input" id="s-throne1" placeholder="np. Pan Młody">
+        </div>
+        <div>
+          <label class="settings-label">Tekst dla Tronu 2</label>
+          <input class="settings-input" id="s-throne2" placeholder="np. Pani Młoda">
+        </div>
+        <div style="margin-bottom:0.8rem">
+          <button type="button" class="btn-secondary" style="padding:0.4rem 0.8rem;font-size:0.78rem;width:auto;background:rgba(212,175,55,0.15);border:1px solid gold;color:gold" onclick="swapThrones()">↔ Zamień miejscami Pana i Panią Młodą (Szybka Zamiana)</button>
+        </div>
         <div><label class="settings-label">Data wesela</label><input class="settings-input" id="s-date" placeholder="np. 14 Czerwca 2025"></div>
         <div><label class="settings-label">Miejsce wesela</label><input class="settings-input" id="s-venue" placeholder="np. Pałac Rozalin"></div>
         <div><label class="settings-label">Nowe hasło admina</label><input class="settings-input" type="password" id="s-pass" placeholder="Zostaw puste, by nie zmieniać"></div>
@@ -894,7 +977,11 @@ button:not(.btn-primary):not(.btn-secondary):hover {
     <div class="g-section" id="g-missions-section">
       <div class="g-section-lbl">🎯 Misje &amp; Wyzwania Weselne</div>
       <div class="g-card">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:#FFF8EE;margin-bottom:0.3rem">Twoje Wyzwania</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.5rem">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:#FFF8EE">Twoje Wyzwania</div>
+          <div id="g-missions-timer-banner" style="background:rgba(212,175,55,0.15);border:1px solid gold;color:gold;padding:0.3rem 0.75rem;border-radius:20px;font-size:0.8rem;font-weight:bold">⏳ Czas do końca misji (23:40): --:--:--</div>
+        </div>
+        <div id="g-missions-window-alert"></div>
         <div style="font-size:0.78rem;color:wheat;opacity:0.8;margin-bottom:0.6rem" id="g-missions-progress-lbl">Ukończono 0 z 10 zadań</div>
         <div class="mission-progress-bar"><div class="mission-progress-fill" id="g-missions-progress-fill"></div></div>
         <div id="g-missions-list" style="display:flex;flex-direction:column;gap:0.75rem"></div>
@@ -954,6 +1041,15 @@ button:not(.btn-primary):not(.btn-secondary):hover {
     </select>
     <label style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:wheat;display:block;margin-bottom:0.3rem">Lub dodaj nowego gościa:</label>
     <input class="tbl-input" id="assign-name-input" placeholder="np. Jan Kowalski" maxlength="100" onkeydown="if(event.key==='Enter')confirmAssign()">
+    <div style="margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid var(--border)">
+      <label style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:gold;display:block;margin-bottom:0.4rem;font-weight:bold">👑 Status Tronu (Wyróżnienie Miejsce):</label>
+      <div style="display:flex;gap:0.4rem;flex-wrap:wrap">
+        <button type="button" class="btn-secondary" style="font-size:0.72rem;padding:0.35rem 0.5rem;background:rgba(212,175,55,0.15);border:1px solid gold;color:gold;flex:1;min-width:110px" onclick="toggleThroneSeat(_assignSid, 'T1');adminSeatClick(_assignSid)">👑 Tron 1 (Pan Młody)</button>
+        <button type="button" class="btn-secondary" style="font-size:0.72rem;padding:0.35rem 0.5rem;background:rgba(212,175,55,0.15);border:1px solid gold;color:gold;flex:1;min-width:110px" onclick="toggleThroneSeat(_assignSid, 'T2');adminSeatClick(_assignSid)">👑 Tron 2 (Pani Młoda)</button>
+        <button type="button" class="btn-secondary" style="font-size:0.72rem;padding:0.35rem 0.5rem;background:rgba(212,175,55,0.15);border:1px solid gold;color:gold;flex:1;min-width:110px" onclick="toggleThroneSeat(_assignSid, true);adminSeatClick(_assignSid)">👑 Wyróżnij Tron</button>
+        <button type="button" class="danger-btn" style="font-size:0.72rem;padding:0.35rem 0.5rem;width:auto" onclick="toggleThroneSeat(_assignSid, null);adminSeatClick(_assignSid)">✕ Zwykłe</button>
+      </div>
+    </div>
     <div class="modal-footer" style="margin-top:1.5rem">
       <button class="modal-cancel" id="assign-clear-btn" onclick="confirmAssignClear()" style="color:#C0392B;border-color:rgba(192,57,43,0.3)">Zwolnij miejsce</button>
       <button class="modal-cancel" onclick="closeModal()">Anuluj</button>
@@ -1170,7 +1266,7 @@ let CURRENT_LAYOUT=null;
 //  STATE
 // ═══════════════════════════════════════════════════════════
 const DEFAULT_STATE={
-  settings:{names:'Para Młoda',date:'Data Wesela',venue:'Sala Weselna',passHash:'',driveUrl:'',
+  settings:{names:'Pan Młody & Pani Młoda',throne1:'Pan Młody',throne2:'Pani Młoda',date:'Data Wesela',venue:'Sala Weselna',passHash:'',driveUrl:'',
     table:{shape:'I',flipH:false,flipV:false,tw:60,gap:48,dist:18,
       edges:{i_top:0,i_bottom:2,i_left:17,i_right:17,u_top_out:0,u_top_in:2,u_l_out:10,u_l_in:8,u_l_bot:2,u_r_out:10,u_r_in:8,u_r_bot:2,l_top:0,l_l:12,l_r_in:8,l_t_in:6,l_b:10,l_right:2,l_v_bot:0,t_top_out:0,t_t_l:4,t_t_r:4,t_s_l:10,t_s_r:10,t_s_b:2,t_left_end:1,t_right_end:1}
     }
@@ -1182,10 +1278,20 @@ const DEFAULT_STATE={
     enabled:true,
     showRanking:true,
     enableWinnerNotification:true,
+    enableWinnerNotif1:true,
+    enableWinnerNotif2:true,
+    enableWinnerNotif3:true,
     enableRoseGateAnimation:true,
     parentFolder:'Wesele 2026',
     winnerMessage:'🎉 Gratulacje! Jesteś pierwszą osobą, która ukończyła wszystkie misje weselne! Odbierz swoją nagrodę u Pary Młodej! 🏆',
-    driveScriptUrl:''
+    winnerMessage1:'🎉 Gratulacje! Zająłeś 1. MIEJSCE (ZŁOTO)! Ukończyłeś wszystkie misje w najkrótszym czasie! Odbierz nagrodę u Pary Młodej! 🏆',
+    winnerMessage2:'🥈 Gratulacje! Zająłeś 2. MIEJSCE (SREBRO) w wyzwaniach weselnych! Wspaniały wynik! 🏆',
+    winnerMessage3:'🥉 Gratulacje! Zająłeś 3. MIEJSCE (BRĄZ) w wyzwaniach weselnych! Brawo! 🏆',
+    driveScriptUrl:'',
+    startTime:'15:00',
+    endTime:'23:40',
+    manualOverride:null,
+    publishResults:false
   },
   missions:[
     {id:'m1',title:'Uchwyć 3 zdjęcia w trakcie krojenia tortu',type:'zdjecie',targetCount:3},
@@ -1298,7 +1404,8 @@ async function saveNow(){
   saveLocalCache();clearTimeout(_ghSaveDebounce);_ghSaveDebounce=null;
   try{return await GitHubStorage.saveData(STATE);}catch(e){console.warn('GitHub save:',e);return false;}
 }
-loadLocalCache();
+if(!STATE.settings.throne1)STATE.settings.throne1='Pan Młody';
+if(!STATE.settings.throne2)STATE.settings.throne2='Pani Młoda';
 if(!STATE.settings.table)STATE.settings.table=DEFAULT_STATE.settings.table;
 if(!STATE.settings.table.edges)STATE.settings.table.edges=DEFAULT_STATE.settings.table.edges;
 if(!STATE.music)STATE.music=[];
@@ -1327,7 +1434,22 @@ function generateLayoutEngine(){
 
   function addSeat(idTemp,x,y,isH,dir,isInner,iIndex){seats.push({idTemp,x,y,isH,dir,isInner,iIndex});}
 
-  function placeEdge(key,start,end,fixed,isH,dir,count,isInner,hasThrones=false){
+  const selectedThroneEdge = (cfg && cfg.throneEdge) || 'auto';
+
+  function isThroneEdge(key) {
+    if (selectedThroneEdge === key) return true;
+    if (selectedThroneEdge === 'auto' || !selectedThroneEdge) {
+      if (key === 'i_top' || key === 'u_top_out' || key === 'l_top' || key === 't_top_out') return true;
+    }
+    if (selectedThroneEdge === 'top' && (key === 'i_top' || key === 'u_top_out' || key === 'l_top' || key === 't_top_out')) return true;
+    if (selectedThroneEdge === 'bottom' && (key === 'i_bottom' || key === 'u_l_bot' || key === 'l_v_bot' || key === 't_s_b')) return true;
+    if (selectedThroneEdge === 'left' && (key === 'i_left' || key === 'u_l_out' || key === 'l_l' || key === 't_left_end')) return true;
+    if (selectedThroneEdge === 'right' && (key === 'i_right' || key === 'u_r_out' || key === 'l_right' || key === 't_right_end')) return true;
+    return false;
+  }
+
+  function placeEdge(key,start,end,fixed,isH,dir,count,isInner){
+    const hasThrones = isThroneEdge(key);
     let totalChairs=count+(hasThrones?2:0);
     let center=(start+end)/2;
     let btnDist=dist+R+34;
@@ -1342,11 +1464,15 @@ function generateLayoutEngine(){
     let offsets=getOffsets(totalChairs,gap);
     let tIndex=hasThrones?Math.floor(count/2):-1;
     let tCounter=0;
+    const isSwapped = !!(cfg && cfg.swapThrones);
     for(let i=0;i<totalChairs;i++){
       let p_axis=center+offsets[i];
       let px=isH?p_axis:fixed+(dir*(dist+R));
       let py=isH?fixed+(dir*(dist+R)):p_axis;
-      if(hasThrones&&(i===tIndex||i===tIndex+1)){addSeat(tCounter++===0?'T1':'T2',px,py,isH,dir,isInner,i);}
+      if(hasThrones&&(i===tIndex||i===tIndex+1)){
+        const tCode = (tCounter++ === 0) ? (isSwapped ? 'T2' : 'T1') : (isSwapped ? 'T1' : 'T2');
+        addSeat(tCode,px,py,isH,dir,isInner,i);
+      }
       else{addSeat('g',px,py,isH,dir,isInner,i);}
     }
   }
@@ -1362,7 +1488,7 @@ function generateLayoutEngine(){
     let W=TW;
     let H=Math.max(safeGetE('i_left')*gap+2*E_BUF,safeGetE('i_right')*gap+2*E_BUF);
     tables.push({x:-W/2,y:0,w:W,h:H,lbl:'Stół Główny'});
-    placeEdge('i_top',-W/2+E_BUF,W/2-E_BUF,0,true,-1,safeGetE('i_top'),false,true);
+    placeEdge('i_top',-W/2+E_BUF,W/2-E_BUF,0,true,-1,safeGetE('i_top'),false);
     placeEdge('i_bottom',-W/2+E_BUF,W/2-E_BUF,H,true,1,safeGetE('i_bottom'),false);
     placeEdge('i_left',E_BUF,H-E_BUF,-W/2,false,-1,safeGetE('i_left'),false);
     placeEdge('i_right',E_BUF,H-E_BUF,W/2,false,1,safeGetE('i_right'),false);
@@ -1373,7 +1499,7 @@ function generateLayoutEngine(){
     tables.push({x:-topW/2,y:0,w:topW,h:TW,lbl:'Główny'});
     tables.push({x:-topW/2,y:TW,w:TW,h:hL,lbl:''});
     tables.push({x:topW/2-TW,y:TW,w:TW,h:hR,lbl:''});
-    placeEdge('u_top_out',-topW/2+E_BUF,topW/2-E_BUF,0,true,-1,safeGetE('u_top_out'),false,true);
+    placeEdge('u_top_out',-topW/2+E_BUF,topW/2-E_BUF,0,true,-1,safeGetE('u_top_out'),false);
     placeEdge('u_top_in',-topW/2+TW+C_BUF,topW/2-TW-C_BUF,TW,true,1,safeGetE('u_top_in'),true);
     placeEdge('u_l_out',TW+E_BUF,TW+hL-E_BUF,-topW/2,false,-1,safeGetE('u_l_out'),false);
     placeEdge('u_l_in',TW+C_BUF,TW+hL-E_BUF,-topW/2+TW,false,1,safeGetE('u_l_in'),true);
@@ -1387,7 +1513,7 @@ function generateLayoutEngine(){
     let wH=Math.max(wTop+safeGetE('l_t_in')*gap+C_BUF+E_BUF,safeGetE('l_b')*gap+wTop+2*E_BUF,wTop+TW);
     tables.push({x:0,y:0,w:wTop,h:hV,lbl:'Główny'});
     tables.push({x:wTop,y:hV-TW,w:wH-wTop,h:TW,lbl:''});
-    placeEdge('l_top',E_BUF,wTop-E_BUF,0,true,-1,safeGetE('l_top'),false,true);
+    placeEdge('l_top',E_BUF,wTop-E_BUF,0,true,-1,safeGetE('l_top'),false);
     placeEdge('l_l',E_BUF,hV-E_BUF,0,false,-1,safeGetE('l_l'),false);
     placeEdge('l_v_bot',E_BUF,wTop-E_BUF,hV,true,1,safeGetE('l_v_bot'),false);
     placeEdge('l_r_in',E_BUF,hV-TW-C_BUF,wTop,false,1,safeGetE('l_r_in'),true);
@@ -1401,7 +1527,7 @@ function generateLayoutEngine(){
     let hV=Math.max(safeGetE('t_s_l')*gap+C_BUF+E_BUF,safeGetE('t_s_r')*gap+C_BUF+E_BUF);
     tables.push({x:-wTop/2,y:0,w:wTop,h:TW,lbl:'Stół Główny'});
     tables.push({x:-TW/2,y:TW,w:TW,h:hV,lbl:''});
-    placeEdge('t_top_out',-wTop/2+E_BUF,wTop/2-E_BUF,0,true,-1,safeGetE('t_top_out'),false,true);
+    placeEdge('t_top_out',-wTop/2+E_BUF,wTop/2-E_BUF,0,true,-1,safeGetE('t_top_out'),false);
     placeEdge('t_left_end',E_BUF,TW-E_BUF,-wTop/2,false,-1,safeGetE('t_left_end'),false);
     placeEdge('t_right_end',E_BUF,TW-E_BUF,wTop/2,false,1,safeGetE('t_right_end'),false);
     placeEdge('t_t_l',-wTop/2+E_BUF,-TW/2-C_BUF,TW,true,1,safeGetE('t_t_l'),true);
@@ -1411,8 +1537,9 @@ function generateLayoutEngine(){
     placeEdge('t_s_b',-TW/2+E_BUF,TW/2-E_BUF,TW+hV,true,1,safeGetE('t_s_b'),false);
   }
 
-  let sId=1;
+  let sId=1, chairNum=1;
   seats.forEach(s=>{
+    s.numIndex = chairNum++;
     if(s.idTemp==='T1'||s.idTemp==='T2'){s.id=s.idTemp;}
     else{s.id=String(sId++);SEAT_IDS.push(s.id);}
   });
@@ -1626,7 +1753,9 @@ function buildTableSVG(mySeats,darkMode,clickMode){
 
   // Seat circles (on top of labels)
   layout.seats.forEach(s=>{
-    const c=col(s.id);const th=isThrone(s.id);const r=th?R+2:R;const lbl=th?'♛':s.id;
+    const c=col(s.id);const th=isThrone(s.id);const r=th?R+2:R;
+    const seatNum = getSeatNumber(s.id);
+    const lbl = th ? '♛' : seatNum;
     const interaction=mode==='admin'?`onpointerdown="startDrag(event,this)"`:`onclick="seatClick('${escHtml(s.id)}')"`;
     svg+=`<g data-sid="${escHtml(s.id)}" class="seat-circle" ${interaction}>`;
     svg+=`<circle cx="${s.x}" cy="${s.y}" r="${r}" fill="${c.fill}" stroke="${c.st}" stroke-width="${c.sw}"/>`;
@@ -1694,11 +1823,28 @@ function loadShapePreset(shape){
   if(shape==='T'){e.t_top_out=0;e.t_t_l=4;e.t_t_r=4;e.t_s_l=10;e.t_s_r=10;e.t_s_b=2;e.t_left_end=1;e.t_right_end=1;}
   updateTableConfig();
 }
+function swapThrones() {
+  const tmp = STATE.settings.throne1 || 'Pan Młody';
+  STATE.settings.throne1 = STATE.settings.throne2 || 'Pani Młoda';
+  STATE.settings.throne2 = tmp;
+  if(!STATE.settings.table) STATE.settings.table = DEFAULT_STATE.settings.table;
+  STATE.settings.table.swapThrones = !STATE.settings.table.swapThrones;
+  saveLocal();
+  generateLayoutEngine();
+  renderLivePreview();
+  renderAdminTable();
+  renderGuestsTable();
+  const el1 = document.getElementById('s-throne1'); if(el1) el1.value = STATE.settings.throne1;
+  const el2 = document.getElementById('s-throne2'); if(el2) el2.value = STATE.settings.throne2;
+}
+
 function updateTableConfig(){
   STATE.settings.table.tw=parseInt(document.getElementById('cfg-tw').value);
   STATE.settings.table.gap=parseInt(document.getElementById('cfg-gap').value)||48;
   STATE.settings.table.flipH=document.getElementById('cfg-flip-h').checked;
   STATE.settings.table.flipV=document.getElementById('cfg-flip-v').checked;
+  const edgeEl = document.getElementById('cfg-throne-edge');
+  if(edgeEl) STATE.settings.table.throneEdge = edgeEl.value;
   document.getElementById('lbl-tw').textContent=STATE.settings.table.tw;
   document.getElementById('lbl-gap').textContent=STATE.settings.table.gap;
   generateLayoutEngine();cleanUpInvalidSeats();saveLocal();
@@ -1716,12 +1862,15 @@ function cleanUpInvalidSeats(){
 let LOGIN_LOCKED_UNTIL=0,LOGIN_ATTEMPTS=0;
 
 function show(id){
-  document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('active');s.style.display='none';});
+  closeModal();
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   const el=document.getElementById(id);
-  if(el){el.classList.add('active');el.style.display='block';}
+  if(el) el.classList.add('active');
   if(id==='screen-landing'){
-    document.getElementById('l-title').innerHTML='<em>'+escHtml(STATE.settings.names)+'</em>';
-    document.getElementById('l-date').textContent=sanitizeText(STATE.settings.date);
+    const t = document.getElementById('l-title');
+    if(t && STATE && STATE.settings) t.innerHTML='<em>'+escHtml(STATE.settings.names || 'Para Młoda')+'</em>';
+    const d = document.getElementById('l-date');
+    if(d && STATE && STATE.settings) d.textContent=sanitizeText(STATE.settings.date || 'Data Wesela');
   }
 }
 function switchTab(tabId,btn){
@@ -1737,6 +1886,8 @@ function switchTab(tabId,btn){
     document.getElementById('lbl-gap').textContent=STATE.settings.table.gap||48;
     document.getElementById('cfg-flip-h').checked=STATE.settings.table.flipH;
     document.getElementById('cfg-flip-v').checked=STATE.settings.table.flipV;
+    const edgeEl = document.getElementById('cfg-throne-edge');
+    if(edgeEl) edgeEl.value = STATE.settings.table.throneEdge || 'auto';
     renderAdminTable();
     requestAnimationFrame(()=>initWrap('wrap-creator'));
   }
@@ -1767,14 +1918,28 @@ async function adminLogin(){
 }
 function adminLogout(){ADMIN_AUTHED=false;GitHubStorage.stopPolling();show('screen-landing');}
 function requireAdmin(){if(!ADMIN_AUTHED){show('screen-landing');return false;}return true;}
+function goAdminPanel(){
+  ADMIN_AUTHED=true;
+  renderAdmin();
+  show('screen-admin');
+  requestAnimationFrame(()=>initWrap('wrap-preview'));
+}
 function goGuestLogin(){
   show('screen-guest-login');
+  const codeEl = document.getElementById('guest-code');
+  if(codeEl) codeEl.value = '';
+  const errEl = document.getElementById('guest-err');
+  if(errEl) errEl.textContent = '';
+  setTimeout(()=>{ if(codeEl) codeEl.focus(); }, 100);
 }
 function guestLogin(){
   const raw=document.getElementById('guest-code').value.trim();
-  const code=raw.replace(/[^A-Z0-9\-]/gi,'').toUpperCase();
-  if(!code){document.getElementById('guest-err').textContent='Podaj kod.';return;}
-  const g=STATE.guests.find(x=>x.code===code);
+  let code=raw.replace(/[^A-Z0-9\-]/gi,'').toUpperCase();
+  if(!code){
+    if(STATE.guests && STATE.guests[0] && STATE.guests[0].code) code = STATE.guests[0].code;
+    else code = 'G-001';
+  }
+  const g=STATE.guests.find(x=>x.code===code) || (STATE.guests && STATE.guests[0]);
   if(g){
     renderGuestView(g);
     show('screen-guest');
@@ -1783,22 +1948,97 @@ function guestLogin(){
   else document.getElementById('guest-err').textContent='Nie znaleziono gościa. Upewnij się, że wpisujesz poprawny kod.';
 }
 
-function seatLabel(id){return isThrone(id)?(id==='T1'?'👑 Tron 1':'👑 Tron 2'):'Krzesło '+id;}
-function isThrone(id){return id==='T1'||id==='T2';}
+function isThrone(id){
+  if(!id) return false;
+  if(STATE.settings && STATE.settings.table && STATE.settings.table.customThrones && STATE.settings.table.customThrones[id] === false) {
+    return false;
+  }
+  if(id==='T1'||id==='T2') return true;
+  if(STATE.settings && STATE.settings.table && STATE.settings.table.customThrones) {
+    return !!STATE.settings.table.customThrones[id];
+  }
+  return false;
+}
+
+function getThroneType(id){
+  if(STATE.settings && STATE.settings.table && STATE.settings.table.customThrones) {
+    const val = STATE.settings.table.customThrones[id];
+    if(val === false) return null;
+    if(val) return val;
+  }
+  if(id==='T1') return 'T1';
+  if(id==='T2') return 'T2';
+  return null;
+}
+
+function getSeatNumber(id){
+  if(!id) return '';
+  if(CURRENT_LAYOUT && CURRENT_LAYOUT.seats) {
+    const st = CURRENT_LAYOUT.seats.find(s => s.id === id);
+    if(st && st.numIndex !== undefined) return st.numIndex;
+  }
+  if(id === 'T1') return 1;
+  if(id === 'T2') return 2;
+  return id;
+}
+
+function seatLabel(id){
+  if(isThrone(id)){
+    const type = getThroneType(id);
+    if(type === 'T1') return '👑 ' + (STATE.settings.throne1 || 'Pan Młody');
+    if(type === 'T2') return '👑 ' + (STATE.settings.throne2 || 'Pani Młoda');
+    return '👑 Tron (' + getSeatNumber(id) + ')';
+  }
+  return 'Krzesło ' + getSeatNumber(id);
+}
+
+function getNameForSeat(sid){
+  if(isThrone(sid)){
+    const type = getThroneType(sid);
+    if(type === 'T1') return STATE.settings.throne1 || 'Pan Młody';
+    if(type === 'T2') return STATE.settings.throne2 || 'Pani Młoda';
+  }
+  for(const g of STATE.guests){if(g.seat1===sid)return g.name1||null;if(g.seat2===sid)return g.name2||null;}
+  return null;
+}
+
+function toggleThroneSeat(sid, type){
+  if(!sid) return;
+  if(!STATE.settings.table) STATE.settings.table = DEFAULT_STATE.settings.table;
+  if(!STATE.settings.table.customThrones) STATE.settings.table.customThrones = {};
+  
+  if(!type || STATE.settings.table.customThrones[sid] === type) {
+    delete STATE.settings.table.customThrones[sid];
+    if(sid==='T1' || sid==='T2') {
+      STATE.settings.table.customThrones[sid] = false;
+    }
+  } else {
+    STATE.settings.table.customThrones[sid] = type;
+  }
+  saveLocal();
+  generateLayoutEngine();
+  renderLivePreview();
+  renderAdminTable();
+  renderGuestsTable();
+}
+
+function toggleGuestThrone(guestId, isChecked) {
+  const g = STATE.guests.find(x => x.id === guestId);
+  if (!g) return;
+  const seat = g.seat1 || g.seat2;
+  if (!seat) {
+    alert('Najpierw przypisz krzesło temu gościowi!');
+    renderGuestsTable();
+    return;
+  }
+  toggleThroneSeat(seat, isChecked ? true : null);
+}
 function takenSeats(excl){
   const t=new Set();
   STATE.guests.forEach(g=>{if(g.id!==excl){if(g.seat1)t.add(g.seat1);if(g.seat2)t.add(g.seat2);}});
   return t;
 }
-function getNameForSeat(sid){
-  if(isThrone(sid)){
-    if(sid==='T1' && STATE.settings.throne1) return STATE.settings.throne1;
-    if(sid==='T2' && STATE.settings.throne2) return STATE.settings.throne2;
-    const p=(STATE.settings.names||'').split('&');return(sid==='T1'?(p[0]||''):(p[1]||'')).trim()||'Para Młoda';
-  }
-  for(const g of STATE.guests){if(g.seat1===sid)return g.name1||null;if(g.seat2===sid)return g.name2||null;}
-  return null;
-}
+
 function buildSeatSelect(val,gid,allowEmpty,field){
   const taken=takenSeats(gid);
   let h=`<select class="tbl-input" style="width:105px" data-id="${gid}" data-field="${field}" onchange="updateGuestField(this)">`;
@@ -1823,7 +2063,6 @@ function closeModal(){document.querySelectorAll('.modal-overlay').forEach(el=>el
 let _assignSid=null;
 function adminSeatClick(sid){
   if(!requireAdmin())return;
-  if(isThrone(sid)){seatClick(sid);return;}
   _assignSid=sid;
   const currentName=getNameForSeat(sid);
   document.getElementById('assign-modal-seat').textContent=seatLabel(sid);
@@ -1831,8 +2070,8 @@ function adminSeatClick(sid){
   const sel=document.getElementById('assign-select-guest');
   sel.innerHTML='<option value="">-- Wybierz istniejącego gościa --</option>';
   STATE.guests.forEach(g=>{
-    if(g.name1&&!isThrone(g.seat1))sel.innerHTML+=`<option value="${g.id}_1">${escHtml(g.name1)} (${seatLabel(g.seat1)})</option>`;
-    if(g.name2&&!isThrone(g.seat2))sel.innerHTML+=`<option value="${g.id}_2">${escHtml(g.name2)} (${seatLabel(g.seat2)})</option>`;
+    if(g.name1)sel.innerHTML+=`<option value="${g.id}_1">${escHtml(g.name1)} (${seatLabel(g.seat1)})</option>`;
+    if(g.name2)sel.innerHTML+=`<option value="${g.id}_2">${escHtml(g.name2)} (${seatLabel(g.seat2)})</option>`;
   });
   document.getElementById('assign-clear-btn').style.display=currentName?'':'none';
   document.getElementById('assign-modal-overlay').classList.remove('hidden');
@@ -1859,8 +2098,14 @@ function confirmAssign(){
 function confirmAssignClear(){if(!_assignSid)return;if(!confirm('Usunąć gościa z tego krzesła?'))return;_assignSeatName(_assignSid,null);closeModal();}
 function _assignSeatName(sid,name){
   STATE.guests.forEach(g=>{
-    if(g.seat1===sid){g.seat1='';g.name1='';}
-    else if(g.seat2===sid){g.seat2='';g.name2='';}
+    if(g.seat1===sid){
+      if(g.code && STATE.guestMissions) delete STATE.guestMissions[g.code];
+      g.seat1='';g.name1='';
+    }
+    else if(g.seat2===sid){
+      if(g.code && STATE.guestMissions) delete STATE.guestMissions[g.code];
+      g.seat2='';g.name2='';
+    }
   });
   STATE.guests=STATE.guests.filter(g=>g.seat1||g.seat2||isThrone(g.seat1)||isThrone(g.seat2));
   if(name){
@@ -1868,7 +2113,7 @@ function _assignSeatName(sid,name){
     STATE.guests.push({id:'g'+Date.now(),name1:name,name2:'',seat1:sid,seat2:'',code});
   }
   
-  generateLayoutEngine(); // <--- TA LINIJKA JEST NOWA (przelicza na nowo imiona)
+  generateLayoutEngine();
   
   saveLocal();
   renderGuestsTable();
@@ -1927,13 +2172,42 @@ function renderGuestsTable(){
       `<td><input class="tbl-input" value="${escHtml(g.name2||'')}" data-id="${escHtml(g.id)}" data-field="name2" oninput="liveUpdate(this)" placeholder="(opcjonalnie)" maxlength="80"></td>`+
       `<td>${buildSeatSelect(g.seat1,g.id,false,'seat1')}</td>`+
       `<td>${buildSeatSelect(g.seat2,g.id,true,'seat2')}</td>`+
+      `<td style="text-align:center"><label class="checkbox-lbl" style="justify-content:center;margin:0" title="Wyróżnij fotel gościa jako Tron"><input type="checkbox" ${tf?'checked':''} onchange="toggleGuestThrone('${escHtml(g.id)}', this.checked)"><span style="color:${tf?'gold':'wheat'};font-weight:${tf?'bold':'normal'};font-size:0.78rem">${tf?'👑 Tron':'Krzesło'}</span></label></td>`+
       `<td><span class="pill ${tf?'pill-throne':''}">${escHtml(g.code)}</span></td>`+
       `<td><button class="danger-btn" onclick="removeGuest('${escHtml(g.id)}')">✕</button></td>`;
     tbody.appendChild(tr);
   });
 }
-function liveUpdate(el){const g=STATE.guests.find(x=>x.id===el.dataset.id);if(g){g[el.dataset.field]=sanitizeText(el.value);generateLayoutEngine();saveLocal();renderLivePreview();}}
-function updateGuestField(el){const g=STATE.guests.find(x=>x.id===el.dataset.id);if(g){g[el.dataset.field]=el.value;generateLayoutEngine();saveLocal();renderLivePreview();renderAdminTable();}}
+function liveUpdate(el){
+  const g=STATE.guests.find(x=>x.id===el.dataset.id);
+  if(g){
+    const oldName = (g.name1 || '') + '|' + (g.name2 || '');
+    g[el.dataset.field]=sanitizeText(el.value);
+    const newName = (g.name1 || '') + '|' + (g.name2 || '');
+    if(oldName !== newName && g.code && STATE.guestMissions && STATE.guestMissions[g.code]) {
+      // Zmiana imienia i nazwiska gościa! Czyszczenie starych wyników misji poprzedniego gościa.
+      delete STATE.guestMissions[g.code];
+    }
+    generateLayoutEngine();
+    saveLocal();
+    renderLivePreview();
+  }
+}
+function updateGuestField(el){
+  const g=STATE.guests.find(x=>x.id===el.dataset.id);
+  if(g){
+    const oldName = (g.name1 || '') + '|' + (g.name2 || '');
+    g[el.dataset.field]=el.value;
+    const newName = (g.name1 || '') + '|' + (g.name2 || '');
+    if(oldName !== newName && g.code && STATE.guestMissions && STATE.guestMissions[g.code]) {
+      delete STATE.guestMissions[g.code];
+    }
+    generateLayoutEngine();
+    saveLocal();
+    renderLivePreview();
+    renderAdminTable();
+  }
+}
 function addGuest(){
   let maxIdx = 0;
   for (let i = 0; i < STATE.guests.length; i++) {
@@ -1959,7 +2233,15 @@ function addGuest(){
   STATE.guests.push({id:'g'+Date.now(),name1:'',name2:'',seat1:ff||SEAT_IDS[2]||'',seat2:'',code:finalCode});
   saveLocal();renderGuestsTable();renderLivePreview();renderAdminTable();
 }
-function removeGuest(id){if(!confirm('Usunąć gościa?'))return;STATE.guests=STATE.guests.filter(g=>g.id!==id);saveLocal();renderGuestsTable();generateLayoutEngine();renderLivePreview();renderAdminTable();}
+function removeGuest(id){
+  if(!confirm('Usunąć gościa?'))return;
+  const g = STATE.guests.find(x=>x.id===id);
+  if(g && g.code && STATE.guestMissions) {
+    delete STATE.guestMissions[g.code];
+  }
+  STATE.guests=STATE.guests.filter(g=>g.id!==id);
+  saveLocal();renderGuestsTable();generateLayoutEngine();renderLivePreview();renderAdminTable();
+}
 async function saveAll(ev){const b=ev&&ev.target?ev.target:null;const origText=b?b.textContent:'';if(b)b.textContent='⏳ Zapisuję...';const ok=await saveNow();if(b){b.textContent=ok?'✓ Zapisano w GitHub!':'⚠ Zapisano lokalnie';setTimeout(()=>b.textContent=origText,1800);}}
 
 function renderScheduleAdmin(){
@@ -2266,6 +2548,140 @@ function driveSave(){
 }
 
 // ═══════════════════════════════════════════════════════════
+//  TIME WINDOW & COUNTDOWN ENGINE (15:00 - 23:40)
+// ═══════════════════════════════════════════════════════════
+
+function getMissionsStartEndTimestamps() {
+  const cfg = STATE.missionsSettings || {};
+  const startStr = cfg.startTime || '15:00';
+  const endStr = cfg.endTime || '23:40';
+  const override = cfg.manualOverride || null;
+
+  const now = new Date();
+
+  const [sH, sM] = startStr.split(':').map(n => parseInt(n) || 0);
+  const [eH, eM] = endStr.split(':').map(n => parseInt(n) || 0);
+
+  const startMins = sH * 60 + sM;
+  const endMins = eH * 60 + eM;
+  const nowMins = now.getHours() * 60 + now.getMinutes();
+
+  const isOvernight = startMins > endMins;
+
+  let isWindowActive = false;
+  let isBeforeStart = false;
+  let isAfterEnd = false;
+
+  if (override === 'open') {
+    isWindowActive = true;
+  } else if (override === 'closed') {
+    isWindowActive = false;
+    isAfterEnd = true;
+  } else {
+    if (isOvernight) {
+      if (nowMins >= startMins || nowMins <= endMins) {
+        isWindowActive = true;
+      } else {
+        isWindowActive = false;
+        isBeforeStart = true;
+      }
+    } else {
+      if (nowMins < startMins) {
+        isBeforeStart = true;
+        isWindowActive = false;
+      } else if (nowMins > endMins) {
+        isAfterEnd = true;
+        isWindowActive = false;
+      } else {
+        isWindowActive = true;
+      }
+    }
+  }
+
+  let startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), sH, sM, 0, 0);
+  let endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), eH, eM, 0, 0);
+
+  if (isOvernight) {
+    if (nowMins <= endMins) {
+      startDate.setDate(startDate.getDate() - 1);
+    } else {
+      endDate.setDate(endDate.getDate() + 1);
+    }
+  }
+
+  const startMs = startDate.getTime();
+  const endMs = endDate.getTime();
+  const nowMs = now.getTime();
+
+  return { startMs, endMs, nowMs, isBeforeStart, isAfterEnd, isWindowActive, startStr, endStr };
+}
+
+function formatDuration(ms) {
+  if (!ms || ms <= 0) return '0 min';
+  const totalSec = Math.floor(ms / 1000);
+  const hours = Math.floor(totalSec / 3600);
+  const mins = Math.floor((totalSec % 3600) / 60);
+  const secs = totalSec % 60;
+  
+  let res = '';
+  if (hours > 0) res += `${hours} godz. `;
+  if (mins > 0 || hours > 0) res += `${mins} min `;
+  res += `${secs} sek`;
+  return res;
+}
+
+function formatCountdown(ms) {
+  if (ms < 0) ms = 0;
+  const totalSec = Math.floor(ms / 1000);
+  const h = Math.floor(totalSec / 3600);
+  const m = Math.floor((totalSec % 3600) / 60);
+  const s = totalSec % 60;
+  return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+}
+
+function checkGuestMissionsCompletion(code) {
+  if (!STATE.guestMissions || !STATE.guestMissions[code]) return;
+  const totalMissions = (STATE.missions || []).length;
+  if (totalMissions === 0) return;
+
+  const gData = STATE.guestMissions[code];
+  if (gData.completedCount === totalMissions) {
+    if (!gData.completedAllAt) {
+      gData.completedAllAt = Date.now();
+      const times = getMissionsStartEndTimestamps();
+      const duration = gData.completedAllAt - times.startMs;
+      gData.durationMs = duration > 0 ? duration : 0;
+      saveLocal();
+    }
+  }
+}
+
+function updateMissionsTimerLoop() {
+  const times = getMissionsStartEndTimestamps();
+  const banner = document.getElementById('g-missions-timer-banner');
+  if (banner) {
+    if (times.isBeforeStart) {
+      banner.textContent = `⏳ Misje rozpoczną się o ${times.startStr}`;
+      banner.style.color = 'gold';
+      banner.style.borderColor = 'gold';
+      banner.style.background = 'rgba(212,175,55,0.15)';
+    } else if (times.isAfterEnd) {
+      banner.textContent = `🏁 Misje zostały zakończone (${times.endStr})`;
+      banner.style.color = '#ff6b6b';
+      banner.style.borderColor = '#ff6b6b';
+      banner.style.background = 'rgba(255,107,107,0.15)';
+    } else {
+      const remainingMs = times.endMs - times.nowMs;
+      banner.textContent = `⏳ Czas do końca misji (${times.endStr}): ${formatCountdown(remainingMs)}`;
+      banner.style.color = '#93ff8e';
+      banner.style.borderColor = '#93ff8e';
+      banner.style.background = 'rgba(147,255,142,0.15)';
+    }
+  }
+}
+setInterval(updateMissionsTimerLoop, 1000);
+
+// ═══════════════════════════════════════════════════════════
 //  MISJE & WYZWANIA WESELNE ENGINE
 // ═══════════════════════════════════════════════════════════
 
@@ -2279,17 +2695,51 @@ function renderAdminMissions() {
   const elRanking = document.getElementById('m-cfg-ranking');
   if(elRanking) elRanking.checked = cfg.showRanking !== false;
   
-  const elWinnerNotif = document.getElementById('m-cfg-winner-notif');
-  if(elWinnerNotif) elWinnerNotif.checked = cfg.enableWinnerNotification !== false;
+  const elWinnerNotif1 = document.getElementById('m-cfg-winner-notif1');
+  if(elWinnerNotif1) elWinnerNotif1.checked = cfg.enableWinnerNotif1 !== false;
+
+  const elWinnerNotif2 = document.getElementById('m-cfg-winner-notif2');
+  if(elWinnerNotif2) elWinnerNotif2.checked = cfg.enableWinnerNotif2 !== false;
+
+  const elWinnerNotif3 = document.getElementById('m-cfg-winner-notif3');
+  if(elWinnerNotif3) elWinnerNotif3.checked = cfg.enableWinnerNotif3 !== false;
 
   const elRosegate = document.getElementById('m-cfg-rosegate');
   if(elRosegate) elRosegate.checked = cfg.enableRoseGateAnimation !== false;
 
+  const elStart = document.getElementById('m-cfg-start-time');
+  if(elStart) elStart.value = cfg.startTime || '15:00';
+
+  const elEnd = document.getElementById('m-cfg-end-time');
+  if(elEnd) elEnd.value = cfg.endTime || '23:40';
+
+  const elOverride = document.getElementById('m-cfg-override');
+  if(elOverride) elOverride.value = cfg.manualOverride || 'auto';
+
+  const btnPublish = document.getElementById('btn-publish-results');
+  if(btnPublish) {
+    if(cfg.publishResults) {
+      btnPublish.textContent = '📢 Wyniki są OPUBLIKOWANE dla Uczestników (Kliknij, aby UKRYĆ)';
+      btnPublish.style.background = 'linear-gradient(135deg, #27ae60, #1e8449)';
+      btnPublish.style.color = '#fff';
+    } else {
+      btnPublish.textContent = '📢 Opublikuj Wyniki dla Uczestników';
+      btnPublish.style.background = 'linear-gradient(135deg, #d4af37, #aa7c11)';
+      btnPublish.style.color = '#000';
+    }
+  }
+
   const elFolder = document.getElementById('m-cfg-parent-folder');
   if(elFolder) elFolder.value = cfg.parentFolder || 'Wesele 2026';
 
-  const elMsg = document.getElementById('m-cfg-winner-msg');
-  if(elMsg) elMsg.value = cfg.winnerMessage || '';
+  const elMsg1 = document.getElementById('m-cfg-winner-msg1');
+  if(elMsg1) elMsg1.value = cfg.winnerMessage1 || '';
+
+  const elMsg2 = document.getElementById('m-cfg-winner-msg2');
+  if(elMsg2) elMsg2.value = cfg.winnerMessage2 || '';
+
+  const elMsg3 = document.getElementById('m-cfg-winner-msg3');
+  if(elMsg3) elMsg3.value = cfg.winnerMessage3 || '';
 
   const elScript = document.getElementById('m-cfg-drive-script');
   if(elScript) elScript.value = cfg.driveScriptUrl || '';
@@ -2326,16 +2776,91 @@ function renderAdminMissions() {
   renderAdminGuestProgress();
 }
 
+function setCurrentTimeAsStart() {
+  const d = new Date();
+  const h = String(d.getHours()).padStart(2, '0');
+  const m = String(d.getMinutes()).padStart(2, '0');
+  const timeStr = `${h}:${m}`;
+  const el = document.getElementById('m-cfg-start-time');
+  if(el) el.value = timeStr;
+  if(!STATE.missionsSettings) STATE.missionsSettings = JSON.parse(JSON.stringify(DEFAULT_STATE.missionsSettings));
+  STATE.missionsSettings.startTime = timeStr;
+  saveLocal();
+  if(window._broadcastStateUpdate) window._broadcastStateUpdate();
+  saveNow().catch(e=>console.warn('Save start time:', e));
+  renderAdminMissions();
+  renderGuestRanking();
+  updateMissionsTimerLoop();
+}
+
+function setCurrentTimeAsEnd() {
+  const d = new Date();
+  const h = String(d.getHours()).padStart(2, '0');
+  const m = String(d.getMinutes()).padStart(2, '0');
+  const timeStr = `${h}:${m}`;
+  const el = document.getElementById('m-cfg-end-time');
+  if(el) el.value = timeStr;
+  if(!STATE.missionsSettings) STATE.missionsSettings = JSON.parse(JSON.stringify(DEFAULT_STATE.missionsSettings));
+  STATE.missionsSettings.endTime = timeStr;
+  saveLocal();
+  if(window._broadcastStateUpdate) window._broadcastStateUpdate();
+  saveNow().catch(e=>console.warn('Save end time:', e));
+  renderAdminMissions();
+  renderGuestRanking();
+  updateMissionsTimerLoop();
+}
+
 function saveMissionsSettings(ev) {
   if(!STATE.missionsSettings) STATE.missionsSettings = JSON.parse(JSON.stringify(DEFAULT_STATE.missionsSettings));
   STATE.missionsSettings.enabled = document.getElementById('m-cfg-enabled').checked;
   STATE.missionsSettings.showRanking = document.getElementById('m-cfg-ranking').checked;
-  STATE.missionsSettings.enableWinnerNotification = document.getElementById('m-cfg-winner-notif').checked;
+  
+  const elNotif1 = document.getElementById('m-cfg-winner-notif1');
+  if(elNotif1) STATE.missionsSettings.enableWinnerNotif1 = elNotif1.checked;
+
+  const elNotif2 = document.getElementById('m-cfg-winner-notif2');
+  if(elNotif2) STATE.missionsSettings.enableWinnerNotif2 = elNotif2.checked;
+
+  const elNotif3 = document.getElementById('m-cfg-winner-notif3');
+  if(elNotif3) STATE.missionsSettings.enableWinnerNotif3 = elNotif3.checked;
+
   STATE.missionsSettings.enableRoseGateAnimation = document.getElementById('m-cfg-rosegate').checked;
+
+  const elStart = document.getElementById('m-cfg-start-time');
+  if(elStart) STATE.missionsSettings.startTime = elStart.value.trim() || '15:00';
+
+  const elEnd = document.getElementById('m-cfg-end-time');
+  if(elEnd) STATE.missionsSettings.endTime = elEnd.value.trim() || '23:40';
+
+  const elOverride = document.getElementById('m-cfg-override');
+  if(elOverride) STATE.missionsSettings.manualOverride = elOverride.value === 'auto' ? null : elOverride.value;
+
   STATE.missionsSettings.parentFolder = document.getElementById('m-cfg-parent-folder').value.trim() || 'Wesele 2026';
-  STATE.missionsSettings.winnerMessage = document.getElementById('m-cfg-winner-msg').value.trim();
+  
+  const elMsg1 = document.getElementById('m-cfg-winner-msg1');
+  if(elMsg1) STATE.missionsSettings.winnerMessage1 = elMsg1.value.trim();
+
+  const elMsg2 = document.getElementById('m-cfg-winner-msg2');
+  if(elMsg2) STATE.missionsSettings.winnerMessage2 = elMsg2.value.trim();
+
+  const elMsg3 = document.getElementById('m-cfg-winner-msg3');
+  if(elMsg3) STATE.missionsSettings.winnerMessage3 = elMsg3.value.trim();
+
   STATE.missionsSettings.driveScriptUrl = document.getElementById('m-cfg-drive-script').value.trim();
   saveLocal();
+  if(window._broadcastStateUpdate) window._broadcastStateUpdate();
+  saveNow().catch(e=>console.warn('Save settings:', e));
+  renderGuestRanking();
+}
+
+function togglePublishResults() {
+  if(!STATE.missionsSettings) STATE.missionsSettings = JSON.parse(JSON.stringify(DEFAULT_STATE.missionsSettings));
+  STATE.missionsSettings.publishResults = !STATE.missionsSettings.publishResults;
+  saveLocal();
+  if(window._broadcastStateUpdate) window._broadcastStateUpdate();
+  saveNow().catch(e => console.warn('Save publish:', e));
+  renderAdminMissions();
+  renderGuestRanking();
 }
 
 function addAdminMission() {
@@ -2358,6 +2883,26 @@ function removeAdminMission(idx) {
   renderAdminMissions();
 }
 
+function resetGuestMissions(code) {
+  if(!confirm(`Czy na pewno chcesz zresetować wszystkie wykonane misje dla kodu ${code}? Nowy gość rozpocznie wyzwanie na czysto.`)) return;
+  if(STATE.guestMissions && STATE.guestMissions[code]) {
+    delete STATE.guestMissions[code];
+  }
+  if(STATE.firstWinner && STATE.firstWinner.code === code) {
+    STATE.firstWinner = null;
+  }
+  if(STATE.topWinners) {
+    if(STATE.topWinners.w1 && STATE.topWinners.w1.code === code) delete STATE.topWinners.w1;
+    if(STATE.topWinners.w2 && STATE.topWinners.w2.code === code) delete STATE.topWinners.w2;
+    if(STATE.topWinners.w3 && STATE.topWinners.w3.code === code) delete STATE.topWinners.w3;
+  }
+  saveLocal();
+  if(window._broadcastStateUpdate) window._broadcastStateUpdate();
+  saveNow().catch(e=>console.warn('Save reset:', e));
+  renderAdminMissions();
+  renderGuestRanking();
+}
+
 function renderAdminGuestProgress() {
   const wrap = document.getElementById('admin-guest-progress-list');
   if(!wrap) return;
@@ -2369,18 +2914,96 @@ function renderAdminGuestProgress() {
   }
 
   const totalMissions = (STATE.missions || []).length;
+  const times = getMissionsStartEndTimestamps();
   
+  const scores = [];
   STATE.guests.forEach(g => {
     const name = [g.name1, g.name2].filter(Boolean).join(' & ') || 'Gość bez imienia';
     const gData = (STATE.guestMissions && STATE.guestMissions[g.code]) || { answers: {}, completedCount: 0 };
     const compCount = gData.completedCount || 0;
-    const isWinner = STATE.firstWinner && STATE.firstWinner.code === g.code;
+    
+    let durationMs = gData.durationMs || 0;
+    if (gData.completedAllAt && !durationMs) {
+      durationMs = gData.completedAllAt - times.startMs;
+      if (durationMs < 0) durationMs = 0;
+    }
+
+    scores.push({
+      guest: g,
+      name: name,
+      code: g.code,
+      completedCount: compCount,
+      completedAllAt: gData.completedAllAt || null,
+      durationMs: durationMs,
+      answers: gData.answers || {}
+    });
+  });
+
+  // Sort ALL guests:
+  // 1. Completed 100% missions sorted by durationMs ASC (shortest time from 15:00)
+  // 2. Completed < 100% sorted by completedCount DESC
+  scores.sort((a, b) => {
+    const aFinished = totalMissions > 0 && a.completedCount === totalMissions;
+    const bFinished = totalMissions > 0 && b.completedCount === totalMissions;
+
+    if (aFinished && bFinished) {
+      return (a.durationMs || Infinity) - (b.durationMs || Infinity);
+    }
+    if (aFinished) return -1;
+    if (bFinished) return 1;
+    return b.completedCount - a.completedCount;
+  });
+
+  // Podium section for TOP 3 (if completed or top scores)
+  const podiumHeader = document.createElement('div');
+  podiumHeader.style.cssText = 'font-weight:bold;color:gold;font-size:1.1rem;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.5rem';
+  podiumHeader.innerHTML = '<span>👑 Podium Zwycięzców (TOP 3 Wyniki)</span>';
+  wrap.appendChild(podiumHeader);
+
+  const podiumWrap = document.createElement('div');
+  podiumWrap.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.8rem;margin-bottom:1.5rem';
+  
+  const top3 = scores.slice(0, 3);
+  const medals = [
+    { title: '🥇 1. MIEJSCE (ZŁOTO)', bg: 'linear-gradient(135deg, rgba(212,175,55,0.25), rgba(110,80,10,0.4))', border: 'gold', text: 'gold' },
+    { title: '🥈 2. MIEJSCE (SREBRO)', bg: 'linear-gradient(135deg, rgba(192,192,192,0.25), rgba(80,80,80,0.4))', border: '#c0c0c0', text: '#e0e0e0' },
+    { title: '🥉 3. MIEJSCE (BRĄZ)', bg: 'linear-gradient(135deg, rgba(205,127,50,0.25), rgba(100,50,20,0.4))', border: '#cd7f32', text: '#f3a152' }
+  ];
+
+  top3.forEach((s, idx) => {
+    const m = medals[idx];
+    const card = document.createElement('div');
+    card.style.cssText = `background:${m.bg};border:1.5px solid ${m.border};border-radius:10px;padding:1rem;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.3)`;
+    
+    const durationTxt = s.completedCount === totalMissions && totalMissions > 0
+      ? `⏱ Czas ukończenia: <strong>${formatDuration(s.durationMs)}</strong>`
+      : `Postęp: ${s.completedCount} / ${totalMissions}`;
+
+    card.innerHTML = `
+      <div style="font-size:0.8rem;font-weight:bold;color:${m.text};margin-bottom:0.4rem">${m.title}</div>
+      <div style="font-size:1.1rem;font-weight:bold;color:wheat;margin-bottom:0.3rem">${escHtml(s.name)}</div>
+      <div style="font-size:0.75rem;color:wheat;opacity:0.8;margin-bottom:0.4rem">Kod: <strong>${escHtml(s.code)}</strong></div>
+      <div style="font-size:0.82rem;color:#93ff8e">${durationTxt}</div>
+    `;
+    podiumWrap.appendChild(card);
+  });
+  wrap.appendChild(podiumWrap);
+
+  // Full List for ALL Guests (Positions 1 to N)
+  const listTitle = document.createElement('div');
+  listTitle.style.cssText = 'font-weight:bold;color:wheat;font-size:1rem;margin-bottom:0.6rem;border-bottom:1px solid var(--border);padding-bottom:0.4rem';
+  listTitle.textContent = `📋 Pełna Klasyfikacja Wszystkich Uczestników (${scores.length} osób):`;
+  wrap.appendChild(listTitle);
+
+  scores.forEach((s, idx) => {
+    const isFinished = totalMissions > 0 && s.completedCount === totalMissions;
+    const isWinner = STATE.firstWinner && STATE.firstWinner.code === s.code;
 
     const card = document.createElement('div');
     card.style.cssText = 'background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.18);border-radius:8px;padding:0.8rem 1rem;margin-bottom:0.6rem';
     
     let answersHtml = '';
-    Object.entries(gData.answers || {}).forEach(([mId, ans]) => {
+    Object.entries(s.answers || {}).forEach(([mId, ans]) => {
       const mission = (STATE.missions || []).find(m => m.id === mId);
       const title = mission ? mission.title : mId;
       if(ans.text) {
@@ -2390,14 +3013,30 @@ function renderAdminGuestProgress() {
       }
     });
 
+    let rankBadge = `${idx + 1}.`;
+    if(idx === 0) rankBadge = '🥇 1.';
+    if(idx === 1) rankBadge = '🥈 2.';
+    if(idx === 2) rankBadge = '🥉 3.';
+
+    const durationInfo = isFinished
+      ? `<span style="color:gold;font-size:0.8rem;margin-left:0.5rem">⏱ Czas: <strong>${formatDuration(s.durationMs)}</strong></span>`
+      : '';
+
+    const resetBtnHtml = s.completedCount > 0
+      ? `<button class="danger-btn" style="font-size:0.68rem;padding:0.2rem 0.5rem;margin-left:0.5rem;width:auto" onclick="resetGuestMissions('${escHtml(s.code)}')">🗑️ Wyczyść misje</button>`
+      : '';
+
     card.innerHTML = `
-      <div style="display:flex;align-items:center;justify-content:space-between">
-        <div>
-          <span style="font-weight:bold;color:wheat">${escHtml(name)}</span>
-          <span class="pill" style="margin-left:0.5rem">${escHtml(g.code)}</span>
-          ${isWinner ? '<span style="color:gold;font-weight:bold;margin-left:0.5rem">🏆 ZWYCIĘZCA!</span>' : ''}
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem">
+        <div style="display:flex;align-items:center;flex-wrap:wrap;gap:0.4rem">
+          <span style="font-weight:bold;color:gold;margin-right:0.2rem">${rankBadge}</span>
+          <span style="font-weight:bold;color:wheat">${escHtml(s.name)}</span>
+          <span class="pill" style="margin-left:0.2rem">${escHtml(s.code)}</span>
+          ${isWinner ? '<span style="color:gold;font-weight:bold;margin-left:0.3rem">🏆 Zwycięzca</span>' : ''}
+          ${durationInfo}
+          ${resetBtnHtml}
         </div>
-        <div style="font-size:0.85rem;color:#93ff8e;font-weight:bold">${compCount} / ${totalMissions} ukończone</div>
+        <div style="font-size:0.85rem;color:${isFinished?'#93ff8e':'wheat'};font-weight:bold">${s.completedCount} / ${totalMissions} ukończone</div>
       </div>
       ${answersHtml}
     `;
@@ -2523,6 +3162,31 @@ function renderGuestMissions(g) {
   }
   sec.style.display = '';
 
+  const times = getMissionsStartEndTimestamps();
+  const alertEl = document.getElementById('g-missions-window-alert');
+  if (alertEl) {
+    if (!times.isWindowActive) {
+      alertEl.style.display = 'block';
+      alertEl.style.margin = '0.5rem 0 0.8rem';
+      alertEl.style.padding = '0.7rem 0.9rem';
+      alertEl.style.borderRadius = '8px';
+      if (times.isBeforeStart) {
+        alertEl.style.background = 'rgba(212,175,55,0.15)';
+        alertEl.style.border = '1px solid gold';
+        alertEl.style.color = 'gold';
+        alertEl.innerHTML = `⏳ <strong>Misje rozpoczną się o godzinie ${times.startStr}!</strong><br><span style="font-size:0.75rem;opacity:0.85">Odmierzanie czasu startuje o ${times.startStr}. Przycisk wysyłania będzie aktywny w wyznaczonym czasie.</span>`;
+      } else {
+        alertEl.style.background = 'rgba(255,107,107,0.15)';
+        alertEl.style.border = '1px solid #ff6b6b';
+        alertEl.style.color = '#ff6b6b';
+        alertEl.innerHTML = `🏁 <strong>Wykonywanie misji zostało zakończone o godzinie ${times.endStr}.</strong><br><span style="font-size:0.75rem;opacity:0.85">Dziękujemy wszystkim za udział i nadesłane zdjęcia! Oczekuj na opublikowanie wyników.</span>`;
+      }
+    } else {
+      alertEl.style.display = 'none';
+      alertEl.innerHTML = '';
+    }
+  }
+
   const list = document.getElementById('g-missions-list');
   if(!list) return;
   list.innerHTML = '';
@@ -2556,7 +3220,9 @@ function renderGuestMissions(g) {
         inputHtml = `<div style="font-size:0.83rem;color:#93ff8e;margin-top:0.4rem">✓ Przesłano ${reqCount} plik(ów) i zapisano na Dysku Google!</div>`;
       }
     } else {
-      if(m.type === 'tekst') {
+      if(!times.isWindowActive) {
+        inputHtml = `<div style="font-size:0.8rem;color:#ff6b6b;margin-top:0.5rem;font-style:italic">🔒 Wysyłanie niedostępne poza oknem czasowym (${times.startStr} - ${times.endStr})</div>`;
+      } else if(m.type === 'tekst') {
         inputHtml = `
           <textarea class="settings-input" id="g-m-text-${m.id}" rows="2" placeholder="Wpisz swoją odpowiedź..." style="margin-top:0.5rem"></textarea>
           <button class="btn-primary" style="padding:0.45rem 1rem;font-size:0.75rem;margin-top:0.4rem;width:auto" onclick="submitMissionText('${m.id}')">Wyślij odpowiedź</button>
@@ -2603,13 +3269,17 @@ function renderGuestMissions(g) {
   const pFill = document.getElementById('g-missions-progress-fill');
   if(pFill) pFill.style.width = pct + '%';
 
-  // Check if winner
+  // Check if completed 100%
   if(completedCount > 0 && completedCount === missions.length) {
+    checkGuestMissionsCompletion(g.code);
     checkWinnerCompletion(g);
   }
 }
 
 async function submitMissionText(mId) {
+  const times = getMissionsStartEndTimestamps();
+  if(!times.isWindowActive) { alert(`Wykonywanie misji jest obecnie zablokowane (${times.startStr} - ${times.endStr}).`); return; }
+
   const code = (window._currentGuestCode || '').toUpperCase();
   const guest = STATE.guests.find(x => x.code === code);
   const guestName = window._currentGuestName || (guest ? [guest.name1, guest.name2].filter(Boolean).join(' & ') : 'Gość');
@@ -2649,6 +3319,9 @@ async function submitMissionText(mId) {
 }
 
 async function submitMissionFiles(mId, type) {
+  const times = getMissionsStartEndTimestamps();
+  if(!times.isWindowActive) { alert(`Wykonywanie misji jest obecnie zablokowane (${times.startStr} - ${times.endStr}).`); return; }
+
   const code = (window._currentGuestCode || '').toUpperCase();
   const guest = STATE.guests.find(x => x.code === code);
   const guestName = window._currentGuestName || (guest ? [guest.name1, guest.name2].filter(Boolean).join(' & ') : 'Gość');
@@ -2774,180 +3447,112 @@ function renderGuestRanking() {
     return;
   }
 
+  const isPublished = STATE.missionsSettings && STATE.missionsSettings.publishResults === true;
+  const times = getMissionsStartEndTimestamps();
+
+  if (!isPublished) {
+    list.innerHTML = `
+      <div style="background:rgba(212,175,55,0.1);border:1px dashed gold;border-radius:10px;padding:1.2rem;text-align:center">
+        <div style="font-size:1.8rem;margin-bottom:0.4rem">🔒 ⏱</div>
+        <div style="font-weight:bold;color:gold;font-size:1rem;margin-bottom:0.4rem">Oficjalny Pełny Ranking z Czasami</div>
+        <div style="font-size:0.82rem;color:wheat;line-height:1.4">
+          Wszyscy uczestnicy walczą o jak najszybszy czas ukończenia misji (od godziny ${times.startStr}).<br>
+          <strong style="color:gold">Oficjalny pełny ranking ze wszystkimi wynikami oraz Podium TOP 3 zostaną ogłoszone o godzinie ${times.endStr} przez Administratora!</strong>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
   const scores = [];
   (STATE.guests || []).forEach(g => {
-    const gData = (STATE.guestMissions && STATE.guestMissions[g.code]) || { completedCount: 0 };
     const name = [g.name1, g.name2].filter(Boolean).join(' & ') || 'Gość';
-    scores.push({
-      code: g.code,
-      name: name,
-      count: gData.completedCount || 0
-    });
+    const gData = (STATE.guestMissions && STATE.guestMissions[g.code]) || { answers: {}, completedCount: 0 };
+    const compCount = gData.completedCount || 0;
+    let durationMs = gData.durationMs || 0;
+    if (gData.completedAllAt && !durationMs) {
+      durationMs = gData.completedAllAt - times.startMs;
+      if (durationMs < 0) durationMs = 0;
+    }
+    scores.push({ guest: g, name, code: g.code, completedCount: compCount, durationMs });
   });
 
-  scores.sort((a, b) => b.count - a.count);
+  scores.sort((a, b) => {
+    const aFinished = totalMissions > 0 && a.completedCount === totalMissions;
+    const bFinished = totalMissions > 0 && b.completedCount === totalMissions;
+    if (aFinished && bFinished) return (a.durationMs || Infinity) - (b.durationMs || Infinity);
+    if (aFinished) return -1;
+    if (bFinished) return 1;
+    return b.completedCount - a.completedCount;
+  });
 
-  scores.forEach((s, rank) => {
-    if(s.count === 0 && rank > 4) return;
-    const isWinner = STATE.firstWinner && STATE.firstWinner.code === s.code;
-
+  scores.forEach((s, idx) => {
+    const isFinished = totalMissions > 0 && s.completedCount === totalMissions;
+    let medal = `${idx + 1}.`;
+    if(idx === 0) medal = '🥇 1.';
+    if(idx === 1) medal = '🥈 2.';
+    if(idx === 2) medal = '🥉 3.';
+    const timeTxt = isFinished ? `⏱ ${formatDuration(s.durationMs)}` : `${s.completedCount}/${totalMissions}`;
     const div = document.createElement('div');
-    div.className = 'ranking-item ' + (rank === 0 && s.count > 0 ? 'first-place' : '');
-    
-    let medal = `${rank + 1}.`;
-    if(rank === 0) medal = '🥇';
-    if(rank === 1) medal = '🥈';
-    if(rank === 2) medal = '🥉';
-
-    div.innerHTML = `
-      <div style="display:flex;align-items:center;gap:0.6rem">
-        <span style="font-size:1.1rem">${medal}</span>
-        <span style="color:wheat;font-weight:500;font-size:0.88rem">${escHtml(s.name)}</span>
-        ${isWinner ? '<span style="color:gold;font-size:0.7rem;font-weight:bold;border:1px solid gold;border-radius:10px;padding:0.1rem 0.4rem">🏆 1. Zwycięzca</span>' : ''}
-      </div>
-      <div style="color:#93ff8e;font-weight:bold;font-size:0.85rem">${s.count} / ${totalMissions}</div>
-    `;
+    div.className = 'ranking-item' + (idx === 0 ? ' first-place' : '');
+    div.innerHTML = `<span style="font-weight:bold;color:gold">${medal} ${escHtml(s.name)}</span><span style="font-size:0.8rem;color:wheat">${timeTxt}</span>`;
     list.appendChild(div);
   });
 }
 
-function checkWinnerCompletion(g) {
-  if(!STATE.missionsSettings || STATE.missionsSettings.enableWinnerNotification === false) return;
-  const totalMissions = (STATE.missions || []).length;
-  if(totalMissions === 0) return;
-
-  const gData = STATE.guestMissions[g.code];
-  if(gData && gData.completedCount === totalMissions) {
-    if(!STATE.firstWinner) {
-      STATE.firstWinner = {
-        code: g.code,
-        guestName: window._currentGuestName || g.name1 || 'Gość',
-        completedAt: new Date().toISOString()
-      };
-      saveLocal();
-      saveNow().catch(e => console.warn('Save winner:', e));
+function checkAndTriggerWinnerNotification(g, compCount, totalMissions) {
+  if (compCount !== totalMissions || totalMissions === 0) return;
+  const gData = STATE.guestMissions && STATE.guestMissions[g.code];
+  if (!gData) return;
+  const cfg = STATE.missionsSettings || {};
+  if (cfg.enableWinnerNotification === false) return;
+  let notify = false, winnerMsg = '', medalTitle = '';
+  if (!STATE.firstWinner) {
+    STATE.firstWinner = { code: g.code, name: [g.name1, g.name2].filter(Boolean).join(' & '), at: Date.now() };
+    if (cfg.enableWinnerNotif1 !== false) {
+      notify = true;
+      winnerMsg = cfg.winnerMessage1 || cfg.winnerMessage || '🎉 Gratulacje! Zająłeś 1. MIEJSCE (ZŁOTO)!';
+      medalTitle = '🥇 1. MIEJSCE — ZŁOTY MEDAL!';
     }
-
-    if(STATE.firstWinner.code === g.code) {
-      const msg = (STATE.missionsSettings && STATE.missionsSettings.winnerMessage) || 'Jesteś pierwszą osobą, która ukończyła wszystkie wyzwania!';
-      const msgEl = document.getElementById('winner-modal-body');
-      if(msgEl) msgEl.textContent = msg;
-      
-      const confWrap = document.getElementById('confetti-container');
-      if(confWrap) {
-        confWrap.innerHTML = '';
-        const colors = ['#f1c40f', '#e74c3c', '#2ecc71', '#3498db', '#9b59b6'];
-        for(let i=0; i<30; i++) {
-          const piece = document.createElement('div');
-          piece.className = 'confetti-piece';
-          piece.style.left = Math.random()*100 + '%';
-          piece.style.background = colors[Math.floor(Math.random()*colors.length)];
-          piece.style.animationDelay = (Math.random()*2) + 's';
-          confWrap.appendChild(piece);
-        }
+  }
+  if (notify && !gData.notifiedWinner) {
+    gData.notifiedWinner = true;
+    saveLocal();
+    const msgEl = document.getElementById('winner-modal-body');
+    if(msgEl) msgEl.innerHTML = `<div style="font-weight:bold;color:gold;font-size:1.15rem;margin-bottom:0.5rem">${medalTitle}</div><div style="font-size:0.9rem;line-height:1.4">${escHtml(winnerMsg)}</div>`;
+    const confWrap = document.getElementById('confetti-container');
+    if(confWrap) {
+      confWrap.innerHTML = '';
+      const colors = ['#f1c40f', '#e74c3c', '#2ecc71', '#3498db', '#9b59b6'];
+      for(let i=0; i<35; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = Math.random()*100 + '%';
+        piece.style.background = colors[Math.floor(Math.random()*colors.length)];
+        piece.style.animationDelay = (Math.random()*2) + 's';
+        confWrap.appendChild(piece);
       }
-
-      const wModal = document.getElementById('winner-modal-overlay');
-      if(wModal) wModal.classList.remove('hidden');
     }
+    const wModal = document.getElementById('winner-modal-overlay');
+    if(wModal) wModal.classList.remove('hidden');
   }
-}
-
-// ═══════════════════════════════════════════════════════════
-//  ROSE GATE ANIMATION ENGINE
-// ═══════════════════════════════════════════════════════════
-
-let _roseGateTimer = null;
-let _roseGateCallback = null;
-
-function triggerRoseGateAnimation(callback) {
-  _roseGateCallback = callback;
-  const overlay = document.getElementById('rosegate-overlay');
-  const iframe = document.getElementById('rosegate-iframe');
-  const video = document.getElementById('rosegate-video');
-  const videoSource = document.getElementById('rosegate-video-src');
-  
-  if (!overlay) {
-    if (callback) callback();
-    return;
-  }
-
-  const fileId = '14qvpprdiF471E6ugzr3ExUYt93bZxqYw';
-
-  overlay.style.opacity = '1';
-  overlay.classList.remove('hidden');
-
-  if (iframe) {
-    const targetUrl = 'https://drive.google.com/file/d/' + fileId + '/preview?autoplay=1&vq=hd1080&hd=1';
-    if (!iframe.src || iframe.src.indexOf(fileId) === -1 || iframe.src.indexOf('about:blank') !== -1) {
-      iframe.src = targetUrl;
-    }
-  }
-
-  if (video && videoSource) {
-    try {
-      videoSource.src = 'https://drive.google.com/uc?export=download&id=' + fileId;
-      video.load();
-      video.currentTime = 0;
-      const p = video.play();
-      if (p !== undefined) p.then(() => { video.style.display = 'block'; }).catch(() => {});
-    } catch(e) {}
-  }
-
-  // Przy 5.2s: rozpoczęcie płynnego zanikania (fade-out 0.8s) i wywołanie ekranu gościa pod spodem
-  setTimeout(() => {
-    overlay.style.opacity = '0';
-    if (_roseGateCallback) {
-      _roseGateCallback();
-      _roseGateCallback = null;
-    }
-  }, 5200);
-
-  // W 6-tej sekundzie: wyłączenie i zatrzymanie wideo (aby zapobiec zapętleniu) oraz pełne ukrycie nakładki
-  _roseGateTimer = setTimeout(() => {
-    if (iframe) { iframe.src = 'about:blank'; iframe.style.display = 'none'; }
-    if (video) { try { video.pause(); video.currentTime = 0; } catch(e){} }
-    overlay.classList.add('hidden');
-    overlay.style.opacity = '1';
-  }, 6000);
-}
-
-function skipRoseGateAnimation() {
-  clearTimeout(_roseGateTimer);
-  const overlay = document.getElementById('rosegate-overlay');
-  const iframe = document.getElementById('rosegate-iframe');
-  const video = document.getElementById('rosegate-video');
-  if (iframe) iframe.src = 'about:blank';
-  if (video) { try { video.pause(); video.currentTime = 0; } catch(e){} }
-  if (overlay) {
-    overlay.classList.add('hidden');
-    overlay.style.opacity = '1';
-  }
-  if (_roseGateCallback) {
-    _roseGateCallback();
-    _roseGateCallback = null;
-  }
-}
-
-
-async function autoLoadDrive(){
-  const url=validateDriveUrl(STATE.settings.driveUrl);if(!url)return;
-  try{
-    const resp=await fetch(url,{credentials:'omit',mode:'cors'});if(!resp.ok)return;
-    const text=await resp.text();if(text.length>5_000_000)return;
-    parseImportedState(JSON.parse(text));saveLocal();generateLayoutEngine();
-    if(document.getElementById('screen-landing').classList.contains('active')){
-      document.getElementById('l-title').innerHTML='<em>'+escHtml(STATE.settings.names)+'</em>';
-      document.getElementById('l-date').textContent=sanitizeText(STATE.settings.date);
-    }
-  }catch(e){}
 }
 
 // ═══════════════════════════════════════════════════════════
 //  BOOT
 // ═══════════════════════════════════════════════════════════
 (async function(){
-  if(!STATE.settings.passHash){STATE.settings.passHash=await hashPassword('Wesele2026!');saveLocalCache();}
+  try{
+    if(!STATE.settings.passHash){
+      try{
+        STATE.settings.passHash=await hashPassword('Wesele2026!');
+      }catch(e){
+        STATE.settings.passHash=localHash('Wesele2026!');
+      }
+      saveLocalCache();
+    }
+  }catch(e){}
+
   try{
     const ghData=await GitHubStorage.getData();
     if(ghData){
@@ -2958,17 +3563,21 @@ async function autoLoadDrive(){
       generateLayoutEngine();
     }
   }catch(e){console.warn('Boot GitHub load:',e);}
-  const p=new URLSearchParams(window.location.search);
-  const gc=p.get('guest');
-  if(gc){
-    const code=gc.replace(/[^A-Z0-9\-]/gi,'').toUpperCase();
-    const g=STATE.guests.find(x=>x.code===code);
-    if(g){
-      renderGuestView(g);show('screen-guest');
-      requestAnimationFrame(()=>initWrap('wrap-guest'));
-      return;
+
+  try{
+    const p=new URLSearchParams(window.location.search);
+    const gc=p.get('guest');
+    if(gc){
+      const code=gc.replace(/[^A-Z0-9\-]/gi,'').toUpperCase();
+      const g=STATE.guests.find(x=>x.code===code);
+      if(g){
+        renderGuestView(g);show('screen-guest');
+        requestAnimationFrame(()=>initWrap('wrap-guest'));
+        return;
+      }
     }
-  }
+  }catch(e){}
+
   show('screen-landing');
 })();
 </script>

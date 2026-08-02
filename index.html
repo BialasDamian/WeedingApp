@@ -2642,7 +2642,7 @@ function getMissionsStartEndTimestamps() {
         isWindowActive = true;
       } else {
         isWindowActive = false;
-        isBeforeStart = true;
+        isAfterEnd = true;
       }
     } else {
       if (nowMins < startMins) {
@@ -2976,9 +2976,15 @@ function renderAdminGuestProgress() {
     const gData = (STATE.guestMissions && STATE.guestMissions[g.code]) || { answers: {}, completedCount: 0 };
     const compCount = gData.completedCount || 0;
     
-    let durationMs = gData.durationMs || 0;
-    if (gData.completedAllAt && !durationMs) {
-      durationMs = gData.completedAllAt - times.startMs;
+    let lastAct = gData.completedAllAt || gData.lastActivityAt;
+    if (!lastAct && gData.answers) {
+      const updates = Object.values(gData.answers).map(a => a.updatedAt).filter(Boolean);
+      if (updates.length > 0) lastAct = Math.max(...updates);
+    }
+
+    let durationMs = 0;
+    if (lastAct && times.startMs) {
+      durationMs = lastAct - times.startMs;
       if (durationMs < 0) durationMs = 0;
     }
 
@@ -2995,7 +3001,7 @@ function renderAdminGuestProgress() {
 
   // Sort ALL guests:
   // 1. Completed 100% missions sorted by durationMs ASC (shortest time from 15:00)
-  // 2. Completed < 100% sorted by completedCount DESC
+  // 2. Completed < 100% sorted by completedCount DESC then durationMs ASC
   scores.sort((a, b) => {
     const aFinished = totalMissions > 0 && a.completedCount === totalMissions;
     const bFinished = totalMissions > 0 && b.completedCount === totalMissions;
@@ -3005,7 +3011,11 @@ function renderAdminGuestProgress() {
     }
     if (aFinished) return -1;
     if (bFinished) return 1;
-    return b.completedCount - a.completedCount;
+
+    if (b.completedCount !== a.completedCount) {
+      return b.completedCount - a.completedCount;
+    }
+    return (a.durationMs || Infinity) - (b.durationMs || Infinity);
   });
 
   // Podium section for TOP 3 (if completed or top scores)
@@ -3418,11 +3428,16 @@ async function submitMissionText(mId) {
   if(!STATE.guestMissions) STATE.guestMissions = {};
   if(!STATE.guestMissions[code]) STATE.guestMissions[code] = { answers: {}, completedCount: 0 };
   
+  const nowTs = Date.now();
   STATE.guestMissions[code].answers[mId] = {
     status: 'completed',
     text: text,
-    updatedAt: Date.now()
+    updatedAt: nowTs
   };
+  STATE.guestMissions[code].lastActivityAt = nowTs;
+  if (times.startMs && nowTs >= times.startMs) {
+    STATE.guestMissions[code].durationMs = nowTs - times.startMs;
+  }
 
   saveLocal();
   if(window._broadcastStateUpdate) window._broadcastStateUpdate();
@@ -3519,11 +3534,16 @@ async function submitMissionFiles(mId, type) {
   if(!STATE.guestMissions) STATE.guestMissions = {};
   if(!STATE.guestMissions[code]) STATE.guestMissions[code] = { answers: {}, completedCount: 0 };
   
+  const nowTs = Date.now();
   STATE.guestMissions[code].answers[mId] = {
     status: 'completed',
     files: uploadedUrls,
-    updatedAt: Date.now()
+    updatedAt: nowTs
   };
+  STATE.guestMissions[code].lastActivityAt = nowTs;
+  if (times.startMs && nowTs >= times.startMs) {
+    STATE.guestMissions[code].durationMs = nowTs - times.startMs;
+  }
 
   saveLocal();
   if(window._broadcastStateUpdate) window._broadcastStateUpdate();
@@ -3631,12 +3651,85 @@ function renderGuestRanking() {
     const name = getGuestFirstName(g) || 'Gość';
     const gData = (STATE.guestMissions && STATE.guestMissions[g.code]) || { answers: {}, completedCount: 0 };
     const compCount = gData.completedCount || 0;
-    let durationMs = gData.durationMs || 0;
-    if (gData.completedAllAt && !durationMs) {
-      durationMs = gData.completedAllAt - times.startMs;
+
+    let lastAct = gData.completedAllAt || gData.lastActivityAt;
+    if (!lastAct && gData.answers) {
+      const updates = Object.values(gData.answers).map(a => a.updatedAt).filter(Boolean);
+      if (updates.length > 0) lastAct = Math.max(...updates);
+    }
+
+    let durationMs = 0;
+    if (lastAct && times.startMs) {
+      durationMs = lastAct - times.startMs;
       if (durationMs < 0) durationMs = 0;
     }
+
     scores.push({ guest: g, name, code: g.code, completedCount: compCount, durationMs });
+  });
+
+  scores.sort((a, b) => {
+    const aFinished = totalMissions > 0 && a.completedCount === totalMissions;
+    const bFinished = totalMissions > 0 && b.completedCount === totalMissions;
+    if (aFinished && bFinished) return (a.durationMs || Infinity) - (b.durationMs || Infinity);
+    if (aFinished) return -1;
+    if (bFinished) return 1;
+
+    if (b.completedCount !== a.completedCount) {
+      return b.completedCount - a.completedCount;
+    }
+    return (a.durationMs || Infinity) - (b.durationMs || Infinity);
+  });
+
+  scores.forEach((s, idx) => {
+    const isFinished = totalMissions > 0 && s.completedCount === totalMissions;
+    let medal = `${idx + 1}.`;
+    if(idx === 0) medal = '🥇 1.';
+    if(idx === 1) medal = '🥈 2.';
+    if(idx === 2) medal = '🥉 3.';
+
+    let timeTxt = '';
+    if (s.durationMs > 0) {
+      timeTxt = `⏱ ${formatDuration(s.durationMs)} (${s.completedCount}/${totalMissions})`;
+    } else {
+      timeTxt = `${s.completedCount} / ${totalMissions} ukończone`;
+    }
+
+    const div = document.createElement('div');
+    div.className = 'ranking-item' + (idx === 0 ? ' first-place' : '');
+    div.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0.8rem;margin-bottom:0.4rem;background:rgba(255,255,255,0.05);border-radius:8px;border:1px solid rgba(201,168,76,0.2)';
+    div.innerHTML = `
+      <span style="font-weight:bold;color:gold">${medal} ${escHtml(s.name)}</span>
+      <span style="font-size:0.8rem;color:${isFinished?'#93ff8e':'wheat'};font-weight:${isFinished||s.durationMs>0?'bold':'normal'}">${timeTxt}</span>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function checkWinnerCompletion(g) {
+  if (!g || !g.code) return;
+  const cfg = STATE.missionsSettings || {};
+  if (cfg.enabled === false || cfg.enableWinnerNotification === false) return;
+
+  const totalMissions = (STATE.missions || []).length;
+  if (totalMissions === 0) return;
+
+  if (!STATE.guestMissions) STATE.guestMissions = {};
+  if (!STATE.guestMissions[g.code]) STATE.guestMissions[g.code] = { answers: {}, completedCount: 0 };
+  const gData = STATE.guestMissions[g.code];
+
+  const times = getMissionsStartEndTimestamps();
+
+  // Compute live scores for all guests
+  const scores = [];
+  (STATE.guests || []).forEach(item => {
+    const d = (STATE.guestMissions && STATE.guestMissions[item.code]) || { answers: {}, completedCount: 0 };
+    const cCount = d.completedCount || 0;
+    let dur = d.durationMs || 0;
+    if (d.completedAllAt && !dur) {
+      dur = d.completedAllAt - times.startMs;
+      if (dur < 0) dur = 0;
+    }
+    scores.push({ code: item.code, completedCount: cCount, durationMs: dur });
   });
 
   scores.sort((a, b) => {
@@ -3648,60 +3741,75 @@ function renderGuestRanking() {
     return b.completedCount - a.completedCount;
   });
 
-  scores.forEach((s, idx) => {
-    const isFinished = totalMissions > 0 && s.completedCount === totalMissions;
-    let medal = `${idx + 1}.`;
-    if(idx === 0) medal = '🥇 1.';
-    if(idx === 1) medal = '🥈 2.';
-    if(idx === 2) medal = '🥉 3.';
-    const timeTxt = isFinished ? `⏱ ${formatDuration(s.durationMs)}` : `${s.completedCount} / ${totalMissions} ukończone`;
-    const div = document.createElement('div');
-    div.className = 'ranking-item' + (idx === 0 ? ' first-place' : '');
-    div.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0.8rem;margin-bottom:0.4rem;background:rgba(255,255,255,0.05);border-radius:8px;border:1px solid rgba(201,168,76,0.2)';
-    div.innerHTML = `
-      <span style="font-weight:bold;color:gold">${medal} ${escHtml(s.name)}</span>
-      <span style="font-size:0.8rem;color:${isFinished?'#93ff8e':'wheat'};font-weight:${isFinished?'bold':'normal'}">${timeTxt}</span>
-    `;
-    list.appendChild(div);
-  });
-}
+  const pos = scores.findIndex(s => s.code === g.code);
+  if (pos < 0 || pos > 2) return;
 
-function checkAndTriggerWinnerNotification(g, compCount, totalMissions) {
-  if (compCount !== totalMissions || totalMissions === 0) return;
-  const gData = STATE.guestMissions && STATE.guestMissions[g.code];
-  if (!gData) return;
-  const cfg = STATE.missionsSettings || {};
-  if (cfg.enableWinnerNotification === false) return;
-  let notify = false, winnerMsg = '', medalTitle = '';
-  if (!STATE.firstWinner) {
-    STATE.firstWinner = { code: g.code, name: [g.name1, g.name2].filter(Boolean).join(' '), at: Date.now() };
-    if (cfg.enableWinnerNotif1 !== false) {
-      notify = true;
-      winnerMsg = cfg.winnerMessage1 || cfg.winnerMessage || '🎉 Gratulacje! Zająłeś 1. MIEJSCE (ZŁOTO)!';
-      medalTitle = '🥇 1. MIEJSCE — ZŁOTY MEDAL!';
-    }
+  const isEligible = gData.completedCount === totalMissions || times.isAfterEnd || (cfg.publishResults === true);
+  if (!isEligible) return;
+
+  let notify = false;
+  let notifKey = '';
+  let title = '';
+  let msg = '';
+  let confettiColors = [];
+
+  const isFullWin = gData.completedCount === totalMissions;
+
+  if (pos === 0 && cfg.enableWinnerNotif1 !== false && !gData.notifiedWinner1) {
+    notify = true;
+    notifKey = 'notifiedWinner1';
+    title = '🥇 1. MIEJSCE — ZŁOTY MEDAL!';
+    const defaultMsg = isFullWin
+      ? '🎉 Gratulacje! Zająłeś 1. MIEJSCE (ZŁOTO)! Ukończyłeś wszystkie misje w najkrótszym czasie! Odbierz nagrodę u Pary Młodej! 🏆'
+      : '🎉 Gratulacje! Zająłeś 1. MIEJSCE (ZŁOTO)! Zdobyłeś najlepszy wynik w wyzwaniach weselnych! Odbierz nagrodę u Pary Młodej! 🏆';
+    msg = cfg.winnerMessage1 || cfg.winnerMessage || defaultMsg;
+    confettiColors = ['#f1c40f', '#d4af37', '#ffffff', '#e67e22'];
+  } else if (pos === 1 && cfg.enableWinnerNotif2 !== false && !gData.notifiedWinner2) {
+    notify = true;
+    notifKey = 'notifiedWinner2';
+    title = '🥈 2. MIEJSCE — SREBRNY MEDAL!';
+    msg = cfg.winnerMessage2 || '🥈 Gratulacje! Zająłeś 2. MIEJSCE (SREBRO) w wyzwaniach weselnych! Wspaniały wynik! 🏆';
+    confettiColors = ['#c0c0c0', '#e0e0e0', '#ffffff', '#7f8c8d'];
+  } else if (pos === 2 && cfg.enableWinnerNotif3 !== false && !gData.notifiedWinner3) {
+    notify = true;
+    notifKey = 'notifiedWinner3';
+    title = '🥉 3. MIEJSCE — BRĄZOWY MEDAL!';
+    msg = cfg.winnerMessage3 || '🥉 Gratulacje! Zająłeś 3. MIEJSCE (BRĄZ) w wyzwaniach weselnych! Brawo! 🏆';
+    confettiColors = ['#cd7f32', '#d35400', '#f39c12', '#ffffff'];
   }
-  if (notify && !gData.notifiedWinner) {
-    gData.notifiedWinner = true;
+
+  if (notify && notifKey) {
+    gData[notifKey] = true;
     saveLocal();
+
     const msgEl = document.getElementById('winner-modal-body');
-    if(msgEl) msgEl.innerHTML = `<div style="font-weight:bold;color:gold;font-size:1.15rem;margin-bottom:0.5rem">${medalTitle}</div><div style="font-size:0.9rem;line-height:1.4">${escHtml(winnerMsg)}</div>`;
+    if (msgEl) {
+      msgEl.innerHTML = `
+        <div style="font-weight:bold;color:gold;font-size:1.18rem;margin-bottom:0.6rem;text-align:center">${title}</div>
+        <div style="font-size:0.92rem;line-height:1.45;color:wheat;text-align:center">${escHtml(msg)}</div>
+      `;
+    }
+
     const confWrap = document.getElementById('confetti-container');
-    if(confWrap) {
+    if (confWrap) {
       confWrap.innerHTML = '';
-      const colors = ['#f1c40f', '#e74c3c', '#2ecc71', '#3498db', '#9b59b6'];
-      for(let i=0; i<35; i++) {
+      for (let i = 0; i < 40; i++) {
         const piece = document.createElement('div');
         piece.className = 'confetti-piece';
-        piece.style.left = Math.random()*100 + '%';
-        piece.style.background = colors[Math.floor(Math.random()*colors.length)];
-        piece.style.animationDelay = (Math.random()*2) + 's';
+        piece.style.left = Math.random() * 100 + '%';
+        piece.style.background = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+        piece.style.animationDelay = (Math.random() * 2) + 's';
         confWrap.appendChild(piece);
       }
     }
+
     const wModal = document.getElementById('winner-modal-overlay');
-    if(wModal) wModal.classList.remove('hidden');
+    if (wModal) wModal.classList.remove('hidden');
   }
+}
+
+function checkAndTriggerWinnerNotification(g, compCount, totalMissions) {
+  checkWinnerCompletion(g);
 }
 
 // ═══════════════════════════════════════════════════════════

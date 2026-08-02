@@ -504,9 +504,9 @@
   "missions": [
     {
       "id": "m1",
-      "title": "Uwiecznij swój ślubny look w magicznym lustrze solo lub w doborowym towarzystwie (3 zdjęcia)",
+      "title": "Uwiecznij swój ślubny look w magicznym lustrze solo lub w doborowym towarzystwie (2 zdjęcia)",
       "type": "zdjecie",
-      "targetCount": 3
+      "targetCount": 2
     },
     {
       "id": "m2",

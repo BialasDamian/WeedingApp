@@ -484,12 +484,11 @@
   ],
   "missionsSettings": {
     "enabled": true,
-    "showRanking": true,
+    "showRanking": false,
     "enableWinnerNotification": true,
     "enableWinnerNotif1": true,
     "enableWinnerNotif2": true,
     "enableWinnerNotif3": true,
-    "enableRoseGateAnimation": true,
     "parentFolder": "Wesele 2026",
     "winnerMessage": "🎉 Gratulacje! Jesteś pierwszą osobą, która ukończyła wszystkie misje weselne! Odbierz swoją nagrodę u Pary Młodej! 🏆",
     "winnerMessage1": "🎉 Gratulacje! Zająłeś 1. MIEJSCE (ZŁOTO)! Ukończyłeś wszystkie misje w najkrótszym czasie! Odbierz nagrodę u Pary Młodej! 🏆",
@@ -499,7 +498,8 @@
     "startTime": "15:30",
     "endTime": "23:50",
     "manualOverride": null,
-    "publishResults": false
+    "publishResults": false,
+    "enableRoseGateAnimation": true
   },
   "missions": [
     {

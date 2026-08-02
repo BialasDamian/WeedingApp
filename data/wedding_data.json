@@ -611,7 +611,9 @@
           "updatedAt": 1785702594815
         }
       },
-      "completedCount": 7
+      "completedCount": 8,
+      "completedAllAt": 1785702594817,
+      "durationMs": 414817
     },
     "G-017": {
       "answers": {

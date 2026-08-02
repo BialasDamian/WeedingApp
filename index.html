@@ -408,7 +408,7 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:wheat;font-
 .guest-body{padding:1.1rem;max-width:700px;margin:0 auto}
 .g-section{margin-bottom:1.8rem}
 .g-section-lbl{text-align:center;font-size:0.67rem;place-self: center;letter-spacing:0.2em;text-transform:uppercase;color: wheat;opacity:0.8;margin-bottom:0.7rem}
-.g-card{background:rgba(255,253,248,0.04);text-align: -webkit-center;justify-items: center; border:1px solid rgba(201,168,76,0.18);border-radius:var(--radius);padding:1rem 1.2rem;margin-bottom:0.7rem}
+.g-card{background:rgba(255,253,248,0.04);justify-items: center; border:1px solid rgba(201,168,76,0.18);border-radius:var(--radius);padding:1rem 1.2rem;margin-bottom:0.7rem}
 .neighbor-row{display:flex;align-items:center;gap:0.75rem;padding:0.45rem 0;border-bottom:1px solid rgba(201,168,76,0.1)}
 .neighbor-row:last-child{border-bottom:none}
 .neighbor-seat-badge{width:25px;height:25px;border-radius:50%;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;font-size:0.65rem;color:wheat;flex-shrink:0}
@@ -676,7 +676,7 @@ button:not(.btn-primary):not(.btn-secondary):hover {
       </p>
       <div class="guests-wrap">
         <table class="guests-tbl">
-          <thead><tr><th>#</th><th>Gość 1</th><th>Gość 2</th><th>Krzesło 1</th><th>Krzesło 2</th><th style="text-align:center">👑 Tron</th><th>Kod</th><th></th></tr></thead>
+          <thead><tr><th>#</th><th>Imię</th><th>Nazwisko</th><th>Krzesło</th><th style="text-align:center">👑 Tron</th><th>Kod zaproszenia</th><th></th></tr></thead>
           <tbody id="guests-tbody"></tbody>
         </table>
       </div>
@@ -925,22 +925,24 @@ button:not(.btn-primary):not(.btn-secondary):hover {
     </div>
   </div>
   <div class="guest-body">
+    <!-- 2. TWOJE MIEJSCE PRZY STOLE -->
     <div class="g-section">
       <div class="g-section-lbl">Twoje miejsce przy stole</div>
       <div class="g-card">
         <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:#FFF8EE;margin-bottom:0.5rem">Stół Główny</div>
         <div style="display:flex;gap:1.5rem;flex-wrap:wrap">
-          <div><div style="font-size:0.67rem;text-transform:uppercase;letter-spacing:0.1em;color:wheat;opacity:0.6">Krzesło</div><div style="color:wheat;font-weight:500;font-size:0.88rem" id="g-seat">—</div></div>
+          <div><div style="font-size:0.67rem;text-transform:uppercase;letter-spacing:0.1em;color:wheat;opacity:0.6">Krzesło</div><div style="color:#93ff8e;font-weight:bold;font-size:0.95rem" id="g-seat">—</div></div>
           <div><div style="font-size:0.67rem;text-transform:uppercase;letter-spacing:0.1em;color:wheat;opacity:0.6">Miejsce</div><div style="color:wheat;font-weight:500;font-size:0.88rem" id="g-venue-txt">—</div></div>
         </div>
       </div>
     </div>
 
+    <!-- 3. UKŁAD STOŁU -->
     <div class="g-section">
       <div class="g-section-lbl">Układ stołu <br> (Powiększ dwoma palcami na smartfonie lub scrolluj)</div>
       <div class="g-card" style="padding:0;overflow:hidden">
         <div class="legend" style="padding:1rem 1rem 0">
-          <div class="legend-item" style="color:wheat"><div class="legend-dot" style="background:wheat;border:2px solid #8B6914"></div> Twoje krzesło</div>
+          <div class="legend-item" style="color:wheat"><div class="legend-dot" style="background:#93ff8e;border:2px solid #27ae60"></div> Twoje krzesło</div>
           <div class="legend-item" style="color:wheat"><div class="legend-dot" style="background:linear-gradient(rgba(201, 168, 76, 0.3),rgba(201, 168, 76, 0.3)), wheat;border:1.5px solid brown"></div> Zajęte</div>
           <div class="legend-item" style="color:wheat"><div class="legend-dot" style="background:linear-gradient(rgba(255, 255, 255, 0.65),rgba(255, 255, 255, 0.65)), wheat;border:1.5px solid brown"></div> Wolne</div>
         </div>
@@ -955,13 +957,27 @@ button:not(.btn-primary):not(.btn-secondary):hover {
       </div>
     </div>
 
+    <!-- 4. SIEDZISZ OBOK -->
     <div class="g-section">
-      <div class="g-section-lbl">Siedzisz obok</div>
+      <div class="g-section-lbl">Siedzisz obok i naprzeciwko</div>
       <div class="g-card" id="g-neighbors"></div>
     </div>
 
+    <!-- 5. PLAN WESELA -->
     <div class="g-section">
-      <div class="g-section-lbl">Zamów Piosenkę na Parkiet <br>(z Apple Music)</div>
+      <div class="g-section-lbl">Plan wesela</div>
+      <div class="g-card"><div class="sch-timeline" id="g-schedule"></div></div>
+    </div>
+
+    <!-- 6. JADŁOSPIS -->
+    <div class="g-section" id="g-menu-section" style="display:none">
+      <div class="g-section-lbl">Jadłospis</div>
+      <div class="g-card" id="g-menu-content"></div>
+    </div>
+
+    <!-- 7. ZASUGERUJ PIOSENKĘ NA PARKIET -->
+    <div class="g-section">
+      <div class="g-section-lbl">Zasugeruj piosenkę na parkiet <br>(z Apple Music)</div>
       <div class="g-card">
         <div class="music-search-wrap">
           <input type="text" id="music-search" placeholder="Wpisz tytuł piosenki lub wykonawcę..." oninput="searchMusic(this.value)">
@@ -971,11 +987,13 @@ button:not(.btn-primary):not(.btn-secondary):hover {
             <button class="btn-secondary" style="padding:0.3rem 0.8rem;width:auto;font-size:0.7rem;margin-top:0.3rem" onclick="addManualSong()">Wpisz ręcznie</button>
           </div>
         </div>
+        <div id="g-music-list-content" style="margin-top:1rem;display:flex;flex-direction:column;gap:0.4rem"></div>
       </div>
     </div>
 
-    <!-- SEKCJA MISJI I WYZWAŃ WESELNYCH -->
+    <!-- 8. SEKCJA MISJI I WYZWAŃ WESELNYCH -->
     <div class="g-section" id="g-missions-section">
+      <div style="text-align:center;font-size:0.85rem;letter-spacing:0.2em;color:gold;font-weight:bold;margin-bottom:0.2rem">KONKURS</div>
       <div class="g-section-lbl">🎯 Misje &amp; Wyzwania Weselne</div>
       <div class="g-card">
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.5rem">
@@ -989,22 +1007,13 @@ button:not(.btn-primary):not(.btn-secondary):hover {
       </div>
     </div>
 
-    <!-- SEKCJA RANKINGU NA ŻYWO -->
+    <!-- 9. SEKCJA RANKINGU NA ŻYWO -->
     <div class="g-section" id="g-ranking-section">
       <div class="g-section-lbl">🏆 Ranking Misji na Żywo</div>
       <div class="g-card">
         <div style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:#FFF8EE;margin-bottom:0.8rem">Liderzy Wyzwań</div>
         <div id="g-ranking-list" class="ranking-list"></div>
       </div>
-    </div>
-
-    <div class="g-section" id="g-menu-section" style="display:none">
-      <div class="g-section-lbl">Jadłospis</div>
-      <div class="g-card" id="g-menu-content"></div>
-    </div>
-    <div class="g-section">
-      <div class="g-section-lbl">Plan wesela</div>
-      <div class="g-card"><div class="sch-timeline" id="g-schedule"></div></div>
     </div>
   </div>
 </div>
@@ -1984,22 +1993,60 @@ function getSeatNumber(id){
 }
 
 function seatLabel(id){
+  const num = getSeatNumber(id);
   if(isThrone(id)){
     const type = getThroneType(id);
-    if(type === 'T1') return '👑 ' + (STATE.settings.throne1 || 'Pan Młody');
-    if(type === 'T2') return '👑 ' + (STATE.settings.throne2 || 'Pani Młoda');
-    return '👑 Tron (' + getSeatNumber(id) + ')';
+    if(type === 'T1') return `👑 ${STATE.settings.throne1 || 'Pan Młody'} (Krzesło ${num})`;
+    if(type === 'T2') return `👑 ${STATE.settings.throne2 || 'Pani Młoda'} (Krzesło ${num})`;
+    return `👑 Tron (Krzesło ${num})`;
   }
-  return 'Krzesło ' + getSeatNumber(id);
+  return 'Krzesło ' + num;
 }
 
-function getNameForSeat(sid){
+function getFirstNameOnly(fullName) {
+  if (!fullName) return '';
+  const trimmed = String(fullName).trim();
+  if (/^pani\s+młoda$/i.test(trimmed)) return 'Pani Młoda';
+  if (/^pan\s+młody$/i.test(trimmed)) return 'Pan Młody';
+  const parts = trimmed.split(/\s+/);
+  return parts[0] || trimmed;
+}
+
+function getGuestFullName(g) {
+  if (!g) return '';
+  if (g.firstName || g.lastName) {
+    return [g.firstName, g.lastName].filter(Boolean).join(' ');
+  }
+  return [g.name1, g.name2].filter(Boolean).join(' ');
+}
+
+function getGuestFirstName(g) {
+  if (!g) return '';
+  if (g.firstName) return g.firstName.trim();
+  if (g.name1) return getFirstNameOnly(g.name1);
+  return getFirstNameOnly(getGuestFullName(g));
+}
+
+function getNameForSeat(sid, forGuestView = false){
   if(isThrone(sid)){
     const type = getThroneType(sid);
-    if(type === 'T1') return STATE.settings.throne1 || 'Pan Młody';
-    if(type === 'T2') return STATE.settings.throne2 || 'Pani Młoda';
+    if(type === 'T1') {
+      const name = STATE.settings.throne1 || 'Pan Młody';
+      return forGuestView ? getFirstNameOnly(name) : name;
+    }
+    if(type === 'T2') {
+      const name = STATE.settings.throne2 || 'Pani Młoda';
+      return forGuestView ? getFirstNameOnly(name) : name;
+    }
   }
-  for(const g of STATE.guests){if(g.seat1===sid)return g.name1||null;if(g.seat2===sid)return g.name2||null;}
+  for(const g of STATE.guests){
+    if(g.seat1 === sid){
+      return forGuestView ? getGuestFirstName(g) : getGuestFullName(g);
+    }
+    if(g.seat2 === sid){
+      return forGuestView ? getFirstNameOnly(g.name2) : (g.name2 || null);
+    }
+  }
   return null;
 }
 
@@ -2164,15 +2211,19 @@ function renderAdminTable(){
 }
 
 function renderGuestsTable(){
-  const tbody=document.getElementById('guests-tbody');tbody.innerHTML='';
+  const tbody=document.getElementById('guests-tbody');
+  if(!tbody) return;
+  tbody.innerHTML='';
   STATE.guests.forEach((g,i)=>{
-    const tr=document.createElement('tr');const tf=isThrone(g.seat1)||isThrone(g.seat2);
+    const tr=document.createElement('tr');
+    const tf=isThrone(g.seat1)||isThrone(g.seat2);
+    const firstName = g.firstName !== undefined ? g.firstName : (g.name1 || '');
+    const lastName = g.lastName !== undefined ? g.lastName : (g.name2 || '');
     tr.innerHTML=
       `<td style="color:wheat;font-size:0.75rem">${i+1}</td>`+
-      `<td><input class="tbl-input" value="${escHtml(g.name1)}" data-id="${escHtml(g.id)}" data-field="name1" oninput="liveUpdate(this)" placeholder="Imię nazwisko" maxlength="80"></td>`+
-      `<td><input class="tbl-input" value="${escHtml(g.name2||'')}" data-id="${escHtml(g.id)}" data-field="name2" oninput="liveUpdate(this)" placeholder="(opcjonalnie)" maxlength="80"></td>`+
+      `<td><input class="tbl-input" value="${escHtml(firstName)}" data-id="${escHtml(g.id)}" data-field="firstName" oninput="liveUpdate(this)" placeholder="Imię" maxlength="50"></td>`+
+      `<td><input class="tbl-input" value="${escHtml(lastName)}" data-id="${escHtml(g.id)}" data-field="lastName" oninput="liveUpdate(this)" placeholder="Nazwisko" maxlength="50"></td>`+
       `<td>${buildSeatSelect(g.seat1,g.id,false,'seat1')}</td>`+
-      `<td>${buildSeatSelect(g.seat2,g.id,true,'seat2')}</td>`+
       `<td style="text-align:center"><label class="checkbox-lbl" style="justify-content:center;margin:0" title="Wyróżnij fotel gościa jako Tron"><input type="checkbox" ${tf?'checked':''} onchange="toggleGuestThrone('${escHtml(g.id)}', this.checked)"><span style="color:${tf?'gold':'wheat'};font-weight:${tf?'bold':'normal'};font-size:0.78rem">${tf?'👑 Tron':'Krzesło'}</span></label></td>`+
       `<td><span class="pill ${tf?'pill-throne':''}">${escHtml(g.code)}</span></td>`+
       `<td><button class="danger-btn" onclick="removeGuest('${escHtml(g.id)}')">✕</button></td>`;
@@ -2182,11 +2233,13 @@ function renderGuestsTable(){
 function liveUpdate(el){
   const g=STATE.guests.find(x=>x.id===el.dataset.id);
   if(g){
-    const oldName = (g.name1 || '') + '|' + (g.name2 || '');
-    g[el.dataset.field]=sanitizeText(el.value);
-    const newName = (g.name1 || '') + '|' + (g.name2 || '');
+    const field = el.dataset.field;
+    const oldName = getGuestFullName(g);
+    g[field] = sanitizeText(el.value);
+    if(field === 'firstName') g.name1 = g[field];
+    if(field === 'lastName') g.name2 = g[field];
+    const newName = getGuestFullName(g);
     if(oldName !== newName && g.code && STATE.guestMissions && STATE.guestMissions[g.code]) {
-      // Zmiana imienia i nazwiska gościa! Czyszczenie starych wyników misji poprzedniego gościa.
       delete STATE.guestMissions[g.code];
     }
     generateLayoutEngine();
@@ -2197,9 +2250,12 @@ function liveUpdate(el){
 function updateGuestField(el){
   const g=STATE.guests.find(x=>x.id===el.dataset.id);
   if(g){
-    const oldName = (g.name1 || '') + '|' + (g.name2 || '');
-    g[el.dataset.field]=el.value;
-    const newName = (g.name1 || '') + '|' + (g.name2 || '');
+    const field = el.dataset.field;
+    const oldName = getGuestFullName(g);
+    g[field]=el.value;
+    if(field === 'firstName') g.name1 = g[field];
+    if(field === 'lastName') g.name2 = g[field];
+    const newName = getGuestFullName(g);
     if(oldName !== newName && g.code && STATE.guestMissions && STATE.guestMissions[g.code]) {
       delete STATE.guestMissions[g.code];
     }
@@ -2221,7 +2277,6 @@ function addGuest(){
   const idx = maxIdx + 1;
   const code = 'G-' + String(idx).padStart(3, '0');
   
-  // Naprawa starych duplikatów: jeśli ten kod jednak istnieje, znajdźmy pierwszy wolny
   let finalCode = code;
   let attempt = idx;
   while(STATE.guests.some(g => g.code === finalCode)) {
@@ -2231,7 +2286,16 @@ function addGuest(){
 
   const taken=takenSeats(null);let ff='';
   for(let i=0;i<SEAT_IDS.length;i++){const s=SEAT_IDS[i];if(!taken.has(s)&&!isThrone(s)){ff=s;break;}}
-  STATE.guests.push({id:'g'+Date.now(),name1:'',name2:'',seat1:ff||SEAT_IDS[2]||'',seat2:'',code:finalCode});
+  STATE.guests.push({
+    id:'g'+Date.now(),
+    firstName:'',
+    lastName:'',
+    name1:'',
+    name2:'',
+    seat1:ff||SEAT_IDS[2]||'',
+    seat2:'',
+    code:finalCode
+  });
   saveLocal();renderGuestsTable();renderLivePreview();renderAdminTable();
 }
 function removeGuest(id){
@@ -2256,7 +2320,7 @@ function renderScheduleAdmin(){
 function addScheduleItem(){STATE.schedule.push({time:'00:00',event:''});renderScheduleAdmin();}
 function removeSchItem(i){STATE.schedule.splice(i,1);renderScheduleAdmin();saveLocal();}
 
-const MENU_CATEGORIES=['Zimna płyta','Zupa','Danie główne','Deser','Napoje','Inne','Dodatki','Tort','Kolacja','Ciepła przekąska'];
+const MENU_CATEGORIES=['Przystawki','Zupa','Danie główne','Deser','Napoje','Inne'];
 function renderMenuAdmin(){
   const list=document.getElementById('menu-list');list.innerHTML='';
   if(!STATE.menu)STATE.menu=[];
@@ -2276,7 +2340,7 @@ function renderQRGrid(){
     if(!g.name1&&!g.name2)return;
     const seats=[g.seat1,g.seat2].filter(Boolean);
     const div=document.createElement('div');div.className='qr-card';
-    const nameDisplay=[g.name1,g.name2].filter(Boolean).join(' & ');
+    const nameDisplay=[g.name1,g.name2].filter(Boolean).join(' ');
     div.innerHTML=`<div class="qr-card-name">${escHtml(nameDisplay)}</div><div class="qr-card-info">${escHtml(seats.map(s=>seatLabel(s)).join(' + '))}</div><span class="pill ${isThrone(g.seat1)||isThrone(g.seat2)?'pill-throne':''}">${escHtml(g.code)}</span><button class="qr-btn" onclick="showQRModal('${escHtml(g.id)}')">Generuj QR</button>`;
     grid.appendChild(div);
   });
@@ -2306,7 +2370,7 @@ function showQRModal(gid){
   if(!requireAdmin())return;
   const g=STATE.guests.find(x=>x.id===gid);if(!g)return;
   const url=window.location.href.split('?')[0]+'?guest='+encodeURIComponent(g.code);
-  const nameDisplay=[g.name1,g.name2].filter(Boolean).join(' & ');
+  const nameDisplay=[g.name1,g.name2].filter(Boolean).join(' ');
   const seats=[g.seat1,g.seat2].filter(Boolean);
   document.getElementById('modal-qr-title').textContent=nameDisplay;
   document.getElementById('qr-modal-info').textContent=seats.map(s=>seatLabel(s)).join(' + ');
@@ -2322,10 +2386,11 @@ function showQRModal(gid){
 // ═══════════════════════════════════════════════════════════
 function renderGuestView(g){
   window._currentGuestCode = g.code;
-  window._currentGuestName = [g.name1, g.name2].filter(Boolean).join(' & ');
+  const fullName = getGuestFullName(g);
+  window._currentGuestName = fullName || 'Gość';
   document.getElementById('g-title').textContent=STATE.settings.names;
   document.getElementById('g-date').textContent=(STATE.settings.date||'').toUpperCase();
-  document.getElementById('g-name').textContent=[g.name1,g.name2].filter(Boolean).join(' & ');
+  document.getElementById('g-name').textContent=fullName || 'Gość';
   const seats=[g.seat1,g.seat2].filter(Boolean);
   document.getElementById('g-seat').textContent=seats.map(s=>seatLabel(s)).join(' + ');
   document.getElementById('g-venue-txt').textContent=STATE.settings.venue||'—';
@@ -2357,16 +2422,18 @@ function renderGuestMenu(){
   const sec=document.getElementById('g-menu-section');const content=document.getElementById('g-menu-content');
   if(!STATE.menu||!STATE.menu.length){sec.style.display='none';return;}
   sec.style.display='';content.innerHTML='';
+  content.style.cssText = 'width:80%;margin:0 auto;text-align:center;';
   const cats={};
   STATE.menu.forEach(item=>{const cat=item.category||'Inne';if(!cats[cat])cats[cat]=[];cats[cat].push(item.name);});
   Object.entries(cats).forEach(([cat,items])=>{
-    const hdr=document.createElement('div');hdr.style.cssText='font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:wheat;opacity:0.7;margin:0.6rem 0 0.3rem';hdr.textContent=cat;content.appendChild(hdr);
-    items.forEach(name=>{const row=document.createElement('div');row.style.cssText='font-size:0.88rem;color:rgba(255,248,238,0.7);padding:0.15rem 0';row.textContent='· '+name;content.appendChild(row);});
+    const hdr=document.createElement('div');hdr.style.cssText='font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:wheat;opacity:0.75;margin:1.1rem 0 0.4rem;text-align:center;border-bottom:1px solid rgba(201,168,76,0.15);padding-bottom:0.3rem';hdr.textContent=cat;content.appendChild(hdr);
+    items.forEach(name=>{const row=document.createElement('div');row.style.cssText='font-size:0.88rem;color:rgba(255,248,238,0.85);padding:0.22rem 0;text-align:center';row.textContent='· '+name;content.appendChild(row);});
   });
 }
 
 function renderGuestNeighbors(g){
-  const wrap=document.getElementById('g-neighbors');wrap.innerHTML='';
+  const wrap=document.getElementById('g-neighbors');if(!wrap)return;
+  wrap.innerHTML='';
   const my=[g.seat1,g.seat2].filter(Boolean);const nids=new Set();
   const gapVal=(STATE.settings.table.gap||48);
   my.forEach(s=>{
@@ -2375,17 +2442,27 @@ function renderGuestNeighbors(g){
       if(otherId===s||my.includes(otherId))return;
       const otherPos=CURRENT_LAYOUT.posMap[otherId];if(!otherPos)return;
       const dx=myPos.x-otherPos.x,dy=myPos.y-otherPos.y;
-      if(Math.sqrt(dx*dx+dy*dy)<gapVal*2.5)nids.add(otherId);
+      if(Math.sqrt(dx*dx+dy*dy)<gapVal*2.8)nids.add(otherId);
     });
   });
   if(!nids.size){const d=document.createElement('div');d.style.cssText='color:rgba(255,248,238,0.28);font-size:0.83rem;font-style:italic';d.textContent='Brak bliskich sąsiadów.';wrap.appendChild(d);return;}
   nids.forEach(nid=>{
-    const name=getNameForSeat(nid)||'wolne miejsce';
+    const name=getNameForSeat(nid, true)||'wolne miejsce';
+    const myPos = my[0] ? CURRENT_LAYOUT.posMap[my[0]] : null;
+    const otherPos = CURRENT_LAYOUT.posMap[nid];
+    let relPos = 'obok';
+    if (myPos && otherPos) {
+      if (myPos.isH === otherPos.isH && myPos.dir !== otherPos.dir) {
+        relPos = 'naprzeciwko';
+      } else if (myPos.isH !== otherPos.isH && (Math.abs(myPos.x - otherPos.x) > 40 || Math.abs(myPos.y - otherPos.y) > 40)) {
+        relPos = 'naprzeciwko';
+      }
+    }
     const row=document.createElement('div');row.className='neighbor-row';
-    const badge=document.createElement('div');badge.className='neighbor-seat-badge';badge.textContent=isThrone(nid)?'♛':nid;
+    const badge=document.createElement('div');badge.className='neighbor-seat-badge';badge.textContent=isThrone(nid)?'♛':getSeatNumber(nid);
     const info=document.createElement('div');
     const nm=document.createElement('div');nm.className='neighbor-name';nm.textContent=name;
-    const dr=document.createElement('div');dr.style.cssText='font-size:0.72rem;color:wheat';dr.textContent='obok · '+seatLabel(nid);
+    const dr=document.createElement('div');dr.style.cssText='font-size:0.72rem;color:wheat';dr.textContent=`${relPos} · Krzesło ${getSeatNumber(nid)}`;
     info.appendChild(nm);info.appendChild(dr);row.appendChild(badge);row.appendChild(info);wrap.appendChild(row);
   });
 }
@@ -2506,7 +2583,31 @@ function removeMusicItem(i) {
 //  DRIVE
 // ═══════════════════════════════════════════════════════════
 function parseImportedState(data){
-  if(data.guests&&Array.isArray(data.guests))STATE.guests=data.guests.map(g=>({id:String(g.id||Date.now()),name1:g.name1||'',name2:g.name2||'',seat1:String(g.seat1||''),seat2:String(g.seat2||''),code:String(g.code||'').replace(/[^A-Z0-9\-]/gi,'')}));
+  if(data.guests&&Array.isArray(data.guests)){
+    const usedCodes = new Set();
+    STATE.guests=data.guests.map((g, idx)=>{
+      let code = String(g.code||'').replace(/[^A-Z0-9\-]/gi,'');
+      if (!code || usedCodes.has(code)) {
+        let attempt = idx + 1;
+        code = 'G-' + String(attempt).padStart(3, '0');
+        while (usedCodes.has(code)) {
+          attempt++;
+          code = 'G-' + String(attempt).padStart(3, '0');
+        }
+      }
+      usedCodes.add(code);
+      return {
+        id:String(g.id||(Date.now() + idx)),
+        firstName: g.firstName !== undefined ? String(g.firstName) : (g.name1 || ''),
+        lastName: g.lastName !== undefined ? String(g.lastName) : (g.name2 || ''),
+        name1: g.name1||'',
+        name2: g.name2||'',
+        seat1: String(g.seat1||''),
+        seat2: String(g.seat2||''),
+        code: code
+      };
+    });
+  }
   if(data.schedule&&Array.isArray(data.schedule))STATE.schedule=data.schedule.map(s=>({time:sanitizeText(s.time||''),event:sanitizeText(s.event||'')}));
   if(data.menu&&Array.isArray(data.menu))STATE.menu=data.menu.map(m=>({category:sanitizeText(m.category||''),name:sanitizeText(m.name||'')}));
   if(data.music&&Array.isArray(data.music))STATE.music=data.music;
@@ -3283,7 +3384,7 @@ async function submitMissionText(mId) {
 
   const code = (window._currentGuestCode || '').toUpperCase();
   const guest = STATE.guests.find(x => x.code === code);
-  const guestName = window._currentGuestName || (guest ? [guest.name1, guest.name2].filter(Boolean).join(' & ') : 'Gość');
+  const guestName = window._currentGuestName || (guest ? [guest.name1, guest.name2].filter(Boolean).join(' ') : 'Gość');
   
   const textEl = document.getElementById('g-m-text-' + mId);
   const text = textEl ? textEl.value.trim() : '';
@@ -3325,7 +3426,7 @@ async function submitMissionFiles(mId, type) {
 
   const code = (window._currentGuestCode || '').toUpperCase();
   const guest = STATE.guests.find(x => x.code === code);
-  const guestName = window._currentGuestName || (guest ? [guest.name1, guest.name2].filter(Boolean).join(' & ') : 'Gość');
+  const guestName = window._currentGuestName || (guest ? [guest.name1, guest.name2].filter(Boolean).join(' ') : 'Gość');
 
   const mission = (STATE.missions || []).find(m => m.id === mId);
   const reqCount = (mission && mission.targetCount) ? mission.targetCount : 1;
@@ -3467,7 +3568,7 @@ function renderGuestRanking() {
 
   const scores = [];
   (STATE.guests || []).forEach(g => {
-    const name = [g.name1, g.name2].filter(Boolean).join(' & ') || 'Gość';
+    const name = [g.name1, g.name2].filter(Boolean).join(' ') || 'Gość';
     const gData = (STATE.guestMissions && STATE.guestMissions[g.code]) || { answers: {}, completedCount: 0 };
     const compCount = gData.completedCount || 0;
     let durationMs = gData.durationMs || 0;
@@ -3509,7 +3610,7 @@ function checkAndTriggerWinnerNotification(g, compCount, totalMissions) {
   if (cfg.enableWinnerNotification === false) return;
   let notify = false, winnerMsg = '', medalTitle = '';
   if (!STATE.firstWinner) {
-    STATE.firstWinner = { code: g.code, name: [g.name1, g.name2].filter(Boolean).join(' & '), at: Date.now() };
+    STATE.firstWinner = { code: g.code, name: [g.name1, g.name2].filter(Boolean).join(' '), at: Date.now() };
     if (cfg.enableWinnerNotif1 !== false) {
       notify = true;
       winnerMsg = cfg.winnerMessage1 || cfg.winnerMessage || '🎉 Gratulacje! Zająłeś 1. MIEJSCE (ZŁOTO)!';

@@ -563,6 +563,20 @@
       "targetCount": 1
     }
   ],
-  "guestMissions": {},
+  "guestMissions": {
+    "G-005": {
+      "answers": {
+        "m1": {
+          "status": "completed",
+          "files": [
+            "https://drive.google.com/file/d/1ENQMhNwJhbr8CK5y9lL8IGMV5rUYmRJa/view?usp=drivesdk",
+            "https://drive.google.com/file/d/1W_jyaSRVXe67-qdf5H0DgXRlbCe80L6x/view?usp=drivesdk"
+          ],
+          "updatedAt": 1785695481355
+        }
+      },
+      "completedCount": 0
+    }
+  },
   "firstWinner": null
 }

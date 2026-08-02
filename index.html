@@ -1863,9 +1863,9 @@ function show(id){
   if(el) el.classList.add('active');
   if(id==='screen-landing'){
     const t = document.getElementById('l-title');
-    if(t && STATE && STATE.settings) t.innerHTML='<em>'+escHtml(STATE.settings.names || 'Para Młoda')+'</em>';
+    if(t && STATE && STATE.settings) t.innerHTML='<em>'+escHtml(STATE.settings.names || 'Aleksandra & Damian')+'</em>';
     const d = document.getElementById('l-date');
-    if(d && STATE && STATE.settings) d.textContent=sanitizeText(STATE.settings.date || 'Data Wesela');
+    if(d && STATE && STATE.settings) d.textContent=sanitizeText(STATE.settings.date || '11.09.2026');
   }
 }
 function switchTab(tabId,btn){

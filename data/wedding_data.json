@@ -50,8 +50,7 @@
         "T1": "T2"
       }
     },
-    "githubToken": "VUMzT2VheFdJU0VJRTI2WVZJUWc0MWVGc0FxRTJrV3lsZnR5MUtmcG44SVljd1J6VEE0eDNpcHVST3VfV1dJbXB3cDJJV1lEMFlPTUZDQUIxMV90YXBfYnVodGln",
-    "qrFooterText": "Zeskanuj kod QR aparatem, poznaj szczegóły <br> wydarzenia i weź udział w konkursie weselnym"
+    "githubToken": "VUMzT2VheFdJU0VJRTI2WVZJUWc0MWVGc0FxRTJrV3lsZnR5MUtmcG44SVljd1J6VEE0eDNpcHVST3VfV1dJbXB3cDJJV1lEMFlPTUZDQUIxMV90YXBfYnVodGln"
   },
   "guests": [
     {
@@ -497,7 +496,7 @@
     "winnerMessage3": "🥉 Gratulacje! Zająłeś 3. MIEJSCE (BRĄZ) w wyzwaniach weselnych! Brawo! 🏆",
     "driveScriptUrl": "https://script.google.com/macros/s/AKfycbz91-95zDTqcoyYyCAZy5nHiu1dnWf112JrkBMYSeSW4nroUMOyukF9UY6Wj3RMGzoRjQ/exec",
     "startTime": "23:20",
-    "endTime": "23:33",
+    "endTime": "00:15",
     "manualOverride": null,
     "publishResults": false,
     "enableRoseGateAnimation": true

@@ -1755,6 +1755,7 @@ function buildTableSVG(mySeats,darkMode,clickMode){
     });
   }
   svg+='</svg>';
+  if (typeof syncGuestCodesToSeats === 'function') syncGuestCodesToSeats();
   return{svg,pos:layout.posMap};
 }
 
@@ -1913,6 +1914,19 @@ function goGuestLogin(){
   if(errEl) errEl.textContent = '';
   setTimeout(()=>{ if(codeEl) codeEl.focus(); }, 100);
 }
+function syncGuestCodesToSeats() {
+  if (!STATE.guests) return;
+  STATE.guests.forEach(g => {
+    const sid = g.seat1 || g.seat2;
+    if (sid) {
+      const num = getSeatNumber(sid);
+      if (num !== undefined && num !== null && num !== '') {
+        g.code = String(num);
+      }
+    }
+  });
+}
+
 function guestLogin(){
   const errEl = document.getElementById('guest-err');
   if(errEl) errEl.textContent = '';
@@ -1923,12 +1937,18 @@ function guestLogin(){
     return;
   }
 
-  let code = raw.replace(/[^A-Z0-9\-]/gi, '').toUpperCase();
-  if (/^\d+$/.test(code)) {
-    code = 'G-' + String(parseInt(code, 10)).padStart(3, '0');
-  }
+  syncGuestCodesToSeats();
 
-  const g = (STATE.guests || []).find(x => x.code === code);
+  const cleanInput = raw.replace(/[^A-Z0-9]/gi, '').toUpperCase();
+  const digitsOnly = raw.replace(/\D/g, '');
+  const numVal = digitsOnly ? String(parseInt(digitsOnly, 10)) : '';
+
+  const g = (STATE.guests || []).find(x => {
+    if (x.code === cleanInput || x.code === raw.toUpperCase()) return true;
+    if (numVal && (x.code === numVal || String(getSeatNumber(x.seat1)) === numVal || String(getSeatNumber(x.seat2)) === numVal)) return true;
+    return false;
+  });
+
   if (g) {
     renderGuestView(g);
     show('screen-guest');
@@ -2137,9 +2157,11 @@ function _assignSeatName(sid,name){
   });
   STATE.guests=STATE.guests.filter(g=>g.seat1||g.seat2||isThrone(g.seat1)||isThrone(g.seat2));
   if(name){
-    const idx=STATE.guests.length+1;const code='G-'+String(idx).padStart(3,'0');
+    const sNum = getSeatNumber(sid);
+    const code = (sNum !== undefined && sNum !== null && sNum !== '') ? String(sNum) : ('g'+Date.now());
     STATE.guests.push({id:'g'+Date.now(),name1:name,name2:'',seat1:sid,seat2:'',code});
   }
+  syncGuestCodesToSeats();
   
   generateLayoutEngine();
   
@@ -2246,36 +2268,22 @@ function updateGuestField(el){
   }
 }
 function addGuest(){
-  let maxIdx = 0;
-  for (let i = 0; i < STATE.guests.length; i++) {
-    const c = STATE.guests[i].code;
-    if (c && c.startsWith('G-')) {
-      const num = parseInt(c.replace('G-', ''), 10);
-      if (!isNaN(num) && num > maxIdx) maxIdx = num;
-    }
-  }
-  const idx = maxIdx + 1;
-  const code = 'G-' + String(idx).padStart(3, '0');
-  
-  let finalCode = code;
-  let attempt = idx;
-  while(STATE.guests.some(g => g.code === finalCode)) {
-    attempt++;
-    finalCode = 'G-' + String(attempt).padStart(3, '0');
-  }
-
   const taken=takenSeats(null);let ff='';
   for(let i=0;i<SEAT_IDS.length;i++){const s=SEAT_IDS[i];if(!taken.has(s)&&!isThrone(s)){ff=s;break;}}
+  const assignedSeat = ff || SEAT_IDS[2] || '1';
+  const seatNum = getSeatNumber(assignedSeat);
+  const code = String(seatNum || '1');
   STATE.guests.push({
     id:'g'+Date.now(),
     firstName:'',
     lastName:'',
     name1:'',
     name2:'',
-    seat1:ff||SEAT_IDS[2]||'',
+    seat1:assignedSeat,
     seat2:'',
-    code:finalCode
+    code:code
   });
+  syncGuestCodesToSeats();
   saveLocal();renderGuestsTable();renderLivePreview();renderAdminTable();
 }
 function removeGuest(id){

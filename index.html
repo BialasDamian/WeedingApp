@@ -2256,7 +2256,7 @@ function renderScheduleAdmin(){
 function addScheduleItem(){STATE.schedule.push({time:'00:00',event:''});renderScheduleAdmin();}
 function removeSchItem(i){STATE.schedule.splice(i,1);renderScheduleAdmin();saveLocal();}
 
-const MENU_CATEGORIES=['Zimna płyta','Zupa','Danie główne','Deser','Napoje','Inne','Dodatki','Tort','Kolacja'];
+const MENU_CATEGORIES=['Zimna płyta','Zupa','Danie główne','Deser','Napoje','Inne','Dodatki','Tort','Kolacja','Ciepła przekąska'];
 function renderMenuAdmin(){
   const list=document.getElementById('menu-list');list.innerHTML='';
   if(!STATE.menu)STATE.menu=[];

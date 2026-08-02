@@ -551,6 +551,17 @@
       "targetCount": 1
     }
   ],
-  "guestMissions": {},
+  "guestMissions": {
+    "G-023": {
+      "answers": {
+        "m3": {
+          "status": "completed",
+          "text": "Fiu fiu fiu extra!",
+          "updatedAt": 1785698605840
+        }
+      },
+      "completedCount": 0
+    }
+  },
   "firstWinner": null
 }

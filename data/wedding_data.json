@@ -504,7 +504,7 @@
   "missions": [
     {
       "id": "m1",
-      "title": "Uwiecznij swój weselny look w magicznym lustrze solo lub w doborowym towarzystwie (2 zdjęcia)",
+      "title": "Uwiecznij swój weselny look w magicznym lustrze solo lub w doborowym towarzystwie",
       "type": "zdjecie",
       "targetCount": 1
     },

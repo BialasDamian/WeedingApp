@@ -504,7 +504,7 @@
   "missions": [
     {
       "id": "m1",
-      "title": "Uwiecznij swój ślubny look w magicznym lustrze solo lub w doborowym towarzystwie (2 zdjęcia)",
+      "title": "Uwiecznij swój weselny look w magicznym lustrze solo lub w doborowym towarzystwie (2 zdjęcia)",
       "type": "zdjecie",
       "targetCount": 2
     },
@@ -522,7 +522,7 @@
     },
     {
       "id": "m4",
-      "title": "Zrób wspólne selfie z Parą Młodą",
+      "title": "Zrób wspólne selfie z Parą Młodą (2 zdjęcia)",
       "type": "zdjecie",
       "targetCount": 1
     },

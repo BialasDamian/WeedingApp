@@ -561,8 +561,8 @@ button:not(.btn-primary):not(.btn-secondary):hover {
   <div class="landing-inner">
     <div class="landing-ornament">✦ ✦ ✦</div>
     <div class="landing-names">
-      <div class="landing-title" id="l-title"><em>Para Młoda</em></div>
-      <div class="landing-date" id="l-date">Data Wesela</div>
+      <div class="landing-title" id="l-title"><em>Aleksandra & Damian</em></div>
+      <div class="landing-date" id="l-date">11.09.2026</div>
     </div>
     <div style="width:48px;height:1px;background:wheat;opacity:0.4"></div>
     <div class="btn-group">
@@ -868,8 +868,8 @@ button:not(.btn-primary):not(.btn-secondary):hover {
         <div style="margin-bottom:0.8rem">
           <button type="button" class="btn-secondary" style="padding:0.4rem 0.8rem;font-size:0.78rem;width:auto;background:rgba(212,175,55,0.15);border:1px solid gold;color:gold" onclick="swapThrones()">↔ Zamień miejscami Pana i Panią Młodą (Szybka Zamiana)</button>
         </div>
-        <div><label class="settings-label">Data wesela</label><input class="settings-input" id="s-date" placeholder="np. 14 Czerwca 2025"></div>
-        <div><label class="settings-label">Miejsce wesela</label><input class="settings-input" id="s-venue" placeholder="np. Pałac Rozalin"></div>
+        <div><label class="settings-label">Aleksandra & Damian</label><input class="settings-input" id="s-date" placeholder="np. 14 Czerwca 2025"></div>
+        <div><label class="settings-label">11.09.2026</label><input class="settings-input" id="s-venue" placeholder="np. Pałac Rozalin"></div>
         <div><label class="settings-label">Nowe hasło admina</label><input class="settings-input" type="password" id="s-pass" placeholder="Zostaw puste, by nie zmieniać"></div>
         <div style="border-top:1px solid var(--border);padding-top:1rem">
           <label class="settings-label">Google Drive — publiczny URL pliku JSON</label>
@@ -889,8 +889,8 @@ button:not(.btn-primary):not(.btn-secondary):hover {
 <div id="screen-guest" class="screen">
   <div class="guest-hero">
     <div class="guest-ornament">✦ ✦ ✦</div>
-    <div class="guest-wedding-title" id="g-title">Para Młoda</div>
-    <div class="guest-date" id="g-date">DATA WESELA</div>
+    <div class="guest-wedding-title" id="g-title">Aleksandra & Damian</div>
+    <div class="guest-date" id="g-date">11.09.2026</div>
     <div class="guest-welcome">
       <div class="guest-name-lbl">Witaj,</div>
       <div class="guest-name-big" id="g-name">Gość</div>
@@ -1248,7 +1248,7 @@ let CURRENT_LAYOUT=null;
 //  STATE
 // ═══════════════════════════════════════════════════════════
 const DEFAULT_STATE={
-  settings:{names:'Pan Młody & Pani Młoda',throne1:'Pan Młody',throne2:'Pani Młoda',date:'Data Wesela',venue:'Sala Weselna',passHash:'',driveUrl:'',
+  settings:{names:'Pan Młody & Pani Młoda',throne1:'Pan Młody',throne2:'Pani Młoda',date:'11.09.2026',venue:'Sala Weselna',passHash:'',driveUrl:'',
     table:{shape:'I',flipH:false,flipV:false,tw:60,gap:48,dist:18,
       edges:{i_top:0,i_bottom:2,i_left:17,i_right:17,u_top_out:0,u_top_in:2,u_l_out:10,u_l_in:8,u_l_bot:2,u_r_out:10,u_r_in:8,u_r_bot:2,l_top:0,l_l:12,l_r_in:8,l_t_in:6,l_b:10,l_right:2,l_v_bot:0,t_top_out:0,t_t_l:4,t_t_r:4,t_s_l:10,t_s_r:10,t_s_b:2,t_left_end:1,t_right_end:1}
     }
@@ -1850,9 +1850,9 @@ function show(id){
   if(el) el.classList.add('active');
   if(id==='screen-landing'){
     const t = document.getElementById('l-title');
-    if(t && STATE && STATE.settings) t.innerHTML='<em>'+escHtml(STATE.settings.names || 'Para Młoda')+'</em>';
+    if(t && STATE && STATE.settings) t.innerHTML='<em>'+escHtml(STATE.settings.names || 'Aleksandra & Damian')+'</em>';
     const d = document.getElementById('l-date');
-    if(d && STATE && STATE.settings) d.textContent=sanitizeText(STATE.settings.date || 'Data Wesela');
+    if(d && STATE && STATE.settings) d.textContent=sanitizeText(STATE.settings.date || '11.09.2026');
   }
 }
 function switchTab(tabId,btn){
@@ -1921,7 +1921,12 @@ function syncGuestCodesToSeats() {
     if (sid) {
       const num = getSeatNumber(sid);
       if (num !== undefined && num !== null && num !== '') {
-        g.code = String(num);
+        const parsed = parseInt(num, 10);
+        if (!isNaN(parsed)) {
+          g.code = 'G-' + String(parsed).padStart(3, '0');
+        } else {
+          g.code = String(num).trim().toUpperCase();
+        }
       }
     }
   });
@@ -1931,7 +1936,7 @@ function guestLogin(){
   const errEl = document.getElementById('guest-err');
   if(errEl) errEl.textContent = '';
 
-  const raw = (document.getElementById('guest-code').value || '').trim();
+  const raw = (document.getElementById('guest-code').value || '').trim().toUpperCase();
   if (!raw) {
     if(errEl) errEl.textContent = 'Wpisz kod znajdujący się na Twoim zaproszeniu.';
     return;
@@ -1939,15 +1944,7 @@ function guestLogin(){
 
   syncGuestCodesToSeats();
 
-  const cleanInput = raw.replace(/[^A-Z0-9]/gi, '').toUpperCase();
-  const digitsOnly = raw.replace(/\D/g, '');
-  const numVal = digitsOnly ? String(parseInt(digitsOnly, 10)) : '';
-
-  const g = (STATE.guests || []).find(x => {
-    if (x.code === cleanInput || x.code === raw.toUpperCase()) return true;
-    if (numVal && (x.code === numVal || String(getSeatNumber(x.seat1)) === numVal || String(getSeatNumber(x.seat2)) === numVal)) return true;
-    return false;
-  });
+  const g = (STATE.guests || []).find(x => (x.code || '').trim().toUpperCase() === raw);
 
   if (g) {
     renderGuestView(g);
@@ -2403,7 +2400,7 @@ async function createInvitationCanvas(g) {
   ctx.textAlign = 'center';
   ctx.fillText('✦  ✦  ✦', width / 2, 75);
 
-  const weddingTitle = (STATE.settings && STATE.settings.names) ? STATE.settings.names : 'Para Młoda';
+  const weddingTitle = (STATE.settings && STATE.settings.names) ? STATE.settings.names : 'Aleksandra & Damian';
   ctx.font = 'italic 46px "Cormorant Garamond", Georgia, serif';
   ctx.fillStyle = isTransparent ? '#3d2817' : '#f5deb3';
   ctx.fillText(weddingTitle, width / 2, 135);

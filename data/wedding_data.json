@@ -528,13 +528,13 @@
     },
     {
       "id": "m5",
-      "title": "Przełamując lody, zrób zdjęcie z Gościem, którego dzisiaj poznajesz (2 zdjęcia)",
+      "title": "Przełamując lody, zrób zdjęcie z Gościem, którego dzisiaj poznajesz",
       "type": "zdjecie",
-      "targetCount": 2
+      "targetCount": 1
     },
     {
       "id": "m6",
-      "title": "Życzenia Prosto z Serca - Nagraj krótkie wideo z radą lub życzeniami na nową drogę życia dla Pary Młodej",
+      "title": "Nagraj wideo z radą lub życzeniami na nową drogę życia dla Pary Młodej",
       "type": "wideo",
       "targetCount": 1
     },

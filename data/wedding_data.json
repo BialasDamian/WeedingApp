@@ -561,6 +561,16 @@
         }
       },
       "completedCount": 0
+    },
+    "G-017": {
+      "answers": {
+        "m3": {
+          "status": "completed",
+          "text": "Dupa dupa dupa",
+          "updatedAt": 1785698654934
+        }
+      },
+      "completedCount": 0
     }
   },
   "firstWinner": null

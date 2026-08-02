@@ -56,14 +56,6 @@
   },
   "guests": [
     {
-      "id": "g1785664141297",
-      "name1": "Pan Młody",
-      "name2": "",
-      "seat1": "1",
-      "seat2": "",
-      "code": "G-005"
-    },
-    {
       "id": "g1785664261309",
       "name1": "Pan Młody",
       "name2": "",
@@ -300,6 +292,14 @@
       "name1": "Haytham Ghanem",
       "name2": "",
       "seat1": "30",
+      "seat2": "",
+      "code": "G-031"
+    },
+    {
+      "id": "g1785664625369",
+      "name1": "Patrycja Sołtysik",
+      "name2": "",
+      "seat1": "1",
       "seat2": "",
       "code": "G-031"
     }

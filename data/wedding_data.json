@@ -551,6 +551,21 @@
       "targetCount": 1
     }
   ],
-  "guestMissions": {},
+  "guestMissions": {
+    "G-013": {
+      "answers": {
+        "m1": {
+          "status": "completed",
+          "files": [
+            "https://drive.google.com/file/d/1_llOYyWSlFYd8iM6h3ueVXViAAPnqgpR/view?usp=drivesdk"
+          ],
+          "updatedAt": 1785705712920
+        }
+      },
+      "completedCount": 0,
+      "lastActivityAt": 1785705712920,
+      "durationMs": 112920
+    }
+  },
   "firstWinner": null
 }

@@ -1,6 +1,8 @@
 {
   "settings": {
     "names": "Para Młoda",
+    "throne1": "Pan Młody",
+    "throne2": "Pani Młoda",
     "date": "Data Wesela",
     "venue": "Sala Weselna",
     "passHash": "5742e8f366549b124fba91edaac559eb95924bc4227c9dfe09382fdf9cdcca93",
@@ -50,9 +52,7 @@
         "T1": "T2"
       }
     },
-    "githubToken": "VUMzT2VheFdJU0VJRTI2WVZJUWc0MWVGc0FxRTJrV3lsZnR5MUtmcG44SVljd1J6VEE0eDNpcHVST3VfV1dJbXB3cDJJV1lEMFlPTUZDQUIxMV90YXBfYnVodGln",
-    "throne1": "Pan Młody",
-    "throne2": "Pani Młoda"
+    "githubToken": "VUMzT2VheFdJU0VJRTI2WVZJUWc0MWVGc0FxRTJrV3lsZnR5MUtmcG44SVljd1J6VEE0eDNpcHVST3VfV1dJbXB3cDJJV1lEMFlPTUZDQUIxMV90YXBfYnVodGln"
   },
   "guests": [
     {
@@ -368,7 +368,7 @@
   ],
   "menu": [
     {
-      "category": "Napoje",
+      "category": "Inne",
       "name": ""
     }
   ],
@@ -408,16 +408,16 @@
     "enabled": true,
     "showRanking": true,
     "enableWinnerNotification": true,
-    "enableRoseGateAnimation": true,
-    "parentFolder": "Wesele 2026",
-    "winnerMessage": "🎉 Gratulacje! Jesteś pierwszą osobą, która ukończyła wszystkie misje weselne! Odbierz swoją nagrodę u Pary Młodej! 🏆",
-    "driveScriptUrl": "https://script.google.com/macros/s/AKfycbz91-95zDTqcoyYyCAZy5nHiu1dnWf112JrkBMYSeSW4nroUMOyukF9UY6Wj3RMGzoRjQ/exec",
     "enableWinnerNotif1": true,
     "enableWinnerNotif2": true,
     "enableWinnerNotif3": true,
+    "enableRoseGateAnimation": true,
+    "parentFolder": "Wesele 2026",
+    "winnerMessage": "🎉 Gratulacje! Jesteś pierwszą osobą, która ukończyła wszystkie misje weselne! Odbierz swoją nagrodę u Pary Młodej! 🏆",
     "winnerMessage1": "🎉 Gratulacje! Zająłeś 1. MIEJSCE (ZŁOTO)! Ukończyłeś wszystkie misje w najkrótszym czasie! Odbierz nagrodę u Pary Młodej! 🏆",
     "winnerMessage2": "🥈 Gratulacje! Zająłeś 2. MIEJSCE (SREBRO) w wyzwaniach weselnych! Wspaniały wynik! 🏆",
     "winnerMessage3": "🥉 Gratulacje! Zająłeś 3. MIEJSCE (BRĄZ) w wyzwaniach weselnych! Brawo! 🏆",
+    "driveScriptUrl": "https://script.google.com/macros/s/AKfycbz91-95zDTqcoyYyCAZy5nHiu1dnWf112JrkBMYSeSW4nroUMOyukF9UY6Wj3RMGzoRjQ/exec",
     "startTime": "15:00",
     "endTime": "00:45",
     "manualOverride": null,

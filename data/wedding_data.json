@@ -1,9 +1,9 @@
 {
   "settings": {
-    "names": "Para Młoda",
+    "names": "Aleksandra & Damian",
     "throne1": "Pan Młody",
     "throne2": "Pani Młoda",
-    "date": "Data Wesela",
+    "date": "11.09.2026",
     "venue": "Sala Weselna",
     "passHash": "5742e8f366549b124fba91edaac559eb95924bc4227c9dfe09382fdf9cdcca93",
     "driveUrl": "",
@@ -61,7 +61,7 @@
       "name2": "",
       "seat1": "T2",
       "seat2": "",
-      "code": "2"
+      "code": "G-002"
     },
     {
       "id": "g1785664264801",
@@ -71,7 +71,7 @@
       "name2": "",
       "seat1": "T1",
       "seat2": "",
-      "code": "1"
+      "code": "G-001"
     },
     {
       "id": "g1785664293498",
@@ -81,7 +81,7 @@
       "name2": "Romanowski",
       "seat1": "4",
       "seat2": "",
-      "code": "6"
+      "code": "G-006"
     },
     {
       "id": "g1785664310914",
@@ -91,7 +91,7 @@
       "name2": "Źrałek",
       "seat1": "5",
       "seat2": "",
-      "code": "7"
+      "code": "G-007"
     },
     {
       "id": "g1785664319929",
@@ -101,7 +101,7 @@
       "name2": "Jędrzejewski",
       "seat1": "6",
       "seat2": "",
-      "code": "8"
+      "code": "G-008"
     },
     {
       "id": "g1785664335153",
@@ -111,7 +111,7 @@
       "name2": "Jemielniak",
       "seat1": "7",
       "seat2": "",
-      "code": "9"
+      "code": "G-009"
     },
     {
       "id": "g1785664345106",
@@ -121,7 +121,7 @@
       "name2": "Źrałek",
       "seat1": "8",
       "seat2": "",
-      "code": "10"
+      "code": "G-010"
     },
     {
       "id": "g1785664352578",
@@ -131,7 +131,7 @@
       "name2": "Jemielniak",
       "seat1": "9",
       "seat2": "",
-      "code": "11"
+      "code": "G-011"
     },
     {
       "id": "g1785664380134",
@@ -141,7 +141,7 @@
       "name2": "Karaś-Jemielniak",
       "seat1": "10",
       "seat2": "",
-      "code": "12"
+      "code": "G-012"
     },
     {
       "id": "g1785664387816",
@@ -151,7 +151,7 @@
       "name2": "Gajdzik",
       "seat1": "11",
       "seat2": "",
-      "code": "13"
+      "code": "G-013"
     },
     {
       "id": "g1785664398288",
@@ -161,7 +161,7 @@
       "name2": "Gajdzik",
       "seat1": "12",
       "seat2": "",
-      "code": "14"
+      "code": "G-014"
     },
     {
       "id": "g1785664405454",
@@ -171,7 +171,7 @@
       "name2": "Gawron",
       "seat1": "13",
       "seat2": "",
-      "code": "15"
+      "code": "G-015"
     },
     {
       "id": "g1785664413454",
@@ -181,7 +181,7 @@
       "name2": "Kędzierska",
       "seat1": "14",
       "seat2": "",
-      "code": "16"
+      "code": "G-016"
     },
     {
       "id": "g1785664419475",
@@ -191,7 +191,7 @@
       "name2": "Kaim",
       "seat1": "15",
       "seat2": "",
-      "code": "17"
+      "code": "G-017"
     },
     {
       "id": "g1785664427496",
@@ -201,7 +201,7 @@
       "name2": "Kaim",
       "seat1": "16",
       "seat2": "",
-      "code": "18"
+      "code": "G-018"
     },
     {
       "id": "g1785664465305",
@@ -211,7 +211,7 @@
       "name2": "Ciszek",
       "seat1": "17",
       "seat2": "",
-      "code": "19"
+      "code": "G-019"
     },
     {
       "id": "g1785664468885",
@@ -221,7 +221,7 @@
       "name2": "Ciszek",
       "seat1": "18",
       "seat2": "",
-      "code": "20"
+      "code": "G-020"
     },
     {
       "id": "g1785664472795",
@@ -231,7 +231,7 @@
       "name2": "Dyssy",
       "seat1": "19",
       "seat2": "",
-      "code": "21"
+      "code": "G-021"
     },
     {
       "id": "g1785664478041",
@@ -241,7 +241,7 @@
       "name2": "Wrzochal",
       "seat1": "20",
       "seat2": "",
-      "code": "22"
+      "code": "G-022"
     },
     {
       "id": "g1785664482065",
@@ -251,7 +251,7 @@
       "name2": "Białas",
       "seat1": "21",
       "seat2": "",
-      "code": "23"
+      "code": "G-023"
     },
     {
       "id": "g1785664485872",
@@ -261,7 +261,7 @@
       "name2": "Białas",
       "seat1": "22",
       "seat2": "",
-      "code": "24"
+      "code": "G-024"
     },
     {
       "id": "g1785664507331",
@@ -271,7 +271,7 @@
       "name2": "Białas",
       "seat1": "23",
       "seat2": "",
-      "code": "25"
+      "code": "G-025"
     },
     {
       "id": "g1785664578779",
@@ -281,7 +281,7 @@
       "name2": "Kurczyński",
       "seat1": "24",
       "seat2": "",
-      "code": "26"
+      "code": "G-026"
     },
     {
       "id": "g1785664588012",
@@ -291,7 +291,7 @@
       "name2": "Sielańczyk",
       "seat1": "25",
       "seat2": "",
-      "code": "27"
+      "code": "G-027"
     },
     {
       "id": "g1785664598285",
@@ -301,7 +301,7 @@
       "name2": "Miecznikowski",
       "seat1": "27",
       "seat2": "",
-      "code": "29"
+      "code": "G-029"
     },
     {
       "id": "g1785664603853",
@@ -311,7 +311,7 @@
       "name2": "Zielińska",
       "seat1": "28",
       "seat2": "",
-      "code": "30"
+      "code": "G-030"
     },
     {
       "id": "g1785664609083",
@@ -321,7 +321,7 @@
       "name2": "Lewicki",
       "seat1": "29",
       "seat2": "",
-      "code": "31"
+      "code": "G-031"
     },
     {
       "id": "g1785664625369",
@@ -331,7 +331,7 @@
       "name2": "Sołtysik",
       "seat1": "1",
       "seat2": "",
-      "code": "3"
+      "code": "G-003"
     },
     {
       "id": "g1785664629567",
@@ -341,7 +341,7 @@
       "name2": "Sołtysik",
       "seat1": "2",
       "seat2": "",
-      "code": "4"
+      "code": "G-004"
     },
     {
       "id": "g1785668607854",
@@ -351,7 +351,7 @@
       "name2": "Forma",
       "seat1": "3",
       "seat2": "",
-      "code": "5"
+      "code": "G-005"
     },
     {
       "id": "g1785691740361",
@@ -361,7 +361,7 @@
       "name2": "",
       "seat1": "26",
       "seat2": "",
-      "code": "28"
+      "code": "G-028"
     },
     {
       "id": "g1785691760953",
@@ -371,7 +371,7 @@
       "name2": "",
       "seat1": "30",
       "seat2": "",
-      "code": "32"
+      "code": "G-032"
     }
   ],
   "schedule": [
@@ -618,46 +618,6 @@
       "completedCount": 2,
       "lastActivityAt": 1785708821523,
       "durationMs": 3221523
-    },
-    "G-013": {
-      "answers": {
-        "m1": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1_llOYyWSlFYd8iM6h3ueVXViAAPnqgpR/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785705712920
-        },
-        "m3": {
-          "status": "completed",
-          "text": "testt11",
-          "updatedAt": 1785705718264
-        },
-        "m4": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1Fo6h9UkcQbe5wS6JRHWqq1sJYcvtIDmO/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785705737934
-        },
-        "m5": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1nJgjCd-2y2iBhxASTb1WrAy9yvLfcf2k/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785705745037
-        },
-        "m2": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1mYtQn5bh4HdIr1WwlYp8llEzbsGnewv4/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785705904780
-        }
-      },
-      "completedCount": 4,
-      "lastActivityAt": 1785705904780,
-      "durationMs": 304780
     },
     "G-020": {
       "answers": {

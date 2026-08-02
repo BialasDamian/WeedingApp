@@ -50,7 +50,8 @@
         "T1": "T2"
       }
     },
-    "githubToken": "VUMzT2VheFdJU0VJRTI2WVZJUWc0MWVGc0FxRTJrV3lsZnR5MUtmcG44SVljd1J6VEE0eDNpcHVST3VfV1dJbXB3cDJJV1lEMFlPTUZDQUIxMV90YXBfYnVodGln"
+    "githubToken": "VUMzT2VheFdJU0VJRTI2WVZJUWc0MWVGc0FxRTJrV3lsZnR5MUtmcG44SVljd1J6VEE0eDNpcHVST3VfV1dJbXB3cDJJV1lEMFlPTUZDQUIxMV90YXBfYnVodGln",
+    "qrFooterText": "Zeskanuj kod QR aparatem, poznaj szczegóły <br> wydarzenia i weź udział w konkursie weselnym"
   },
   "guests": [
     {

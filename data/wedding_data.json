@@ -594,9 +594,14 @@
             "https://drive.google.com/file/d/1UBAMNWO3ZuLDKTYEPPeLH82uXPNm4XCK/view?usp=drivesdk"
           ],
           "updatedAt": 1785695824107
+        },
+        "m7": {
+          "status": "completed",
+          "text": "Dupa dupa dupa",
+          "updatedAt": 1785695830687
         }
       },
-      "completedCount": 3
+      "completedCount": 4
     }
   },
   "firstWinner": null

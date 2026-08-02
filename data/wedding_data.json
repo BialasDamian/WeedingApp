@@ -71,7 +71,7 @@
       "name2": "",
       "seat1": "T1",
       "seat2": "",
-      "code": "G-005"
+      "code": "G-002"
     },
     {
       "id": "g1785664293498",
@@ -171,7 +171,7 @@
       "name2": "Gawron",
       "seat1": "13",
       "seat2": "",
-      "code": "G-014"
+      "code": "G-015"
     },
     {
       "id": "g1785664413454",
@@ -181,7 +181,7 @@
       "name2": "Kędzierska",
       "seat1": "14",
       "seat2": "",
-      "code": "G-015"
+      "code": "G-016"
     },
     {
       "id": "g1785664419475",
@@ -191,7 +191,7 @@
       "name2": "Kaim",
       "seat1": "15",
       "seat2": "",
-      "code": "G-016"
+      "code": "G-017"
     },
     {
       "id": "g1785664427496",
@@ -201,7 +201,7 @@
       "name2": "Kaim",
       "seat1": "16",
       "seat2": "",
-      "code": "G-017"
+      "code": "G-018"
     },
     {
       "id": "g1785664465305",
@@ -211,7 +211,7 @@
       "name2": "Ciszek",
       "seat1": "17",
       "seat2": "",
-      "code": "G-018"
+      "code": "G-019"
     },
     {
       "id": "g1785664468885",
@@ -221,7 +221,7 @@
       "name2": "Ciszek",
       "seat1": "18",
       "seat2": "",
-      "code": "G-019"
+      "code": "G-020"
     },
     {
       "id": "g1785664472795",
@@ -231,7 +231,7 @@
       "name2": "Dyssy",
       "seat1": "19",
       "seat2": "",
-      "code": "G-020"
+      "code": "G-021"
     },
     {
       "id": "g1785664478041",
@@ -241,7 +241,7 @@
       "name2": "Wrzochal",
       "seat1": "20",
       "seat2": "",
-      "code": "G-021"
+      "code": "G-022"
     },
     {
       "id": "g1785664482065",
@@ -251,7 +251,7 @@
       "name2": "Białas",
       "seat1": "21",
       "seat2": "",
-      "code": "G-022"
+      "code": "G-023"
     },
     {
       "id": "g1785664485872",
@@ -261,7 +261,7 @@
       "name2": "Białas",
       "seat1": "22",
       "seat2": "",
-      "code": "G-023"
+      "code": "G-024"
     },
     {
       "id": "g1785664507331",
@@ -271,7 +271,7 @@
       "name2": "Białas",
       "seat1": "23",
       "seat2": "",
-      "code": "G-024"
+      "code": "G-025"
     },
     {
       "id": "g1785664578779",
@@ -281,7 +281,7 @@
       "name2": "Kurczyński",
       "seat1": "24",
       "seat2": "",
-      "code": "G-025"
+      "code": "G-026"
     },
     {
       "id": "g1785664588012",
@@ -291,7 +291,7 @@
       "name2": "Sielańczyk",
       "seat1": "25",
       "seat2": "",
-      "code": "G-026"
+      "code": "G-027"
     },
     {
       "id": "g1785664592231",
@@ -301,7 +301,7 @@
       "name2": "Sielańczyk",
       "seat1": "30",
       "seat2": "",
-      "code": "G-027"
+      "code": "G-028"
     },
     {
       "id": "g1785664598285",
@@ -311,7 +311,7 @@
       "name2": "Miecznikowski",
       "seat1": "27",
       "seat2": "",
-      "code": "G-028"
+      "code": "G-029"
     },
     {
       "id": "g1785664603853",
@@ -321,7 +321,7 @@
       "name2": "Zielińska",
       "seat1": "28",
       "seat2": "",
-      "code": "G-029"
+      "code": "G-030"
     },
     {
       "id": "g1785664609083",
@@ -331,7 +331,7 @@
       "name2": "Lewicki",
       "seat1": "29",
       "seat2": "",
-      "code": "G-030"
+      "code": "G-031"
     },
     {
       "id": "g1785664616538",
@@ -341,7 +341,7 @@
       "name2": "Ghanem",
       "seat1": "26",
       "seat2": "",
-      "code": "G-031"
+      "code": "G-032"
     },
     {
       "id": "g1785664625369",
@@ -351,7 +351,7 @@
       "name2": "Sołtysik",
       "seat1": "1",
       "seat2": "",
-      "code": "G-031"
+      "code": "G-033"
     },
     {
       "id": "g1785664629567",
@@ -361,7 +361,7 @@
       "name2": "Sołtysik",
       "seat1": "2",
       "seat2": "",
-      "code": "G-032"
+      "code": "G-034"
     },
     {
       "id": "g1785668607854",
@@ -371,7 +371,7 @@
       "name2": "Forma",
       "seat1": "3",
       "seat2": "",
-      "code": "G-032"
+      "code": "G-035"
     }
   ],
   "schedule": [
@@ -500,7 +500,7 @@
     "enableWinnerNotification": true,
     "enableWinnerNotif1": true,
     "enableWinnerNotif2": true,
-    "enableWinnerNotif3": true,
+    "enableWinnerNotif3": false,
     "enableRoseGateAnimation": true,
     "parentFolder": "Wesele 2026",
     "winnerMessage": "🎉 Gratulacje! Jesteś pierwszą osobą, która ukończyła wszystkie misje weselne! Odbierz swoją nagrodę u Pary Młodej! 🏆",

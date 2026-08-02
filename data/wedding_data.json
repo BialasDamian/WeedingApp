@@ -368,6 +368,10 @@
   "menu": [
     {
       "category": "Zupa",
+      "name": "Rosół z makaronem"
+    },
+    {
+      "category": "Danie główne",
       "name": ""
     }
   ],

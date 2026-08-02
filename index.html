@@ -263,6 +263,15 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:wheat;font-
     box-shadow:0 0 14px rgba(255,255,255,0.35);
   }
 }
+.menu-category {
+    background: transparent !important;
+    color: wheat !important;
+    border: 1px solid var(--border);
+}
+.menu-category option {
+    background: #2D2218 !important;
+    color: #FFF8EE !important;
+}
 .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(90deg, #2D2218 0%, #522c1b 100%);padding:1.5rem}
 .login-box{box-shadow: wheat 0px 0px 70px 4px;background:rgb(49 32 23 / 85%);border:1px solid wheat;border-radius:var(--radius);padding:2rem;max-width:300px;width:100%;text-align:center}
 .login-title{font-family:'Cormorant Garamond',serif;font-size:1.7rem;color:wheat;margin-bottom:0.3rem}
@@ -2262,7 +2271,7 @@ function renderMenuAdmin(){
   STATE.menu.forEach((item,i)=>{
     const div=document.createElement('div');div.className='menu-row';
     let catOpts=MENU_CATEGORIES.map(c=>`<option value="${escHtml(c)}" ${item.category===c?'selected':''}>${escHtml(c)}</option>`).join('');
-    div.innerHTML=`<select class="tbl-input menu-category" style="color:wheat; background:transparent; onchange="STATE.menu[${i}].category=this.value;saveLocal()">${catOpts}</select><input value="${escHtml(item.name)}" placeholder="Nazwa dania" maxlength="120" onchange="STATE.menu[${i}].name=sanitizeText(this.value);saveLocal()"><button class="danger-btn" onclick="removeMenuItem(${i})">✕</button>`;
+    div.innerHTML=`<select class="tbl-input menu-category" onchange="STATE.menu[${i}].category=this.value;saveLocal()">${catOpts}</select><input value="${escHtml(item.name)}" placeholder="Nazwa dania" maxlength="120" onchange="STATE.menu[${i}].name=sanitizeText(this.value);saveLocal()"><button class="danger-btn" onclick="removeMenuItem(${i})">✕</button>`;
     list.appendChild(div);
   });
 }

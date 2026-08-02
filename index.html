@@ -1388,26 +1388,48 @@ const GitHubStorage={
 // ═══════════════════════════════════════════════════════════
 //  PERSISTENCE LAYER
 // ═══════════════════════════════════════════════════════════
-function loadLocalCache(){try{const s=localStorage.getItem('wedding_v21');if(s)STATE=JSON.parse(s);}catch(e){}}
-function saveLocalCache(){try{localStorage.setItem('wedding_v21',JSON.stringify(STATE));}catch(e){}}
+function sanitizeStateDefaults() {
+  if (!STATE.settings) STATE.settings = {};
+  if (!STATE.settings.names || STATE.settings.names === 'Pan Młody & Pani Młoda' || STATE.settings.names === 'Para Młoda') {
+    STATE.settings.names = 'Aleksandra & Damian';
+  }
+  if (!STATE.settings.date || STATE.settings.date === 'Data Wesela' || STATE.settings.date === 'DATA WESELA') {
+    STATE.settings.date = '11.09.2026';
+  }
+  if (!STATE.settings.throne1) STATE.settings.throne1 = 'Pan Młody';
+  if (!STATE.settings.throne2) STATE.settings.throne2 = 'Pani Młoda';
+  if (!STATE.settings.table) STATE.settings.table = DEFAULT_STATE.settings.table;
+  if (!STATE.settings.table.edges) STATE.settings.table.edges = DEFAULT_STATE.settings.table.edges;
+  if (!STATE.music) STATE.music = [];
+  if (!STATE.missionsSettings) STATE.missionsSettings = JSON.parse(JSON.stringify(DEFAULT_STATE.missionsSettings));
+  if (!STATE.missions) STATE.missions = JSON.parse(JSON.stringify(DEFAULT_STATE.missions));
+  if (!STATE.guestMissions) STATE.guestMissions = {};
+}
+
+function loadLocalCache(){
+  try{
+    const s=localStorage.getItem('wedding_v21');
+    if(s) STATE=JSON.parse(s);
+  }catch(e){}
+  sanitizeStateDefaults();
+}
+function saveLocalCache(){
+  sanitizeStateDefaults();
+  try{localStorage.setItem('wedding_v21',JSON.stringify(STATE));}catch(e){}
+}
 let _ghSaveDebounce=null;
 function saveLocal(){
+  sanitizeStateDefaults();
   saveLocalCache();
   clearTimeout(_ghSaveDebounce);
   _ghSaveDebounce=setTimeout(async function(){_ghSaveDebounce=null;try{await GitHubStorage.saveData(STATE);}catch(e){console.warn('GitHub auto-save:',e);}},2000);
 }
 async function saveNow(){
+  sanitizeStateDefaults();
   saveLocalCache();clearTimeout(_ghSaveDebounce);_ghSaveDebounce=null;
   try{return await GitHubStorage.saveData(STATE);}catch(e){console.warn('GitHub save:',e);return false;}
 }
-if(!STATE.settings.throne1)STATE.settings.throne1='Pan Młody';
-if(!STATE.settings.throne2)STATE.settings.throne2='Pani Młoda';
-if(!STATE.settings.table)STATE.settings.table=DEFAULT_STATE.settings.table;
-if(!STATE.settings.table.edges)STATE.settings.table.edges=DEFAULT_STATE.settings.table.edges;
-if(!STATE.music)STATE.music=[];
-if(!STATE.missionsSettings)STATE.missionsSettings=JSON.parse(JSON.stringify(DEFAULT_STATE.missionsSettings));
-if(!STATE.missions)STATE.missions=JSON.parse(JSON.stringify(DEFAULT_STATE.missions));
-if(!STATE.guestMissions)STATE.guestMissions={};
+sanitizeStateDefaults();
 if(STATE.firstWinner===undefined)STATE.firstWinner=null;
 
 // ═══════════════════════════════════════════════════════════
@@ -2718,11 +2740,12 @@ function showQRModal(gid){
 //  GUEST VIEW
 // ═══════════════════════════════════════════════════════════
 function renderGuestView(g){
+  sanitizeStateDefaults();
   window._currentGuestCode = g.code;
   const fullName = getGuestFullName(g);
   window._currentGuestName = fullName || 'Gość';
-  document.getElementById('g-title').textContent=STATE.settings.names;
-  document.getElementById('g-date').textContent=(STATE.settings.date||'').toUpperCase();
+  document.getElementById('g-title').textContent = STATE.settings.names || 'Aleksandra & Damian';
+  document.getElementById('g-date').textContent = (STATE.settings.date || '11.09.2026').toUpperCase();
   document.getElementById('g-name').textContent=fullName || 'Gość';
   const seats=[g.seat1,g.seat2].filter(Boolean);
   document.getElementById('g-seat').textContent=seats.map(s=>seatLabel(s)).join(' + ');

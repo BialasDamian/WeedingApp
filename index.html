@@ -2297,7 +2297,7 @@ function renderQRGrid(){
     if(!g.name1&&!g.name2)return;
     const seats=[g.seat1,g.seat2].filter(Boolean);
     const div=document.createElement('div');div.className='qr-card';
-    const nameDisplay=[g.name1,g.name2].filter(Boolean).join(' & ');
+    const nameDisplay=[g.name1,g.name2].filter(Boolean).join(' ');
     div.innerHTML=`<div class="qr-card-name">${escHtml(nameDisplay)}</div><div class="qr-card-info">${escHtml(seats.map(s=>seatLabel(s)).join(' + '))}</div><span class="pill ${isThrone(g.seat1)||isThrone(g.seat2)?'pill-throne':''}">${escHtml(g.code)}</span><button class="qr-btn" onclick="showQRModal('${escHtml(g.id)}')">Generuj QR</button>`;
     grid.appendChild(div);
   });
@@ -2327,7 +2327,7 @@ function showQRModal(gid){
   if(!requireAdmin())return;
   const g=STATE.guests.find(x=>x.id===gid);if(!g)return;
   const url=window.location.href.split('?')[0]+'?guest='+encodeURIComponent(g.code);
-  const nameDisplay=[g.name1,g.name2].filter(Boolean).join(' & ');
+  const nameDisplay=[g.name1,g.name2].filter(Boolean).join(' ');
   const seats=[g.seat1,g.seat2].filter(Boolean);
   document.getElementById('modal-qr-title').textContent=nameDisplay;
   document.getElementById('qr-modal-info').textContent=seats.map(s=>seatLabel(s)).join(' + ');
@@ -2972,7 +2972,7 @@ function renderAdminGuestProgress() {
   
   const scores = [];
   STATE.guests.forEach(g => {
-    const name = [g.name1, g.name2].filter(Boolean).join(' & ') || 'Gość bez imienia';
+    const name = [g.name1, g.name2].filter(Boolean).join(' ') || 'Gość bez imienia';
     const gData = (STATE.guestMissions && STATE.guestMissions[g.code]) || { answers: {}, completedCount: 0 };
     const compCount = gData.completedCount || 0;
     
@@ -3336,7 +3336,7 @@ async function submitMissionText(mId) {
 
   const code = (window._currentGuestCode || '').toUpperCase();
   const guest = STATE.guests.find(x => x.code === code);
-  const guestName = window._currentGuestName || (guest ? [guest.name1, guest.name2].filter(Boolean).join(' & ') : 'Gość');
+  const guestName = window._currentGuestName || (guest ? [guest.name1, guest.name2].filter(Boolean).join(' ') : 'Gość');
   
   const textEl = document.getElementById('g-m-text-' + mId);
   const text = textEl ? textEl.value.trim() : '';
@@ -3378,7 +3378,7 @@ async function submitMissionFiles(mId, type) {
 
   const code = (window._currentGuestCode || '').toUpperCase();
   const guest = STATE.guests.find(x => x.code === code);
-  const guestName = window._currentGuestName || (guest ? [guest.name1, guest.name2].filter(Boolean).join(' & ') : 'Gość');
+  const guestName = window._currentGuestName || (guest ? [guest.name1, guest.name2].filter(Boolean).join(' ') : 'Gość');
 
   const mission = (STATE.missions || []).find(m => m.id === mId);
   const reqCount = (mission && mission.targetCount) ? mission.targetCount : 1;
@@ -3520,7 +3520,7 @@ function renderGuestRanking() {
 
   const scores = [];
   (STATE.guests || []).forEach(g => {
-    const name = [g.name1, g.name2].filter(Boolean).join(' & ') || 'Gość';
+    const name = [g.name1, g.name2].filter(Boolean).join(' ') || 'Gość';
     const gData = (STATE.guestMissions && STATE.guestMissions[g.code]) || { answers: {}, completedCount: 0 };
     const compCount = gData.completedCount || 0;
     let durationMs = gData.durationMs || 0;
@@ -3562,7 +3562,7 @@ function checkAndTriggerWinnerNotification(g, compCount, totalMissions) {
   if (cfg.enableWinnerNotification === false) return;
   let notify = false, winnerMsg = '', medalTitle = '';
   if (!STATE.firstWinner) {
-    STATE.firstWinner = { code: g.code, name: [g.name1, g.name2].filter(Boolean).join(' & '), at: Date.now() };
+    STATE.firstWinner = { code: g.code, name: [g.name1, g.name2].filter(Boolean).join(' '), at: Date.now() };
     if (cfg.enableWinnerNotif1 !== false) {
       notify = true;
       winnerMsg = cfg.winnerMessage1 || cfg.winnerMessage || '🎉 Gratulacje! Zająłeś 1. MIEJSCE (ZŁOTO)!';

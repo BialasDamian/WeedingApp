@@ -2262,7 +2262,7 @@ function renderMenuAdmin(){
   STATE.menu.forEach((item,i)=>{
     const div=document.createElement('div');div.className='menu-row';
     let catOpts=MENU_CATEGORIES.map(c=>`<option value="${escHtml(c)}" ${item.category===c?'selected':''}>${escHtml(c)}</option>`).join('');
-    div.innerHTML=`<select class="tbl-input menu-category" onchange="STATE.menu[${i}].category=this.value;saveLocal()">${catOpts}</select><input value="${escHtml(item.name)}" placeholder="Nazwa dania" maxlength="120" onchange="STATE.menu[${i}].name=sanitizeText(this.value);saveLocal()"><button class="danger-btn" onclick="removeMenuItem(${i})">✕</button>`;
+    div.innerHTML=`<select class="tbl-input menu-category" style="color:wheat; background:transparent; onchange="STATE.menu[${i}].category=this.value;saveLocal()">${catOpts}</select><input value="${escHtml(item.name)}" placeholder="Nazwa dania" maxlength="120" onchange="STATE.menu[${i}].name=sanitizeText(this.value);saveLocal()"><button class="danger-btn" onclick="removeMenuItem(${i})">✕</button>`;
     list.appendChild(div);
   });
 }

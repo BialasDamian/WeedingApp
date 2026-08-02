@@ -741,7 +741,7 @@ button:not(.btn-primary):not(.btn-secondary):hover {
       </div>
       <div style="width:100%;margin-bottom:1rem;background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:0.8rem 1rem">
         <div style="font-weight:bold;color:gold;font-size:0.85rem;margin-bottom:0.4rem">✍️ Treść instrukcji na zaproszeniach QR:</div>
-        <input class="login-input" type="text" id="qr-footer-input" style="text-align:left;width:100%;margin-bottom:0" placeholder="Zeskanuj kod QR aparatem, poznaj szczegóły wydarzenia i weź udział w konkursie weselnym" onchange="saveQRFooterText(this.value)">
+        <input class="login-input" type="text" id="qr-footer-input" maxlength="160" style="text-align:left;width:100%;margin-bottom:0" placeholder="Zeskanuj kod QR aparatem, poznaj szczegóły wydarzenia i weź udział w konkursie weselnym" onchange="saveQRFooterText(this.value)">
       </div>
       <div id="zip-progress-bar" style="display:none;background:rgba(212,175,55,0.12);border:1px solid gold;border-radius:8px;padding:0.8rem 1rem;margin-bottom:1rem;text-align:center;color:gold;font-size:0.9rem;font-weight:bold"></div>
       <div class="qr-grid" id="qr-grid"></div>
@@ -2340,6 +2340,25 @@ function renderQRGrid(){
     grid.appendChild(div);
   });
   if(!grid.innerHTML)grid.innerHTML='<p style="color:wheat;font-size:0.83rem">Dodaj gości w zakładce Goście.</p>';
+function wrapCanvasText(ctx, text, maxWidth) {
+  if (!text) return [];
+  const words = text.split(' ');
+  const lines = [];
+  let currentLine = words[0] || '';
+
+  for (let i = 1; i < words.length; i++) {
+    const word = words[i];
+    const testLine = currentLine + ' ' + word;
+    const metrics = ctx.measureText(testLine);
+    if (metrics.width > maxWidth) {
+      lines.push(currentLine);
+      currentLine = word;
+    } else {
+      currentLine = testLine;
+    }
+  }
+  if (currentLine) lines.push(currentLine);
+  return lines;
 }
 
 async function createInvitationCanvas(g) {
@@ -2466,21 +2485,41 @@ async function createInvitationCanvas(g) {
   ctx.fillStyle = isTransparent ? '#6e4d0f' : '#ffd700';
   ctx.fillText(`KOD ZAPROSZENIA: ${g.code}`, width / 2, badgeY + 35);
 
-  const footerText = (STATE.settings && STATE.settings.qrFooterText)
+  const rawFooterText = (STATE.settings && STATE.settings.qrFooterText)
     ? STATE.settings.qrFooterText
     : 'Zeskanuj kod QR aparatem, poznaj szczegóły wydarzenia i weź udział w konkursie weselnym';
+  const footerText = rawFooterText.slice(0, 160);
 
   ctx.font = '400 15px "Jost", sans-serif';
-  ctx.fillStyle = isTransparent ? '#3d2817' : '#f5deb3';
-  ctx.fillText(footerText, width / 2, 875);
+  const boxW = 560;
+  const maxTextW = 520;
+  const lines = wrapCanvasText(ctx, footerText, maxTextW);
 
-  const dateStr = (STATE.settings && STATE.settings.date) ? STATE.settings.date : '';
-  const venueStr = (STATE.settings && STATE.settings.venue) ? STATE.settings.venue : '';
-  const footTxt = [dateStr, venueStr].filter(Boolean).join('  •  ');
-  if (footTxt) {
-    ctx.font = 'italic 16px "Cormorant Garamond", Georgia, serif';
-    ctx.fillStyle = isTransparent ? '#4a3525' : 'rgba(245,222,179,0.7)';
-    ctx.fillText(footTxt, width / 2, 1005);
+  const lineH = 22;
+  const padV = 12;
+  const boxH = Math.max(48, lines.length * lineH + padV * 2);
+  const boxX = (width - boxW) / 2;
+  const boxY = 848;
+
+  ctx.fillStyle = isTransparent ? 'rgba(201,168,76,0.12)' : 'rgba(255,255,255,0.06)';
+  ctx.strokeStyle = isTransparent ? 'rgba(140,109,35,0.4)' : 'rgba(201,168,76,0.3)';
+  ctx.lineWidth = 1.5;
+  ctx.fillRect(boxX, boxY, boxW, boxH);
+  ctx.strokeRect(boxX, boxY, boxW, boxH);
+
+  ctx.fillStyle = isTransparent ? '#3d2817' : '#f5deb3';
+  ctx.textAlign = 'center';
+  const startTextY = boxY + padV + 15;
+  lines.forEach((line, i) => {
+    ctx.fillText(line, width / 2, startTextY + (i * lineH));
+  });
+
+  const dateStr = (STATE.settings && STATE.settings.date) ? STATE.settings.date.trim() : '';
+  if (dateStr) {
+    const footTxt = `•   ${dateStr.toUpperCase()}   •`;
+    ctx.font = 'italic 17px "Cormorant Garamond", Georgia, serif';
+    ctx.fillStyle = isTransparent ? '#4a3525' : 'rgba(245,222,179,0.85)';
+    ctx.fillText(footTxt, width / 2, 1025);
   }
 
   return canvas;

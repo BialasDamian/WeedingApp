@@ -582,67 +582,6 @@
         }
       },
       "completedCount": 3
-    },
-    "G-017": {
-      "answers": {
-        "m3": {
-          "status": "completed",
-          "text": "Dupa dupa dupa",
-          "updatedAt": 1785698654934
-        },
-        "m2": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1T_lrWAa1w1B3zE7RG6aXseolPsP02QhJ/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785698662390
-        },
-        "m4": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/149trZm2Ox8aSg3wV_DHj9hnOtbA2OU-U/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785698702982
-        },
-        "m5": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1tOIM6DAq0KPR7CrPR0NYD3EWRrEgfSKY/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785698707116
-        },
-        "m10": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1gzEOEC8bdYMFafTjSY8xRgUzKEEZyCvi/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785698821221
-        },
-        "m9": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1MKgYmff4xTpSiqJI7Kac--3nCSupA4Eh/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785698824415
-        },
-        "m1": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1TauX3DKh5NyKGuWxJMR5lfLAYavRjPBm/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785698840871
-        },
-        "m6": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1Z1TDrPpmkY9nXOpaFi6yPU-ESWcFhk67/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785698887933
-        }
-      },
-      "completedCount": 8,
-      "completedAllAt": 1785698887940,
-      "durationMs": 1567940
     }
   },
   "firstWinner": null

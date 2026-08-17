@@ -54,16 +54,6 @@
   },
   "guests": [
     {
-      "id": "g1785664261309",
-      "firstName": "Pan Młody",
-      "lastName": "",
-      "name1": "Pan Młody",
-      "name2": "",
-      "seat1": "T2",
-      "seat2": "",
-      "code": "G-002"
-    },
-    {
       "id": "g1785664264801",
       "firstName": "Pani Młoda",
       "lastName": "",

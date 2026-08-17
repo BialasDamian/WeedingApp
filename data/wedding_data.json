@@ -342,6 +342,16 @@
       "seat1": "30",
       "seat2": "",
       "code": "G-032"
+    },
+    {
+      "id": "g1786991622440",
+      "firstName": "Pan Młody",
+      "lastName": "",
+      "name1": "Pan Młody",
+      "name2": "",
+      "seat1": "1",
+      "seat2": "",
+      "code": "G-003"
     }
   ],
   "schedule": [

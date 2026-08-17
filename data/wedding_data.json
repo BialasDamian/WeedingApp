@@ -74,16 +74,6 @@
       "code": "G-006"
     },
     {
-      "id": "g1785664335153",
-      "firstName": "Izolda",
-      "lastName": "Jemielniak",
-      "name1": "Izolda",
-      "name2": "Jemielniak",
-      "seat1": "7",
-      "seat2": "",
-      "code": "G-009"
-    },
-    {
       "id": "g1785664387816",
       "firstName": "Łukasz",
       "lastName": "Gajdzik",
@@ -302,6 +292,22 @@
       "seat1": "1",
       "seat2": "",
       "code": "G-003"
+    },
+    {
+      "id": "g1786990787562",
+      "name1": "Izolda Jemielniak",
+      "name2": "",
+      "seat1": "5",
+      "seat2": "",
+      "code": "G-007"
+    },
+    {
+      "id": "g1786990802642",
+      "name1": "Andrzej Źrałek",
+      "name2": "",
+      "seat1": "6",
+      "seat2": "",
+      "code": "G-008"
     }
   ],
   "schedule": [

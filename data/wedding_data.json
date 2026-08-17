@@ -224,16 +224,6 @@
       "code": "G-030"
     },
     {
-      "id": "g1786990687389",
-      "firstName": "Krystyna",
-      "lastName": "Źrałek",
-      "name1": "Krystyna",
-      "name2": "Źrałek",
-      "seat1": "1",
-      "seat2": "",
-      "code": "G-003"
-    },
-    {
       "id": "g1786990787562",
       "firstName": "Izolda Jemielniak",
       "lastName": "",
@@ -315,6 +305,8 @@
     },
     {
       "id": "g1786991042069",
+      "firstName": "Justyna Kaim",
+      "lastName": "",
       "name1": "Justyna Kaim",
       "name2": "",
       "seat1": "15",
@@ -323,6 +315,8 @@
     },
     {
       "id": "g1786991045713",
+      "firstName": "Jacek Kaim",
+      "lastName": "",
       "name1": "Jacek Kaim",
       "name2": "",
       "seat1": "16",

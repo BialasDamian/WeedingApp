@@ -295,6 +295,8 @@
     },
     {
       "id": "g1786990787562",
+      "firstName": "Izolda Jemielniak",
+      "lastName": "",
       "name1": "Izolda Jemielniak",
       "name2": "",
       "seat1": "5",
@@ -303,11 +305,29 @@
     },
     {
       "id": "g1786990802642",
+      "firstName": "Andrzej Źrałek",
+      "lastName": "",
       "name1": "Andrzej Źrałek",
       "name2": "",
       "seat1": "6",
       "seat2": "",
       "code": "G-008"
+    },
+    {
+      "id": "g1786990818278",
+      "name1": "Krzysztof Jemielniak",
+      "name2": "",
+      "seat1": "7",
+      "seat2": "",
+      "code": "G-009"
+    },
+    {
+      "id": "g1786990824364",
+      "name1": "Sandra Karaś-Jemielniak",
+      "name2": "",
+      "seat1": "8",
+      "seat2": "",
+      "code": "G-010"
     }
   ],
   "schedule": [

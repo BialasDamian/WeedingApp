@@ -234,26 +234,6 @@
       "code": "G-021"
     },
     {
-      "id": "g1785664625369",
-      "firstName": "Patrycja",
-      "lastName": "Sołtysik",
-      "name1": "Patrycja",
-      "name2": "Sołtysik",
-      "seat1": "1",
-      "seat2": "",
-      "code": "G-003"
-    },
-    {
-      "id": "g1785664629567",
-      "firstName": "Damian",
-      "lastName": "Sołtysik",
-      "name1": "Damian",
-      "name2": "Sołtysik",
-      "seat1": "2",
-      "seat2": "",
-      "code": "G-004"
-    },
-    {
       "id": "g1785668607854",
       "firstName": "Anna",
       "lastName": "Forma",
@@ -345,11 +325,21 @@
     },
     {
       "id": "g1786990303858",
+      "firstName": "Haytham Ghanem",
+      "lastName": "",
       "name1": "Haytham Ghanem",
       "name2": "",
       "seat1": "28",
       "seat2": "",
       "code": "G-030"
+    },
+    {
+      "id": "g1786990353553",
+      "name1": "Patrycja Sołtysik",
+      "name2": "",
+      "seat1": "29",
+      "seat2": "",
+      "code": "G-031"
     }
   ],
   "schedule": [

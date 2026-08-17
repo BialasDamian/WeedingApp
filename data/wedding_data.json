@@ -472,8 +472,8 @@
     "enabled": true,
     "showRanking": true,
     "enableWinnerNotification": true,
-    "enableWinnerNotif1": true,
-    "enableWinnerNotif2": true,
+    "enableWinnerNotif1": false,
+    "enableWinnerNotif2": false,
     "enableWinnerNotif3": true,
     "parentFolder": "Wesele 2026",
     "winnerMessage": "🎉 Gratulacje! Jesteś pierwszą osobą, która ukończyła wszystkie misje weselne! Odbierz swoją nagrodę u Pary Młodej! 🏆",
@@ -700,16 +700,11 @@
             "https://drive.google.com/file/d/1KVyIdY-mvSYLJTy1EZIAc_iSWZDtyYfD/view?usp=drivesdk"
           ],
           "updatedAt": 1786993209127
-        },
-        "m2": {
-          "status": "completed",
-          "files": [],
-          "updatedAt": 1786993291502
         }
       },
-      "completedCount": 3,
-      "lastActivityAt": 1786993291502,
-      "durationMs": 631502
+      "completedCount": 2,
+      "lastActivityAt": 1786993209127,
+      "durationMs": 549127
     }
   },
   "firstWinner": null

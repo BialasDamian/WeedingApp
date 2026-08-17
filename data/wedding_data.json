@@ -239,9 +239,9 @@
       "lastName": "Sielańczyk",
       "name1": "Anita",
       "name2": "Sielańczyk",
-      "seat1": "25",
+      "seat1": "23",
       "seat2": "",
-      "code": "G-027"
+      "code": "G-025"
     },
     {
       "id": "g1785664598285",
@@ -345,6 +345,8 @@
     },
     {
       "id": "g1786990228508",
+      "firstName": "Jan Kurczyński",
+      "lastName": "",
       "name1": "Jan Kurczyński",
       "name2": "",
       "seat1": "22",

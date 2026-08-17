@@ -229,9 +229,9 @@
       "lastName": "Źrałek",
       "name1": "Andrzej",
       "name2": "Źrałek",
-      "seat1": "5",
+      "seat1": "4",
       "seat2": "",
-      "code": "G-007"
+      "code": "G-006"
     },
     {
       "id": "g1786990818278",
@@ -349,9 +349,9 @@
       "lastName": "Romanowski",
       "name1": "Marek",
       "name2": "Romanowski",
-      "seat1": "4",
+      "seat1": "5",
       "seat2": "",
-      "code": "G-006"
+      "code": "G-007"
     }
   ],
   "schedule": [

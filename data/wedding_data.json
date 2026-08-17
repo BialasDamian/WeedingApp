@@ -84,16 +84,6 @@
       "code": "G-009"
     },
     {
-      "id": "g1785664345106",
-      "firstName": "Andrzej",
-      "lastName": "Źrałek",
-      "name1": "Andrzej",
-      "name2": "Źrałek",
-      "seat1": "8",
-      "seat2": "",
-      "code": "G-010"
-    },
-    {
       "id": "g1785664352578",
       "firstName": "Krzysztof",
       "lastName": "Jemielniak",
@@ -617,32 +607,6 @@
       "completedCount": 1,
       "lastActivityAt": 1785711535703,
       "durationMs": 115703
-    },
-    "G-010": {
-      "answers": {
-        "m3": {
-          "status": "completed",
-          "text": "test",
-          "updatedAt": 1785711551341
-        },
-        "m1": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1EyPbL3lKZM4SWMMH-ag8f5ZNmxvVOvO5/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785711554123
-        },
-        "m5": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1_nlYEGRWp8HE1H5Msc5wWmGnWofYcKbo/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785711566316
-        }
-      },
-      "completedCount": 2,
-      "lastActivityAt": 1785711566316,
-      "durationMs": 146316
     },
     "G-012": {
       "answers": {

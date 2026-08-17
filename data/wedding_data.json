@@ -99,9 +99,9 @@
       "lastName": "Ciszek",
       "name1": "Magda",
       "name2": "Ciszek",
-      "seat1": "4",
+      "seat1": "3",
       "seat2": "",
-      "code": "G-006"
+      "code": "G-005"
     },
     {
       "id": "g1785664482065",
@@ -349,9 +349,9 @@
       "lastName": "Romanowski",
       "name1": "Marek",
       "name2": "Romanowski",
-      "seat1": "3",
+      "seat1": "4",
       "seat2": "",
-      "code": "G-005"
+      "code": "G-006"
     }
   ],
   "schedule": [

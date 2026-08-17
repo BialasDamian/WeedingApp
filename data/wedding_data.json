@@ -361,6 +361,16 @@
       "seat1": "T2",
       "seat2": "",
       "code": "G-002"
+    },
+    {
+      "id": "g1786999535972",
+      "firstName": "",
+      "lastName": "",
+      "name1": "",
+      "name2": "",
+      "seat1": "1",
+      "seat2": "",
+      "code": "G-001"
     }
   ],
   "schedule": [

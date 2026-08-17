@@ -735,9 +735,10 @@
           "updatedAt": 1786993656029
         }
       },
-      "completedCount": 7,
+      "completedCount": 8,
       "lastActivityAt": 1786993656029,
-      "durationMs": 996029
+      "durationMs": 996050,
+      "completedAllAt": 1786993656050
     }
   },
   "firstWinner": null

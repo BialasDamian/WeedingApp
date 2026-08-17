@@ -234,16 +234,6 @@
       "code": "G-021"
     },
     {
-      "id": "g1785664588012",
-      "firstName": "Anita",
-      "lastName": "Sielańczyk",
-      "name1": "Anita",
-      "name2": "Sielańczyk",
-      "seat1": "23",
-      "seat2": "",
-      "code": "G-025"
-    },
-    {
       "id": "g1785664598285",
       "firstName": "Bartłomiej",
       "lastName": "Miecznikowski",
@@ -352,6 +342,14 @@
       "seat1": "22",
       "seat2": "",
       "code": "G-024"
+    },
+    {
+      "id": "g1786990244595",
+      "name1": "Anita Sielańczyk",
+      "name2": "",
+      "seat1": "23",
+      "seat2": "",
+      "code": "G-025"
     }
   ],
   "schedule": [
@@ -691,28 +689,6 @@
       "completedCount": 0,
       "lastActivityAt": 1786188285248,
       "durationMs": 105248
-    },
-    "G-025": {
-      "answers": {
-        "m1": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1AeMQIxy26VE0Fw9X8UJuzM3TwUoQZWuV/view?usp=drivesdk"
-          ],
-          "updatedAt": 1786807778313
-        },
-        "m2": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1E_-0xDfNjYgxbPOcUbw585Ahi1HaZe0W/view?usp=drivesdk"
-          ],
-          "updatedAt": 1786807811875
-        }
-      },
-      "completedCount": 2,
-      "lastActivityAt": 1786807811875,
-      "durationMs": 131875,
-      "notifiedWinner2": true
     }
   },
   "firstWinner": null

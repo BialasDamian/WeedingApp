@@ -618,66 +618,6 @@
       "completedCount": 0,
       "lastActivityAt": 1786188285248,
       "durationMs": 105248
-    },
-    "G-005": {
-      "answers": {
-        "m1": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1jeLw73wkKBGL6ZAEDJFmcvdnOgw-KuOJ/view?usp=drivesdk"
-          ],
-          "updatedAt": 1786992949150
-        },
-        "m3": {
-          "status": "completed",
-          "text": "Ale urwał..",
-          "updatedAt": 1786993167171
-        },
-        "m4": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1KVyIdY-mvSYLJTy1EZIAc_iSWZDtyYfD/view?usp=drivesdk"
-          ],
-          "updatedAt": 1786993209127
-        },
-        "m2": {
-          "status": "completed",
-          "files": [],
-          "updatedAt": 1786993291502
-        },
-        "m5": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1C85QLAPoLv2voR8MxzPXvlLEohD-dut2/view?usp=drivesdk"
-          ],
-          "updatedAt": 1786993317699
-        },
-        "m9": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1bll3JunlV51vSmKyfbLnMj7QWai3VmS9/view?usp=drivesdk"
-          ],
-          "updatedAt": 1786993502479
-        },
-        "m10": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/112jEKgnj-rf2n3pZAOYPQ8pMknSZFPuy/view?usp=drivesdk"
-          ],
-          "updatedAt": 1786993631896
-        },
-        "m6": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1Wuu53xSXmMztKDxAliKY-9QfCto0aAMv/view?usp=drivesdk"
-          ],
-          "updatedAt": 1786993656029
-        }
-      },
-      "completedCount": 8,
-      "lastActivityAt": 1786993656029,
-      "durationMs": 998800,
-      "completedAllAt": 1786993658800
     }
   },
   "firstWinner": null

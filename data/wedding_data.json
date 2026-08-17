@@ -472,7 +472,7 @@
     "endDate": "2026-08-18T00:33",
     "manualOverride": null,
     "publishResults": false,
-    "autoUpload": true,
+    "autoUpload": false,
     "enablePostContestMessage": false,
     "postContestMessage": "",
     "postContestColor": "#ffd700",
@@ -637,7 +637,7 @@
           "updatedAt": 1787005787682
         }
       },
-      "completedCount": 2,
+      "completedCount": 3,
       "lastActivityAt": 1787005787682,
       "durationMs": 167682
     }

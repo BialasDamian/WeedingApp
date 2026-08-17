@@ -497,7 +497,7 @@
     "endDate": "2026-08-21T23:45",
     "manualOverride": null,
     "publishResults": false,
-    "autoUpload": false,
+    "autoUpload": true,
     "enablePostContestMessage": false,
     "postContestMessage": "",
     "postContestColor": "#ffd700",

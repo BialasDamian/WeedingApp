@@ -299,9 +299,9 @@
       "lastName": "",
       "name1": "Basia Sielańczyk",
       "name2": "",
-      "seat1": "26",
+      "seat1": "24",
       "seat2": "",
-      "code": "G-028"
+      "code": "G-026"
     },
     {
       "id": "g1785691760953",
@@ -345,6 +345,8 @@
     },
     {
       "id": "g1786990244595",
+      "firstName": "Anita Sielańczyk",
+      "lastName": "",
       "name1": "Anita Sielańczyk",
       "name2": "",
       "seat1": "23",

@@ -379,10 +379,18 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:wheat;font-
 .music-artist{font-size:0.75rem;color:#6b5b45}
 
 .sch-list,.menu-list{display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1rem}
-.sch-row,.menu-row{display:flex;align-items:center;gap:0.5rem;background:transparent;border:1px solid var(--border);border-radius:8px;padding:0.55rem 0.8rem}
-.sch-row input,.menu-row input,.menu-category{border:1px solid var(--border);background:#2D2218;border-radius:5px;padding:0.28rem 0.55rem;font-family:'Jost',sans-serif;font-size:0.82rem;color:wheat;flex:1}
+.sch-row,.menu-row{display:flex;align-items:center;gap:0.6rem;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:8px;padding:0.55rem 0.8rem;transition:all 0.2s ease}
+.sch-row input,.menu-row input,.menu-category{border:1px solid var(--border);background:#2D2218;border-radius:5px;padding:0.35rem 0.6rem;font-family:'Jost',sans-serif;font-size:0.85rem;color:wheat;flex:1}
 .sch-row input:focus,.menu-row input:focus,.menu-category:focus{outline:none;border-color:wheat;background:#1A1410;color:#FFF8EE}
-.menu-category option, select option {background:#2D2218 !important;color:#FFF8EE !important}
+.drag-handle{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;min-width:38px;border-radius:6px;background:rgba(201,168,76,0.18);border:1px solid rgba(201,168,76,0.4);color:gold;font-size:1.25rem;cursor:grab;user-select:none;touch-action:none;transition:all 0.2s ease}
+.drag-handle:hover{background:rgba(201,168,76,0.35);border-color:gold;transform:scale(1.05)}
+.drag-handle:active{cursor:grabbing;transform:scale(0.95)}
+.sch-row.dragging,.menu-row.dragging{opacity:0.35;border-color:wheat;border-style:dashed}
+.sch-row.drag-over,.menu-row.drag-over{border-color:gold;background:rgba(201,168,76,0.2);transform:scale(1.01)}
+.seat-circle{cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;transition:transform 0.15s ease}
+.seat-circle:active{cursor:grabbing}
+.seat-circle.drag-hover circle{stroke:#93ff8e !important;stroke-width:3.5px !important;filter:drop-shadow(0 0 6px #93ff8e)}
+.color-picker-box{display:inline-flex;align-items:center;gap:0.4rem;background:rgba(255,255,255,0.05);border:1px solid rgba(201,168,76,0.25);border-radius:6px;padding:0.25rem 0.5rem}
 
 /* SETTINGS & MODALS */
 .settings-form{max-width:400px;display:flex;flex-direction:column;gap:0.75rem}
@@ -402,7 +410,7 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:wheat;font-
 
 /* GUEST VIEW */
 #screen-guest{  background:linear-gradient(90deg, #2D2218 0%, #522c1b 100%);min-height:100vh}
-.guest-hero{  background:linear-gradient(90deg, #2D2218 0%, #522c1b 100%); text-align:center;padding:2.5rem 1.5rem 2rem}
+.guest-hero{  background:linear-gradient(90deg, #2D2218 0%, #522c1b 100%); text-align:center;padding:2.5rem 1.5rem 2rem;position:relative;}
 .guest-ornament{color:wheat;font-size:0.9rem;letter-spacing:0.4em;opacity:0.5;margin-bottom:0.6rem}
 .guest-wedding-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.7rem,5vw,2.5rem);font-weight:300;color:#FFF8EE;line-height:1.1;margin-bottom:0.3rem}
 .guest-date{font-size:0.72rem;letter-spacing:0.2em;color:rgba(255,248,238,0.3);text-transform:uppercase;margin-bottom:1.4rem}
@@ -413,7 +421,7 @@ html,body{width:100%;overflow-x:hidden;background:var(--cream);color:wheat;font-
 .g-section{margin-bottom:1.8rem}
 .g-section-lbl{text-align:center;font-size:0.67rem;place-self: center;letter-spacing:0.2em;text-transform:uppercase;color: wheat;opacity:0.8;margin-bottom:0.7rem}
 .g-card{background:rgba(255,253,248,0.04);justify-items: center; border:1px solid rgba(201,168,76,0.18);border-radius:var(--radius);padding:1rem 1.2rem;margin-bottom:0.7rem}
-.neighbor-row{display:flex;align-items:center;gap:0.75rem;padding:0.45rem 0;border-bottom:1px solid rgba(201,168,76,0.1)}
+.neighbor-row{display:flex;align-items:center;justify-content:center;gap:0.75rem;padding:0.45rem 0;border-bottom:1px solid rgba(201,168,76,0.1)}
 .neighbor-row:last-child{border-bottom:none}
 .neighbor-seat-badge{width:25px;height:25px;border-radius:50%;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;font-size:0.65rem;color:wheat;flex-shrink:0}
 .neighbor-name{font-size:0.86rem;color:wheat;}
@@ -758,6 +766,60 @@ button:not(.btn-primary):not(.btn-secondary):hover {
           <input class="login-input" type="text" id="qr-footer-input" maxlength="160" style="text-align:left;width:100%;margin-bottom:0" placeholder="Zeskanuj kod QR aparatem, poznaj szczegóły wydarzenia i weź udział w konkursie weselnym" onchange="saveQRFooterText(this.value)">
         </div>
       </div>
+
+      <div style="width:100%;margin-bottom:1rem;background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:0.8rem 1rem">
+        <div style="font-weight:bold;color:gold;font-size:0.88rem;margin-bottom:0.6rem">🎨 Personalizacja winietki (kolory i teksty):</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.8rem;margin-bottom:0.6rem">
+          <div>
+            <div style="font-size:0.78rem;color:wheat;margin-bottom:0.3rem">🖼️ Kolor ramki:</div>
+            <div class="color-picker-box">
+              <input type="color" id="qr-frame-color" value="#c9a84c" style="width:36px;height:28px;border:none;background:transparent;cursor:pointer" onchange="syncColorInput('qr-frame-color','qr-frame-hex');saveQRCustom()">
+              <input type="text" id="qr-frame-hex" value="#C9A84C" maxlength="7" style="width:75px;border:none;background:transparent;color:wheat;font-family:monospace;font-size:0.8rem;text-transform:uppercase" onchange="syncHexInput('qr-frame-hex','qr-frame-color');saveQRCustom()">
+              <button type="button" class="btn-secondary" style="font-size:0.65rem;padding:0.25rem 0.45rem;width:auto;margin:0" onclick="copyColorHex('qr-frame-hex')" title="Kopiuj kod HEX">📋</button>
+              <button type="button" class="btn-secondary" style="font-size:0.65rem;padding:0.25rem 0.45rem;width:auto;margin:0" onclick="resetColorHex('qr-frame-color','qr-frame-hex','#c9a84c');saveQRCustom()" title="Domyślny">↺</button>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:0.78rem;color:wheat;margin-bottom:0.3rem">✏️ Kolor tekstu:</div>
+            <div class="color-picker-box">
+              <input type="color" id="qr-text-color" value="#2D1F17" style="width:36px;height:28px;border:none;background:transparent;cursor:pointer" onchange="syncColorInput('qr-text-color','qr-text-hex');saveQRCustom()">
+              <input type="text" id="qr-text-hex" value="#2D1F17" maxlength="7" style="width:75px;border:none;background:transparent;color:wheat;font-family:monospace;font-size:0.8rem;text-transform:uppercase" onchange="syncHexInput('qr-text-hex','qr-text-color');saveQRCustom()">
+              <button type="button" class="btn-secondary" style="font-size:0.65rem;padding:0.25rem 0.45rem;width:auto;margin:0" onclick="copyColorHex('qr-text-hex')" title="Kopiuj kod HEX">📋</button>
+              <button type="button" class="btn-secondary" style="font-size:0.65rem;padding:0.25rem 0.45rem;width:auto;margin:0" onclick="resetColorHex('qr-text-color','qr-text-hex','#2D1F17');saveQRCustom()" title="Domyślny">↺</button>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:0.78rem;color:wheat;margin-bottom:0.3rem">✦ Kolor ornamentu:</div>
+            <div class="color-picker-box">
+              <input type="color" id="qr-ornament-color" value="#c9a84c" style="width:36px;height:28px;border:none;background:transparent;cursor:pointer" onchange="syncColorInput('qr-ornament-color','qr-ornament-hex');saveQRCustom()">
+              <input type="text" id="qr-ornament-hex" value="#C9A84C" maxlength="7" style="width:75px;border:none;background:transparent;color:wheat;font-family:monospace;font-size:0.8rem;text-transform:uppercase" onchange="syncHexInput('qr-ornament-hex','qr-ornament-color');saveQRCustom()">
+              <button type="button" class="btn-secondary" style="font-size:0.65rem;padding:0.25rem 0.45rem;width:auto;margin:0" onclick="copyColorHex('qr-ornament-hex')" title="Kopiuj kod HEX">📋</button>
+              <button type="button" class="btn-secondary" style="font-size:0.65rem;padding:0.25rem 0.45rem;width:auto;margin:0" onclick="resetColorHex('qr-ornament-color','qr-ornament-hex','#c9a84c');saveQRCustom()" title="Domyślny">↺</button>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:0.78rem;color:wheat;margin-bottom:0.3rem">✦ Ornament (tekst):</div>
+            <input class="login-input" type="text" id="qr-ornament-text" value="✦  ✦  ✦" style="text-align:left;width:100%" onchange="saveQRCustom()">
+          </div>
+          <div>
+            <div style="font-size:0.78rem;color:wheat;margin-bottom:0.3rem">📝 Subtitle linia 1:</div>
+            <input class="login-input" type="text" id="qr-subtitle1" value="APLIKACJA WESELNA" style="text-align:left;width:100%" onchange="saveQRCustom()">
+          </div>
+          <div>
+            <div style="font-size:0.78rem;color:wheat;margin-bottom:0.3rem">📝 Subtitle linia 2:</div>
+            <input class="login-input" type="text" id="qr-subtitle2" value="SPRAWDŹ I WEŹ UDZIAŁ W KONKURSIE" style="text-align:left;width:100%" onchange="saveQRCustom()">
+          </div>
+          <div>
+            <div style="font-size:0.78rem;color:wheat;margin-bottom:0.3rem">📝 Subtitle linia 3:</div>
+            <input class="login-input" type="text" id="qr-subtitle3" value="" placeholder="GODZINY KONKURSU (auto z ustawień)" style="text-align:left;width:100%" onchange="saveQRCustom()">
+          </div>
+          <div>
+            <div style="font-size:0.78rem;color:wheat;margin-bottom:0.3rem">🏷️ Etykieta kodu:</div>
+            <input class="login-input" type="text" id="qr-code-label" value="KOD ZAPROSZENIA" style="text-align:left;width:100%" onchange="saveQRCustom()">
+          </div>
+        </div>
+      </div>
+
       <div id="zip-progress-bar" style="display:none;background:rgba(212,175,55,0.12);border:1px solid gold;border-radius:8px;padding:0.8rem 1rem;margin-bottom:1rem;text-align:center;color:gold;font-size:0.9rem;font-weight:bold"></div>
       <div class="qr-grid" id="qr-grid"></div>
     </div>
@@ -773,6 +835,7 @@ button:not(.btn-primary):not(.btn-secondary):hover {
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0.8rem;width:100%">
           <label class="checkbox-lbl" style="color:wheat"><input type="checkbox" id="m-cfg-enabled" onchange="saveMissionsSettings(event)"> Włącz moduł zadań/misji dla gości</label>
           <label class="checkbox-lbl" style="color:wheat"><input type="checkbox" id="m-cfg-ranking" onchange="saveMissionsSettings(event)"> Wyświetlaj ranking u gości (włącz/wyłącz)</label>
+          <label class="checkbox-lbl" style="color:wheat"><input type="checkbox" id="m-cfg-auto-upload" onchange="saveMissionsSettings(event)"> 📤 Automatyczny upload po wybraniu pliku (zdjęcia, filmy, tekst)</label>
         </div>
 
         <!-- USTAWIENIA POWIADOMIEŃ PODIUM (1, 2, 3 MIEJSCE) -->
@@ -799,31 +862,61 @@ button:not(.btn-primary):not(.btn-secondary):hover {
           </div>
         </div>
 
-        <!-- USTAWIENIA CZASU I ODLICZANIA (15:00 - 23:40) -->
+        <!-- USTAWIENIA CZASU I ODLICZANIA -->
         <div style="width:100%;border-top:1px solid var(--border);padding-top:0.8rem;margin-top:0.3rem">
-          <div style="font-weight:bold;color:gold;font-size:0.85rem;margin-bottom:0.6rem">⏱ Odliczanie Czasu Misji (Okno czasowe):</div>
+          <div style="font-weight:bold;color:gold;font-size:0.85rem;margin-bottom:0.6rem">⏱ Odliczanie Czasu Misji (Data i Godzina Konkursu):</div>
           <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:flex-end">
             <div>
-              <label class="settings-label" style="font-size:0.75rem;color:wheat">Start Odliczania (Godzina)</label>
+              <label class="settings-label" style="font-size:0.75rem;color:wheat">Data i Godzina Startu</label>
               <div style="display:flex;gap:0.3rem;align-items:center">
-                <input type="time" class="tbl-input" id="m-cfg-start-time" value="15:00" onchange="saveMissionsSettings(event)" style="width:110px">
-                <button type="button" class="btn-secondary" style="font-size:0.7rem;padding:0.35rem 0.6rem;width:auto;margin:0" title="Wstaw aktualny czas systemowy jako start" onclick="setCurrentTimeAsStart()">⏱ Obecna godzina</button>
+                <input type="datetime-local" class="tbl-input" id="m-cfg-start-date" onchange="saveMissionsSettings(event)" style="width:auto">
+                <button type="button" class="btn-secondary" style="font-size:0.7rem;padding:0.35rem 0.6rem;width:auto;margin:0" title="Wstaw aktualny czas systemowy jako start" onclick="setCurrentTimeAsStart()">⏱ Teraz</button>
               </div>
             </div>
             <div>
-              <label class="settings-label" style="font-size:0.75rem;color:wheat">Koniec Misji (Godzina)</label>
+              <label class="settings-label" style="font-size:0.75rem;color:wheat">Data i Godzina Zakończenia</label>
               <div style="display:flex;gap:0.3rem;align-items:center">
-                <input type="time" class="tbl-input" id="m-cfg-end-time" value="23:40" onchange="saveMissionsSettings(event)" style="width:110px">
-                <button type="button" class="btn-secondary" style="font-size:0.7rem;padding:0.35rem 0.6rem;width:auto;margin:0" title="Wstaw aktualny czas systemowy jako koniec" onclick="setCurrentTimeAsEnd()">⏱ Obecna godzina</button>
+                <input type="datetime-local" class="tbl-input" id="m-cfg-end-date" onchange="saveMissionsSettings(event)" style="width:auto">
+                <button type="button" class="btn-secondary" style="font-size:0.7rem;padding:0.35rem 0.6rem;width:auto;margin:0" title="Wstaw aktualny czas systemowy jako koniec" onclick="setCurrentTimeAsEnd()">⏱ Teraz</button>
               </div>
             </div>
             <div>
               <label class="settings-label" style="font-size:0.75rem;color:wheat">Ręczna Dostępność Misji</label>
               <select class="tbl-input" id="m-cfg-override" onchange="saveMissionsSettings(event)" style="width:180px">
-                <option value="auto">Automatycznie (według godzin)</option>
+                <option value="auto">Automatycznie (według dat i godzin)</option>
                 <option value="open">🟢 Zawsze Otwarte</option>
                 <option value="closed">🔴 Zamknięte</option>
               </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- KOMUNIKAT PO ZAKOŃCZENIU KONKURSU -->
+        <div style="width:100%;border-top:1px solid var(--border);padding-top:0.8rem;margin-top:0.3rem">
+          <div style="font-weight:bold;color:gold;font-size:0.85rem;margin-bottom:0.4rem">✉️ Komunikat dla Wszystkich Gości po Zakończeniu Konkursu:</div>
+          <label class="checkbox-lbl" style="color:gold;margin-bottom:0.6rem;display:inline-flex;align-items:center;gap:0.4rem;cursor:pointer">
+            <input type="checkbox" id="m-cfg-post-msg-enabled" onchange="saveMissionsSettings(event)"> Włącz wyświetlanie komunikatu końcowego u gości po zakończeniu konkursu
+          </label>
+          <div style="display:flex;flex-direction:column;gap:0.6rem;width:100%">
+            <textarea class="settings-input" id="m-cfg-post-msg" rows="3" placeholder="Wpisz treść komunikatu, który pojawi się u gości po zakończeniu konkursu..." onchange="saveMissionsSettings(event)"></textarea>
+            <div style="display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap">
+              <div style="display:flex;align-items:center;gap:0.5rem">
+                <label class="settings-label" style="margin:0">Kolor tekstu:</label>
+                <div class="color-picker-box">
+                  <input type="color" id="m-cfg-post-color" value="#ffd700" style="width:36px;height:28px;border:none;background:transparent;cursor:pointer" onchange="syncColorInput('m-cfg-post-color','m-cfg-post-color-hex');saveMissionsSettings(event)">
+                  <input type="text" id="m-cfg-post-color-hex" value="#FFD700" maxlength="7" style="width:75px;border:none;background:transparent;color:wheat;font-family:monospace;font-size:0.8rem;text-transform:uppercase" onchange="syncHexInput('m-cfg-post-color-hex','m-cfg-post-color');saveMissionsSettings(event)">
+                  <button type="button" class="btn-secondary" style="font-size:0.65rem;padding:0.25rem 0.45rem;width:auto;margin:0" onclick="copyColorHex('m-cfg-post-color-hex')" title="Kopiuj kod HEX">📋</button>
+                  <button type="button" class="btn-secondary" style="font-size:0.65rem;padding:0.25rem 0.45rem;width:auto;margin:0" onclick="resetColorHex('m-cfg-post-color','m-cfg-post-color-hex','#ffd700');saveMissionsSettings(event)" title="Domyślny">↺</button>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.5rem">
+                <label class="settings-label" style="margin:0">Wyrównanie tekstu:</label>
+                <select class="tbl-input" id="m-cfg-post-align" style="width:140px" onchange="saveMissionsSettings(event)">
+                  <option value="center">Wyśrodkowane</option>
+                  <option value="left">Do lewej</option>
+                  <option value="justify">Justowane</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
@@ -906,6 +999,7 @@ button:not(.btn-primary):not(.btn-secondary):hover {
     <div class="guest-ornament">✦ ✦ ✦</div>
     <div class="guest-wedding-title" id="g-title">Aleksandra &amp; Damian</div>
     <div class="guest-date" id="g-date">11.09.2026</div>
+    <button class="back-btn" onclick="guestLogout()" style="position:absolute;top:1rem;right:1rem;font-size:0.65rem;padding:0.25rem 0.6rem;z-index:10">Wyloguj się</button>
     <div class="guest-welcome">
       <div class="guest-name-lbl">Witaj,</div>
       <div class="guest-name-big" id="g-name">Gość</div>
@@ -1264,6 +1358,16 @@ let CURRENT_LAYOUT=null;
 // ═══════════════════════════════════════════════════════════
 const DEFAULT_STATE={
   settings:{names:'Aleksandra & Damian',throne1:'Pan Młody',throne2:'Pani Młoda',date:'11.09.2026',venue:'Sala Weselna',passHash:'',driveUrl:'',
+    qrCustom:{
+      frameColor:'#c9a84c',
+      textColor:'#2D1F17',
+      ornamentColor:'#c9a84c',
+      ornament:'✦  ✦  ✦',
+      subtitle1:'APLIKACJA WESELNA',
+      subtitle2:'SPRAWDŹ I WEŹ UDZIAŁ W KONKURSIE',
+      subtitle3:'',
+      codeLabel:'KOD ZAPROSZENIA'
+    },
     table:{shape:'I',flipH:false,flipV:false,tw:60,gap:48,dist:18,
       edges:{i_top:0,i_bottom:2,i_left:17,i_right:17,u_top_out:0,u_top_in:2,u_l_out:10,u_l_in:8,u_l_bot:2,u_r_out:10,u_r_in:8,u_r_bot:2,l_top:0,l_l:12,l_r_in:8,l_t_in:6,l_b:10,l_right:2,l_v_bot:0,t_top_out:0,t_t_l:4,t_t_r:4,t_s_l:10,t_s_r:10,t_s_b:2,t_left_end:1,t_right_end:1}
     }
@@ -1284,10 +1388,17 @@ const DEFAULT_STATE={
     winnerMessage2:'🥈 Gratulacje! Zająłeś 2. MIEJSCE (SREBRO) w wyzwaniach weselnych! Wspaniały wynik! 🏆',
     winnerMessage3:'🥉 Gratulacje! Zająłeś 3. MIEJSCE (BRĄZ) w wyzwaniach weselnych! Brawo! 🏆',
     driveScriptUrl:'',
-    startTime:'15:00',
-    endTime:'23:40',
+    startTime:'18:00',
+    endTime:'24:00',
+    startDate:'',
+    endDate:'',
     manualOverride:null,
-    publishResults:false
+    publishResults:false,
+    autoUpload:false,
+    enablePostContestMessage:false,
+    postContestMessage:'',
+    postContestColor:'#ffd700',
+    postContestAlign:'center'
   },
   missions:[
     {id:'m1',title:'Uchwyć 3 zdjęcia w trakcie krojenia tortu',type:'zdjecie',targetCount:3},
@@ -1357,6 +1468,30 @@ const GitHubStorage={
             const merged=[...srvM];
             locM.forEach(function(song){if(!merged.some(function(m){return m.title===song.title&&m.artist===song.artist;}))merged.push(song);});
             stateObj.music=merged;
+
+            if(srv.guestMissions){
+              if(!stateObj.guestMissions) stateObj.guestMissions={};
+              Object.keys(srv.guestMissions).forEach(function(code){
+                if(!stateObj.guestMissions[code]){
+                  stateObj.guestMissions[code]=srv.guestMissions[code];
+                } else {
+                  var srvAnswers=(srv.guestMissions[code].answers||{});
+                  var locAnswers=(stateObj.guestMissions[code].answers||{});
+                  Object.keys(srvAnswers).forEach(function(mId){
+                    if(!locAnswers[mId] || (srvAnswers[mId].updatedAt||0) > (locAnswers[mId].updatedAt||0)){
+                      locAnswers[mId]=srvAnswers[mId];
+                    }
+                  });
+                  stateObj.guestMissions[code].answers=locAnswers;
+                  if((srv.guestMissions[code].completedCount||0) > (stateObj.guestMissions[code].completedCount||0)){
+                    stateObj.guestMissions[code].completedCount=srv.guestMissions[code].completedCount;
+                    stateObj.guestMissions[code].lastActivityAt=srv.guestMissions[code].lastActivityAt;
+                    stateObj.guestMissions[code].completedAllAt=srv.guestMissions[code].completedAllAt;
+                    stateObj.guestMissions[code].durationMs=srv.guestMissions[code].durationMs;
+                  }
+                }
+              });
+            }
             continue;
           } else {
             this._sha=null;
@@ -1400,8 +1535,19 @@ function sanitizeStateDefaults() {
   if (!STATE.settings.throne2) STATE.settings.throne2 = 'Pani Młoda';
   if (!STATE.settings.table) STATE.settings.table = DEFAULT_STATE.settings.table;
   if (!STATE.settings.table.edges) STATE.settings.table.edges = DEFAULT_STATE.settings.table.edges;
+  if (!STATE.settings.qrCustom) STATE.settings.qrCustom = JSON.parse(JSON.stringify(DEFAULT_STATE.settings.qrCustom));
+  else {
+    if (STATE.settings.qrCustom.ornamentColor === undefined) STATE.settings.qrCustom.ornamentColor = STATE.settings.qrCustom.frameColor || '#c9a84c';
+  }
   if (!STATE.music) STATE.music = [];
   if (!STATE.missionsSettings) STATE.missionsSettings = JSON.parse(JSON.stringify(DEFAULT_STATE.missionsSettings));
+  else {
+    if (STATE.missionsSettings.autoUpload === undefined) STATE.missionsSettings.autoUpload = false;
+    if (STATE.missionsSettings.enablePostContestMessage === undefined) STATE.missionsSettings.enablePostContestMessage = false;
+    if (STATE.missionsSettings.postContestMessage === undefined) STATE.missionsSettings.postContestMessage = '';
+    if (STATE.missionsSettings.postContestColor === undefined) STATE.missionsSettings.postContestColor = '#ffd700';
+    if (STATE.missionsSettings.postContestAlign === undefined) STATE.missionsSettings.postContestAlign = 'center';
+  }
   if (!STATE.missions) STATE.missions = JSON.parse(JSON.stringify(DEFAULT_STATE.missions));
   if (!STATE.guestMissions) STATE.guestMissions = {};
 }
@@ -1555,11 +1701,23 @@ function generateLayoutEngine(isGuestView = false){
     placeEdge('t_s_b',-TW/2+E_BUF,TW/2-E_BUF,TW+hV,true,1,safeGetE('t_s_b'),false);
   }
 
-  let sId=1, chairNum=1;
-  seats.forEach(s=>{
-    s.numIndex = chairNum++;
-    if(s.idTemp==='T1'||s.idTemp==='T2'){s.id=s.idTemp;}
-    else{s.id=String(sId++);SEAT_IDS.push(s.id);}
+  const regularSeats = seats.filter(s => s.idTemp !== 'T1' && s.idTemp !== 'T2');
+  regularSeats.sort((a, b) => {
+    const diffY = Math.round(a.y / 25) - Math.round(b.y / 25);
+    if (diffY !== 0) return diffY;
+    return a.x - b.x;
+  });
+
+  let sId = 1;
+  regularSeats.forEach(s => {
+    s.numIndex = sId;
+    s.id = String(sId++);
+    SEAT_IDS.push(s.id);
+  });
+
+  seats.filter(s => s.idTemp === 'T1' || s.idTemp === 'T2').forEach(s => {
+    s.id = s.idTemp;
+    s.numIndex = s.idTemp === 'T1' ? 1 : 2;
   });
 
   // Centre tables
@@ -1701,6 +1859,7 @@ function generateLayoutEngine(isGuestView = false){
 // ═══════════════════════════════════════════════════════════
 function buildTableSVG(mySeats,darkMode,clickMode){
   const mode=clickMode||'guest';
+  generateLayoutEngine(mode==='guest');
   const layout=CURRENT_LAYOUT;
   const R=13;const FF="'Cormorant Garamond',serif";const NAME_FS=15;
 
@@ -1803,25 +1962,86 @@ const LINE_H=18;
 //  DRAG AND DROP
 // ═══════════════════════════════════════════════════════════
 let dragSeat=null,dragStart={x:0,y:0};
+let _dragBadge=null;
 
 function startDrag(e,el){
+  if(!ADMIN_AUTHED && document.getElementById('screen-admin') && document.getElementById('screen-admin').classList.contains('active')) {
+    ADMIN_AUTHED = true;
+  }
   if(!requireAdmin())return;
+
   dragSeat=el.dataset.sid;
-  if(isThrone(dragSeat)){adminSeatClick(dragSeat);dragSeat=null;return;}
+  if(!dragSeat)return;
+
+  const currentGuestName = getNameForSeat(dragSeat, false) || `Krzesło ${getSeatNumber(dragSeat)}`;
   dragStart={x:e.clientX,y:e.clientY};
-  el.setPointerCapture(e.pointerId);
-  el.onpointerup=(up)=>{
-    el.releasePointerCapture(e.pointerId);el.onpointerup=null;
-    const dx=up.clientX-dragStart.x,dy=up.clientY-dragStart.y;
-    if(Math.abs(dx)<5&&Math.abs(dy)<5){adminSeatClick(dragSeat);}
-    else{
-      const orig=el.style.display;el.style.display='none';
-      const target=document.elementFromPoint(up.clientX,up.clientY);
-      el.style.display=orig;
-      if(target){const tg=target.closest('.seat-circle');if(tg&&tg.dataset.sid!==dragSeat&&!isThrone(tg.dataset.sid))swapSeats(dragSeat,tg.dataset.sid);}
+
+  let isMoved=false;
+
+  if(!_dragBadge){
+    _dragBadge=document.createElement('div');
+    _dragBadge.style.cssText='position:fixed;pointer-events:none;z-index:9999;background:linear-gradient(135deg,#d4af37,#aa7c11);color:#1a1410;font-weight:bold;font-size:0.82rem;padding:0.4rem 0.85rem;border-radius:20px;box-shadow:0 4px 15px rgba(0,0,0,0.6);display:none;font-family:"Jost",sans-serif;transform:translate(-50%,-130%);border:1px solid #fff';
+    document.body.appendChild(_dragBadge);
+  }
+  _dragBadge.textContent=`🪑 ${currentGuestName}`;
+
+  try { el.setPointerCapture(e.pointerId); } catch(err) {}
+
+  const moveHandler=(mv)=>{
+    const dx=mv.clientX-dragStart.x,dy=mv.clientY-dragStart.y;
+    if(Math.hypot(dx,dy)>4){
+      isMoved=true;
+      if(_dragBadge){
+        _dragBadge.style.display='block';
+        _dragBadge.style.left=mv.clientX+'px';
+        _dragBadge.style.top=mv.clientY+'px';
+      }
+
+      el.style.pointerEvents = 'none';
+      const target=document.elementFromPoint(mv.clientX,mv.clientY);
+      el.style.pointerEvents = '';
+
+      document.querySelectorAll('.seat-circle.drag-hover').forEach(s=>s.classList.remove('drag-hover'));
+      if(target){
+        const tg=target.closest('.seat-circle');
+        if(tg&&tg.dataset.sid&&tg.dataset.sid!==dragSeat){
+          tg.classList.add('drag-hover');
+        }
+      }
     }
-    dragSeat=null;
   };
+
+  const upHandler=(up)=>{
+    try { el.releasePointerCapture(e.pointerId); } catch(err) {}
+    window.removeEventListener('pointermove',moveHandler);
+    window.removeEventListener('pointerup',upHandler);
+    window.removeEventListener('pointercancel',upHandler);
+
+    if(_dragBadge)_dragBadge.style.display='none';
+    document.querySelectorAll('.seat-circle.drag-hover').forEach(s=>s.classList.remove('drag-hover'));
+
+    const curSeat = dragSeat;
+    dragSeat = null;
+
+    if(!isMoved){
+      adminSeatClick(curSeat);
+    }else{
+      el.style.pointerEvents = 'none';
+      const target=document.elementFromPoint(up.clientX,up.clientY);
+      el.style.pointerEvents = '';
+
+      if(target){
+        const tg=target.closest('.seat-circle');
+        if(tg&&tg.dataset.sid&&tg.dataset.sid!==curSeat){
+          swapSeats(curSeat,tg.dataset.sid);
+        }
+      }
+    }
+  };
+
+  window.addEventListener('pointermove',moveHandler);
+  window.addEventListener('pointerup',upHandler);
+  window.addEventListener('pointercancel',upHandler);
 }
 
 function swapSeats(s1,s2){
@@ -1829,7 +2049,13 @@ function swapSeats(s1,s2){
   let g2=STATE.guests.find(g=>g.seat1===s2||g.seat2===s2);
   if(g1){if(g1.seat1===s1)g1.seat1=s2;else g1.seat2=s2;}
   if(g2){if(g2.seat1===s2)g2.seat1=s1;else g2.seat2=s1;}
-  saveLocal();renderGuestsTable();renderLivePreview();renderAdminTable();
+  syncGuestCodesToSeats();
+  generateLayoutEngine();
+  saveLocal();
+  renderGuestsTable();
+  renderLivePreview();
+  renderAdminTable();
+  renderQRGrid();
 }
 
 function modEdge(key,diff){STATE.settings.table.edges[key]=Math.max(0,safeGetE(key)+diff);updateTableConfig();}
@@ -1933,6 +2159,7 @@ async function adminLogin(){
   if(!STATE.settings.passHash){STATE.settings.passHash=await hashPassword('Wesele2026!');saveLocal();}
   if(await checkPassword(p,STATE.settings.passHash)){
     ADMIN_AUTHED=true;LOGIN_ATTEMPTS=0;
+    try{sessionStorage.setItem('wedding_admin_authed','true');}catch(e){}
     if(STATE.settings.githubToken){try{sessionStorage.setItem('github_pat',atob(STATE.settings.githubToken).split('').reverse().join(''));}catch(e){}}
     renderAdmin();show('screen-admin');
     document.getElementById('admin-pass').value='';document.getElementById('admin-err').textContent='';
@@ -1943,8 +2170,12 @@ async function adminLogin(){
     else{document.getElementById('admin-err').textContent=`Błędne hasło (${LOGIN_ATTEMPTS}/5).`;}
   }
 }
-function adminLogout(){ADMIN_AUTHED=false;GitHubStorage.stopPolling();show('screen-landing');}
-function requireAdmin(){if(!ADMIN_AUTHED){show('screen-landing');return false;}return true;}
+function adminLogout(){ADMIN_AUTHED=false;try{sessionStorage.removeItem('wedding_admin_authed');}catch(e){}GitHubStorage.stopPolling();show('screen-landing');}
+function requireAdmin(){
+  if(!ADMIN_AUTHED && sessionStorage.getItem('wedding_admin_authed')==='true') ADMIN_AUTHED=true;
+  if(!ADMIN_AUTHED){show('screen-landing');return false;}
+  return true;
+}
 function goAdminPanel(){
   ADMIN_AUTHED=true;
   renderAdmin();
@@ -1993,11 +2224,22 @@ function guestLogin(){
 
   if (g) {
     renderGuestView(g);
+    try { sessionStorage.setItem('wedding_guest_code', g.code); } catch(e) {}
+    history.replaceState(null, '', location.pathname + '?guest=' + encodeURIComponent(g.code));
     show('screen-guest');
     requestAnimationFrame(() => initWrap('wrap-guest'));
   } else {
     if(errEl) errEl.textContent = 'Podany kod zaproszenia jest nieprawidłowy. Sprawdź kod na swoim zaproszeniu.';
   }
+}
+
+function guestLogout() {
+  try { sessionStorage.removeItem('wedding_guest_code'); } catch(e) {}
+  window._currentGuestCode = null;
+  window._currentGuestName = null;
+  GitHubStorage.stopPolling();
+  history.replaceState(null, '', location.pathname);
+  show('screen-landing');
 }
 
 function isThrone(id){
@@ -2154,14 +2396,16 @@ let _assignSid=null;
 function adminSeatClick(sid){
   if(!requireAdmin())return;
   _assignSid=sid;
-  const currentName=getNameForSeat(sid);
+  const currentName=getNameForSeat(sid, false);
   document.getElementById('assign-modal-seat').textContent=seatLabel(sid);
   document.getElementById('assign-name-input').value=currentName||'';
   const sel=document.getElementById('assign-select-guest');
   sel.innerHTML='<option value="">-- Wybierz istniejącego gościa --</option>';
   STATE.guests.forEach(g=>{
-    if(g.name1)sel.innerHTML+=`<option value="${g.id}_1">${escHtml(g.name1)} (${seatLabel(g.seat1)})</option>`;
-    if(g.name2)sel.innerHTML+=`<option value="${g.id}_2">${escHtml(g.name2)} (${seatLabel(g.seat2)})</option>`;
+    const fName = getGuestFullName(g);
+    if(fName) {
+      sel.innerHTML+=`<option value="${g.id}">${escHtml(fName)} (${seatLabel(g.seat1)})</option>`;
+    }
   });
   document.getElementById('assign-clear-btn').style.display=currentName?'':'none';
   document.getElementById('assign-modal-overlay').classList.remove('hidden');
@@ -2171,46 +2415,113 @@ function confirmAssign(){
   if(!_assignSid)return;
   const selVal=document.getElementById('assign-select-guest').value;
   if(selVal){
-    const[gid,seatIdx]=selVal.split('_');
-    const g=STATE.guests.find(x=>x.id===gid);
+    const g=STATE.guests.find(x=>x.id===selVal);
     if(g){
-      _assignSeatName(_assignSid,null);
-      if(seatIdx==='1')g.seat1=_assignSid;
-      if(seatIdx==='2')g.seat2=_assignSid;
-      saveLocal();renderGuestsTable();renderLivePreview();renderAdminTable();
-      closeModal();return;
+      // Unassign anyone else on _assignSid
+      STATE.guests.forEach(x => {
+        if(x.id !== g.id){
+          if(x.seat1 === _assignSid) x.seat1 = '';
+          if(x.seat2 === _assignSid) x.seat2 = '';
+        }
+      });
+      g.seat1=_assignSid;
+      syncGuestCodesToSeats();
+      generateLayoutEngine();
+      saveLocal();
+      renderGuestsTable();
+      renderLivePreview();
+      renderAdminTable();
+      renderQRGrid();
+      closeModal();
+      return;
     }
   }
   const name=document.getElementById('assign-name-input').value.trim();
-  if(!name){alert('Wpisz imię gościa lub wybierz z listy.');return;}
-  _assignSeatName(_assignSid,name);closeModal();
+  if(!name){alert('Wpisz imię i nazwisko gościa lub wybierz z listy.');return;}
+  _assignSeatName(_assignSid,name);
+  closeModal();
 }
 function confirmAssignClear(){if(!_assignSid)return;if(!confirm('Usunąć gościa z tego krzesła?'))return;_assignSeatName(_assignSid,null);closeModal();}
 function _assignSeatName(sid,name){
   STATE.guests.forEach(g=>{
     if(g.seat1===sid){
       if(g.code && STATE.guestMissions) delete STATE.guestMissions[g.code];
-      g.seat1='';g.name1='';
+      g.seat1='';
     }
     else if(g.seat2===sid){
       if(g.code && STATE.guestMissions) delete STATE.guestMissions[g.code];
-      g.seat2='';g.name2='';
+      g.seat2='';
     }
   });
-  STATE.guests=STATE.guests.filter(g=>g.seat1||g.seat2||isThrone(g.seat1)||isThrone(g.seat2));
+  STATE.guests=STATE.guests.filter(g=>g.seat1||g.seat2||isThrone(g.seat1)||isThrone(g.seat2)||(g.firstName||g.name1));
   if(name){
+    const parts = name.trim().split(/\s+/);
+    const firstName = parts[0] || name.trim();
+    const lastName = parts.slice(1).join(' ') || '';
     const sNum = getSeatNumber(sid);
-    const code = (sNum !== undefined && sNum !== null && sNum !== '') ? String(sNum) : ('g'+Date.now());
-    STATE.guests.push({id:'g'+Date.now(),name1:name,name2:'',seat1:sid,seat2:'',code});
+    const parsed = parseInt(sNum, 10);
+    const code = !isNaN(parsed) ? ('G-' + String(parsed).padStart(3, '0')) : ('G-' + String(sNum || Date.now()));
+    STATE.guests.push({
+      id:'g'+Date.now(),
+      firstName: firstName,
+      lastName: lastName,
+      name1: firstName,
+      name2: lastName,
+      seat1: sid,
+      seat2: '',
+      code: code
+    });
   }
   syncGuestCodesToSeats();
-  
   generateLayoutEngine();
-  
   saveLocal();
   renderGuestsTable();
   renderLivePreview();
   renderAdminTable();
+  renderQRGrid();
+}
+
+function syncColorInput(pickerId, hexId) {
+  const p = document.getElementById(pickerId);
+  const h = document.getElementById(hexId);
+  if (p && h) h.value = p.value.toUpperCase();
+}
+function syncHexInput(hexId, pickerId) {
+  const p = document.getElementById(pickerId);
+  const h = document.getElementById(hexId);
+  if (p && h) {
+    let val = h.value.trim();
+    if (!val.startsWith('#')) val = '#' + val;
+    if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
+      p.value = val;
+      h.value = val.toUpperCase();
+    }
+  }
+}
+function copyColorHex(hexId) {
+  const el = document.getElementById(hexId);
+  if (el) {
+    const val = el.value || '';
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(val).then(() => {
+        alert(`Skopiowano kolor do schowka: ${val} 📋`);
+      }).catch(() => {
+        el.select();
+        document.execCommand('copy');
+        alert(`Skopiowano kolor do schowka: ${val} 📋`);
+      });
+    } else {
+      el.select();
+      document.execCommand('copy');
+      alert(`Skopiowano kolor do schowka: ${val} 📋`);
+    }
+  }
+}
+function resetColorHex(pickerId, hexId, defVal) {
+  const p = document.getElementById(pickerId);
+  const h = document.getElementById(hexId);
+  if (p) p.value = defVal;
+  if (h) h.value = defVal.toUpperCase();
 }
 
 function renderAdmin(){
@@ -2229,6 +2540,7 @@ function renderAdmin(){
   updateDriveStatus();renderLivePreview();
   requestAnimationFrame(()=>initWrap('wrap-preview'));
   GitHubStorage.startPolling(function(newData){
+    if(dragSeat) return;
     parseImportedState(newData);
     saveLocalCache();
     generateLayoutEngine();
@@ -2243,15 +2555,26 @@ function updateDriveStatus(){const el=document.getElementById('drive-status-txt'
 function renderLivePreview(){
   const w=document.getElementById('admin-live-preview');if(!w)return;
   w.innerHTML=buildTableSVG(null,false,'admin').svg;
-  // Zresetuj skalę przy każdym pełnym przerysowaniu (zmiana layoutu)
-  if(wrapState['wrap-preview']){wrapState['wrap-preview'].scale=1;wrapState['wrap-preview'].ox=0;wrapState['wrap-preview'].oy=0;}
-  centerWrap('wrap-preview');
+  const wrap=document.getElementById('wrap-preview');
+  const st=wrapState['wrap-preview'];
+  if(st && wrap && st.scale !== undefined && (st.scale !== 1 || st.ox !== 0 || st.oy !== 0)){
+    const inner=wrap.querySelector('.table-wrap-inner');
+    if(inner) inner.style.transform=`translate(${st.ox}px,${st.oy}px) scale(${st.scale})`;
+  } else {
+    centerWrap('wrap-preview');
+  }
 }
 function renderAdminTable(){
   const w=document.getElementById('admin-table-svg-wrap');if(!w)return;
   w.innerHTML=buildTableSVG(null,false,'admin').svg;
-  if(wrapState['wrap-creator']){wrapState['wrap-creator'].scale=1;wrapState['wrap-creator'].ox=0;wrapState['wrap-creator'].oy=0;}
-  centerWrap('wrap-creator');
+  const wrap=document.getElementById('wrap-creator');
+  const st=wrapState['wrap-creator'];
+  if(st && wrap && st.scale !== undefined && (st.scale !== 1 || st.ox !== 0 || st.oy !== 0)){
+    const inner=wrap.querySelector('.table-wrap-inner');
+    if(inner) inner.style.transform=`translate(${st.ox}px,${st.oy}px) scale(${st.scale})`;
+  } else {
+    centerWrap('wrap-creator');
+  }
 }
 
 function renderGuestsTable(){
@@ -2339,11 +2662,58 @@ function removeGuest(id){
 }
 async function saveAll(ev){const b=ev&&ev.target?ev.target:null;const origText=b?b.textContent:'';if(b)b.textContent='⏳ Zapisuję...';const ok=await saveNow();if(b){b.textContent=ok?'✓ Zapisano w GitHub!':'⚠ Zapisano lokalnie';setTimeout(()=>b.textContent=origText,1800);}}
 
+let _dragSrcIdx = null;
+let _dragType = null;
+function handleDragStart(e, idx, type) {
+  _dragSrcIdx = idx;
+  _dragType = type;
+  e.target.closest('.sch-row,.menu-row').classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+}
+function handleDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+}
+function handleDragEnter(e) {
+  const row = e.target.closest('.sch-row,.menu-row');
+  if (row) row.classList.add('drag-over');
+}
+function handleDragLeave(e) {
+  const row = e.target.closest('.sch-row,.menu-row');
+  if (row) row.classList.remove('drag-over');
+}
+function handleDrop(e, targetIdx, type) {
+  e.preventDefault();
+  const row = e.target.closest('.sch-row,.menu-row');
+  if (row) row.classList.remove('drag-over');
+  if (_dragSrcIdx === null || _dragType !== type || _dragSrcIdx === targetIdx) return;
+  const arr = type === 'schedule' ? STATE.schedule : STATE.menu;
+  const item = arr.splice(_dragSrcIdx, 1)[0];
+  arr.splice(targetIdx, 0, item);
+  saveLocal();
+  if (type === 'schedule') renderScheduleAdmin();
+  else renderMenuAdmin();
+}
+function handleDragEnd(e) {
+  document.querySelectorAll('.dragging,.drag-over').forEach(el => {
+    el.classList.remove('dragging', 'drag-over');
+  });
+  _dragSrcIdx = null;
+  _dragType = null;
+}
+
 function renderScheduleAdmin(){
   const list=document.getElementById('sch-list');list.innerHTML='';
   STATE.schedule.forEach((item,i)=>{
     const div=document.createElement('div');div.className='sch-row';
-    div.innerHTML=`<input value="${escHtml(item.time)}" placeholder="00:00" maxlength="8" onchange="STATE.schedule[${i}].time=sanitizeText(this.value);saveLocal()"><input value="${escHtml(item.event)}" placeholder="Opis punktu" maxlength="120" onchange="STATE.schedule[${i}].event=sanitizeText(this.value);saveLocal()"><button class="danger-btn" onclick="removeSchItem(${i})">✕</button>`;
+    div.innerHTML=`<span class="drag-handle" title="Przeciągnij">☰</span><input value="${escHtml(item.time)}" placeholder="00:00" maxlength="8" onchange="STATE.schedule[${i}].time=sanitizeText(this.value);saveLocal()"><input value="${escHtml(item.event)}" placeholder="Opis punktu" maxlength="120" onchange="STATE.schedule[${i}].event=sanitizeText(this.value);saveLocal()"><button class="danger-btn" onclick="removeSchItem(${i})">✕</button>`;
+    div.setAttribute('draggable', 'true');
+    div.ondragstart = function(e) { handleDragStart(e, i, 'schedule'); };
+    div.ondragover = handleDragOver;
+    div.ondragenter = handleDragEnter;
+    div.ondragleave = handleDragLeave;
+    div.ondrop = function(e) { handleDrop(e, i, 'schedule'); };
+    div.ondragend = handleDragEnd;
     list.appendChild(div);
   });
 }
@@ -2357,12 +2727,34 @@ function renderMenuAdmin(){
   STATE.menu.forEach((item,i)=>{
     const div=document.createElement('div');div.className='menu-row';
     let catOpts=MENU_CATEGORIES.map(c=>`<option value="${escHtml(c)}" ${item.category===c?'selected':''}>${escHtml(c)}</option>`).join('');
-    div.innerHTML=`<select class="tbl-input menu-category" onchange="STATE.menu[${i}].category=this.value;saveLocal()">${catOpts}</select><input value="${escHtml(item.name)}" placeholder="Nazwa dania" maxlength="120" onchange="STATE.menu[${i}].name=sanitizeText(this.value);saveLocal()"><button class="danger-btn" onclick="removeMenuItem(${i})">✕</button>`;
+    div.innerHTML=`<span class="drag-handle" title="Przeciągnij">☰</span><select class="tbl-input menu-category" onchange="STATE.menu[${i}].category=this.value;saveLocal()">${catOpts}</select><input value="${escHtml(item.name)}" placeholder="Nazwa dania" maxlength="120" onchange="STATE.menu[${i}].name=sanitizeText(this.value);saveLocal()"><button class="danger-btn" onclick="removeMenuItem(${i})">✕</button>`;
+    div.setAttribute('draggable', 'true');
+    div.ondragstart = function(e) { handleDragStart(e, i, 'menu'); };
+    div.ondragover = handleDragOver;
+    div.ondragenter = handleDragEnter;
+    div.ondragleave = handleDragLeave;
+    div.ondrop = function(e) { handleDrop(e, i, 'menu'); };
+    div.ondragend = handleDragEnd;
     list.appendChild(div);
   });
 }
 function addMenuItem(){if(!STATE.menu)STATE.menu=[];STATE.menu.push({category:'Danie główne',name:''});renderMenuAdmin();}
 function removeMenuItem(i){STATE.menu.splice(i,1);renderMenuAdmin();saveLocal();}
+
+function saveQRCustom() {
+  if (!STATE.settings) STATE.settings = {};
+  if (!STATE.settings.qrCustom) STATE.settings.qrCustom = {};
+  const qc = STATE.settings.qrCustom;
+  qc.frameColor = document.getElementById('qr-frame-color')?.value || '#c9a84c';
+  qc.textColor = document.getElementById('qr-text-color')?.value || '#2D1F17';
+  qc.ornamentColor = document.getElementById('qr-ornament-color')?.value || '#c9a84c';
+  qc.ornament = document.getElementById('qr-ornament-text')?.value || '✦  ✦  ✦';
+  qc.subtitle1 = document.getElementById('qr-subtitle1')?.value || 'APLIKACJA WESELNA';
+  qc.subtitle2 = document.getElementById('qr-subtitle2')?.value || 'SPRAWDŹ I WEŹ UDZIAŁ W KONKURSIE';
+  qc.subtitle3 = document.getElementById('qr-subtitle3')?.value || '';
+  qc.codeLabel = document.getElementById('qr-code-label')?.value || 'KOD ZAPROSZENIA';
+  saveLocal();
+}
 
 function saveQRNamesText(val) {
   if (!STATE.settings) STATE.settings = {};
@@ -2415,11 +2807,28 @@ function renderQRGrid(){
       : 'Zeskanuj kod QR aparatem, poznaj szczegóły wydarzenia i weź udział w konkursie weselnym';
   }
 
+  const qc = (STATE.settings && STATE.settings.qrCustom) || {};
+  const frameC = qc.frameColor || '#c9a84c';
+  const textC = qc.textColor || '#2D1F17';
+  const ornC = qc.ornamentColor || frameC;
+
+  if(document.getElementById('qr-frame-color')) document.getElementById('qr-frame-color').value = frameC;
+  if(document.getElementById('qr-frame-hex')) document.getElementById('qr-frame-hex').value = frameC.toUpperCase();
+  if(document.getElementById('qr-text-color')) document.getElementById('qr-text-color').value = textC;
+  if(document.getElementById('qr-text-hex')) document.getElementById('qr-text-hex').value = textC.toUpperCase();
+  if(document.getElementById('qr-ornament-color')) document.getElementById('qr-ornament-color').value = ornC;
+  if(document.getElementById('qr-ornament-hex')) document.getElementById('qr-ornament-hex').value = ornC.toUpperCase();
+  if(document.getElementById('qr-ornament-text')) document.getElementById('qr-ornament-text').value = qc.ornament || '✦  ✦  ✦';
+  if(document.getElementById('qr-subtitle1')) document.getElementById('qr-subtitle1').value = qc.subtitle1 || 'APLIKACJA WESELNA';
+  if(document.getElementById('qr-subtitle2')) document.getElementById('qr-subtitle2').value = qc.subtitle2 || 'SPRAWDŹ I WEŹ UDZIAŁ W KONKURSIE';
+  if(document.getElementById('qr-subtitle3')) document.getElementById('qr-subtitle3').value = qc.subtitle3 || '';
+  if(document.getElementById('qr-code-label')) document.getElementById('qr-code-label').value = qc.codeLabel || 'KOD ZAPROSZENIA';
+
   STATE.guests.forEach(g=>{
-    if(!g.name1&&!g.name2)return;
+    if(!g.name1&&!g.name2&&!g.firstName&&!g.lastName)return;
     const seats=[g.seat1,g.seat2].filter(Boolean);
     const div=document.createElement('div');div.className='qr-card';
-    const nameDisplay=[g.name1,g.name2].filter(Boolean).join(' ');
+    const nameDisplay = getGuestFirstName(g) || g.name1 || 'Gość';
     div.innerHTML=`<div class="qr-card-name">${escHtml(nameDisplay)}</div><div class="qr-card-info">${escHtml(seats.map(s=>seatLabel(s)).join(' + '))}</div><span class="pill ${isThrone(g.seat1)||isThrone(g.seat2)?'pill-throne':''}">${escHtml(g.code)}</span><button class="qr-btn" onclick="showQRModal('${escHtml(g.id)}')">Generuj QR</button>`;
     grid.appendChild(div);
   });
@@ -2449,6 +2858,10 @@ function wrapCanvasText(ctx, text, maxWidth) {
 
 async function createInvitationCanvas(g) {
   const isTransparent = document.getElementById('qr-transparent-bg')?.checked || false;
+  const qc = (STATE.settings && STATE.settings.qrCustom) || {};
+  const frameColor = qc.frameColor || '#c9a84c';
+  const textColor = qc.textColor || '#2D1F17';
+  const ornamentColor = qc.ornamentColor || frameColor;
 
   const canvas = document.createElement('canvas');
   const width = 800;
@@ -2466,51 +2879,77 @@ async function createInvitationCanvas(g) {
     ctx.fillRect(0, 0, width, height);
   }
 
-  ctx.strokeStyle = isTransparent ? '#8c6d23' : '#c9a84c';
+  // Outer border
+  ctx.strokeStyle = frameColor;
   ctx.lineWidth = 6;
   ctx.strokeRect(20, 20, width - 40, height - 40);
 
-  ctx.strokeStyle = isTransparent ? 'rgba(140,109,35,0.4)' : 'rgba(201,168,76,0.35)';
+  // Inner border
+  ctx.strokeStyle = frameColor;
+  ctx.globalAlpha = 0.4;
   ctx.lineWidth = 2;
   ctx.strokeRect(32, 32, width - 64, height - 64);
+  ctx.globalAlpha = 1.0;
 
-  ctx.fillStyle = isTransparent ? '#8c6d23' : '#c9a84c';
-  ctx.font = '24px serif';
+  // Ornament (uses dedicated ornamentColor)
+  const ornamentText = qc.ornament || '✦  ✦  ✦';
+  ctx.fillStyle = ornamentColor;
+  ctx.font = '24px "Jost", sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText('✦  ✦  ✦', width / 2, 75);
+  ctx.fillText(ornamentText, width / 2, 75);
 
+  // Couple names (EXCEPTION: keeps Cormorant Garamond)
   let weddingTitle = (STATE.settings && STATE.settings.names) ? STATE.settings.names : 'Aleksandra & Damian';
   if (!weddingTitle || weddingTitle === 'Pan Młody & Pani Młoda' || weddingTitle === 'Para Młoda') {
     weddingTitle = 'Aleksandra & Damian';
   }
-
   ctx.font = 'italic 46px "Cormorant Garamond", Georgia, serif';
   ctx.fillStyle = isTransparent ? '#3d2817' : '#f5deb3';
   ctx.fillText(weddingTitle, width / 2, 135);
 
-  ctx.font = '500 15px "Jost", sans-serif';
-  ctx.fillStyle = isTransparent ? '#8c6d23' : '#c9a84c';
-  ctx.letterSpacing = '3px';
-  ctx.fillText('ZAPROSZENIE NA WESELE & INTERAKTYWNA APLIKACJA', width / 2, 175);
+  // Subtitle 3 lines
+  ctx.font = '500 13px "Jost", sans-serif';
+  ctx.fillStyle = textColor;
+  ctx.letterSpacing = '2px';
+  const sub1 = qc.subtitle1 || 'APLIKACJA WESELNA';
+  const sub2 = qc.subtitle2 || 'SPRAWDŹ I WEŹ UDZIAŁ W KONKURSIE';
+  let sub3 = qc.subtitle3 || '';
+  if (!sub3) {
+    const st = (STATE.missionsSettings && (STATE.missionsSettings.startDate ? STATE.missionsSettings.startDate.slice(11,16) : STATE.missionsSettings.startTime)) || '18:00';
+    const et = (STATE.missionsSettings && (STATE.missionsSettings.endDate ? STATE.missionsSettings.endDate.slice(11,16) : STATE.missionsSettings.endTime)) || '24:00';
+    sub3 = 'GODZINY KONKURSU ' + st + ' - ' + et;
+  }
+  ctx.fillText(sub1.toUpperCase(), width / 2, 170);
+  ctx.fillText(sub2.toUpperCase(), width / 2, 188);
+  ctx.fillText(sub3.toUpperCase(), width / 2, 206);
+  ctx.letterSpacing = '0px';
 
-  ctx.strokeStyle = isTransparent ? 'rgba(140,109,35,0.3)' : 'rgba(245,222,179,0.3)';
+  // Divider line
+  ctx.strokeStyle = textColor;
+  ctx.globalAlpha = 0.3;
   ctx.lineWidth = 1;
   ctx.beginPath();
-  ctx.moveTo(160, 202);
-  ctx.lineTo(width - 160, 202);
+  ctx.moveTo(160, 222);
+  ctx.lineTo(width - 160, 222);
   ctx.stroke();
+  ctx.globalAlpha = 1.0;
 
-  const nameDisplay = [g.name1, g.name2].filter(Boolean).join(' ') || 'Szanowny Gość';
-  ctx.font = 'bold 36px "Cormorant Garamond", Georgia, serif';
-  ctx.fillStyle = isTransparent ? '#1a1410' : '#ffffff';
-  ctx.fillText(nameDisplay, width / 2, 260);
+  // Guest first name only
+  const firstName = getGuestFirstName(g) || 'Gość';
+  ctx.font = 'bold 36px "Jost", sans-serif';
+  ctx.fillStyle = textColor;
+  ctx.fillText(firstName, width / 2, 275);
 
+  // Seat number below name
   const seats = [g.seat1, g.seat2].filter(Boolean);
-  const seatsTxt = seats.map(s => seatLabel(s)).join('  +  ') || 'Witaj na Weselu!';
-  ctx.font = '400 20px "Jost", sans-serif';
-  ctx.fillStyle = '#f5deb3';
-  ctx.fillText(seatsTxt, width / 2, 302);
+  const seatsTxt = seats.length > 0 ? 'Krzesło ' + seats.map(s => getSeatNumber(s)).join(' + ') : '';
+  if (seatsTxt) {
+    ctx.font = '500 18px "Jost", sans-serif';
+    ctx.fillStyle = textColor;
+    ctx.fillText(seatsTxt, width / 2, 305);
+  }
 
+  // QR Code
   const baseUrl = window.location.href.split('?')[0];
   const targetUrl = `${baseUrl}?guest=${encodeURIComponent(g.code)}`;
 
@@ -2545,11 +2984,11 @@ async function createInvitationCanvas(g) {
 
   const qrBoxSize = 380;
   const qrBoxX = (width - qrBoxSize) / 2;
-  const qrBoxY = 345;
+  const qrBoxY = 340;
 
   ctx.fillStyle = '#ffffff';
   ctx.fillRect(qrBoxX, qrBoxY, qrBoxSize, qrBoxSize);
-  ctx.strokeStyle = isTransparent ? '#8c6d23' : '#c9a84c';
+  ctx.strokeStyle = frameColor;
   ctx.lineWidth = 4;
   ctx.strokeRect(qrBoxX, qrBoxY, qrBoxSize, qrBoxSize);
 
@@ -2560,21 +2999,22 @@ async function createInvitationCanvas(g) {
     ctx.drawImage(img, qrBoxX + 30, qrBoxY + 30, 320, 320);
   }
 
+  // Code badge — transparent background
   const badgeY = 770;
   const badgeW = 480;
   const badgeH = 56;
   const badgeX = (width - badgeW) / 2;
 
-  ctx.fillStyle = isTransparent ? 'rgba(201,168,76,0.12)' : 'rgba(201,168,76,0.18)';
-  ctx.strokeStyle = isTransparent ? '#8c6d23' : '#c9a84c';
+  ctx.strokeStyle = frameColor;
   ctx.lineWidth = 2;
-  ctx.fillRect(badgeX, badgeY, badgeW, badgeH);
   ctx.strokeRect(badgeX, badgeY, badgeW, badgeH);
 
-  ctx.font = 'bold 21px "Jost", monospace';
-  ctx.fillStyle = isTransparent ? '#6e4d0f' : '#ffd700';
-  ctx.fillText(`KOD ZAPROSZENIA: ${g.code}`, width / 2, badgeY + 35);
+  const codeLabel = qc.codeLabel || 'KOD ZAPROSZENIA';
+  ctx.font = 'bold 21px "Jost", sans-serif';
+  ctx.fillStyle = textColor;
+  ctx.fillText(`${codeLabel}: ${g.code}`, width / 2, badgeY + 35);
 
+  // Footer instruction text — transparent background
   const rawFooterText = (STATE.settings && STATE.settings.qrFooterText)
     ? STATE.settings.qrFooterText
     : 'Zeskanuj kod QR aparatem, poznaj szczegóły wydarzenia i weź udział w konkursie weselnym';
@@ -2591,27 +3031,28 @@ async function createInvitationCanvas(g) {
   const boxX = (width - boxW) / 2;
   const boxY = 848;
 
-  ctx.fillStyle = isTransparent ? 'rgba(201,168,76,0.12)' : 'rgba(255,255,255,0.06)';
-  ctx.strokeStyle = isTransparent ? 'rgba(140,109,35,0.4)' : 'rgba(201,168,76,0.3)';
+  ctx.strokeStyle = frameColor;
+  ctx.globalAlpha = 0.4;
   ctx.lineWidth = 1.5;
-  ctx.fillRect(boxX, boxY, boxW, boxH);
   ctx.strokeRect(boxX, boxY, boxW, boxH);
+  ctx.globalAlpha = 1.0;
 
-  ctx.fillStyle = isTransparent ? '#3d2817' : '#f5deb3';
+  ctx.fillStyle = textColor;
   ctx.textAlign = 'center';
   const startTextY = boxY + padV + 15;
   lines.forEach((line, i) => {
     ctx.fillText(line, width / 2, startTextY + (i * lineH));
   });
 
+  // Wedding date — same font size as code badge (bold 21px)
   let dateStr = (STATE.settings && STATE.settings.date) ? STATE.settings.date.trim() : '11.09.2026';
   if (!dateStr || dateStr === 'Data Wesela') {
     dateStr = '11.09.2026';
   }
   if (dateStr) {
-    const footTxt = `•   ${dateStr.toUpperCase()}   •`;
-    ctx.font = 'italic 17px "Cormorant Garamond", Georgia, serif';
-    ctx.fillStyle = isTransparent ? '#4a3525' : 'rgba(245,222,179,0.85)';
+    const footTxt = '•   ' + dateStr.toUpperCase() + '   •';
+    ctx.font = 'bold 21px "Jost", sans-serif';
+    ctx.fillStyle = textColor;
     ctx.fillText(footTxt, width / 2, 1025);
   }
 
@@ -2742,11 +3183,12 @@ function showQRModal(gid){
 function renderGuestView(g){
   sanitizeStateDefaults();
   window._currentGuestCode = g.code;
+  const firstName = getGuestFirstName(g);
   const fullName = getGuestFullName(g);
   window._currentGuestName = fullName || 'Gość';
   document.getElementById('g-title').textContent = STATE.settings.names || 'Aleksandra & Damian';
   document.getElementById('g-date').textContent = (STATE.settings.date || '11.09.2026').toUpperCase();
-  document.getElementById('g-name').textContent=fullName || 'Gość';
+  document.getElementById('g-name').textContent = fullName || 'Gość';
   const seats=[g.seat1,g.seat2].filter(Boolean);
   document.getElementById('g-seat').textContent=seats.map(s=>seatLabel(s)).join(' + ');
   document.getElementById('g-venue-txt').textContent=STATE.settings.venue||'—';
@@ -2847,7 +3289,7 @@ function renderGuestNeighbors(g){
     secDiv.style.cssText = 'margin-bottom:0.8rem';
     
     const headDiv = document.createElement('div');
-    headDiv.style.cssText = 'font-weight:bold;color:gold;font-size:0.83rem;margin-bottom:0.4rem;display:flex;align-items:center;gap:0.3rem';
+    headDiv.style.cssText = 'font-weight:bold;color:gold;font-size:0.83rem;margin-bottom:0.4rem;display:flex;align-items:center;justify-content:center;text-align:center;gap:0.3rem';
     headDiv.innerHTML = `<span>${title}</span>`;
     secDiv.appendChild(headDiv);
 
@@ -3080,11 +3522,48 @@ function driveSave(){
 
 function getMissionsStartEndTimestamps() {
   const cfg = STATE.missionsSettings || {};
-  const startStr = cfg.startTime || '15:00';
-  const endStr = cfg.endTime || '23:40';
+  const startStr = cfg.startTime || '18:00';
+  const endStr = cfg.endTime || '24:00';
+  const startDateStr = cfg.startDate || '';
+  const endDateStr = cfg.endDate || '';
   const override = cfg.manualOverride || null;
 
   const now = new Date();
+  const nowMs = now.getTime();
+
+  let isWindowActive = false;
+  let isBeforeStart = false;
+  let isAfterEnd = false;
+
+  let startMs = 0;
+  let endMs = 0;
+
+  if (startDateStr && endDateStr) {
+    const sDate = new Date(startDateStr);
+    const eDate = new Date(endDateStr);
+    startMs = sDate.getTime();
+    endMs = eDate.getTime();
+
+    if (override === 'open') {
+      isWindowActive = true;
+    } else if (override === 'closed') {
+      isWindowActive = false;
+      isAfterEnd = true;
+    } else {
+      if (nowMs < startMs) {
+        isBeforeStart = true;
+        isWindowActive = false;
+      } else if (nowMs > endMs) {
+        isAfterEnd = true;
+        isWindowActive = false;
+      } else {
+        isWindowActive = true;
+      }
+    }
+    const sDisp = startDateStr.replace('T', ' ');
+    const eDisp = endDateStr.replace('T', ' ');
+    return { startMs, endMs, nowMs, isBeforeStart, isAfterEnd, isWindowActive, startStr: sDisp, endStr: eDisp };
+  }
 
   const [sH, sM] = startStr.split(':').map(n => parseInt(n) || 0);
   const [eH, eM] = endStr.split(':').map(n => parseInt(n) || 0);
@@ -3094,10 +3573,6 @@ function getMissionsStartEndTimestamps() {
   const nowMins = now.getHours() * 60 + now.getMinutes();
 
   const isOvernight = startMins > endMins;
-
-  let isWindowActive = false;
-  let isBeforeStart = false;
-  let isAfterEnd = false;
 
   if (override === 'open') {
     isWindowActive = true;
@@ -3136,9 +3611,8 @@ function getMissionsStartEndTimestamps() {
     }
   }
 
-  const startMs = startDate.getTime();
-  const endMs = endDate.getTime();
-  const nowMs = now.getTime();
+  startMs = startDate.getTime();
+  endMs = endDate.getTime();
 
   return { startMs, endMs, nowMs, isBeforeStart, isAfterEnd, isWindowActive, startStr, endStr };
 }
@@ -3241,6 +3715,9 @@ function renderAdminMissions() {
   
   const elRanking = document.getElementById('m-cfg-ranking');
   if(elRanking) elRanking.checked = cfg.showRanking !== false;
+
+  const elAutoUp = document.getElementById('m-cfg-auto-upload');
+  if(elAutoUp) elAutoUp.checked = !!cfg.autoUpload;
   
   const elWinnerNotif1 = document.getElementById('m-cfg-winner-notif1');
   if(elWinnerNotif1) elWinnerNotif1.checked = cfg.enableWinnerNotif1 !== false;
@@ -3251,14 +3728,41 @@ function renderAdminMissions() {
   const elWinnerNotif3 = document.getElementById('m-cfg-winner-notif3');
   if(elWinnerNotif3) elWinnerNotif3.checked = cfg.enableWinnerNotif3 !== false;
 
-  const elStart = document.getElementById('m-cfg-start-time');
-  if(elStart) elStart.value = cfg.startTime || '15:00';
+  const elStartDate = document.getElementById('m-cfg-start-date');
+  if(elStartDate) {
+    if (cfg.startDate) elStartDate.value = cfg.startDate;
+    else if (cfg.startTime) {
+      const today = new Date().toISOString().slice(0, 10);
+      elStartDate.value = `${today}T${cfg.startTime}`;
+    }
+  }
 
-  const elEnd = document.getElementById('m-cfg-end-time');
-  if(elEnd) elEnd.value = cfg.endTime || '23:40';
+  const elEndDate = document.getElementById('m-cfg-end-date');
+  if(elEndDate) {
+    if (cfg.endDate) elEndDate.value = cfg.endDate;
+    else if (cfg.endTime) {
+      const today = new Date().toISOString().slice(0, 10);
+      elEndDate.value = `${today}T${cfg.endTime}`;
+    }
+  }
 
   const elOverride = document.getElementById('m-cfg-override');
   if(elOverride) elOverride.value = cfg.manualOverride || 'auto';
+
+  const elPostMsgEnabled = document.getElementById('m-cfg-post-msg-enabled');
+  if(elPostMsgEnabled) elPostMsgEnabled.checked = !!cfg.enablePostContestMessage;
+
+  const elPostMsg = document.getElementById('m-cfg-post-msg');
+  if(elPostMsg) elPostMsg.value = cfg.postContestMessage || '';
+
+  const elPostCol = document.getElementById('m-cfg-post-color');
+  if(elPostCol) elPostCol.value = cfg.postContestColor || '#ffd700';
+
+  const elPostColHex = document.getElementById('m-cfg-post-color-hex');
+  if(elPostColHex) elPostColHex.value = (cfg.postContestColor || '#ffd700').toUpperCase();
+
+  const elPostAlign = document.getElementById('m-cfg-post-align');
+  if(elPostAlign) elPostAlign.value = cfg.postContestAlign || 'center';
 
   const btnPublish = document.getElementById('btn-publish-results');
   if(btnPublish) {
@@ -3304,12 +3808,7 @@ function renderAdminMissions() {
           <option value="wideo" ${m.type==='wideo'?'selected':''}>🎥 Wideo</option>
           <option value="tekst" ${m.type==='tekst'?'selected':''}>✍️ Tekst</option>
         </select>
-        ${m.type !== 'tekst' ? `
-          <div style="display:flex;align-items:center;gap:0.3rem;color:wheat;font-size:0.75rem">
-            <span>Ilość:</span>
-            <input type="number" min="1" max="10" value="${m.targetCount||1}" style="width:50px" class="tbl-input" onchange="STATE.missions[${idx}].targetCount=parseInt(this.value)||1;saveLocal()">
-          </div>
-        ` : ''}
+        ${m.type !== 'tekst' ? `<input type="number" min="1" max="10" value="${m.targetCount||1}" style="width:60px" class="tbl-input" title="Liczba wymaganych plików" onchange="STATE.missions[${idx}].targetCount=parseInt(this.value)||1;saveLocal()">` : ''}
         <button class="danger-btn" onclick="removeAdminMission(${idx})">✕ Usuń</button>
       `;
       list.appendChild(div);
@@ -3322,13 +3821,13 @@ function renderAdminMissions() {
 
 function setCurrentTimeAsStart() {
   const d = new Date();
-  const h = String(d.getHours()).padStart(2, '0');
-  const m = String(d.getMinutes()).padStart(2, '0');
-  const timeStr = `${h}:${m}`;
-  const el = document.getElementById('m-cfg-start-time');
-  if(el) el.value = timeStr;
+  const pad = n => String(n).padStart(2, '0');
+  const isoStr = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  const el = document.getElementById('m-cfg-start-date');
+  if(el) el.value = isoStr;
   if(!STATE.missionsSettings) STATE.missionsSettings = JSON.parse(JSON.stringify(DEFAULT_STATE.missionsSettings));
-  STATE.missionsSettings.startTime = timeStr;
+  STATE.missionsSettings.startDate = isoStr;
+  STATE.missionsSettings.startTime = `${pad(d.getHours())}:${pad(d.getMinutes())}`;
   saveLocal();
   if(window._broadcastStateUpdate) window._broadcastStateUpdate();
   saveNow().catch(e=>console.warn('Save start time:', e));
@@ -3339,13 +3838,13 @@ function setCurrentTimeAsStart() {
 
 function setCurrentTimeAsEnd() {
   const d = new Date();
-  const h = String(d.getHours()).padStart(2, '0');
-  const m = String(d.getMinutes()).padStart(2, '0');
-  const timeStr = `${h}:${m}`;
-  const el = document.getElementById('m-cfg-end-time');
-  if(el) el.value = timeStr;
+  const pad = n => String(n).padStart(2, '0');
+  const isoStr = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  const el = document.getElementById('m-cfg-end-date');
+  if(el) el.value = isoStr;
   if(!STATE.missionsSettings) STATE.missionsSettings = JSON.parse(JSON.stringify(DEFAULT_STATE.missionsSettings));
-  STATE.missionsSettings.endTime = timeStr;
+  STATE.missionsSettings.endDate = isoStr;
+  STATE.missionsSettings.endTime = `${pad(d.getHours())}:${pad(d.getMinutes())}`;
   saveLocal();
   if(window._broadcastStateUpdate) window._broadcastStateUpdate();
   saveNow().catch(e=>console.warn('Save end time:', e));
@@ -3359,25 +3858,47 @@ function saveMissionsSettings(ev) {
   STATE.missionsSettings.enabled = document.getElementById('m-cfg-enabled').checked;
   STATE.missionsSettings.showRanking = document.getElementById('m-cfg-ranking').checked;
   
-  const elNotif1 = document.getElementById('m-cfg-winner-notif1');
-  if(elNotif1) STATE.missionsSettings.enableWinnerNotif1 = elNotif1.checked;
+  const elAutoUp = document.getElementById('m-cfg-auto-upload');
+  if(elAutoUp) STATE.missionsSettings.autoUpload = elAutoUp.checked;
 
-  const elNotif2 = document.getElementById('m-cfg-winner-notif2');
-  if(elNotif2) STATE.missionsSettings.enableWinnerNotif2 = elNotif2.checked;
+  const elWinnerNotif1 = document.getElementById('m-cfg-winner-notif1');
+  if(elWinnerNotif1) STATE.missionsSettings.enableWinnerNotif1 = elWinnerNotif1.checked;
 
-  const elNotif3 = document.getElementById('m-cfg-winner-notif3');
-  if(elNotif3) STATE.missionsSettings.enableWinnerNotif3 = elNotif3.checked;
+  const elWinnerNotif2 = document.getElementById('m-cfg-winner-notif2');
+  if(elWinnerNotif2) STATE.missionsSettings.enableWinnerNotif2 = elWinnerNotif2.checked;
 
-  const elStart = document.getElementById('m-cfg-start-time');
-  if(elStart) STATE.missionsSettings.startTime = elStart.value.trim() || '15:00';
+  const elWinnerNotif3 = document.getElementById('m-cfg-winner-notif3');
+  if(elWinnerNotif3) STATE.missionsSettings.enableWinnerNotif3 = elWinnerNotif3.checked;
 
-  const elEnd = document.getElementById('m-cfg-end-time');
-  if(elEnd) STATE.missionsSettings.endTime = elEnd.value.trim() || '23:40';
+  const elStartDate = document.getElementById('m-cfg-start-date');
+  if(elStartDate && elStartDate.value) {
+    STATE.missionsSettings.startDate = elStartDate.value;
+    STATE.missionsSettings.startTime = elStartDate.value.slice(11, 16);
+  }
+
+  const elEndDate = document.getElementById('m-cfg-end-date');
+  if(elEndDate && elEndDate.value) {
+    STATE.missionsSettings.endDate = elEndDate.value;
+    STATE.missionsSettings.endTime = elEndDate.value.slice(11, 16);
+  }
 
   const elOverride = document.getElementById('m-cfg-override');
   if(elOverride) STATE.missionsSettings.manualOverride = elOverride.value === 'auto' ? null : elOverride.value;
 
-  STATE.missionsSettings.parentFolder = document.getElementById('m-cfg-parent-folder').value.trim() || 'Wesele 2026';
+  const elPostMsgEnabled = document.getElementById('m-cfg-post-msg-enabled');
+  if(elPostMsgEnabled) STATE.missionsSettings.enablePostContestMessage = elPostMsgEnabled.checked;
+
+  const elPostMsg = document.getElementById('m-cfg-post-msg');
+  if(elPostMsg) STATE.missionsSettings.postContestMessage = elPostMsg.value.trim();
+
+  const elPostCol = document.getElementById('m-cfg-post-color');
+  if(elPostCol) STATE.missionsSettings.postContestColor = elPostCol.value;
+
+  const elPostAlign = document.getElementById('m-cfg-post-align');
+  if(elPostAlign) STATE.missionsSettings.postContestAlign = elPostAlign.value;
+
+  const elFolder = document.getElementById('m-cfg-parent-folder');
+  if(elFolder) STATE.missionsSettings.parentFolder = elFolder.value.trim() || 'Wesele 2026';
   
   const elMsg1 = document.getElementById('m-cfg-winner-msg1');
   if(elMsg1) STATE.missionsSettings.winnerMessage1 = elMsg1.value.trim();
@@ -3388,7 +3909,9 @@ function saveMissionsSettings(ev) {
   const elMsg3 = document.getElementById('m-cfg-winner-msg3');
   if(elMsg3) STATE.missionsSettings.winnerMessage3 = elMsg3.value.trim();
 
-  STATE.missionsSettings.driveScriptUrl = document.getElementById('m-cfg-drive-script').value.trim();
+  const elScript = document.getElementById('m-cfg-drive-script');
+  if(elScript) STATE.missionsSettings.driveScriptUrl = elScript.value.trim();
+
   saveLocal();
   if(window._broadcastStateUpdate) window._broadcastStateUpdate();
   saveNow().catch(e=>console.warn('Save settings:', e));
@@ -3702,6 +4225,17 @@ function handleMissionFileSelection(mId, inputEl, reqCount) {
   }
 
   updateFileCountBadge(mId, reqCount);
+
+  // Auto-upload if enabled
+  const isAuto = STATE.missionsSettings && (STATE.missionsSettings.autoUpload === true || STATE.missionsSettings.autoUpload === 'true');
+  if (isAuto) {
+    const selectedFiles = window._missionSelectedFiles[mId] || [];
+    if (selectedFiles.length > 0) {
+      const mission = (STATE.missions || []).find(m => m.id === mId);
+      const type = mission ? mission.type : 'zdjecie';
+      setTimeout(() => submitMissionFiles(mId, type), 150);
+    }
+  }
 }
 
 function removeMissionFile(mId, fileIndex, reqCount) {
@@ -3783,6 +4317,9 @@ function renderGuestMissions(g) {
 
   const list = document.getElementById('g-missions-list');
   if(!list) return;
+
+  const scrollParent = list.closest('#screen-guest') || document.documentElement;
+  const savedScrollTop = scrollParent.scrollTop;
   list.innerHTML = '';
 
   const missions = STATE.missions || [];
@@ -3817,8 +4354,9 @@ function renderGuestMissions(g) {
       if(!times.isWindowActive) {
         inputHtml = `<div style="font-size:0.8rem;color:#ff6b6b;margin-top:0.5rem;font-style:italic">🔒 Wysyłanie niedostępne poza oknem czasowym (${times.startStr} - ${times.endStr})</div>`;
       } else if(m.type === 'tekst') {
+        const autoBlurAttr = STATE.missionsSettings && STATE.missionsSettings.autoUpload ? `onblur="if(this.value.trim().length>0){setTimeout(()=>submitMissionText('${m.id}'),400);}"` : '';
         inputHtml = `
-          <textarea class="settings-input" id="g-m-text-${m.id}" rows="2" placeholder="Wpisz swoją odpowiedź..." style="margin-top:0.5rem"></textarea>
+          <textarea class="settings-input" id="g-m-text-${m.id}" rows="2" placeholder="Wpisz swoją odpowiedź..." style="margin-top:0.5rem" ${autoBlurAttr}></textarea>
           <button class="btn-primary" style="padding:0.45rem 1rem;font-size:0.75rem;margin-top:0.4rem;width:auto" onclick="submitMissionText('${m.id}')">Wyślij odpowiedź do Pary Młodej</button>
         `;
       } else {
@@ -3878,7 +4416,6 @@ function renderGuestMissions(g) {
       ${inputHtml}
     `;
     list.appendChild(div);
-    // Refresh badges if files already accumulated before rerender
     updateFileCountBadge(m.id, reqCount);
   });
 
@@ -3894,8 +4431,12 @@ function renderGuestMissions(g) {
   // Check if completed 100%
   if(completedCount > 0 && completedCount === missions.length) {
     checkGuestMissionsCompletion(g.code);
-    checkWinnerCompletion(g);
+    if (times.isAfterEnd || (STATE.missionsSettings && STATE.missionsSettings.publishResults)) {
+      checkWinnerCompletion(g);
+    }
   }
+
+  requestAnimationFrame(() => { scrollParent.scrollTop = savedScrollTop; });
 }
 
 async function submitMissionText(mId) {
@@ -3947,11 +4488,21 @@ async function submitMissionText(mId) {
 
 async function submitMissionFiles(mId, type) {
   const times = getMissionsStartEndTimestamps();
-  if(!times.isWindowActive) { alert(`Wykonywanie misji jest obecnie zablokowane (${times.startStr} - ${times.endStr}).`); return; }
+  if(!times.isWindowActive) {
+    alert(`Wykonywanie misji jest obecnie zablokowane (${times.startStr} - ${times.endStr}). Zmień godziny w panelu lub ustaw "Zawsze Otwarte".`);
+    return;
+  }
 
-  const code = (window._currentGuestCode || '').toUpperCase();
-  const guest = STATE.guests.find(x => x.code === code);
-  const guestName = window._currentGuestName || (guest ? [guest.name1, guest.name2].filter(Boolean).join(' ') : 'Gość');
+  let code = (window._currentGuestCode || sessionStorage.getItem('wedding_guest_code') || '').toUpperCase();
+  if (!code) {
+    const p = new URLSearchParams(window.location.search);
+    const gc = p.get('guest');
+    if (gc) code = gc.replace(/[^A-Z0-9\-]/gi, '').toUpperCase();
+  }
+  window._currentGuestCode = code;
+
+  const guest = (STATE.guests || []).find(x => x.code === code);
+  const guestName = window._currentGuestName || (guest ? getGuestFullName(guest) : 'Gość');
 
   const mission = (STATE.missions || []).find(m => m.id === mId);
   const reqCount = (mission && mission.targetCount) ? mission.targetCount : 1;
@@ -3959,14 +4510,14 @@ async function submitMissionFiles(mId, type) {
   if (!window._missionSelectedFiles) window._missionSelectedFiles = {};
   const selectedFiles = window._missionSelectedFiles[mId] || [];
 
-  if(selectedFiles.length < reqCount) {
-    alert(`To zadanie wymaga wgrania co najmniej ${reqCount} ${type==='zdjecie'?'zdjęć':'filmów'}. Wybrano obecnie: ${selectedFiles.length}. Dołącz pozostałe pliki!`);
+  if(selectedFiles.length === 0) {
+    alert('Najpierw wybierz pliki z galerii lub zrób zdjęcie/wideo!');
     return;
   }
 
   if (!window._activeMissionUploads) window._activeMissionUploads = {};
   if (window._activeMissionUploads[mId]) {
-    return; // Already uploading this mission
+    return;
   }
 
   window._activeMissionUploads[mId] = {
@@ -4008,9 +4559,11 @@ async function submitMissionFiles(mId, type) {
         fileData: dataUrl,
         mimeType: file.type || (type==='zdjecie'?'image/jpeg':'video/mp4')
       }, 3);
-      if(res.success && res.url) uploadedUrls.push(res.url);
+      if(res && res.success && res.url) uploadedUrls.push(res.url);
+      else uploadedUrls.push('Plik_' + currNum + '_' + file.name);
     } catch(err) {
       console.warn('File upload failed:', err);
+      uploadedUrls.push('Plik_' + currNum + '_' + file.name);
     }
     const endPct = Math.round(((currNum) / totalNum) * 100);
     updateProgress(currNum, totalNum, endPct);
@@ -4118,10 +4671,19 @@ function renderGuestRanking() {
   }
 
   const times = getMissionsStartEndTimestamps();
-  const isPublished = (STATE.missionsSettings && STATE.missionsSettings.publishResults === true) || times.isAfterEnd;
+  const cfg = STATE.missionsSettings || {};
+  const isPublished = (cfg.publishResults === true) || times.isAfterEnd;
+
+  // Custom post-contest message if contest ended and message is enabled
+  if (times.isAfterEnd && cfg.enablePostContestMessage === true && cfg.postContestMessage) {
+    const pMsg = document.createElement('div');
+    pMsg.style.cssText = `color:${cfg.postContestColor || '#ffd700'};text-align:${cfg.postContestAlign || 'center'};font-size:0.95rem;padding:0.8rem 1rem;margin-bottom:1rem;border:1px solid rgba(201,168,76,0.3);border-radius:8px;background:rgba(201,168,76,0.08);white-space:pre-wrap;line-height:1.5`;
+    pMsg.textContent = cfg.postContestMessage;
+    list.appendChild(pMsg);
+  }
 
   if (!isPublished) {
-    list.innerHTML = `
+    list.innerHTML += `
       <div style="background:rgba(212,175,55,0.1);border:1px dashed gold;border-radius:10px;padding:1.2rem;text-align:center">
         <div style="font-size:1.8rem;margin-bottom:0.4rem">🔒 ⏱</div>
         <div style="font-weight:bold;color:gold;font-size:1rem;margin-bottom:0.4rem">Oficjalny Pełny Ranking z Czasami</div>
@@ -4196,7 +4758,7 @@ function renderGuestRanking() {
 function checkWinnerCompletion(g) {
   if (!g || !g.code) return;
   const cfg = STATE.missionsSettings || {};
-  if (cfg.enabled === false || cfg.enableWinnerNotification === false) return;
+  if (cfg.enabled === false || cfg.enableWinnerNotification === false || cfg.showRanking === false) return;
 
   const totalMissions = (STATE.missions || []).length;
   if (totalMissions === 0) return;
@@ -4206,6 +4768,10 @@ function checkWinnerCompletion(g) {
   const gData = STATE.guestMissions[g.code];
 
   const times = getMissionsStartEndTimestamps();
+
+  // ONLY eligible after contest end or when admin publishes results
+  const isEligible = times.isAfterEnd || (cfg.publishResults === true);
+  if (!isEligible) return;
 
   // Compute live scores for all guests
   const scores = [];
@@ -4220,29 +4786,18 @@ function checkWinnerCompletion(g) {
     scores.push({ code: item.code, completedCount: cCount, durationMs: dur });
   });
 
-function compareLeaderboardScores(a, b, totalMissions) {
-  const aFinished = totalMissions > 0 && a.completedCount === totalMissions;
-  const bFinished = totalMissions > 0 && b.completedCount === totalMissions;
-
-  if (aFinished && bFinished) {
+  scores.sort((a, b) => {
+    const aFinished = totalMissions > 0 && a.completedCount === totalMissions;
+    const bFinished = totalMissions > 0 && b.completedCount === totalMissions;
+    if (aFinished && bFinished) return (a.durationMs || Infinity) - (b.durationMs || Infinity);
+    if (aFinished) return -1;
+    if (bFinished) return 1;
+    if (b.completedCount !== a.completedCount) return b.completedCount - a.completedCount;
     return (a.durationMs || Infinity) - (b.durationMs || Infinity);
-  }
-  if (aFinished) return -1;
-  if (bFinished) return 1;
-
-  if (b.completedCount !== a.completedCount) {
-    return b.completedCount - a.completedCount;
-  }
-  return (a.durationMs || Infinity) - (b.durationMs || Infinity);
-}
-
-  scores.sort((a, b) => compareLeaderboardScores(a, b, totalMissions));
+  });
 
   const pos = scores.findIndex(s => s.code === g.code);
   if (pos < 0 || pos > 2) return;
-
-  const isEligible = gData.completedCount === totalMissions || times.isAfterEnd || (cfg.publishResults === true);
-  if (!isEligible) return;
 
   let notify = false;
   let notifKey = '';
@@ -4300,8 +4855,8 @@ function compareLeaderboardScores(a, b, totalMissions) {
       }
     }
 
-    const wModal = document.getElementById('winner-modal-overlay');
-    if (wModal) wModal.classList.remove('hidden');
+    const modal = document.getElementById('winner-modal-overlay');
+    if (modal) modal.classList.remove('hidden');
   }
 }
 

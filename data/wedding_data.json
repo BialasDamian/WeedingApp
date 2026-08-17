@@ -264,16 +264,6 @@
       "code": "G-005"
     },
     {
-      "id": "g1785691760953",
-      "firstName": "Haytham Ghanem",
-      "lastName": "",
-      "name1": "Haytham Ghanem",
-      "name2": "",
-      "seat1": "30",
-      "seat2": "",
-      "code": "G-032"
-    },
-    {
       "id": "g1786990205267",
       "firstName": "Dorota Białas",
       "lastName": "",
@@ -315,6 +305,8 @@
     },
     {
       "id": "g1786990260412",
+      "firstName": "Basia Sielańczyk",
+      "lastName": "",
       "name1": "Basia Sielańczyk",
       "name2": "",
       "seat1": "24",
@@ -323,6 +315,8 @@
     },
     {
       "id": "g1786990267748",
+      "firstName": "Bartłomiej Miecznikowski",
+      "lastName": "",
       "name1": "Bartłomiej Miecznikowski",
       "name2": "",
       "seat1": "25",
@@ -331,6 +325,8 @@
     },
     {
       "id": "g1786990281795",
+      "firstName": "Marta Zielińska",
+      "lastName": "",
       "name1": "Marta Zielińska",
       "name2": "",
       "seat1": "26",
@@ -339,11 +335,21 @@
     },
     {
       "id": "g1786990291175",
+      "firstName": "Dawid Lewicki",
+      "lastName": "",
       "name1": "Dawid Lewicki",
       "name2": "",
       "seat1": "27",
       "seat2": "",
       "code": "G-029"
+    },
+    {
+      "id": "g1786990303858",
+      "name1": "Haytham Ghanem",
+      "name2": "",
+      "seat1": "28",
+      "seat2": "",
+      "code": "G-030"
     }
   ],
   "schedule": [

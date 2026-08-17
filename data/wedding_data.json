@@ -234,26 +234,6 @@
       "code": "G-021"
     },
     {
-      "id": "g1785664603853",
-      "firstName": "Marta",
-      "lastName": "Zielińska",
-      "name1": "Marta",
-      "name2": "Zielińska",
-      "seat1": "28",
-      "seat2": "",
-      "code": "G-030"
-    },
-    {
-      "id": "g1785664609083",
-      "firstName": "Dawid",
-      "lastName": "Lewicki",
-      "name1": "Dawid",
-      "name2": "Lewicki",
-      "seat1": "29",
-      "seat2": "",
-      "code": "G-031"
-    },
-    {
       "id": "g1785664625369",
       "firstName": "Patrycja",
       "lastName": "Sołtysik",
@@ -348,6 +328,22 @@
       "seat1": "25",
       "seat2": "",
       "code": "G-027"
+    },
+    {
+      "id": "g1786990281795",
+      "name1": "Marta Zielińska",
+      "name2": "",
+      "seat1": "26",
+      "seat2": "",
+      "code": "G-028"
+    },
+    {
+      "id": "g1786990291175",
+      "name1": "Dawid Lewicki",
+      "name2": "",
+      "seat1": "27",
+      "seat2": "",
+      "code": "G-029"
     }
   ],
   "schedule": [

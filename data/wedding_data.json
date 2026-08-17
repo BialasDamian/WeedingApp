@@ -94,16 +94,6 @@
       "code": "G-016"
     },
     {
-      "id": "g1785664419475",
-      "firstName": "Jacek",
-      "lastName": "Kaim",
-      "name1": "Jacek",
-      "name2": "Kaim",
-      "seat1": "15",
-      "seat2": "",
-      "code": "G-017"
-    },
-    {
       "id": "g1785664427496",
       "firstName": "Justyna",
       "lastName": "Kaim",
@@ -335,6 +325,8 @@
     },
     {
       "id": "g1786990966467",
+      "firstName": "Łukasz Gajdzik",
+      "lastName": "",
       "name1": "Łukasz Gajdzik",
       "name2": "",
       "seat1": "12",
@@ -343,6 +335,8 @@
     },
     {
       "id": "g1786990972689",
+      "firstName": "Paulina Gajdzik",
+      "lastName": "",
       "name1": "Paulina Gajdzik",
       "name2": "",
       "seat1": "11",

@@ -463,7 +463,7 @@
     }
   ],
   "missionsSettings": {
-    "enabled": true,
+    "enabled": false,
     "showRanking": true,
     "enableWinnerNotification": true,
     "enableWinnerNotif1": true,

@@ -10,6 +10,7 @@
     "qrCustom": {
       "frameColor": "#c9a84c",
       "textColor": "#2D1F17",
+      "ornamentColor": "#c9a84c",
       "ornament": "✦  ✦  ✦",
       "subtitle1": "APLIKACJA WESELNA",
       "subtitle2": "SPRAWDŹ I WEŹ UDZIAŁ W KONKURSIE",
@@ -490,13 +491,14 @@
     "winnerMessage2": "🥈 Gratulacje! Zająłeś 2. MIEJSCE (SREBRO) w wyzwaniach weselnych! Wspaniały wynik! 🏆",
     "winnerMessage3": "🥉 Gratulacje! Zająłeś 3. MIEJSCE (BRĄZ) w wyzwaniach weselnych! Brawo! 🏆",
     "driveScriptUrl": "https://script.google.com/macros/s/AKfycbz91-95zDTqcoyYyCAZy5nHiu1dnWf112JrkBMYSeSW4nroUMOyukF9UY6Wj3RMGzoRjQ/exec",
-    "startTime": "20:51",
+    "startTime": "00:55",
     "endTime": "23:45",
-    "startDate": "",
-    "endDate": "",
+    "startDate": "2026-08-20T00:55",
+    "endDate": "2026-08-17T23:45",
     "manualOverride": null,
     "publishResults": false,
     "autoUpload": false,
+    "enablePostContestMessage": false,
     "postContestMessage": "",
     "postContestColor": "#ffd700",
     "postContestAlign": "center",
@@ -633,6 +635,10 @@
       "completedCount": 0,
       "lastActivityAt": 1786188285248,
       "durationMs": 105248
+    },
+    "G-005": {
+      "answers": {},
+      "completedCount": 0
     }
   },
   "firstWinner": null

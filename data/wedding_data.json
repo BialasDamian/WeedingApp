@@ -619,67 +619,6 @@
       "lastActivityAt": 1786188285248,
       "durationMs": 105248
     },
-    "G-019": {
-      "answers": {
-        "m3": {
-          "status": "completed",
-          "text": "Test",
-          "updatedAt": 1786992946103
-        },
-        "m2": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1TUmuOu_Fola9g__Z7yEkXDbCX0bG3ehc/view?usp=drivesdk"
-          ],
-          "updatedAt": 1786992995939
-        },
-        "m1": {
-          "status": "completed",
-          "files": [],
-          "updatedAt": 1786993035705
-        },
-        "m10": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1MZ6sEBmxWTSYx_wJ28Uz52u7f3_a0zlq/view?usp=drivesdk"
-          ],
-          "updatedAt": 1786993049632
-        },
-        "m6": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1x5Hp-Red4AJ2DS5lUPJ3fXu0EsS7veVu/view?usp=drivesdk"
-          ],
-          "updatedAt": 1786993057082
-        },
-        "m9": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/11nj2jJYkgqkoJgVR91w1K-ztxlLTeSrC/view?usp=drivesdk"
-          ],
-          "updatedAt": 1786993109668
-        },
-        "m4": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1wGq-upqADfWkL2hpw_z3bTd4kJx-BFZ8/view?usp=drivesdk"
-          ],
-          "updatedAt": 1786993115598
-        },
-        "m5": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1PEsC2hMJcFkIlU32yHq-hHdbviav7QNV/view?usp=drivesdk"
-          ],
-          "updatedAt": 1786993261724
-        }
-      },
-      "completedCount": 8,
-      "lastActivityAt": 1786993261724,
-      "durationMs": 601744,
-      "completedAllAt": 1786993261744,
-      "notifiedWinner1": true
-    },
     "G-005": {
       "answers": {
         "m1": {

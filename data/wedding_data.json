@@ -484,7 +484,7 @@
     "startTime": "20:51",
     "endTime": "23:45",
     "manualOverride": null,
-    "publishResults": false,
+    "publishResults": true,
     "enableRoseGateAnimation": true
   },
   "missions": [

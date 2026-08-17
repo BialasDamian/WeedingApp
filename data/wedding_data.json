@@ -74,16 +74,6 @@
       "code": "G-001"
     },
     {
-      "id": "g1785664293498",
-      "firstName": "Marek",
-      "lastName": "Romanowski",
-      "name1": "Marek",
-      "name2": "Romanowski",
-      "seat1": "2",
-      "seat2": "",
-      "code": "G-002"
-    },
-    {
       "id": "g1785664405454",
       "firstName": "Michał",
       "lastName": "Gawron",
@@ -360,6 +350,16 @@
       "name1": "Pan Młody",
       "name2": "",
       "seat1": "T2",
+      "seat2": "",
+      "code": "G-002"
+    },
+    {
+      "id": "g1787003560866",
+      "firstName": "Marek",
+      "lastName": "Romanowski",
+      "name1": "Marek",
+      "name2": "Romanowski",
+      "seat1": "2",
       "seat2": "",
       "code": "G-002"
     }

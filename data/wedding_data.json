@@ -679,11 +679,16 @@
             "https://drive.google.com/file/d/1jeLw73wkKBGL6ZAEDJFmcvdnOgw-KuOJ/view?usp=drivesdk"
           ],
           "updatedAt": 1786992949150
+        },
+        "m3": {
+          "status": "completed",
+          "text": "Ale urwał..",
+          "updatedAt": 1786993167171
         }
       },
-      "completedCount": 0,
-      "lastActivityAt": 1786992949150,
-      "durationMs": 289150
+      "completedCount": 1,
+      "lastActivityAt": 1786993167171,
+      "durationMs": 507171
     }
   },
   "firstWinner": null

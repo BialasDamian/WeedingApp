@@ -234,16 +234,6 @@
       "code": "G-021"
     },
     {
-      "id": "g1785664485872",
-      "firstName": "Dorota",
-      "lastName": "Białas",
-      "name1": "Dorota",
-      "name2": "Białas",
-      "seat1": "20",
-      "seat2": "",
-      "code": "G-022"
-    },
-    {
       "id": "g1785664507331",
       "firstName": "Weronika",
       "lastName": "Białas",
@@ -352,6 +342,14 @@
       "seat1": "30",
       "seat2": "",
       "code": "G-032"
+    },
+    {
+      "id": "g1786990205267",
+      "name1": "Dorota Białas",
+      "name2": "",
+      "seat1": "20",
+      "seat2": "",
+      "code": "G-022"
     }
   ],
   "schedule": [

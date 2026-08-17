@@ -599,26 +599,6 @@
       "lastActivityAt": 1785708821523,
       "durationMs": 3221523
     },
-    "G-005": {
-      "answers": {
-        "m3": {
-          "status": "completed",
-          "text": "test",
-          "updatedAt": 1785711490545
-        },
-        "m4": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/1-vw9a4OZaC_zQIOu-v1O2O_WoRATyU_r/view?usp=drivesdk"
-          ],
-          "updatedAt": 1785711502292
-        }
-      },
-      "completedCount": 2,
-      "lastActivityAt": 1785711502292,
-      "durationMs": 82292,
-      "notifiedWinner1": true
-    },
     "G-006": {
       "answers": {
         "m3": {

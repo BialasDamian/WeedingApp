@@ -234,16 +234,6 @@
       "code": "G-021"
     },
     {
-      "id": "g1785664578779",
-      "firstName": "Jan",
-      "lastName": "Kurczyński",
-      "name1": "Jan",
-      "name2": "Kurczyński",
-      "seat1": "24",
-      "seat2": "",
-      "code": "G-026"
-    },
-    {
       "id": "g1785664588012",
       "firstName": "Anita",
       "lastName": "Sielańczyk",
@@ -335,6 +325,8 @@
     },
     {
       "id": "g1786990205267",
+      "firstName": "Dorota Białas",
+      "lastName": "",
       "name1": "Dorota Białas",
       "name2": "",
       "seat1": "20",
@@ -343,11 +335,21 @@
     },
     {
       "id": "g1786990215701",
+      "firstName": "Weronika Białas",
+      "lastName": "",
       "name1": "Weronika Białas",
       "name2": "",
       "seat1": "21",
       "seat2": "",
       "code": "G-023"
+    },
+    {
+      "id": "g1786990228508",
+      "name1": "Jan Kurczyński",
+      "name2": "",
+      "seat1": "22",
+      "seat2": "",
+      "code": "G-024"
     }
   ],
   "schedule": [

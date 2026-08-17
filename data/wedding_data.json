@@ -460,6 +460,12 @@
       "artist": "Zaproponowane przez Gościa",
       "thumb": "",
       "suggestedBy": "Mati"
+    },
+    {
+      "title": "Test",
+      "artist": "Little Dragon",
+      "thumb": "https://is1-ssl.mzstatic.com/image/thumb/Music/a0/74/81/mzi.ybszkvnq.tif/60x60bb.jpg",
+      "suggestedBy": "Konrad Ciszek"
     }
   ],
   "missionsSettings": {
@@ -612,6 +618,10 @@
       "completedCount": 0,
       "lastActivityAt": 1786188285248,
       "durationMs": 105248
+    },
+    "G-019": {
+      "answers": {},
+      "completedCount": 0
     }
   },
   "firstWinner": null

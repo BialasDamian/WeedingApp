@@ -7,6 +7,15 @@
     "venue": "Sala Weselna",
     "passHash": "5742e8f366549b124fba91edaac559eb95924bc4227c9dfe09382fdf9cdcca93",
     "driveUrl": "",
+    "qrCustom": {
+      "frameColor": "#c9a84c",
+      "textColor": "#2D1F17",
+      "ornament": "✦  ✦  ✦",
+      "subtitle1": "APLIKACJA WESELNA",
+      "subtitle2": "SPRAWDŹ I WEŹ UDZIAŁ W KONKURSIE",
+      "subtitle3": "",
+      "codeLabel": "KOD ZAPROSZENIA"
+    },
     "table": {
       "shape": "I",
       "flipH": false,
@@ -71,7 +80,7 @@
       "name2": "Romanowski",
       "seat1": "4",
       "seat2": "",
-      "code": "G-006"
+      "code": "G-004"
     },
     {
       "id": "g1785664405454",
@@ -81,7 +90,7 @@
       "name2": "Gawron",
       "seat1": "13",
       "seat2": "",
-      "code": "G-015"
+      "code": "G-013"
     },
     {
       "id": "g1785664413454",
@@ -91,7 +100,7 @@
       "name2": "Kędzierska",
       "seat1": "14",
       "seat2": "",
-      "code": "G-016"
+      "code": "G-014"
     },
     {
       "id": "g1785664465305",
@@ -101,7 +110,7 @@
       "name2": "Ciszek",
       "seat1": "17",
       "seat2": "",
-      "code": "G-019"
+      "code": "G-017"
     },
     {
       "id": "g1785664468885",
@@ -111,7 +120,7 @@
       "name2": "Ciszek",
       "seat1": "18",
       "seat2": "",
-      "code": "G-020"
+      "code": "G-018"
     },
     {
       "id": "g1785664482065",
@@ -121,7 +130,7 @@
       "name2": "Białas",
       "seat1": "19",
       "seat2": "",
-      "code": "G-021"
+      "code": "G-019"
     },
     {
       "id": "g1785668607854",
@@ -131,7 +140,7 @@
       "name2": "Forma",
       "seat1": "3",
       "seat2": "",
-      "code": "G-005"
+      "code": "G-003"
     },
     {
       "id": "g1786990205267",
@@ -141,7 +150,7 @@
       "name2": "Białas",
       "seat1": "20",
       "seat2": "",
-      "code": "G-022"
+      "code": "G-020"
     },
     {
       "id": "g1786990215701",
@@ -151,7 +160,7 @@
       "name2": "Białas",
       "seat1": "21",
       "seat2": "",
-      "code": "G-023"
+      "code": "G-021"
     },
     {
       "id": "g1786990228508",
@@ -161,7 +170,7 @@
       "name2": "Kurczyński",
       "seat1": "22",
       "seat2": "",
-      "code": "G-024"
+      "code": "G-022"
     },
     {
       "id": "g1786990244595",
@@ -171,7 +180,7 @@
       "name2": "Sielańczyk",
       "seat1": "23",
       "seat2": "",
-      "code": "G-025"
+      "code": "G-023"
     },
     {
       "id": "g1786990260412",
@@ -181,7 +190,7 @@
       "name2": "Sielańczyk",
       "seat1": "24",
       "seat2": "",
-      "code": "G-026"
+      "code": "G-024"
     },
     {
       "id": "g1786990267748",
@@ -191,7 +200,7 @@
       "name2": "Miecznikowski",
       "seat1": "25",
       "seat2": "",
-      "code": "G-027"
+      "code": "G-025"
     },
     {
       "id": "g1786990281795",
@@ -201,7 +210,7 @@
       "name2": "Zielińska",
       "seat1": "26",
       "seat2": "",
-      "code": "G-028"
+      "code": "G-026"
     },
     {
       "id": "g1786990291175",
@@ -211,7 +220,7 @@
       "name2": "Lewicki",
       "seat1": "27",
       "seat2": "",
-      "code": "G-029"
+      "code": "G-027"
     },
     {
       "id": "g1786990303858",
@@ -221,7 +230,7 @@
       "name2": "Ghanem",
       "seat1": "28",
       "seat2": "",
-      "code": "G-030"
+      "code": "G-028"
     },
     {
       "id": "g1786990787562",
@@ -231,7 +240,7 @@
       "name2": "Jemielniak",
       "seat1": "5",
       "seat2": "",
-      "code": "G-007"
+      "code": "G-005"
     },
     {
       "id": "g1786990802642",
@@ -241,7 +250,7 @@
       "name2": "Źrałek",
       "seat1": "6",
       "seat2": "",
-      "code": "G-008"
+      "code": "G-006"
     },
     {
       "id": "g1786990818278",
@@ -251,7 +260,7 @@
       "name2": "",
       "seat1": "7",
       "seat2": "",
-      "code": "G-009"
+      "code": "G-007"
     },
     {
       "id": "g1786990824364",
@@ -261,7 +270,7 @@
       "name2": "",
       "seat1": "8",
       "seat2": "",
-      "code": "G-010"
+      "code": "G-008"
     },
     {
       "id": "g1786990835705",
@@ -271,7 +280,7 @@
       "name2": "",
       "seat1": "9",
       "seat2": "",
-      "code": "G-011"
+      "code": "G-009"
     },
     {
       "id": "g1786990839703",
@@ -281,7 +290,7 @@
       "name2": "",
       "seat1": "10",
       "seat2": "",
-      "code": "G-012"
+      "code": "G-010"
     },
     {
       "id": "g1786990966467",
@@ -291,7 +300,7 @@
       "name2": "",
       "seat1": "12",
       "seat2": "",
-      "code": "G-014"
+      "code": "G-012"
     },
     {
       "id": "g1786990972689",
@@ -301,7 +310,7 @@
       "name2": "",
       "seat1": "11",
       "seat2": "",
-      "code": "G-013"
+      "code": "G-011"
     },
     {
       "id": "g1786991042069",
@@ -311,7 +320,7 @@
       "name2": "",
       "seat1": "15",
       "seat2": "",
-      "code": "G-017"
+      "code": "G-015"
     },
     {
       "id": "g1786991045713",
@@ -321,7 +330,7 @@
       "name2": "",
       "seat1": "16",
       "seat2": "",
-      "code": "G-018"
+      "code": "G-016"
     },
     {
       "id": "g1786991107370",
@@ -331,7 +340,7 @@
       "name2": "",
       "seat1": "29",
       "seat2": "",
-      "code": "G-031"
+      "code": "G-029"
     },
     {
       "id": "g1786991111326",
@@ -341,7 +350,7 @@
       "name2": "",
       "seat1": "30",
       "seat2": "",
-      "code": "G-032"
+      "code": "G-030"
     },
     {
       "id": "g1786991622440",
@@ -483,8 +492,14 @@
     "driveScriptUrl": "https://script.google.com/macros/s/AKfycbz91-95zDTqcoyYyCAZy5nHiu1dnWf112JrkBMYSeSW4nroUMOyukF9UY6Wj3RMGzoRjQ/exec",
     "startTime": "20:51",
     "endTime": "23:45",
+    "startDate": "",
+    "endDate": "",
     "manualOverride": null,
     "publishResults": false,
+    "autoUpload": false,
+    "postContestMessage": "",
+    "postContestColor": "#ffd700",
+    "postContestAlign": "center",
     "enableRoseGateAnimation": true
   },
   "missions": [

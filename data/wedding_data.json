@@ -315,6 +315,8 @@
     },
     {
       "id": "g1786990818278",
+      "firstName": "Krzysztof Jemielniak",
+      "lastName": "",
       "name1": "Krzysztof Jemielniak",
       "name2": "",
       "seat1": "7",
@@ -323,11 +325,21 @@
     },
     {
       "id": "g1786990824364",
+      "firstName": "Sandra Karaś-Jemielniak",
+      "lastName": "",
       "name1": "Sandra Karaś-Jemielniak",
       "name2": "",
       "seat1": "8",
       "seat2": "",
       "code": "G-010"
+    },
+    {
+      "id": "g1786990835705",
+      "name1": "Krystyna Źrałek",
+      "name2": "",
+      "seat1": "9",
+      "seat2": "",
+      "code": "G-011"
     }
   ],
   "schedule": [

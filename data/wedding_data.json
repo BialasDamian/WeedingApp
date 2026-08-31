@@ -9,15 +9,15 @@
     "driveUrl": "",
     "qrCustom": {
       "frameColor": "#c9a84c",
-      "textColor": "#2d1f17",
+      "textColor": "#2D1F17",
       "ornamentColor": "#c9a84c",
-      "titleColor": "#2d1f17",
+      "titleColor": "#f5deb3",
       "ornament": "✦  ✦  ✦",
       "subtitle1": "APLIKACJA WESELNA",
-      "subtitle2": "STWORZONA Z MYŚLĄ O TOBIE!",
-      "subtitle3": "CZEKA NA CIEBIE KONKURS W GODZINACH 18:00 - 23:00",
+      "subtitle2": "SPRAWDŹ I WEŹ UDZIAŁ W KONKURSIE",
+      "subtitle3": "",
       "codeLabel": "KOD ZAPROSZENIA",
-      "footerFontSize": 16
+      "footerFontSize": 15
     },
     "table": {
       "shape": "I",
@@ -62,8 +62,7 @@
         "T1": "T2"
       }
     },
-    "githubToken": "VUMzT2VheFdJU0VJRTI2WVZJUWc0MWVGc0FxRTJrV3lsZnR5MUtmcG44SVljd1J6VEE0eDNpcHVST3VfV1dJbXB3cDJJV1lEMFlPTUZDQUIxMV90YXBfYnVodGln",
-    "qrFooterText": "Cieszymy się, że jesteś z nami! Chcesz wiedzieć, co dla Ciebie przygotowaliśmy? Skieruj aparat na kod QR i dołącz do zabawy!"
+    "githubToken": "VUMzT2VheFdJU0VJRTI2WVZJUWc0MWVGc0FxRTJrV3lsZnR5MUtmcG44SVljd1J6VEE0eDNpcHVST3VfV1dJbXB3cDJJV1lEMFlPTUZDQUIxMV90YXBfYnVodGln"
   },
   "guests": [
     {
@@ -455,7 +454,14 @@
       "name": "Aromatyczny barszcz czerwony serwowany z chrupiącym krokietem mięsnym"
     }
   ],
-  "music": [],
+  "music": [
+    {
+      "title": "Maja Hi Maja Jindagi Maya",
+      "artist": "Lovekush Dungri",
+      "thumb": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c9/9e/84/c99e84ae-bdf1-526e-87c5-3b6613e8aef1/606113059609.png/60x60bb.jpg",
+      "suggestedBy": "Konrad Ciszek"
+    }
+  ],
   "missionsSettings": {
     "enabled": true,
     "showRanking": false,
@@ -589,6 +595,10 @@
       "durationMs": 3221523
     },
     "G-005": {
+      "answers": {},
+      "completedCount": 0
+    },
+    "G-002": {
       "answers": {},
       "completedCount": 0
     }

@@ -473,7 +473,7 @@
     "endDate": "2026-09-11T23:00",
     "manualOverride": null,
     "publishResults": false,
-    "autoUpload": false,
+    "autoUpload": true,
     "enablePostContestMessage": false,
     "postContestMessage": "",
     "postContestColor": "#ffd700",

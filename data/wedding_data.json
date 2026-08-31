@@ -245,10 +245,10 @@
     },
     {
       "id": "g1786990818278",
-      "firstName": "Krzysztof Jemielniak",
-      "lastName": "",
-      "name1": "Krzysztof Jemielniak",
-      "name2": "",
+      "firstName": "Krzysztof",
+      "lastName": "Jemielniak",
+      "name1": "Krzysztof",
+      "name2": "Jemielniak",
       "seat1": "9",
       "seat2": "",
       "code": "G-009"
@@ -596,20 +596,6 @@
       "completedCount": 2,
       "lastActivityAt": 1785708821523,
       "durationMs": 3221523
-    },
-    "G-009": {
-      "answers": {
-        "m4": {
-          "status": "completed",
-          "files": [
-            "https://drive.google.com/file/d/16tf7RaRpONpGW2CH1w5dfWbkAV0sQkdC/view?usp=drivesdk"
-          ],
-          "updatedAt": 1786188285248
-        }
-      },
-      "completedCount": 0,
-      "lastActivityAt": 1786188285248,
-      "durationMs": 105248
     },
     "G-005": {
       "answers": {},

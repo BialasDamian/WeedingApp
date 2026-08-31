@@ -826,6 +826,10 @@ button:not(.btn-primary):not(.btn-secondary):hover {
             <div style="font-size:0.78rem;color:wheat;margin-bottom:0.3rem">🏷️ Etykieta kodu:</div>
             <input class="login-input" type="text" id="qr-code-label" value="KOD ZAPROSZENIA" style="text-align:left;width:100%" onchange="saveQRCustom()">
           </div>
+          <div>
+            <div style="font-size:0.78rem;color:wheat;margin-bottom:0.3rem">📏 Rozmiar czcionki instrukcji (px):</div>
+            <input class="login-input" type="number" id="qr-footer-size" value="15" min="10" max="28" style="text-align:left;width:100%" onchange="saveQRCustom()">
+          </div>
         </div>
       </div>
 
@@ -1376,7 +1380,8 @@ const DEFAULT_STATE={
       subtitle1:'APLIKACJA WESELNA',
       subtitle2:'SPRAWDŹ I WEŹ UDZIAŁ W KONKURSIE',
       subtitle3:'',
-      codeLabel:'KOD ZAPROSZENIA'
+      codeLabel:'KOD ZAPROSZENIA',
+      footerFontSize:15
     },
     table:{shape:'I',flipH:false,flipV:false,tw:60,gap:48,dist:18,
       edges:{i_top:0,i_bottom:2,i_left:17,i_right:17,u_top_out:0,u_top_in:2,u_l_out:10,u_l_in:8,u_l_bot:2,u_r_out:10,u_r_in:8,u_r_bot:2,l_top:0,l_l:12,l_r_in:8,l_t_in:6,l_b:10,l_right:2,l_v_bot:0,t_top_out:0,t_t_l:4,t_t_r:4,t_s_l:10,t_s_r:10,t_s_b:2,t_left_end:1,t_right_end:1}
@@ -1549,6 +1554,7 @@ function sanitizeStateDefaults() {
   else {
     if (STATE.settings.qrCustom.ornamentColor === undefined) STATE.settings.qrCustom.ornamentColor = STATE.settings.qrCustom.frameColor || '#c9a84c';
     if (STATE.settings.qrCustom.titleColor === undefined) STATE.settings.qrCustom.titleColor = '#f5deb3';
+    if (STATE.settings.qrCustom.footerFontSize === undefined) STATE.settings.qrCustom.footerFontSize = 15;
   }
   if (!STATE.music) STATE.music = [];
   if (!STATE.missionsSettings) STATE.missionsSettings = JSON.parse(JSON.stringify(DEFAULT_STATE.missionsSettings));
@@ -2765,6 +2771,7 @@ function saveQRCustom() {
   qc.subtitle2 = document.getElementById('qr-subtitle2')?.value || 'SPRAWDŹ I WEŹ UDZIAŁ W KONKURSIE';
   qc.subtitle3 = document.getElementById('qr-subtitle3')?.value || '';
   qc.codeLabel = document.getElementById('qr-code-label')?.value || 'KOD ZAPROSZENIA';
+  qc.footerFontSize = parseInt(document.getElementById('qr-footer-size')?.value) || 15;
   saveLocal();
 }
 
@@ -2838,6 +2845,7 @@ function renderQRGrid(){
   if(document.getElementById('qr-subtitle2')) document.getElementById('qr-subtitle2').value = qc.subtitle2 || 'SPRAWDŹ I WEŹ UDZIAŁ W KONKURSIE';
   if(document.getElementById('qr-subtitle3')) document.getElementById('qr-subtitle3').value = qc.subtitle3 || '';
   if(document.getElementById('qr-code-label')) document.getElementById('qr-code-label').value = qc.codeLabel || 'KOD ZAPROSZENIA';
+  if(document.getElementById('qr-footer-size')) document.getElementById('qr-footer-size').value = qc.footerFontSize || 15;
 
   STATE.guests.forEach(g=>{
     if(!g.name1&&!g.name2&&!g.firstName&&!g.lastName)return;
@@ -3032,12 +3040,13 @@ async function createInvitationCanvas(g) {
     : 'Zeskanuj kod QR aparatem, poznaj szczegóły wydarzenia i weź udział w konkursie weselnym';
   const footerText = rawFooterText.slice(0, 160);
 
-  ctx.font = '400 15px "Jost", sans-serif';
+  const footerFontSize = parseInt(qc.footerFontSize) || 15;
+  ctx.font = `bold ${footerFontSize}px "Jost", sans-serif`;
   const boxW = 560;
   const maxTextW = 520;
   const lines = wrapCanvasText(ctx, footerText, maxTextW);
 
-  const lineH = 22;
+  const lineH = Math.round(footerFontSize * 1.4);
   const padV = 12;
   const boxH = Math.max(48, lines.length * lineH + padV * 2);
   const boxX = (width - boxW) / 2;
@@ -3049,7 +3058,7 @@ async function createInvitationCanvas(g) {
 
   ctx.fillStyle = textColor;
   ctx.textAlign = 'center';
-  const startTextY = boxY + padV + 15;
+  const startTextY = boxY + padV + Math.round(footerFontSize * 0.95);
   lines.forEach((line, i) => {
     ctx.fillText(line, width / 2, startTextY + (i * lineH));
   });

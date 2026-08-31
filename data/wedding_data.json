@@ -11,10 +11,11 @@
       "frameColor": "#c9a84c",
       "textColor": "#2d1f17",
       "ornamentColor": "#c9a84c",
+      "titleColor": "#c9a8b3",
       "ornament": "✦  ✦  ✦",
       "subtitle1": "APLIKACJA WESELNA",
-      "subtitle2": "WITAMY NA NASZYM WESELU!",
-      "subtitle3": "BĄDŹ NA BIEŻĄCO I SPRAWDŹ SZCZEGÓŁY WYDARZENIA, KONKURSU I MENU!",
+      "subtitle2": "SPRAWDŹ I WEŹ UDZIAŁ W KONKURSIE",
+      "subtitle3": "",
       "codeLabel": "KOD ZAPROSZENIA"
     },
     "table": {
@@ -60,8 +61,7 @@
         "T1": "T2"
       }
     },
-    "githubToken": "VUMzT2VheFdJU0VJRTI2WVZJUWc0MWVGc0FxRTJrV3lsZnR5MUtmcG44SVljd1J6VEE0eDNpcHVST3VfV1dJbXB3cDJJV1lEMFlPTUZDQUIxMV90YXBfYnVodGln",
-    "qrFooterText": "Zeskanuj kod aparatem w telefonie, twórz z nami wspomnienia w misjach weselnych i wygraj konkurs!"
+    "githubToken": "VUMzT2VheFdJU0VJRTI2WVZJUWc0MWVGc0FxRTJrV3lsZnR5MUtmcG44SVljd1J6VEE0eDNpcHVST3VfV1dJbXB3cDJJV1lEMFlPTUZDQUIxMV90YXBfYnVodGln"
   },
   "guests": [
     {

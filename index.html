@@ -798,6 +798,15 @@ button:not(.btn-primary):not(.btn-secondary):hover {
             </div>
           </div>
           <div>
+            <div style="font-size:0.78rem;color:wheat;margin-bottom:0.3rem">💍 Kolor Imion Pary Młodej:</div>
+            <div class="color-picker-box">
+              <input type="color" id="qr-title-color" value="#f5deb3" style="width:36px;height:28px;border:none;background:transparent;cursor:pointer" onchange="syncColorInput('qr-title-color','qr-title-hex');saveQRCustom()">
+              <input type="text" id="qr-title-hex" value="#F5DEB3" maxlength="7" style="width:75px;border:none;background:transparent;color:wheat;font-family:monospace;font-size:0.8rem;text-transform:uppercase" onchange="syncHexInput('qr-title-hex','qr-title-color');saveQRCustom()">
+              <button type="button" class="btn-secondary" style="font-size:0.65rem;padding:0.25rem 0.45rem;width:auto;margin:0" onclick="copyColorHex('qr-title-hex')" title="Kopiuj kod HEX">📋</button>
+              <button type="button" class="btn-secondary" style="font-size:0.65rem;padding:0.25rem 0.45rem;width:auto;margin:0" onclick="resetColorHex('qr-title-color','qr-title-hex','#f5deb3');saveQRCustom()" title="Domyślny">↺</button>
+            </div>
+          </div>
+          <div>
             <div style="font-size:0.78rem;color:wheat;margin-bottom:0.3rem">✦ Ornament (tekst):</div>
             <input class="login-input" type="text" id="qr-ornament-text" value="✦  ✦  ✦" style="text-align:left;width:100%" onchange="saveQRCustom()">
           </div>
@@ -1362,6 +1371,7 @@ const DEFAULT_STATE={
       frameColor:'#c9a84c',
       textColor:'#2D1F17',
       ornamentColor:'#c9a84c',
+      titleColor:'#f5deb3',
       ornament:'✦  ✦  ✦',
       subtitle1:'APLIKACJA WESELNA',
       subtitle2:'SPRAWDŹ I WEŹ UDZIAŁ W KONKURSIE',
@@ -1538,6 +1548,7 @@ function sanitizeStateDefaults() {
   if (!STATE.settings.qrCustom) STATE.settings.qrCustom = JSON.parse(JSON.stringify(DEFAULT_STATE.settings.qrCustom));
   else {
     if (STATE.settings.qrCustom.ornamentColor === undefined) STATE.settings.qrCustom.ornamentColor = STATE.settings.qrCustom.frameColor || '#c9a84c';
+    if (STATE.settings.qrCustom.titleColor === undefined) STATE.settings.qrCustom.titleColor = '#f5deb3';
   }
   if (!STATE.music) STATE.music = [];
   if (!STATE.missionsSettings) STATE.missionsSettings = JSON.parse(JSON.stringify(DEFAULT_STATE.missionsSettings));
@@ -2748,6 +2759,7 @@ function saveQRCustom() {
   qc.frameColor = document.getElementById('qr-frame-color')?.value || '#c9a84c';
   qc.textColor = document.getElementById('qr-text-color')?.value || '#2D1F17';
   qc.ornamentColor = document.getElementById('qr-ornament-color')?.value || '#c9a84c';
+  qc.titleColor = document.getElementById('qr-title-color')?.value || '#f5deb3';
   qc.ornament = document.getElementById('qr-ornament-text')?.value || '✦  ✦  ✦';
   qc.subtitle1 = document.getElementById('qr-subtitle1')?.value || 'APLIKACJA WESELNA';
   qc.subtitle2 = document.getElementById('qr-subtitle2')?.value || 'SPRAWDŹ I WEŹ UDZIAŁ W KONKURSIE';
@@ -2811,6 +2823,7 @@ function renderQRGrid(){
   const frameC = qc.frameColor || '#c9a84c';
   const textC = qc.textColor || '#2D1F17';
   const ornC = qc.ornamentColor || frameC;
+  const titleC = qc.titleColor || '#f5deb3';
 
   if(document.getElementById('qr-frame-color')) document.getElementById('qr-frame-color').value = frameC;
   if(document.getElementById('qr-frame-hex')) document.getElementById('qr-frame-hex').value = frameC.toUpperCase();
@@ -2818,6 +2831,8 @@ function renderQRGrid(){
   if(document.getElementById('qr-text-hex')) document.getElementById('qr-text-hex').value = textC.toUpperCase();
   if(document.getElementById('qr-ornament-color')) document.getElementById('qr-ornament-color').value = ornC;
   if(document.getElementById('qr-ornament-hex')) document.getElementById('qr-ornament-hex').value = ornC.toUpperCase();
+  if(document.getElementById('qr-title-color')) document.getElementById('qr-title-color').value = titleC;
+  if(document.getElementById('qr-title-hex')) document.getElementById('qr-title-hex').value = titleC.toUpperCase();
   if(document.getElementById('qr-ornament-text')) document.getElementById('qr-ornament-text').value = qc.ornament || '✦  ✦  ✦';
   if(document.getElementById('qr-subtitle1')) document.getElementById('qr-subtitle1').value = qc.subtitle1 || 'APLIKACJA WESELNA';
   if(document.getElementById('qr-subtitle2')) document.getElementById('qr-subtitle2').value = qc.subtitle2 || 'SPRAWDŹ I WEŹ UDZIAŁ W KONKURSIE';
@@ -2904,7 +2919,8 @@ async function createInvitationCanvas(g) {
     weddingTitle = 'Aleksandra & Damian';
   }
   ctx.font = 'italic 46px "Cormorant Garamond", Georgia, serif';
-  ctx.fillStyle = isTransparent ? '#3d2817' : '#f5deb3';
+  const titleColor = qc.titleColor || (isTransparent ? '#3d2817' : '#f5deb3');
+  ctx.fillStyle = titleColor;
   ctx.fillText(weddingTitle, width / 2, 135);
 
   // Subtitle 3 lines

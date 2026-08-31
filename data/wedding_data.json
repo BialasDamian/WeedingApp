@@ -599,8 +599,16 @@
       "completedCount": 0
     },
     "G-002": {
-      "answers": {},
-      "completedCount": 0
+      "answers": {
+        "m3": {
+          "status": "completed",
+          "text": "Test\nD\nD\nD\n\nS\nS\nS\nS\n\nS\nS\nS\nS\nS\n\nS\nS\nS\nS\nS\nS",
+          "updatedAt": 1788209264609
+        }
+      },
+      "completedCount": 0,
+      "lastActivityAt": 1788209264609,
+      "durationMs": 164609
     }
   },
   "firstWinner": null

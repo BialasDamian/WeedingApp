@@ -488,12 +488,6 @@
       "targetCount": 1
     },
     {
-      "id": "m2",
-      "title": "Spróbuj dowolnego dania, przekąski lub drinka z weselnego stołu i nagraj krótką recenzję wideo w pełnym stylu Roberta Makłowicza, lub Magdy Gessler!",
-      "type": "wideo",
-      "targetCount": 1
-    },
-    {
       "id": "m3",
       "title": "Zostaw Nowożeńcom powód do uśmiechu! Wpisz swój ulubiony suchar, klasyczny kawał lub podpatrzoną dzisiaj śmieszną sytuację przy stole.",
       "type": "tekst",

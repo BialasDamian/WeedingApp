@@ -2901,10 +2901,8 @@ async function createInvitationCanvas(g) {
 
   // Inner border
   ctx.strokeStyle = frameColor;
-  ctx.globalAlpha = 0.4;
   ctx.lineWidth = 2;
   ctx.strokeRect(32, 32, width - 64, height - 64);
-  ctx.globalAlpha = 1.0;
 
   // Ornament (uses dedicated ornamentColor)
   const ornamentText = qc.ornament || '✦  ✦  ✦';
@@ -2941,14 +2939,12 @@ async function createInvitationCanvas(g) {
   ctx.letterSpacing = '0px';
 
   // Divider line
-  ctx.strokeStyle = textColor;
-  ctx.globalAlpha = 0.3;
-  ctx.lineWidth = 1;
+  ctx.strokeStyle = frameColor;
+  ctx.lineWidth = 2;
   ctx.beginPath();
   ctx.moveTo(160, 222);
   ctx.lineTo(width - 160, 222);
   ctx.stroke();
-  ctx.globalAlpha = 1.0;
 
   // Guest first name only
   const firstName = getGuestFirstName(g) || 'Gość';
@@ -3005,7 +3001,7 @@ async function createInvitationCanvas(g) {
   ctx.fillStyle = '#ffffff';
   ctx.fillRect(qrBoxX, qrBoxY, qrBoxSize, qrBoxSize);
   ctx.strokeStyle = frameColor;
-  ctx.lineWidth = 4;
+  ctx.lineWidth = 2;
   ctx.strokeRect(qrBoxX, qrBoxY, qrBoxSize, qrBoxSize);
 
   if (qrDataUrl) {
@@ -3048,10 +3044,8 @@ async function createInvitationCanvas(g) {
   const boxY = 848;
 
   ctx.strokeStyle = frameColor;
-  ctx.globalAlpha = 0.4;
-  ctx.lineWidth = 1.5;
+  ctx.lineWidth = 2;
   ctx.strokeRect(boxX, boxY, boxW, boxH);
-  ctx.globalAlpha = 1.0;
 
   ctx.fillStyle = textColor;
   ctx.textAlign = 'center';

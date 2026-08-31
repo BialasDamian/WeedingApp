@@ -516,12 +516,6 @@
       "title": "Uwiecznij na zdjęciu moment wpisywania się do Księgi Gości.",
       "type": "zdjecie",
       "targetCount": 1
-    },
-    {
-      "id": "m10",
-      "title": "Nagraj wideo z krótkim, najciekawszym Twoim zdaniem fragmentem weselnej zabawy.",
-      "type": "wideo",
-      "targetCount": 1
     }
   ],
   "guestMissions": {

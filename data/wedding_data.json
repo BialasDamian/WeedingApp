@@ -351,6 +351,16 @@
       "lastName": "Ciszek",
       "name1": "Konrad",
       "name2": "Ciszek",
+      "seat1": "",
+      "seat2": "",
+      "code": "G-002"
+    },
+    {
+      "id": "g1788261674256",
+      "firstName": "Konrad",
+      "lastName": "Ciszek",
+      "name1": "Konrad",
+      "name2": "Ciszek",
       "seat1": "2",
       "seat2": "",
       "code": "G-002"

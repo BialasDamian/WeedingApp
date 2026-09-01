@@ -455,14 +455,7 @@
       "name": "Aromatyczny barszcz czerwony serwowany z chrupiącym krokietem mięsnym"
     }
   ],
-  "music": [
-    {
-      "title": "Maja Hi Maja Jindagi Maya",
-      "artist": "Lovekush Dungri",
-      "thumb": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/c9/9e/84/c99e84ae-bdf1-526e-87c5-3b6613e8aef1/606113059609.png/60x60bb.jpg",
-      "suggestedBy": "Konrad Ciszek"
-    }
-  ],
+  "music": [],
   "missionsSettings": {
     "enabled": true,
     "showRanking": false,

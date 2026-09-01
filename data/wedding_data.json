@@ -361,7 +361,7 @@
       "lastName": "",
       "name1": "Pan Młody",
       "name2": "",
-      "seat1": "T1",
+      "seat1": "",
       "seat2": "",
       "code": "T-001"
     },
@@ -384,6 +384,16 @@
       "seat1": "T2",
       "seat2": "",
       "code": "T-002"
+    },
+    {
+      "id": "g1788260957586",
+      "firstName": "Pani",
+      "lastName": "Młoda",
+      "name1": "Pani",
+      "name2": "Młoda",
+      "seat1": "T1",
+      "seat2": "",
+      "code": "T-001"
     }
   ],
   "schedule": [

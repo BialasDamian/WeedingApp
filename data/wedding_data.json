@@ -59,7 +59,7 @@
       "throneEdge": "auto",
       "customThrones": {
         "T2": "T1",
-        "T1": true
+        "T1": "T2"
       }
     },
     "githubToken": "VUMzT2VheFdJU0VJRTI2WVZJUWc0MWVGc0FxRTJrV3lsZnR5MUtmcG44SVljd1J6VEE0eDNpcHVST3VfV1dJbXB3cDJJV1lEMFlPTUZDQUIxMV90YXBfYnVodGln"
@@ -347,13 +347,23 @@
     },
     {
       "id": "g1788272834583",
-      "firstName": "Pan",
-      "lastName": "Młody",
-      "name1": "Pan",
-      "name2": "Młody",
+      "firstName": "Pan Młody",
+      "lastName": "",
+      "name1": "Pan Młody",
+      "name2": "",
       "seat1": "T2",
       "seat2": "",
       "code": "T-001"
+    },
+    {
+      "id": "g1788272837878",
+      "firstName": "Pani Młoda",
+      "lastName": "",
+      "name1": "Pani Młoda",
+      "name2": "",
+      "seat1": "T1",
+      "seat2": "",
+      "code": "T-002"
     }
   ],
   "schedule": [

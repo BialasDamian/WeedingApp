@@ -58,7 +58,7 @@
       "swapThrones": false,
       "throneEdge": "auto",
       "customThrones": {
-        "T2": false,
+        "T2": "T1",
         "T1": "T2"
       }
     },
@@ -346,16 +346,6 @@
       "code": "G-003"
     },
     {
-      "id": "g1788262072986",
-      "firstName": "Pan",
-      "lastName": "Młody",
-      "name1": "Pan",
-      "name2": "Młody",
-      "seat1": "T2",
-      "seat2": "",
-      "code": "G-002"
-    },
-    {
       "id": "g1788262095359",
       "firstName": "Pani",
       "lastName": "Młoda",
@@ -364,6 +354,16 @@
       "seat1": "T1",
       "seat2": "",
       "code": "T-002"
+    },
+    {
+      "id": "g1788262103080",
+      "firstName": "Pan",
+      "lastName": "Młody",
+      "name1": "Pan",
+      "name2": "Młody",
+      "seat1": "T2",
+      "seat2": "",
+      "code": "T-001"
     }
   ],
   "schedule": [

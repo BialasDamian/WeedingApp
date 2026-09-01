@@ -101,7 +101,7 @@
       "lastName": "Ciszek",
       "name1": "Konrad",
       "name2": "Ciszek",
-      "seat1": "2",
+      "seat1": "",
       "seat2": "",
       "code": "G-002"
     },
@@ -374,6 +374,16 @@
       "seat1": "T2",
       "seat2": "",
       "code": "T-002"
+    },
+    {
+      "id": "g1788259275422",
+      "firstName": "Konrad",
+      "lastName": "Ciszek",
+      "name1": "Konrad",
+      "name2": "Ciszek",
+      "seat1": "2",
+      "seat2": "",
+      "code": "G-002"
     }
   ],
   "schedule": [

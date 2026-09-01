@@ -66,16 +66,6 @@
   },
   "guests": [
     {
-      "id": "g1785664264801",
-      "firstName": "Pani Młoda",
-      "lastName": "",
-      "name1": "Pani Młoda",
-      "name2": "",
-      "seat1": "",
-      "seat2": "",
-      "code": "T-001"
-    },
-    {
       "id": "g1785664405454",
       "firstName": "Michał",
       "lastName": "Gawron",

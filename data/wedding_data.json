@@ -59,7 +59,7 @@
       "throneEdge": "auto",
       "customThrones": {
         "T2": false,
-        "T1": false
+        "T1": "T2"
       }
     },
     "githubToken": "VUMzT2VheFdJU0VJRTI2WVZJUWc0MWVGc0FxRTJrV3lsZnR5MUtmcG44SVljd1J6VEE0eDNpcHVST3VfV1dJbXB3cDJJV1lEMFlPTUZDQUIxMV90YXBfYnVodGln"
@@ -354,6 +354,16 @@
       "seat1": "T2",
       "seat2": "",
       "code": "G-002"
+    },
+    {
+      "id": "g1788262095359",
+      "firstName": "Pani",
+      "lastName": "Młoda",
+      "name1": "Pani",
+      "name2": "Młoda",
+      "seat1": "T1",
+      "seat2": "",
+      "code": "T-002"
     }
   ],
   "schedule": [

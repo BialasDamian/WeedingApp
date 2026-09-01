@@ -9,13 +9,13 @@
     "driveUrl": "",
     "qrCustom": {
       "frameColor": "#c9a84c",
-      "textColor": "#2D1F17",
+      "textColor": "#2d1f17",
       "ornamentColor": "#c9a84c",
       "titleColor": "#f5deb3",
       "ornament": "✦  ✦  ✦",
       "subtitle1": "APLIKACJA WESELNA",
       "subtitle2": "SPRAWDŹ I WEŹ UDZIAŁ W KONKURSIE",
-      "subtitle3": "",
+      "subtitle3": "CZEKA NA CIEBIE KONKURS W GODZINACH 18:00 - 23:00",
       "codeLabel": "KOD ZAPROSZENIA",
       "footerFontSize": 15
     },
@@ -599,6 +599,10 @@
       "completedCount": 0
     },
     "G-002": {
+      "answers": {},
+      "completedCount": 0
+    },
+    "G-001": {
       "answers": {},
       "completedCount": 0
     }

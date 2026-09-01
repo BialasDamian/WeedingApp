@@ -58,8 +58,8 @@
       "swapThrones": false,
       "throneEdge": "auto",
       "customThrones": {
-        "T2": "T1",
-        "T1": true
+        "T1": true,
+        "T2": true
       }
     },
     "githubToken": "VUMzT2VheFdJU0VJRTI2WVZJUWc0MWVGc0FxRTJrV3lsZnR5MUtmcG44SVljd1J6VEE0eDNpcHVST3VfV1dJbXB3cDJJV1lEMFlPTUZDQUIxMV90YXBfYnVodGln"
@@ -353,7 +353,7 @@
       "name2": "",
       "seat1": "T2",
       "seat2": "",
-      "code": "T-001"
+      "code": "T-002"
     },
     {
       "id": "g1788262341244",

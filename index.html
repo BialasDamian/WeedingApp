@@ -2450,8 +2450,13 @@ function getGuestFullName(g) {
 
 function getGuestFirstName(g) {
   if (!g) return '';
-  if (g.firstName) return getFirstNameOnly(g.firstName);
-  if (g.name1) return getFirstNameOnly(g.name1);
+  const fn = (g.firstName || g.name1 || '').trim();
+  const ln = (g.lastName || g.name2 || '').trim();
+  if (fn) {
+    if (/^Pani$/i.test(fn) && /^Młoda$/i.test(ln)) return 'Pani Młoda';
+    if (/^Pan$/i.test(fn) && /^Młody$/i.test(ln)) return 'Pan Młody';
+    return getFirstNameOnly(fn);
+  }
   return getFirstNameOnly(getGuestFullName(g));
 }
 
@@ -3492,8 +3497,7 @@ function renderGuestNeighbors(g){
 
     if (myPos.isH === sPos.isH) {
       if (myPos.dir !== sPos.dir) {
-        const alignDist = Math.abs(myPos.isH ? (myPos.x - sPos.x) : (myPos.y - sPos.y));
-        oppositeSideSeats.push({ id: s.id, pos: sPos, dist: alignDist + euclidean * 0.2 });
+        oppositeSideSeats.push({ id: s.id, pos: sPos, dist: euclidean });
       }
     } else {
       if (euclidean < 340) {

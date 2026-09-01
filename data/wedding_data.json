@@ -346,16 +346,6 @@
       "code": "G-003"
     },
     {
-      "id": "g1788262095359",
-      "firstName": "Pani Młoda",
-      "lastName": "",
-      "name1": "Pani Młoda",
-      "name2": "",
-      "seat1": "",
-      "seat2": "",
-      "code": "G-001"
-    },
-    {
       "id": "g1788262103080",
       "firstName": "Pan Młody",
       "lastName": "",
@@ -363,7 +353,7 @@
       "name2": "",
       "seat1": "T2",
       "seat2": "",
-      "code": "T-002"
+      "code": "T-001"
     },
     {
       "id": "g1788262341244",

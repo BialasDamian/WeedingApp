@@ -1791,28 +1791,36 @@ function generateLayoutEngine(isGuestView = false){
     return!(a.x2+PAD<b.x1||b.x2+PAD<a.x1||a.y2+PAD<b.y1||b.y2+PAD<a.y1);
   }
 
-  // Attempt placement at a given offset multiplier (1=primary side, try -1 for flip)
+  // Attempt placement with outward offset and staggering to prevent overlapping tables
   function tryPlace(sx,sy,isH,dir,textW,lineCount,attempt){
-    // attempt 0 = normal side, attempt 1 = opposite side, attempt 2 = shifted +gap, attempt 3 = shifted -gap
     let sign=dir;
-    if(attempt===1)sign=-dir;
+    let offset=LABEL_OFFSET;
+    let shiftX=0, shiftY=0;
+
+    if(attempt===1){
+      offset = LABEL_OFFSET + 32;
+    }else if(attempt===2){
+      if(isH){ shiftX = gap * 0.45; } else { shiftY = gap * 0.45; }
+    }else if(attempt===3){
+      if(isH){ shiftX = -gap * 0.45; } else { shiftY = -gap * 0.45; }
+    }else if(attempt===4){
+      offset = LABEL_OFFSET + 56;
+      if(isH){ shiftX = gap * 0.3; } else { shiftY = gap * 0.3; }
+    }else if(attempt===5){
+      offset = LABEL_OFFSET + 56;
+      if(isH){ shiftX = -gap * 0.3; } else { shiftY = -gap * 0.3; }
+    }
 
     let lx,ly,anchor;
     if(isH){
-      // seat is horizontal (top/bottom edge) → label goes vertically above/below
-      lx=sx;
-      ly=sy+sign*(R_SEAT+LABEL_OFFSET);
+      lx=sx+shiftX;
+      ly=sy+sign*(R_SEAT+offset);
       anchor='middle';
     }else{
-      // seat is vertical (left/right edge) → label goes horizontally left/right
-      lx=sx+sign*(R_SEAT+LABEL_OFFSET);
-      ly=sy;
+      lx=sx+sign*(R_SEAT+offset);
+      ly=sy+shiftY;
       anchor=sign<0?'end':'start';
     }
-
-    // extra shift to avoid crowding when multiple attempts
-    if(attempt===2){if(isH){lx+=gap*0.6;}else{ly+=gap*0.6;}}
-    if(attempt===3){if(isH){lx-=gap*0.6;}else{ly-=gap*0.6;}}
 
     // compute AABB
     let bx1,bx2,by1,by2;
@@ -1833,16 +1841,17 @@ function generateLayoutEngine(isGuestView = false){
     const name=getNameForSeat(s.id, isGuestView);
     if(!name)return;
     let line1=name,line2='';
-    if(!isGuestView){
-      const spaceIdx=name.indexOf(' ');
-      if(spaceIdx>0){line1=name.substring(0,spaceIdx);line2=name.substring(spaceIdx+1);}
+    const spaceIdx=name.indexOf(' ');
+    if(spaceIdx>0){
+      line1=name.substring(0,spaceIdx);
+      line2=name.substring(spaceIdx+1);
     }
     const lineCount=line2?2:1;
     const textW=Math.max(estimateTextW(line1),estimateTextW(line2));
 
     // try up to 6 placement attempts
     for(let attempt=0;attempt<6;attempt++){
-      const p=tryPlace(s.x,s.y,s.isH,s.dir,textW,lineCount,attempt%4);
+      const p=tryPlace(s.x,s.y,s.isH,s.dir,textW,lineCount,attempt);
       const rect={x1:p.bx1,y1:p.by1,x2:p.bx2,y2:p.by2,seatId:s.id};
       let collision=false;
       for(const r of labelRects){if(r.seatId!==s.id&&rectOverlaps(rect,r)){collision=true;break;}}
@@ -1851,7 +1860,7 @@ function generateLayoutEngine(isGuestView = false){
         seatLabels[s.id]={lx:p.lx,ly:p.ly,anchor:p.anchor,isH:p.isH,dir:p.dir,line1,line2,lineCount};
         break;
       }
-      // last resort: just force it (attempt 5)
+      // last resort: just place at attempt 0
       if(attempt===5){
         labelRects.push(rect);
         seatLabels[s.id]={lx:p.lx,ly:p.ly,anchor:p.anchor,isH:p.isH,dir:p.dir,line1,line2,lineCount};

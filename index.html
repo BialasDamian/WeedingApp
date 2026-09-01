@@ -1387,7 +1387,7 @@ const DEFAULT_STATE={
       edges:{i_top:0,i_bottom:2,i_left:17,i_right:17,u_top_out:0,u_top_in:2,u_l_out:10,u_l_in:8,u_l_bot:2,u_r_out:10,u_r_in:8,u_r_bot:2,l_top:0,l_l:12,l_r_in:8,l_t_in:6,l_b:10,l_right:2,l_v_bot:0,t_top_out:0,t_t_l:4,t_t_r:4,t_s_l:10,t_s_r:10,t_s_b:2,t_left_end:1,t_right_end:1}
     }
   },
-  guests:[{id:'g1',name1:'Pan Młody',name2:'Pani Młoda',seat1:'T1',seat2:'T2',code:'G-001'}],
+  guests:[{id:'g1',firstName:'Pan Młody',lastName:'',name1:'Pan Młody',name2:'',seat1:'T1',seat2:'',code:'T-001'},{id:'g2',firstName:'Pani Młoda',lastName:'',name1:'Pani Młoda',name2:'',seat1:'T2',seat2:'',code:'T-002'}],
   schedule:[{time:'16:30',event:'Przyjęcie'}],
   menu:[],music:[],
   missionsSettings:{
@@ -1724,6 +1724,10 @@ function generateLayoutEngine(isGuestView = false){
     if (diffY !== 0) return diffY;
     return a.x - b.x;
   });
+
+  SEAT_IDS = [];
+  if (isThrone('T1')) SEAT_IDS.push('T1');
+  if (isThrone('T2')) SEAT_IDS.push('T2');
 
   let sId = 1;
   regularSeats.forEach(s => {
@@ -2064,8 +2068,15 @@ function startDrag(e,el){
 function swapSeats(s1,s2){
   let g1=STATE.guests.find(g=>g.seat1===s1||g.seat2===s1);
   let g2=STATE.guests.find(g=>g.seat1===s2||g.seat2===s2);
-  if(g1){if(g1.seat1===s1)g1.seat1=s2;else g1.seat2=s2;}
-  if(g2){if(g2.seat1===s2)g2.seat1=s1;else g2.seat2=s1;}
+  if(g1 && g2){
+    const tmp = g1.seat1;
+    g1.seat1 = g2.seat1;
+    g2.seat1 = tmp;
+  } else if(g1 && !g2){
+    g1.seat1 = s2;
+  } else if(g2 && !g1){
+    g2.seat1 = s1;
+  }
   syncGuestCodesToSeats();
   generateLayoutEngine();
   saveLocal();
@@ -2091,11 +2102,26 @@ function swapThrones() {
   STATE.settings.throne2 = tmp;
   if(!STATE.settings.table) STATE.settings.table = DEFAULT_STATE.settings.table;
   STATE.settings.table.swapThrones = !STATE.settings.table.swapThrones;
-  saveLocal();
+
+  const gT1 = STATE.guests.find(g => g.seat1 === 'T1');
+  const gT2 = STATE.guests.find(g => g.seat1 === 'T2');
+  if (gT1 && gT2) {
+    gT1.seat1 = 'T2';
+    gT2.seat1 = 'T1';
+  } else if (gT1) {
+    gT1.seat1 = 'T2';
+  } else if (gT2) {
+    gT2.seat1 = 'T1';
+  }
+
+  syncGuestCodesToSeats();
   generateLayoutEngine();
+  saveLocal();
   renderLivePreview();
   renderAdminTable();
   renderGuestsTable();
+  renderQRGrid();
+
   const el1 = document.getElementById('s-throne1'); if(el1) el1.value = STATE.settings.throne1;
   const el2 = document.getElementById('s-throne2'); if(el2) el2.value = STATE.settings.throne2;
 }
@@ -2207,20 +2233,43 @@ function goGuestLogin(){
   if(errEl) errEl.textContent = '';
   setTimeout(()=>{ if(codeEl) codeEl.focus(); }, 100);
 }
+function getAllThroneSeats() {
+  const thrones = [];
+  if (isThrone('T1')) thrones.push('T1');
+  if (isThrone('T2')) thrones.push('T2');
+  
+  const customKeys = new Set();
+  if (STATE.settings && STATE.settings.table && STATE.settings.table.customThrones) {
+    Object.keys(STATE.settings.table.customThrones).forEach(k => {
+      if (k !== 'T1' && k !== 'T2' && STATE.settings.table.customThrones[k]) {
+        customKeys.add(k);
+      }
+    });
+  }
+  if (CURRENT_LAYOUT && CURRENT_LAYOUT.seats) {
+    CURRENT_LAYOUT.seats.forEach(s => {
+      if (s.id && s.id !== 'T1' && s.id !== 'T2' && isThrone(s.id)) {
+        customKeys.add(s.id);
+      }
+    });
+  }
+  const sortedCustom = Array.from(customKeys).sort((a, b) => {
+    const numA = parseInt(getSeatNumber(a), 10) || 0;
+    const numB = parseInt(getSeatNumber(b), 10) || 0;
+    if (numA !== numB) return numA - numB;
+    return String(a).localeCompare(String(b));
+  });
+  
+  sortedCustom.forEach(k => thrones.push(k));
+  return thrones;
+}
+
 function syncGuestCodesToSeats() {
   if (!STATE.guests) return;
   STATE.guests.forEach(g => {
     const sid = g.seat1 || g.seat2;
     if (sid) {
-      const num = getSeatNumber(sid);
-      if (num !== undefined && num !== null && num !== '') {
-        const parsed = parseInt(num, 10);
-        if (!isNaN(parsed)) {
-          g.code = 'G-' + String(parsed).padStart(3, '0');
-        } else {
-          g.code = String(num).trim().toUpperCase();
-        }
-      }
+      g.code = getSeatCode(sid);
     }
   });
 }
@@ -2282,6 +2331,16 @@ function getThroneType(id){
   return null;
 }
 
+function getThroneNumber(id){
+  if(!id) return 1;
+  if(id === 'T1') return 1;
+  if(id === 'T2') return 2;
+  const all = getAllThroneSeats();
+  const idx = all.indexOf(id);
+  if(idx >= 0) return idx + 1;
+  return 3;
+}
+
 function getSeatNumber(id){
   if(!id) return '';
   if(CURRENT_LAYOUT && CURRENT_LAYOUT.seats) {
@@ -2293,14 +2352,29 @@ function getSeatNumber(id){
   return id;
 }
 
-function seatLabel(id){
-  const num = getSeatNumber(id);
-  if(isThrone(id)){
-    const type = getThroneType(id);
-    if(type === 'T1') return `👑 ${STATE.settings.throne1 || 'Pan Młody'} (Krzesło ${num})`;
-    if(type === 'T2') return `👑 ${STATE.settings.throne2 || 'Pani Młoda'} (Krzesło ${num})`;
-    return `👑 Tron (Krzesło ${num})`;
+function getSeatCode(id) {
+  if (!id) return '';
+  if (isThrone(id)) {
+    const tNum = getThroneNumber(id);
+    return 'T-' + String(tNum).padStart(3, '0');
   }
+  const sNum = getSeatNumber(id);
+  const parsed = parseInt(sNum, 10);
+  if (!isNaN(parsed)) {
+    return 'G-' + String(parsed).padStart(3, '0');
+  }
+  return 'G-' + String(sNum).trim().toUpperCase();
+}
+
+function seatLabel(id){
+  if(isThrone(id)){
+    const tNum = getThroneNumber(id);
+    const type = getThroneType(id);
+    if(type === 'T1' || (tNum === 1 && id === 'T1')) return `👑 ${STATE.settings.throne1 || 'Pan Młody'} (Tron ${tNum})`;
+    if(type === 'T2' || (tNum === 2 && id === 'T2')) return `👑 ${STATE.settings.throne2 || 'Pani Młoda'} (Tron ${tNum})`;
+    return `👑 Tron ${tNum}`;
+  }
+  const num = getSeatNumber(id);
   return 'Krzesło ' + num;
 }
 
@@ -2329,18 +2403,36 @@ function getGuestFirstName(g) {
 }
 
 function getNameForSeat(sid, forGuestView = false){
+  for(const g of (STATE.guests || [])){
+    if(g.seat1 === sid){
+      const name = forGuestView ? getGuestFirstName(g) : getGuestFullName(g);
+      if(name && !/^(Pan Młody|Pani Młoda)$/i.test(name.trim())) return name;
+    }
+    if(g.seat2 === sid){
+      const name = forGuestView ? getFirstNameOnly(g.name2) : (g.name2 || null);
+      if(name && !/^(Pan Młody|Pani Młoda)$/i.test(name.trim())) return name;
+    }
+  }
   if(isThrone(sid)){
     const type = getThroneType(sid);
-    if(type === 'T1') {
+    const tNum = getThroneNumber(sid);
+    if(type === 'T1' || (tNum === 1 && sid === 'T1')) {
       const name = STATE.settings.throne1 || 'Pan Młody';
       return forGuestView ? getFirstNameOnly(name) : name;
     }
-    if(type === 'T2') {
+    if(type === 'T2' || (tNum === 2 && sid === 'T2')) {
       const name = STATE.settings.throne2 || 'Pani Młoda';
       return forGuestView ? getFirstNameOnly(name) : name;
     }
+    for(const g of (STATE.guests || [])){
+      if(g.seat1 === sid || g.seat2 === sid){
+        const name = forGuestView ? getGuestFirstName(g) : getGuestFullName(g);
+        if(name) return name;
+      }
+    }
+    return forGuestView ? `Tron ${tNum}` : `👑 Tron ${tNum}`;
   }
-  for(const g of STATE.guests){
+  for(const g of (STATE.guests || [])){
     if(g.seat1 === sid){
       return forGuestView ? getGuestFirstName(g) : getGuestFullName(g);
     }
@@ -2364,11 +2456,13 @@ function toggleThroneSeat(sid, type){
   } else {
     STATE.settings.table.customThrones[sid] = type;
   }
+  syncGuestCodesToSeats();
   saveLocal();
   generateLayoutEngine();
   renderLivePreview();
   renderAdminTable();
   renderGuestsTable();
+  renderQRGrid();
 }
 
 function toggleGuestThrone(guestId, isChecked) {
@@ -2475,9 +2569,7 @@ function _assignSeatName(sid,name){
     const parts = name.trim().split(/\s+/);
     const firstName = parts[0] || name.trim();
     const lastName = parts.slice(1).join(' ') || '';
-    const sNum = getSeatNumber(sid);
-    const parsed = parseInt(sNum, 10);
-    const code = !isNaN(parsed) ? ('G-' + String(parsed).padStart(3, '0')) : ('G-' + String(sNum || Date.now()));
+    const code = getSeatCode(sid);
     STATE.guests.push({
       id:'g'+Date.now(),
       firstName: firstName,
@@ -2643,18 +2735,20 @@ function updateGuestField(el){
     if(oldName !== newName && g.code && STATE.guestMissions && STATE.guestMissions[g.code]) {
       delete STATE.guestMissions[g.code];
     }
+    syncGuestCodesToSeats();
     generateLayoutEngine();
     saveLocal();
     renderLivePreview();
     renderAdminTable();
+    renderGuestsTable();
+    renderQRGrid();
   }
 }
 function addGuest(){
   const taken=takenSeats(null);let ff='';
   for(let i=0;i<SEAT_IDS.length;i++){const s=SEAT_IDS[i];if(!taken.has(s)&&!isThrone(s)){ff=s;break;}}
   const assignedSeat = ff || SEAT_IDS[2] || '1';
-  const seatNum = getSeatNumber(assignedSeat);
-  const code = String(seatNum || '1');
+  const code = getSeatCode(assignedSeat);
   STATE.guests.push({
     id:'g'+Date.now(),
     firstName:'',
@@ -2666,7 +2760,7 @@ function addGuest(){
     code:code
   });
   syncGuestCodesToSeats();
-  saveLocal();renderGuestsTable();renderLivePreview();renderAdminTable();
+  saveLocal();renderGuestsTable();renderLivePreview();renderAdminTable();renderQRGrid();
 }
 function removeGuest(id){
   if(!confirm('Usunąć gościa?'))return;
@@ -2962,7 +3056,7 @@ async function createInvitationCanvas(g) {
 
   // Seat number below name
   const seats = [g.seat1, g.seat2].filter(Boolean);
-  const seatsTxt = seats.length > 0 ? 'Krzesło ' + seats.map(s => getSeatNumber(s)).join(' + ') : '';
+  const seatsTxt = seats.length > 0 ? seats.map(s => isThrone(s) ? ('Tron ' + getThroneNumber(s)) : ('Krzesło ' + getSeatNumber(s))).join(' + ') : '';
   if (seatsTxt) {
     ctx.font = '500 18px "Jost", sans-serif';
     ctx.fillStyle = textColor;
@@ -3473,15 +3567,6 @@ function parseImportedState(data){
     const usedCodes = new Set();
     STATE.guests=data.guests.map((g, idx)=>{
       let code = String(g.code||'').replace(/[^A-Z0-9\-]/gi,'');
-      if (!code || usedCodes.has(code)) {
-        let attempt = idx + 1;
-        code = 'G-' + String(attempt).padStart(3, '0');
-        while (usedCodes.has(code)) {
-          attempt++;
-          code = 'G-' + String(attempt).padStart(3, '0');
-        }
-      }
-      usedCodes.add(code);
       return {
         id:String(g.id||(Date.now() + idx)),
         firstName: g.firstName !== undefined ? String(g.firstName) : (g.name1 || ''),
@@ -3493,6 +3578,7 @@ function parseImportedState(data){
         code: code
       };
     });
+    syncGuestCodesToSeats();
   }
   if(data.schedule&&Array.isArray(data.schedule))STATE.schedule=data.schedule.map(s=>({time:sanitizeText(s.time||''),event:sanitizeText(s.event||'')}));
   if(data.menu&&Array.isArray(data.menu))STATE.menu=data.menu.map(m=>({category:sanitizeText(m.category||''),name:sanitizeText(m.name||'')}));
@@ -4914,7 +5000,8 @@ function checkAndTriggerWinnerNotification(g, compCount, totalMissions) {
     const gc=p.get('guest');
     if(gc){
       const code=gc.replace(/[^A-Z0-9\-]/gi,'').toUpperCase();
-      const g=STATE.guests.find(x=>x.code===code);
+      syncGuestCodesToSeats();
+      const g=STATE.guests.find(x=>(x.code||'').trim().toUpperCase()===code);
       if(g){
         renderGuestView(g);show('screen-guest');
         requestAnimationFrame(()=>initWrap('wrap-guest'));

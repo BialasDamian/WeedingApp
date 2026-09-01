@@ -2066,17 +2066,53 @@ function startDrag(e,el){
 }
 
 function swapSeats(s1,s2){
-  let g1=STATE.guests.find(g=>g.seat1===s1||g.seat2===s1);
-  let g2=STATE.guests.find(g=>g.seat1===s2||g.seat2===s2);
+  if(!s1 || !s2 || s1 === s2) return;
+  if(!STATE.settings.table) STATE.settings.table = DEFAULT_STATE.settings.table;
+  if(!STATE.settings.table.customThrones) STATE.settings.table.customThrones = {};
+
+  // 1. Get throne types of both seats before swapping
+  const type1 = getThroneType(s1);
+  const type2 = getThroneType(s2);
+
+  // 2. Swap throne types between s1 and s2
+  if(type2) {
+    STATE.settings.table.customThrones[s1] = type2;
+  } else {
+    if(s1 === 'T1' || s1 === 'T2') {
+      STATE.settings.table.customThrones[s1] = false;
+    } else {
+      delete STATE.settings.table.customThrones[s1];
+    }
+  }
+
+  if(type1) {
+    STATE.settings.table.customThrones[s2] = type1;
+  } else {
+    if(s2 === 'T1' || s2 === 'T2') {
+      STATE.settings.table.customThrones[s2] = false;
+    } else {
+      delete STATE.settings.table.customThrones[s2];
+    }
+  }
+
+  // 3. Swap guests assigned to s1 and s2
+  let g1 = STATE.guests.find(g => g.seat1 === s1 || g.seat2 === s1);
+  let g2 = STATE.guests.find(g => g.seat1 === s2 || g.seat2 === s2);
   if(g1 && g2){
     const tmp = g1.seat1;
     g1.seat1 = g2.seat1;
     g2.seat1 = tmp;
+    g1.seat2 = '';
+    g2.seat2 = '';
   } else if(g1 && !g2){
     g1.seat1 = s2;
+    g1.seat2 = '';
   } else if(g2 && !g1){
     g2.seat1 = s1;
+    g2.seat2 = '';
   }
+
+  // 4. Sync codes and refresh all views
   syncGuestCodesToSeats();
   generateLayoutEngine();
   saveLocal();
@@ -2254,13 +2290,21 @@ function getAllThroneSeats() {
     });
   }
   const sortedCustom = Array.from(customKeys).sort((a, b) => {
+    const typeA = getThroneType(a);
+    const typeB = getThroneType(b);
+    if (typeA === 'T1') return -1;
+    if (typeB === 'T1') return 1;
+    if (typeA === 'T2') return -1;
+    if (typeB === 'T2') return 1;
     const numA = parseInt(getSeatNumber(a), 10) || 0;
     const numB = parseInt(getSeatNumber(b), 10) || 0;
     if (numA !== numB) return numA - numB;
     return String(a).localeCompare(String(b));
   });
   
-  sortedCustom.forEach(k => thrones.push(k));
+  sortedCustom.forEach(k => {
+    if (!thrones.includes(k)) thrones.push(k);
+  });
   return thrones;
 }
 
@@ -2333,8 +2377,11 @@ function getThroneType(id){
 
 function getThroneNumber(id){
   if(!id) return 1;
-  if(id === 'T1') return 1;
-  if(id === 'T2') return 2;
+  const type = getThroneType(id);
+  if(type === 'T1') return 1;
+  if(type === 'T2') return 2;
+  if(id === 'T1' && type !== false) return 1;
+  if(id === 'T2' && type !== false) return 2;
   const all = getAllThroneSeats();
   const idx = all.indexOf(id);
   if(idx >= 0) return idx + 1;
@@ -2369,9 +2416,6 @@ function getSeatCode(id) {
 function seatLabel(id){
   if(isThrone(id)){
     const tNum = getThroneNumber(id);
-    const type = getThroneType(id);
-    if(type === 'T1' || (tNum === 1 && id === 'T1')) return `👑 ${STATE.settings.throne1 || 'Pan Młody'} (Tron ${tNum})`;
-    if(type === 'T2' || (tNum === 2 && id === 'T2')) return `👑 ${STATE.settings.throne2 || 'Pani Młoda'} (Tron ${tNum})`;
     return `👑 Tron ${tNum}`;
   }
   const num = getSeatNumber(id);
@@ -2406,11 +2450,13 @@ function getNameForSeat(sid, forGuestView = false){
   for(const g of (STATE.guests || [])){
     if(g.seat1 === sid){
       const name = forGuestView ? getGuestFirstName(g) : getGuestFullName(g);
-      if(name && !/^(Pan Młody|Pani Młoda)$/i.test(name.trim())) return name;
+      if(name && name.trim()) return name.trim();
     }
+  }
+  for(const g of (STATE.guests || [])){
     if(g.seat2 === sid){
       const name = forGuestView ? getFirstNameOnly(g.name2) : (g.name2 || null);
-      if(name && !/^(Pan Młody|Pani Młoda)$/i.test(name.trim())) return name;
+      if(name && name.trim()) return name.trim();
     }
   }
   if(isThrone(sid)){
@@ -2424,21 +2470,7 @@ function getNameForSeat(sid, forGuestView = false){
       const name = STATE.settings.throne2 || 'Pani Młoda';
       return forGuestView ? getFirstNameOnly(name) : name;
     }
-    for(const g of (STATE.guests || [])){
-      if(g.seat1 === sid || g.seat2 === sid){
-        const name = forGuestView ? getGuestFirstName(g) : getGuestFullName(g);
-        if(name) return name;
-      }
-    }
     return forGuestView ? `Tron ${tNum}` : `👑 Tron ${tNum}`;
-  }
-  for(const g of (STATE.guests || [])){
-    if(g.seat1 === sid){
-      return forGuestView ? getGuestFirstName(g) : getGuestFullName(g);
-    }
-    if(g.seat2 === sid){
-      return forGuestView ? getFirstNameOnly(g.name2) : (g.name2 || null);
-    }
   }
   return null;
 }
@@ -2483,12 +2515,12 @@ function takenSeats(excl){
 }
 
 function buildSeatSelect(val,gid,allowEmpty,field){
-  const taken=takenSeats(gid);
-  let h=`<select class="tbl-input" style="width:105px" data-id="${gid}" data-field="${field}" onchange="updateGuestField(this)">`;
+  let h=`<select class="tbl-input" style="width:125px" data-id="${gid}" data-field="${field}" onchange="updateGuestField(this)">`;
   if(allowEmpty)h+=`<option value="">— brak —</option>`;
   SEAT_IDS.forEach(sid=>{
-    const dis=(taken.has(sid)&&sid!==val)?'disabled':'';
-    h+=`<option value="${escHtml(sid)}" ${sid===val?'selected':''} ${dis}>${escHtml(seatLabel(sid))}</option>`;
+    const occName = (sid !== val) ? getNameForSeat(sid, true) : null;
+    const label = seatLabel(sid) + (occName ? ` (${occName})` : '');
+    h+=`<option value="${escHtml(sid)}" ${sid===val?'selected':''}>${escHtml(label)}</option>`;
   });
   return h+'</select>';
 }
@@ -2554,6 +2586,23 @@ function confirmAssign(){
 }
 function confirmAssignClear(){if(!_assignSid)return;if(!confirm('Usunąć gościa z tego krzesła?'))return;_assignSeatName(_assignSid,null);closeModal();}
 function _assignSeatName(sid,name){
+  if(!name){
+    // Zwolnij miejsce / usuń gościa z tego krzesła z listy gości
+    const toRemove = STATE.guests.filter(g => g.seat1 === sid || g.seat2 === sid);
+    toRemove.forEach(g => {
+      if(g.code && STATE.guestMissions) delete STATE.guestMissions[g.code];
+    });
+    STATE.guests = STATE.guests.filter(g => g.seat1 !== sid && g.seat2 !== sid);
+    syncGuestCodesToSeats();
+    generateLayoutEngine();
+    saveLocal();
+    renderGuestsTable();
+    renderLivePreview();
+    renderAdminTable();
+    renderQRGrid();
+    return;
+  }
+  // Przypisz nowe imię lub zaktualizuj
   STATE.guests.forEach(g=>{
     if(g.seat1===sid){
       if(g.code && STATE.guestMissions) delete STATE.guestMissions[g.code];
@@ -2564,23 +2613,21 @@ function _assignSeatName(sid,name){
       g.seat2='';
     }
   });
-  STATE.guests=STATE.guests.filter(g=>g.seat1||g.seat2||isThrone(g.seat1)||isThrone(g.seat2)||(g.firstName||g.name1));
-  if(name){
-    const parts = name.trim().split(/\s+/);
-    const firstName = parts[0] || name.trim();
-    const lastName = parts.slice(1).join(' ') || '';
-    const code = getSeatCode(sid);
-    STATE.guests.push({
-      id:'g'+Date.now(),
-      firstName: firstName,
-      lastName: lastName,
-      name1: firstName,
-      name2: lastName,
-      seat1: sid,
-      seat2: '',
-      code: code
-    });
-  }
+  STATE.guests=STATE.guests.filter(g=>g.seat1||g.seat2);
+  const parts = name.trim().split(/\s+/);
+  const firstName = parts[0] || name.trim();
+  const lastName = parts.slice(1).join(' ') || '';
+  const code = getSeatCode(sid);
+  STATE.guests.push({
+    id:'g'+Date.now(),
+    firstName: firstName,
+    lastName: lastName,
+    name1: firstName,
+    name2: lastName,
+    seat1: sid,
+    seat2: '',
+    code: code
+  });
   syncGuestCodesToSeats();
   generateLayoutEngine();
   saveLocal();
@@ -2721,6 +2768,8 @@ function liveUpdate(el){
     generateLayoutEngine();
     saveLocal();
     renderLivePreview();
+    renderAdminTable();
+    renderQRGrid();
   }
 }
 function updateGuestField(el){
@@ -2728,9 +2777,23 @@ function updateGuestField(el){
   if(g){
     const field = el.dataset.field;
     const oldName = getGuestFullName(g);
-    g[field]=el.value;
-    if(field === 'firstName') g.name1 = g[field];
-    if(field === 'lastName') g.name2 = g[field];
+    const newVal = el.value;
+    if(field === 'seat1'){
+      if(newVal){
+        STATE.guests.forEach(x => {
+          if(x.id !== g.id){
+            if(x.seat1 === newVal) x.seat1 = '';
+            if(x.seat2 === newVal) x.seat2 = '';
+          }
+        });
+      }
+      g.seat1 = newVal;
+      g.seat2 = '';
+    } else {
+      g[field] = sanitizeText(newVal);
+      if(field === 'firstName') g.name1 = g[field];
+      if(field === 'lastName') g.name2 = g[field];
+    }
     const newName = getGuestFullName(g);
     if(oldName !== newName && g.code && STATE.guestMissions && STATE.guestMissions[g.code]) {
       delete STATE.guestMissions[g.code];
@@ -3564,20 +3627,47 @@ function removeMusicItem(i) {
 // ═══════════════════════════════════════════════════════════
 function parseImportedState(data){
   if(data.guests&&Array.isArray(data.guests)){
-    const usedCodes = new Set();
-    STATE.guests=data.guests.map((g, idx)=>{
+    const resultGuests = [];
+    data.guests.forEach((g, idx)=>{
       let code = String(g.code||'').replace(/[^A-Z0-9\-]/gi,'');
-      return {
-        id:String(g.id||(Date.now() + idx)),
-        firstName: g.firstName !== undefined ? String(g.firstName) : (g.name1 || ''),
-        lastName: g.lastName !== undefined ? String(g.lastName) : (g.name2 || ''),
-        name1: g.name1||'',
-        name2: g.name2||'',
-        seat1: String(g.seat1||''),
-        seat2: String(g.seat2||''),
-        code: code
-      };
+      const s1 = String(g.seat1||'');
+      const s2 = String(g.seat2||'');
+      // If legacy guest had seat1='T1' and seat2='T2' and two names
+      if(s1 === 'T1' && s2 === 'T2' && g.name2 && !data.guests.some((x, i)=>i!==idx && x.seat1==='T2')){
+        resultGuests.push({
+          id: String(g.id || ('g' + Date.now())),
+          firstName: g.firstName || g.name1 || 'Pan Młody',
+          lastName: g.lastName || '',
+          name1: g.name1 || g.firstName || 'Pan Młody',
+          name2: '',
+          seat1: 'T1',
+          seat2: '',
+          code: 'T-001'
+        });
+        resultGuests.push({
+          id: 'g' + (Date.now() + idx + 1),
+          firstName: g.name2 || 'Pani Młoda',
+          lastName: '',
+          name1: g.name2 || 'Pani Młoda',
+          name2: '',
+          seat1: 'T2',
+          seat2: '',
+          code: 'T-002'
+        });
+      } else {
+        resultGuests.push({
+          id:String(g.id||(Date.now() + idx)),
+          firstName: g.firstName !== undefined ? String(g.firstName) : (g.name1 || ''),
+          lastName: g.lastName !== undefined ? String(g.lastName) : (g.name2 || ''),
+          name1: g.name1||'',
+          name2: g.name2||'',
+          seat1: s1,
+          seat2: s2,
+          code: code
+        });
+      }
     });
+    STATE.guests = resultGuests;
     syncGuestCodesToSeats();
   }
   if(data.schedule&&Array.isArray(data.schedule))STATE.schedule=data.schedule.map(s=>({time:sanitizeText(s.time||''),event:sanitizeText(s.event||'')}));

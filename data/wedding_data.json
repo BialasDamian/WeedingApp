@@ -23,8 +23,8 @@
       "shape": "I",
       "flipH": false,
       "flipV": false,
-      "tw": 150,
-      "gap": 80,
+      "tw": 60,
+      "gap": 36,
       "dist": 18,
       "edges": {
         "i_top": 0,

@@ -1994,7 +1994,7 @@ function startDrag(e,el){
   dragSeat=el.dataset.sid;
   if(!dragSeat)return;
 
-  const currentGuestName = getNameForSeat(dragSeat, false) || `Krzesło ${getSeatNumber(dragSeat)}`;
+  const currentGuestName = getNameForSeat(dragSeat, false) || (isThrone(dragSeat) ? `Tron ${getThroneNumber(dragSeat)}` : `Krzesło ${getSeatNumber(dragSeat)}`);
   dragStart={x:e.clientX,y:e.clientY};
 
   let isMoved=false;
@@ -3431,7 +3431,7 @@ function renderGuestNeighbors(g){
         
         const dr = document.createElement('div');
         dr.style.cssText = 'font-size:0.72rem;color:gold;opacity:0.85';
-        dr.textContent = `Krzesło ${getSeatNumber(nid)}`;
+        dr.textContent = isThrone(nid) ? `Tron ${getThroneNumber(nid)}` : `Krzesło ${getSeatNumber(nid)}`;
         
         info.appendChild(nm);
         info.appendChild(dr);

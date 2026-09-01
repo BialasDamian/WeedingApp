@@ -3433,31 +3433,74 @@ function renderGuestNeighbors(g){
 
   const allSeats = (CURRENT_LAYOUT.seats || []).filter(s => s.id && !mySeats.includes(s.id));
 
-  const sameSideSeats = [];
-  const oppositeSideSeats = [];
+  // 1. Same-edge neighbors (along straight line in both directions)
+  const sameEdgePrev = [];
+  const sameEdgeNext = [];
+  const cornerCandidates = [];
 
   allSeats.forEach(s => {
     const sPos = CURRENT_LAYOUT.posMap[s.id];
     if (!sPos) return;
 
+    const dx = sPos.x - myPos.x;
+    const dy = sPos.y - myPos.y;
+    const euclidean = Math.sqrt(dx * dx + dy * dy);
+
     if (myPos.isH === sPos.isH && myPos.dir === sPos.dir) {
-      const dist = Math.abs((myPos.isH ? myPos.x : myPos.y) - (myPos.isH ? sPos.x : sPos.y));
-      sameSideSeats.push({ id: s.id, pos: sPos, dist });
-    } else if (myPos.isH === sPos.isH && myPos.dir !== sPos.dir) {
-      const alignDist = Math.abs((myPos.isH ? myPos.x : myPos.y) - (myPos.isH ? sPos.x : sPos.y));
-      oppositeSideSeats.push({ id: s.id, pos: sPos, dist: alignDist });
-    } else {
-      const dx = myPos.x - sPos.x;
-      const dy = myPos.y - sPos.y;
-      const totalDist = Math.sqrt(dx * dx + dy * dy);
-      if (totalDist < 250) {
-        oppositeSideSeats.push({ id: s.id, pos: sPos, dist: totalDist });
+      const delta = myPos.isH ? (sPos.x - myPos.x) : (sPos.y - myPos.y);
+      if (delta < 0) {
+        sameEdgePrev.push({ id: s.id, pos: sPos, dist: Math.abs(delta) });
+      } else if (delta > 0) {
+        sameEdgeNext.push({ id: s.id, pos: sPos, dist: Math.abs(delta) });
       }
+    } else if (euclidean < 170) {
+      cornerCandidates.push({ id: s.id, pos: sPos, dist: euclidean });
     }
   });
 
-  sameSideSeats.sort((a, b) => a.dist - b.dist);
-  const obokList = sameSideSeats.slice(0, 2);
+  sameEdgePrev.sort((a, b) => a.dist - b.dist);
+  sameEdgeNext.sort((a, b) => a.dist - b.dist);
+  cornerCandidates.sort((a, b) => a.dist - b.dist);
+
+  const obokList = [];
+  if (sameEdgePrev.length > 0) obokList.push(sameEdgePrev[0]);
+  if (sameEdgeNext.length > 0) obokList.push(sameEdgeNext[0]);
+
+  // If at a corner/end of a bench, pick adjacent seats around the corner
+  if (obokList.length < 2 && cornerCandidates.length > 0) {
+    cornerCandidates.forEach(c => {
+      if (obokList.length < 2 && !obokList.some(x => x.id === c.id)) {
+        obokList.push(c);
+      }
+    });
+  }
+
+  obokList.sort((a, b) => a.dist - b.dist);
+  const obokIds = new Set(obokList.map(x => x.id));
+
+  // 2. Opposite seats (Naprzeciwko po drugiej stronie stołu)
+  const oppositeSideSeats = [];
+
+  allSeats.forEach(s => {
+    if (obokIds.has(s.id)) return;
+    const sPos = CURRENT_LAYOUT.posMap[s.id];
+    if (!sPos) return;
+
+    const dx = sPos.x - myPos.x;
+    const dy = sPos.y - myPos.y;
+    const euclidean = Math.sqrt(dx * dx + dy * dy);
+
+    if (myPos.isH === sPos.isH) {
+      if (myPos.dir !== sPos.dir) {
+        const alignDist = Math.abs(myPos.isH ? (myPos.x - sPos.x) : (myPos.y - sPos.y));
+        oppositeSideSeats.push({ id: s.id, pos: sPos, dist: alignDist + euclidean * 0.2 });
+      }
+    } else {
+      if (euclidean < 340) {
+        oppositeSideSeats.push({ id: s.id, pos: sPos, dist: euclidean });
+      }
+    }
+  });
 
   oppositeSideSeats.sort((a, b) => a.dist - b.dist);
   const maxOppositeCount = oppositeSideSeats.length >= 3 ? 3 : 2;
@@ -3515,8 +3558,11 @@ function renderGuestNeighbors(g){
     wrap.appendChild(secDiv);
   }
 
-  createSection('👥 Obok Ciebie przy stole (2 osoby):', obokList);
-  createSection(`👀 Naprzeciwko po drugiej stronie stołu (${naprzeciwList.length} ${naprzeciwList.length === 3 ? 'osoby' : 'osoby'}):`, naprzeciwList);
+  const obokCountTxt = obokList.length === 1 ? '1 osoba' : `${obokList.length} osoby`;
+  const naprzeciwCountTxt = naprzeciwList.length === 1 ? '1 osoba' : (naprzeciwList.length >= 2 && naprzeciwList.length <= 4 ? `${naprzeciwList.length} osoby` : `${naprzeciwList.length} osób`);
+
+  createSection(`👥 Obok Ciebie przy stole (${obokCountTxt}):`, obokList);
+  createSection(`👀 Naprzeciwko po drugiej stronie stołu (${naprzeciwCountTxt}):`, naprzeciwList);
 }
 
 // ═══════════════════════════════════════════════════════════

@@ -383,17 +383,7 @@
       "name2": "Młoda",
       "seat1": "T1",
       "seat2": "",
-      "code": "T-001"
-    },
-    {
-      "id": "g1788260957586",
-      "firstName": "Pan",
-      "lastName": "Młoda",
-      "name1": "Pan",
-      "name2": "Młoda",
-      "seat1": "",
-      "seat2": "",
-      "code": "T-001"
+      "code": "T-002"
     }
   ],
   "schedule": [

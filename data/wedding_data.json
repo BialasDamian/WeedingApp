@@ -91,7 +91,7 @@
       "lastName": "Ciszek",
       "name1": "Konrad",
       "name2": "Ciszek",
-      "seat1": "",
+      "seat1": "2",
       "seat2": "",
       "code": "G-002"
     },
@@ -361,7 +361,7 @@
       "lastName": "Ciszek",
       "name1": "Konrad",
       "name2": "Ciszek",
-      "seat1": "2",
+      "seat1": "",
       "seat2": "",
       "code": "G-002"
     }

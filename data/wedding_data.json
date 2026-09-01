@@ -9,15 +9,15 @@
     "driveUrl": "",
     "qrCustom": {
       "frameColor": "#c9a84c",
-      "textColor": "#2D1F17",
+      "textColor": "#2d1f17",
       "ornamentColor": "#c9a84c",
-      "titleColor": "#f5deb3",
+      "titleColor": "#2d1f17",
       "ornament": "✦  ✦  ✦",
       "subtitle1": "APLIKACJA WESELNA",
-      "subtitle2": "SPRAWDŹ I WEŹ UDZIAŁ W KONKURSIE",
-      "subtitle3": "",
+      "subtitle2": "STWORZONA Z MYŚLĄ O TOBIE!",
+      "subtitle3": "CZEKA NA CIEBIE KONKURS W GODZINACH 18:00 - 23:00",
       "codeLabel": "KOD ZAPROSZENIA",
-      "footerFontSize": 15
+      "footerFontSize": 16
     },
     "table": {
       "shape": "I",
@@ -62,7 +62,8 @@
         "T2": true
       }
     },
-    "githubToken": "VUMzT2VheFdJU0VJRTI2WVZJUWc0MWVGc0FxRTJrV3lsZnR5MUtmcG44SVljd1J6VEE0eDNpcHVST3VfV1dJbXB3cDJJV1lEMFlPTUZDQUIxMV90YXBfYnVodGln"
+    "githubToken": "VUMzT2VheFdJU0VJRTI2WVZJUWc0MWVGc0FxRTJrV3lsZnR5MUtmcG44SVljd1J6VEE0eDNpcHVST3VfV1dJbXB3cDJJV1lEMFlPTUZDQUIxMV90YXBfYnVodGln",
+    "qrFooterText": "Cieszymy się, że jesteś z nami! Chcesz wiedzieć, co dla Ciebie przygotowaliśmy? Skieruj aparat na kod QR i dołącz do zabawy!"
   },
   "guests": [
     {

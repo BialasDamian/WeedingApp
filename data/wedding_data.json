@@ -356,11 +356,11 @@
       "code": "T-002"
     },
     {
-      "id": "g1788262341244",
-      "firstName": "Pani Młoda",
-      "lastName": "",
-      "name1": "Pani Młoda",
-      "name2": "",
+      "id": "g1788272264958",
+      "firstName": "Pani",
+      "lastName": "Młoda",
+      "name1": "Pani",
+      "name2": "Młoda",
       "seat1": "T1",
       "seat2": "",
       "code": "T-001"
@@ -595,6 +595,10 @@
       "durationMs": 3221523
     },
     "G-005": {
+      "answers": {},
+      "completedCount": 0
+    },
+    "G-002": {
       "answers": {},
       "completedCount": 0
     }

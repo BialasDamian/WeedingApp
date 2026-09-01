@@ -73,7 +73,7 @@
       "name2": "",
       "seat1": "T1",
       "seat2": "",
-      "code": "G-001"
+      "code": "T-001"
     },
     {
       "id": "g1785664405454",
@@ -101,9 +101,9 @@
       "lastName": "Ciszek",
       "name1": "Konrad",
       "name2": "Ciszek",
-      "seat1": "2",
+      "seat1": "T2",
       "seat2": "",
-      "code": "G-002"
+      "code": "T-002"
     },
     {
       "id": "g1785664468885",
@@ -351,7 +351,7 @@
       "lastName": "",
       "name1": "Pan Młody",
       "name2": "",
-      "seat1": "T2",
+      "seat1": "2",
       "seat2": "",
       "code": "G-002"
     },

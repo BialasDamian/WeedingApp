@@ -58,7 +58,6 @@
       "swapThrones": false,
       "throneEdge": "auto",
       "customThrones": {
-        "2": true,
         "T2": "T1",
         "T1": "T2"
       }
@@ -102,9 +101,9 @@
       "lastName": "Ciszek",
       "name1": "Konrad",
       "name2": "Ciszek",
-      "seat1": "T2",
+      "seat1": "2",
       "seat2": "",
-      "code": "T-002"
+      "code": "G-002"
     },
     {
       "id": "g1785664468885",
@@ -372,9 +371,9 @@
       "lastName": "Młody",
       "name1": "Pan",
       "name2": "Młody",
-      "seat1": "2",
+      "seat1": "T2",
       "seat2": "",
-      "code": "T-003"
+      "code": "T-002"
     }
   ],
   "schedule": [

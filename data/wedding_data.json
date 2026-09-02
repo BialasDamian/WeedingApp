@@ -408,15 +408,15 @@
       "event": "Ciepła przekąska"
     },
     {
+      "time": "23:00",
+      "event": "Kolacja"
+    },
+    {
       "time": "20:30",
       "event": "Uroczyste krojenie tortu"
     },
     {
       "time": "23:00",
-      "event": "Kolacja"
-    },
-    {
-      "time": "23:30",
       "event": "Koniec konkursu w aplikacji"
     },
     {

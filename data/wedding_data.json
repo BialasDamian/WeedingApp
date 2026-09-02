@@ -400,6 +400,10 @@
       "event": "Zdjęcia z gośćmi"
     },
     {
+      "time": "18:00",
+      "event": "Start konkursu w aplikacji"
+    },
+    {
       "time": "19:00",
       "event": "Ciepła przekąska"
     },
@@ -418,10 +422,6 @@
     {
       "time": "01:00",
       "event": "Oficjalne zakończenie wesela / Pożegnanie"
-    },
-    {
-      "time": "18:00",
-      "event": "Start konkursu w aplikacji"
     }
   ],
   "menu": [

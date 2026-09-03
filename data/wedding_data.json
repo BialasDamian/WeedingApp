@@ -9,9 +9,9 @@
     "driveUrl": "",
     "qrCustom": {
       "frameColor": "#c9a84c",
-      "textColor": "#2d1f17",
+      "textColor": "#2D1F17",
       "ornamentColor": "#c9a84c",
-      "titleColor": "#2d1f17",
+      "titleColor": "#f5deb3",
       "ornament": "✦  ✦  ✦",
       "subtitle1": "APLIKACJA WESELNA",
       "subtitle2": "SPRAWDŹ I WEŹ UDZIAŁ W KONKURSIE",
@@ -462,7 +462,14 @@
       "name": "Aromatyczny barszcz czerwony serwowany z chrupiącym krokietem mięsnym"
     }
   ],
-  "music": [],
+  "music": [
+    {
+      "title": "See You Again (feat. Charlie Puth)",
+      "artist": "Wiz Khalifa",
+      "thumb": "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/e6/8a/68/e68a688e-129e-cb9d-938f-bc3ee37059ae/075679930910.jpg/60x60bb.jpg",
+      "suggestedBy": "Konrad Ciszek"
+    }
+  ],
   "missionsSettings": {
     "enabled": true,
     "showRanking": false,

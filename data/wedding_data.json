@@ -21,7 +21,7 @@
     },
     "table": {
       "shape": "I",
-      "flipH": true,
+      "flipH": false,
       "flipV": false,
       "tw": 150,
       "gap": 80,

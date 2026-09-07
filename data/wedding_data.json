@@ -412,12 +412,12 @@
       "event": "Uroczyste krojenie tortu"
     },
     {
-      "time": "23:00",
-      "event": "Koniec konkursu w aplikacji"
-    },
-    {
       "time": "22:30",
       "event": "Kolacja"
+    },
+    {
+      "time": "23:00",
+      "event": "Koniec konkursu w aplikacji"
     },
     {
       "time": "00:00",

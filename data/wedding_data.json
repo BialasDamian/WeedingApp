@@ -464,7 +464,7 @@
   ],
   "music": [],
   "missionsSettings": {
-    "enabled": true,
+    "enabled": false,
     "showRanking": false,
     "enableWinnerNotification": true,
     "enableWinnerNotif1": false,

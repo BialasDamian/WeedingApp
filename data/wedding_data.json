@@ -462,7 +462,14 @@
       "name": "Aromatyczny barszcz czerwony serwowany z chrupiącym krokietem mięsnym"
     }
   ],
-  "music": [],
+  "music": [
+    {
+      "title": "Crazy",
+      "artist": "Aerosmith",
+      "thumb": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/2d/08/bf/2d08bf29-d87e-8ce9-3a48-2985787f8a7c/00720642471623.rgb.jpg/60x60bb.jpg",
+      "suggestedBy": "Justyna Kaim"
+    }
+  ],
   "missionsSettings": {
     "enabled": false,
     "showRanking": false,

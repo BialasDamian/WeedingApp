@@ -1167,6 +1167,20 @@
       "completedCount": 0,
       "lastActivityAt": 1789143668046,
       "durationMs": 1268046
+    },
+    "G-009": {
+      "answers": {
+        "m1": {
+          "status": "completed",
+          "files": [
+            "Plik_1_IMG_1502.jpeg"
+          ],
+          "updatedAt": 1789143827015
+        }
+      },
+      "completedCount": 0,
+      "lastActivityAt": 1789143827015,
+      "durationMs": 1427015
     }
   },
   "firstWinner": null

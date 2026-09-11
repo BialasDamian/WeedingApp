@@ -1428,11 +1428,16 @@
             "https://drive.google.com/file/d/1Y-m-s-NCsRdoQ-wpUZVC-OVykmuEoOD9/view?usp=drivesdk"
           ],
           "updatedAt": 1789146903508
+        },
+        "m3": {
+          "status": "completed",
+          "text": "- Czego szuka kościotrup na cmentarzu?\n- Łopatki",
+          "updatedAt": 1789147651142
         }
       },
-      "completedCount": 3,
-      "lastActivityAt": 1789146903508,
-      "durationMs": 4503508
+      "completedCount": 4,
+      "lastActivityAt": 1789147651142,
+      "durationMs": 5251142
     },
     "G-025": {
       "answers": {

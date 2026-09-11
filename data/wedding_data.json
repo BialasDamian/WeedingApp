@@ -1232,11 +1232,18 @@
             "https://drive.google.com/file/d/1EEj9eKbE1bGe1PO1yyb6qjn3ya2K-qiO/view?usp=drivesdk"
           ],
           "updatedAt": 1789144480169
+        },
+        "m6": {
+          "status": "completed",
+          "files": [
+            "Plik_1_IMG_2416.mov"
+          ],
+          "updatedAt": 1789145322316
         }
       },
-      "completedCount": 2,
-      "lastActivityAt": 1789144480169,
-      "durationMs": 2080169
+      "completedCount": 3,
+      "lastActivityAt": 1789145322316,
+      "durationMs": 2922316
     },
     "G-022": {
       "answers": {

@@ -1302,11 +1302,18 @@
             "https://drive.google.com/file/d/18hGPL0Hs8cm5lvp_lJEHCLlgGBtD8boj/view?usp=drivesdk"
           ],
           "updatedAt": 1789145372826
+        },
+        "m6": {
+          "status": "completed",
+          "files": [
+            "https://drive.google.com/file/d/1gsAj3v6Ddc7bVhXyCRWvFHwKBzS8pLnf/view?usp=drivesdk"
+          ],
+          "updatedAt": 1789145891226
         }
       },
-      "completedCount": 0,
-      "lastActivityAt": 1789145372826,
-      "durationMs": 2972826
+      "completedCount": 1,
+      "lastActivityAt": 1789145891226,
+      "durationMs": 3491226
     }
   },
   "firstWinner": null

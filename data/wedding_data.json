@@ -1259,11 +1259,16 @@
             "https://drive.google.com/file/d/1rD7UDFF8VnVrtKLZGrD8Fuc1KffwwOsf/view?usp=drivesdk"
           ],
           "updatedAt": 1789144668733
+        },
+        "m3": {
+          "status": "completed",
+          "text": "Przychodzi baba do lekarza a lekarz też baba :D  hihihi udawajmy ze to jest śmieszne",
+          "updatedAt": 1789144855631
         }
       },
-      "completedCount": 0,
-      "lastActivityAt": 1789144668733,
-      "durationMs": 2268733
+      "completedCount": 1,
+      "lastActivityAt": 1789144855631,
+      "durationMs": 2455631
     }
   },
   "firstWinner": null

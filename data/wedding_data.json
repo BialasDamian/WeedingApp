@@ -1260,9 +1260,10 @@
           "updatedAt": 1789146540991
         }
       },
-      "completedCount": 5,
+      "completedCount": 6,
       "lastActivityAt": 1789146540991,
-      "durationMs": 4140991
+      "durationMs": 4140997,
+      "completedAllAt": 1789146540997
     },
     "G-019": {
       "answers": {

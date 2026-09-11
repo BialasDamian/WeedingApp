@@ -1282,6 +1282,10 @@
       "completedCount": 1,
       "lastActivityAt": 1789144855631,
       "durationMs": 2455631
+    },
+    "G-003": {
+      "answers": {},
+      "completedCount": 0
     }
   },
   "firstWinner": null

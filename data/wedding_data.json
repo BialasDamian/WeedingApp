@@ -1178,11 +1178,16 @@
             "https://drive.google.com/file/d/1DW0f99XcjW2II2HEL8EA8ZtA7rWDgURu/view?usp=drivesdk"
           ],
           "updatedAt": 1789146536690
+        },
+        "m3": {
+          "status": "completed",
+          "text": "Dlaczego Damian ożenił się z Olą?\nBo uznał, że skoro i tak zawsze ma rację… to przynajmniej będzie miał świadków! 🥂😂",
+          "updatedAt": 1789147400088
         }
       },
-      "completedCount": 2,
-      "lastActivityAt": 1789146536690,
-      "durationMs": 4136690
+      "completedCount": 3,
+      "lastActivityAt": 1789147400088,
+      "durationMs": 5000088
     },
     "G-026": {
       "answers": {

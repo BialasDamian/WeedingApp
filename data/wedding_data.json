@@ -1176,11 +1176,16 @@
             "Plik_1_IMG_1502.jpeg"
           ],
           "updatedAt": 1789143827015
+        },
+        "m3": {
+          "status": "completed",
+          "text": "Rozmowa dwóch chińskich generałów:\n- będziemy atakować małymi grupami\n- tak, po max dwa, trzy miliony :)",
+          "updatedAt": 1789143893713
         }
       },
-      "completedCount": 0,
-      "lastActivityAt": 1789143827015,
-      "durationMs": 1427015
+      "completedCount": 1,
+      "lastActivityAt": 1789143893713,
+      "durationMs": 1493713
     }
   },
   "firstWinner": null

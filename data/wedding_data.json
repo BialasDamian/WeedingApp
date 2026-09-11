@@ -1162,11 +1162,16 @@
             "https://drive.google.com/file/d/18hSbM1ZSQj1gHq8Sk3iW8nal9V6RZshm/view?usp=drivesdk"
           ],
           "updatedAt": 1789143668046
+        },
+        "m3": {
+          "status": "completed",
+          "text": "Co mówi żona do męża dzień po weselu? No dobra, impreza się skończyła. Teraz zaczynamy tryb fabularny.",
+          "updatedAt": 1789143965621
         }
       },
-      "completedCount": 0,
-      "lastActivityAt": 1789143668046,
-      "durationMs": 1268046
+      "completedCount": 1,
+      "lastActivityAt": 1789143965621,
+      "durationMs": 1565621
     },
     "G-009": {
       "answers": {

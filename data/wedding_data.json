@@ -1199,9 +1199,10 @@
           "updatedAt": 1789147503233
         }
       },
-      "completedCount": 5,
+      "completedCount": 6,
       "lastActivityAt": 1789147503233,
-      "durationMs": 5103233
+      "durationMs": 5103244,
+      "completedAllAt": 1789147503244
     },
     "G-026": {
       "answers": {

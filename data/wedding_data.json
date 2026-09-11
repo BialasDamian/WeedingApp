@@ -1527,11 +1527,18 @@
           "status": "completed",
           "text": "Jaki ojciec taki syn 🤣🤣🤣🤣",
           "updatedAt": 1789156050293
+        },
+        "m1": {
+          "status": "completed",
+          "files": [
+            "https://drive.google.com/file/d/1zgbM65CGNGD0a6oe-YoTVyktxrNAHPkd/view?usp=drivesdk"
+          ],
+          "updatedAt": 1789156057474
         }
       },
-      "completedCount": 0,
-      "lastActivityAt": 1789156050293,
-      "durationMs": 13650293
+      "completedCount": 1,
+      "lastActivityAt": 1789156057474,
+      "durationMs": 13657474
     }
   },
   "firstWinner": null

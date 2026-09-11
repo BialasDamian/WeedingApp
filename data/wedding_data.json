@@ -1214,11 +1214,16 @@
             "https://drive.google.com/file/d/1rVvn3Z12i-WycOqb7f2D2ucIe5vyGuPg/view?usp=drivesdk"
           ],
           "updatedAt": 1789144202871
+        },
+        "m3": {
+          "status": "completed",
+          "text": "Dlaczego blondynka polizała Amerykanina, bo powiedział jej ,, polish „",
+          "updatedAt": 1789144391317
         }
       },
-      "completedCount": 0,
-      "lastActivityAt": 1789144202871,
-      "durationMs": 1802871
+      "completedCount": 1,
+      "lastActivityAt": 1789144391317,
+      "durationMs": 1991317
     }
   },
   "firstWinner": null

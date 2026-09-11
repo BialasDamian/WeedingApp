@@ -1237,11 +1237,18 @@
             "Plik_1_IMG_1548.jpeg"
           ],
           "updatedAt": 1789144139754
+        },
+        "m4": {
+          "status": "completed",
+          "files": [
+            "Plik_1_IMG_1549.jpeg"
+          ],
+          "updatedAt": 1789146404705
         }
       },
-      "completedCount": 3,
-      "lastActivityAt": 1789144139754,
-      "durationMs": 1739754
+      "completedCount": 4,
+      "lastActivityAt": 1789146404705,
+      "durationMs": 4004705
     },
     "G-019": {
       "answers": {

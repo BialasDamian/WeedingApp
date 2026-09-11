@@ -1238,11 +1238,19 @@
             "https://drive.google.com/file/d/1QHShyHC7EimmlvuT0oZHSJUgBRVyzuPS/view?usp=drivesdk"
           ],
           "updatedAt": 1789147351531
+        },
+        "m6": {
+          "status": "completed",
+          "files": [
+            "Plik_1_20260911_195208.mp4"
+          ],
+          "updatedAt": 1789150595043
         }
       },
-      "completedCount": 4,
-      "lastActivityAt": 1789147351531,
-      "durationMs": 4951531
+      "completedCount": 6,
+      "lastActivityAt": 1789150595043,
+      "durationMs": 8195079,
+      "completedAllAt": 1789150595079
     },
     "G-009": {
       "answers": {
